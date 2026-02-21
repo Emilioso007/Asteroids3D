@@ -27,6 +27,7 @@
         <module>LinearVelocityComponent</module>
         <module>LinearAccelerationComponent</module>
         <module>DragComponent</module>
+        <module>AccelerationComponent</module>
     </modules>
 
     <properties>

@@ -39,7 +39,7 @@ public class PlayerEntity extends Entity {
 
 
         DragComponent dragComponent = new DragComponent();
-        dragComponent.drag = 0.99;
+        dragComponent.drag = 5;
         this.components.add(dragComponent);
 
 
@@ -75,7 +75,7 @@ public class PlayerEntity extends Entity {
             }
         });
 
-        // When LEFT is pressed, rotate clockwise
+        // When RIGHT is pressed, rotate clockwise
         inputComponent.inputActionHashMap.put(KeyCode.RIGHT, (entity, dt) -> {
             AngleComponent angle = entity.getComponent(AngleComponent.class);
             if (angle != null) {
@@ -87,7 +87,7 @@ public class PlayerEntity extends Entity {
         inputComponent.inputActionHashMap.put(KeyCode.UP, (entity, dt) -> {
             LinearAccelerationComponent acceleration = entity.getComponent(LinearAccelerationComponent.class);
             if(acceleration != null){
-                acceleration.acceleration += 100;
+                acceleration.acceleration += 0.25;
             }
         });
 
