@@ -65,6 +65,7 @@ public class AsteroidEntity extends Entity{
         wrapComponent.wrapOutside = true;
 
         this.components.add(wrapComponent);
+
     }
 
 }

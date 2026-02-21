@@ -1,6 +1,7 @@
 package io.asteroidsfx;
 
 import io.asteroidsfx.asteroidentity.AsteroidEntity;
+import io.asteroidsfx.inputsystem.InputSystem;
 import io.asteroidsfx.movementsystem.MovementSystem;
 import io.asteroidsfx.renderingsystem.RenderingSystem;
 import io.asteroidsfx.rotatesystem.RotateSystem;
@@ -45,6 +46,7 @@ public class Game {
         World.getInstance().addSystem(new MovementSystem());
         World.getInstance().addSystem(new WraparoundSystem(World.getInstance().width, World.getInstance().height));
         World.getInstance().addSystem(new RotateSystem());
+        World.getInstance().addSystem(new InputSystem(World.getInstance().keysPressed));
 
 
         // SETUP ENTITIES

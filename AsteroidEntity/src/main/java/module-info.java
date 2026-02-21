@@ -8,4 +8,5 @@ module AsteroidEntity {
     requires WraparoundSystem;
     requires AngleComponent;
     requires RotationComponent;
+    requires InputComponent;
 }

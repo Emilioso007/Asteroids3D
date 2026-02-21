@@ -4,8 +4,9 @@ module Core {
     requires Common;
     requires RenderingSystem;
     requires MovementSystem;
-    requires AsteroidEntity;
     requires WraparoundSystem;
     requires RotateSystem;
+    requires InputSystem;
+    requires AsteroidEntity;
     exports io.asteroidsfx;
 }
