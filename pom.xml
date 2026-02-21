@@ -13,6 +13,7 @@
         <module>Common</module>
         <module>RenderingSystem</module>
         <module>RenderComponent</module>
+        <module>PositionComponent</module>
     </modules>
 
     <properties>

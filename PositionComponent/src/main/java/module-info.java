@@ -1,0 +1,3 @@
+module PositionComponent {
+    requires Common;
+}
