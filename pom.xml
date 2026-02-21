@@ -16,7 +16,7 @@
         <module>PositionComponent</module>
         <module>MovementSystem</module>
         <module>VelocityComponent</module>
-        <module>Asteroid</module>
+        <module>AsteroidEntity</module>
         <module>WraparoundSystem</module>
         <module>RotationComponent</module>
         <module>AngleComponent</module>

@@ -1,5 +1,5 @@
-module Asteroid {
-    exports io.asteroidsfx.asteroid;
+module AsteroidEntity {
+    exports io.asteroidsfx.asteroidentity;
     requires Common;
     requires PositionComponent;
     requires RenderComponent;

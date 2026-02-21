@@ -1,6 +1,6 @@
 package io.asteroidsfx;
 
-import io.asteroidsfx.asteroid.Asteroid;
+import io.asteroidsfx.asteroidentity.AsteroidEntity;
 import io.asteroidsfx.movementsystem.MovementSystem;
 import io.asteroidsfx.renderingsystem.RenderingSystem;
 import io.asteroidsfx.rotatesystem.RotateSystem;
@@ -48,11 +48,11 @@ public class Game {
 
 
         // SETUP ENTITIES
-        World.getInstance().addEntity(new Asteroid(World.getInstance().width, World.getInstance().height));
-        World.getInstance().addEntity(new Asteroid(World.getInstance().width, World.getInstance().height));
-        World.getInstance().addEntity(new Asteroid(World.getInstance().width, World.getInstance().height));
-        World.getInstance().addEntity(new Asteroid(World.getInstance().width, World.getInstance().height));
-        World.getInstance().addEntity(new Asteroid(World.getInstance().width, World.getInstance().height));
+        World.getInstance().addEntity(new AsteroidEntity(World.getInstance().width, World.getInstance().height));
+        World.getInstance().addEntity(new AsteroidEntity(World.getInstance().width, World.getInstance().height));
+        World.getInstance().addEntity(new AsteroidEntity(World.getInstance().width, World.getInstance().height));
+        World.getInstance().addEntity(new AsteroidEntity(World.getInstance().width, World.getInstance().height));
+        World.getInstance().addEntity(new AsteroidEntity(World.getInstance().width, World.getInstance().height));
 
 
         // LOOP

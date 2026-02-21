@@ -1,4 +1,4 @@
-package io.asteroidsfx.asteroid;
+package io.asteroidsfx.asteroidentity;
 
 import io.asteroidsfx.anglecomponent.AngleComponent;
 import io.asteroidsfx.common.Entity;
@@ -13,10 +13,10 @@ import javafx.scene.paint.Color;
 import java.util.Arrays;
 import java.util.Random;
 
-public class Asteroid extends Entity{
+public class AsteroidEntity extends Entity{
 
-    public Asteroid(int maxX, int maxY) { this(0, maxX, 0, maxY); }
-    public Asteroid(int minX, int maxX, int minY, int maxY){
+    public AsteroidEntity(int maxX, int maxY) { this(0, maxX, 0, maxY); }
+    public AsteroidEntity(int minX, int maxX, int minY, int maxY){
         Random random = new Random();
 
         PositionComponent positionComponent = new PositionComponent();
