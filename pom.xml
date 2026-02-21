@@ -18,6 +18,7 @@
         <module>VelocityComponent</module>
         <module>Asteroid</module>
         <module>WraparoundSystem</module>
+        <module>RotationComponent</module>
     </modules>
 
     <properties>
