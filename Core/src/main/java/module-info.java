@@ -3,5 +3,6 @@ module Core {
     requires javafx.controls;
     requires Common;
     requires RenderingSystem;
+    requires MovementSystem;
     exports io.asteroidsfx;
 }

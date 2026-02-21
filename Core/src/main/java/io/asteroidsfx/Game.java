@@ -1,5 +1,6 @@
 package io.asteroidsfx;
 
+import io.asteroidsfx.movementsystem.MovementSystem;
 import io.asteroidsfx.renderingsystem.RenderingSystem;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
@@ -30,7 +31,7 @@ public class Game {
 
         // SETUP ENTITIES AND SYSTEMS
         World.getInstance().addSystem(new RenderingSystem(gc));
-
+        World.getInstance().addSystem(new MovementSystem());
 
         // LOOP
         new AnimationTimer() {

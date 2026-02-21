@@ -14,6 +14,8 @@
         <module>RenderingSystem</module>
         <module>RenderComponent</module>
         <module>PositionComponent</module>
+        <module>MovementSystem</module>
+        <module>VelocityComponent</module>
     </modules>
 
     <properties>
