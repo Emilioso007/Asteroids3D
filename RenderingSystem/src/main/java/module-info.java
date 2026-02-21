@@ -3,4 +3,5 @@ module RenderingSystem {
     requires Common;
     requires RenderComponent;
     requires javafx.graphics;
+    requires PositionComponent;
 }

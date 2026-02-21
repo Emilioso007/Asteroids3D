@@ -4,5 +4,6 @@ module Core {
     requires Common;
     requires RenderingSystem;
     requires MovementSystem;
+    requires Asteroid;
     exports io.asteroidsfx;
 }

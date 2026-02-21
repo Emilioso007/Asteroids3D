@@ -16,6 +16,7 @@
         <module>PositionComponent</module>
         <module>MovementSystem</module>
         <module>VelocityComponent</module>
+        <module>Asteroid</module>
     </modules>
 
     <properties>

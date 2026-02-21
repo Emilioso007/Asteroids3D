@@ -2,6 +2,7 @@ package io.asteroidsfx.renderingsystem;
 
 import io.asteroidsfx.common.Entity;
 import io.asteroidsfx.common.System;
+import io.asteroidsfx.positioncomponent.PositionComponent;
 import io.asteroidsfx.rendercomponent.RenderComponent;
 import javafx.scene.canvas.GraphicsContext;
 
@@ -24,11 +25,20 @@ public class RenderingSystem extends System{
             return;
         }
         for(Entity entity : entities){
-            RenderComponent component = entity.getComponent(RenderComponent.class);
-            if (component == null) {
+            RenderComponent renderComponent = entity.getComponent(RenderComponent.class);
+            if (renderComponent == null) {
                 continue;
             }
-            component.polygon.display(gc);
+            // If entity has position, use translation to draw at position
+            PositionComponent positionComponent = entity.getComponent(PositionComponent.class);
+            if(positionComponent != null){
+                gc.save();
+                gc.translate(positionComponent.x, positionComponent.y);
+                renderComponent.polygon.display(gc);
+                gc.restore();
+            } else {
+                renderComponent.polygon.display(gc);
+            }
         }
     }
 }
