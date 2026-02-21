@@ -14,29 +14,40 @@ import javafx.stage.Stage;
 
 public class Game {
 
-    Canvas canvas;
     public GraphicsContext gc;
 
     public void start(Stage window) {
-        World.init(this);
 
         World.getInstance().width = 800;
         World.getInstance().height = 800;
 
-        canvas = new Canvas(World.getInstance().width, World.getInstance().height);
+        Canvas canvas = new Canvas(World.getInstance().width, World.getInstance().height);
         gc = canvas.getGraphicsContext2D();
 
         Group root = new Group(canvas);
-        window.setScene(new Scene(root));
+        Scene scene = new Scene(root);
+
+        scene.setOnKeyPressed(event -> {
+            World.getInstance().keysPressed.add(event.getCode());
+        });
+
+        scene.setOnKeyReleased(event -> {
+            World.getInstance().keysPressed.remove(event.getCode());
+        });
+
+        window.setScene(scene);
         window.setTitle("AsteroidsFX");
         window.show();
 
-        // SETUP ENTITIES AND SYSTEMS
+        // SETUP SYSTEMS
         World.getInstance().addSystem(new RenderingSystem(gc));
         World.getInstance().addSystem(new MovementSystem());
         World.getInstance().addSystem(new WraparoundSystem(World.getInstance().width, World.getInstance().height));
 
+
+        // SETUP ENTITIES
         World.getInstance().addEntity(new Asteroid());
+
 
         // LOOP
         new AnimationTimer() {

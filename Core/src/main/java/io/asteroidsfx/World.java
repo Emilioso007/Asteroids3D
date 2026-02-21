@@ -2,6 +2,7 @@ package io.asteroidsfx;
 
 import io.asteroidsfx.common.Entity;
 import io.asteroidsfx.common.System;
+import javafx.scene.input.KeyCode;
 
 import java.util.HashSet;
 
@@ -12,18 +13,13 @@ public final class World {
     public HashSet<Entity> entities;
     public HashSet<System> systems;
 
-    public Game game;
+    public HashSet<KeyCode> keysPressed;
 
     private static World instance = null;
 
     private World(){
         entities = new HashSet<>();
         systems = new HashSet<>();
-    }
-
-    public static void init(Game game){
-        instance = new World();
-        instance.game = game;
     }
 
     public static World getInstance(){
