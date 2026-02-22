@@ -28,6 +28,8 @@
         <module>LinearAccelerationComponent</module>
         <module>DragComponent</module>
         <module>AccelerationComponent</module>
+        <module>CircleColliderComponent</module>
+        <module>CollisionSystem</module>
     </modules>
 
     <properties>
