@@ -50,11 +50,14 @@ public class Game {
 
         // if asteroid hits player, remove player
         World.getInstance().addSystem(new CollisionSystem<>(AsteroidEntity.class, PlayerEntity.class,
-                (collider, target) -> World.getInstance().entities.remove(target)));
+                (collider, target) -> target.toBeRemoved = true));
 
-        // if bullet hits asteroid, remove asteroid
+        // if bullet hits asteroid, remove both
         World.getInstance().addSystem(new CollisionSystem<>(BulletEntity.class, AsteroidEntity.class,
-                (collider, target) -> World.getInstance().entities.remove(target)));
+                (collider, target) -> {
+                    collider.toBeRemoved = true;
+                    target.toBeRemoved = true;
+                }));
 
 
         World.getInstance().addSystem(new RenderingSystem(gc));

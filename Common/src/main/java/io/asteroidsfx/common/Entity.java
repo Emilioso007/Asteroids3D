@@ -3,6 +3,7 @@ package io.asteroidsfx.common;
 import java.util.HashSet;
 
 public abstract class Entity {
+    public boolean toBeRemoved = false;
     public HashSet<Component> components = new HashSet<>();
 
     public <T extends Component> T getComponent(Class<T> componentType) {

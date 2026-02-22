@@ -35,6 +35,7 @@ public final class World {
         for(System system : systems){
             system.tick(dt, entities);
         }
+        entities.removeIf(entity -> entity.toBeRemoved);
     }
 
     public boolean addEntity(Entity entity){
