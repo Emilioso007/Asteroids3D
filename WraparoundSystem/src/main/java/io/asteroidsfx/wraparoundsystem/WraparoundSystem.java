@@ -4,7 +4,7 @@ import io.asteroidsfx.common.Entity;
 import io.asteroidsfx.common.System;
 import io.asteroidsfx.positioncomponent.PositionComponent;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 
 public class WraparoundSystem extends System {
 
@@ -23,7 +23,7 @@ public class WraparoundSystem extends System {
     }
 
     @Override
-    public void tick(float dt, HashSet<Entity> entities) {
+    public void tick(float dt, ArrayList<Entity> entities) {
         for (Entity entity : entities){
             PositionComponent positionComponent = entity.getComponent(PositionComponent.class);
             WrapComponent wrapComponent = entity.getComponent(WrapComponent.class);

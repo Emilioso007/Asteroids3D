@@ -1,6 +1,7 @@
 package io.asteroidsfx.playerentity;
 
 import io.asteroidsfx.anglecomponent.AngleComponent;
+import io.asteroidsfx.circlecollidercomponent.CircleColliderComponent;
 import io.asteroidsfx.common.Entity;
 import io.asteroidsfx.common.Polygon;
 import io.asteroidsfx.dragcomponent.DragComponent;
@@ -92,6 +93,11 @@ public class PlayerEntity extends Entity {
         });
 
         this.components.add(inputComponent);
+
+        CircleColliderComponent circleColliderComponent = new CircleColliderComponent();
+        circleColliderComponent.radius = 50;
+
+        this.components.add(circleColliderComponent);
 
     }
 

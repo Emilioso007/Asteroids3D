@@ -9,4 +9,5 @@ module AsteroidEntity {
     requires AngleComponent;
     requires RotationComponent;
     requires InputComponent;
+    requires CircleColliderComponent;
 }

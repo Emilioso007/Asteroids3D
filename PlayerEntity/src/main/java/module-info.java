@@ -10,4 +10,5 @@ module PlayerEntity {
     requires LinearAccelerationComponent;
     requires DragComponent;
     requires WraparoundSystem;
+    requires CircleColliderComponent;
 }

@@ -9,5 +9,6 @@ module Core {
     requires InputSystem;
     requires AsteroidEntity;
     requires PlayerEntity;
+    requires CollisionSystem;
     exports io.asteroidsfx;
 }

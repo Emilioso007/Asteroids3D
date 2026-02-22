@@ -1,7 +1,7 @@
 package io.asteroidsfx.common;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 
 public abstract class System {
-    public abstract void tick(float dt, HashSet<Entity> entities);
+    public abstract void tick(float dt, ArrayList<Entity> entities);
 }

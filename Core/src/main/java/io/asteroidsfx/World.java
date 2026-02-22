@@ -4,22 +4,23 @@ import io.asteroidsfx.common.Entity;
 import io.asteroidsfx.common.System;
 import javafx.scene.input.KeyCode;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public final class World {
 
     public int width;
     public int height;
-    public HashSet<Entity> entities;
-    public HashSet<System> systems;
+    public ArrayList<Entity> entities;
+    public ArrayList<System> systems;
 
     public HashSet<KeyCode> keysPressed;
 
     private static World instance = null;
 
     private World(){
-        entities = new HashSet<>();
-        systems = new HashSet<>();
+        entities = new ArrayList<>();
+        systems = new ArrayList<>();
         keysPressed = new HashSet<>();
     }
 

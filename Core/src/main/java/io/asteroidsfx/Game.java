@@ -1,6 +1,7 @@
 package io.asteroidsfx;
 
 import io.asteroidsfx.asteroidentity.AsteroidEntity;
+import io.asteroidsfx.collisionsystem.CollisionSystem;
 import io.asteroidsfx.inputsystem.InputSystem;
 import io.asteroidsfx.movementsystem.MovementSystem;
 import io.asteroidsfx.playerentity.PlayerEntity;
@@ -30,24 +31,24 @@ public class Game {
         Group root = new Group(canvas);
         Scene scene = new Scene(root);
 
-        scene.setOnKeyPressed(event -> {
-            World.getInstance().keysPressed.add(event.getCode());
-        });
+        scene.setOnKeyPressed(event -> World.getInstance().keysPressed.add(event.getCode()));
 
-        scene.setOnKeyReleased(event -> {
-            World.getInstance().keysPressed.remove(event.getCode());
-        });
+        scene.setOnKeyReleased(event -> World.getInstance().keysPressed.remove(event.getCode()));
 
         window.setScene(scene);
         window.setTitle("AsteroidsFX");
         window.show();
 
         // SETUP SYSTEMS
-        World.getInstance().addSystem(new RenderingSystem(gc));
+        World.getInstance().addSystem(new InputSystem(World.getInstance().keysPressed));
         World.getInstance().addSystem(new MovementSystem());
         World.getInstance().addSystem(new WraparoundSystem(World.getInstance().width, World.getInstance().height));
         World.getInstance().addSystem(new RotateSystem());
-        World.getInstance().addSystem(new InputSystem(World.getInstance().keysPressed));
+
+        // if asteroid hits player, remove player
+        World.getInstance().addSystem(new CollisionSystem<>(AsteroidEntity.class, PlayerEntity.class, (collider, target) -> World.getInstance().entities.remove(target)));
+
+        World.getInstance().addSystem(new RenderingSystem(gc));
 
 
         // SETUP ENTITIES

@@ -5,6 +5,7 @@ import io.asteroidsfx.common.System;
 import io.asteroidsfx.inputcomponent.InputComponent;
 import javafx.scene.input.KeyCode;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public class InputSystem extends System{
@@ -16,7 +17,7 @@ public class InputSystem extends System{
     }
 
     @Override
-    public void tick(float dt, HashSet<Entity> entities) {
+    public void tick(float dt, ArrayList<Entity> entities) {
         for (Entity entity : entities){
             InputComponent inputComponent = entity.getComponent(InputComponent.class);
             if (inputComponent == null) {
