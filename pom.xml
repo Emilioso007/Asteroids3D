@@ -9,6 +9,7 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
+        <module>Core</module>
         <module>Common</module>
         <module>PositionComponent</module>
         <module>RenderComponent</module>
@@ -21,7 +22,6 @@
         <module>RotateSystem</module>
         <module>InputSystem</module>
         <module>AsteroidEntity</module>
-        <module>Core</module>
         <module>PlayerEntity</module>
         <module>LinearVelocityComponent</module>
         <module>LinearAccelerationComponent</module>

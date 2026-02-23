@@ -2,6 +2,7 @@ package io.asteroidsfx.movementsystem;
 
 import io.asteroidsfx.accelerationcomponent.AccelerationComponent;
 import io.asteroidsfx.anglecomponent.AngleComponent;
+import io.asteroidsfx.common.Component;
 import io.asteroidsfx.common.Entity;
 import io.asteroidsfx.common.System;
 import io.asteroidsfx.dragcomponent.DragComponent;
@@ -10,25 +11,33 @@ import io.asteroidsfx.linearvelocitycomponent.LinearVelocityComponent;
 import io.asteroidsfx.positioncomponent.PositionComponent;
 import io.asteroidsfx.velocitycomponent.VelocityComponent;
 
-import java.util.HashSet;
+import java.util.List;
 
+/// TODO: Split into multiple systems each with their own concern, eg. dragsystem... Also think about converting linear into cartesian everywhere.
 public class MovementSystem extends System{
+
     @Override
-    public void tick(float dt, HashSet<Entity> entities) {
+    public List<Class<? extends Component>> getSignature() {
+        return List.of(PositionComponent.class);
+    }
+
+    @Override
+    public void tick(float dt, List<Entity> entities) {
+
         for(Entity entity : entities){
             PositionComponent positionComponent = entity.getComponent(PositionComponent.class);
 
             // Apply velocity
             VelocityComponent velocityComponent = entity.getComponent(VelocityComponent.class);
-            if (positionComponent != null && velocityComponent != null) {
+            if (velocityComponent != null) {
                 positionComponent.x += velocityComponent.dx * dt;
                 positionComponent.y += velocityComponent.dy * dt;
             }
             LinearVelocityComponent linearVelocityComponent = entity.getComponent(LinearVelocityComponent.class);
             AngleComponent angleComponent = entity.getComponent(AngleComponent.class);
-            if(positionComponent != null && linearVelocityComponent != null && angleComponent != null){
-                positionComponent.x += Math.cos(angleComponent.angle)*linearVelocityComponent.velocity;
-                positionComponent.y += Math.sin(angleComponent.angle)*linearVelocityComponent.velocity;
+            if(linearVelocityComponent != null && angleComponent != null){
+                positionComponent.x += Math.cos(angleComponent.angle)*linearVelocityComponent.velocity * dt;
+                positionComponent.y += Math.sin(angleComponent.angle)*linearVelocityComponent.velocity * dt;
             }
 
             //Apply acceleration

@@ -2,28 +2,33 @@ package io.asteroidsfx.shootsystem;
 
 import io.asteroidsfx.anglecomponent.AngleComponent;
 import io.asteroidsfx.bulletentity.BulletEntity;
+import io.asteroidsfx.common.Component;
 import io.asteroidsfx.common.Entity;
 import io.asteroidsfx.common.System;
+import io.asteroidsfx.common.World;
 import io.asteroidsfx.positioncomponent.PositionComponent;
 import io.asteroidsfx.shootcomponent.ShootComponent;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.List;
 
 public class ShootSystem extends System {
 
     @Override
-    public void tick(float dt, HashSet<Entity> entities) {
+    public List<Class<? extends Component>> getSignature() {
+        return List.of(PositionComponent.class, AngleComponent.class, ShootComponent.class);
+    }
 
-        ArrayList<Entity> entitiesToAdd = new ArrayList<>();
+    @Override
+    public void tick(float dt, List<Entity> entities) {
+
+        List<Entity> entitiesToAdd = new ArrayList<>();
 
         for(Entity entity : entities){
 
             PositionComponent positionComponent = entity.getComponent(PositionComponent.class);
             AngleComponent angleComponent = entity.getComponent(AngleComponent.class);
             ShootComponent shootComponent = entity.getComponent(ShootComponent.class);
-
-            if(positionComponent == null || angleComponent == null || shootComponent == null) continue;
 
             if(!shootComponent.shootRequested) continue;
 
@@ -38,7 +43,9 @@ public class ShootSystem extends System {
             }
         }
 
-        entities.addAll(entitiesToAdd);
+        for(Entity entity : entitiesToAdd){
+            World.getInstance().addEntity(entity);
+        }
 
     }
 }

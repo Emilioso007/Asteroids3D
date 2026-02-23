@@ -3,6 +3,7 @@ package io.asteroidsfx;
 import io.asteroidsfx.asteroidentity.AsteroidEntity;
 import io.asteroidsfx.bulletentity.BulletEntity;
 import io.asteroidsfx.collisionsystem.CollisionSystem;
+import io.asteroidsfx.common.World;
 import io.asteroidsfx.inputsystem.InputSystem;
 import io.asteroidsfx.movementsystem.MovementSystem;
 import io.asteroidsfx.outofboundssystem.OutOfBoundsSystem;

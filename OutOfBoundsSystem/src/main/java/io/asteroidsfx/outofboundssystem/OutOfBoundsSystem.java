@@ -1,6 +1,7 @@
 package io.asteroidsfx.outofboundssystem;
 
 import io.asteroidsfx.anglecomponent.AngleComponent;
+import io.asteroidsfx.common.Component;
 import io.asteroidsfx.common.Entity;
 import io.asteroidsfx.common.System;
 import io.asteroidsfx.linearvelocitycomponent.LinearVelocityComponent;
@@ -8,7 +9,7 @@ import io.asteroidsfx.outofboundscomponent.OutOfBoundsComponent;
 import io.asteroidsfx.positioncomponent.PositionComponent;
 import io.asteroidsfx.velocitycomponent.VelocityComponent;
 
-import java.util.HashSet;
+import java.util.List;
 
 public class OutOfBoundsSystem extends System {
 
@@ -27,14 +28,17 @@ public class OutOfBoundsSystem extends System {
     }
 
     @Override
-    public void tick(float dt, HashSet<Entity> entities) {
+    public List<Class<? extends Component>> getSignature() {
+        return List.of(PositionComponent.class, OutOfBoundsComponent.class);
+    }
+
+    @Override
+    public void tick(float dt, List<Entity> entities) {
 
         for (Entity entity : entities){
 
             PositionComponent positionComponent = entity.getComponent(PositionComponent.class);
             OutOfBoundsComponent outOfBoundsComponent = entity.getComponent(OutOfBoundsComponent.class);
-
-            if(positionComponent == null || outOfBoundsComponent == null) continue;
 
             double leftEdge = positionComponent.x + outOfBoundsComponent.leftExtent; // x + negativeExtent
             double rightEdge = positionComponent.x + outOfBoundsComponent.rightExtent; // x + positiveExtent
@@ -56,10 +60,10 @@ public class OutOfBoundsSystem extends System {
             switch (outOfBoundsComponent.boundsAction){
 
                 case WRAP:
-                    if(exitLeft) positionComponent.x = maxX + outOfBoundsComponent.rightExtent;
-                    if(exitRight) positionComponent.x = minX + outOfBoundsComponent.leftExtent;
-                    if(exitTop) positionComponent.y = maxY + outOfBoundsComponent.topExtent;
-                    if(exitBottom) positionComponent.y = minY + outOfBoundsComponent.bottomExtent;
+                    if(exitLeft) positionComponent.x = maxX - outOfBoundsComponent.leftExtent;
+                    if(exitRight) positionComponent.x = minX - outOfBoundsComponent.rightExtent;
+                    if(exitTop) positionComponent.y = maxY - outOfBoundsComponent.topExtent;
+                    if(exitBottom) positionComponent.y = minY - outOfBoundsComponent.bottomExtent;
                     break;
 
                 case BOUNCE:
@@ -100,7 +104,7 @@ public class OutOfBoundsSystem extends System {
                     break;
 
                 case REMOVE:
-                    entity.toBeRemoved = (exitLeft || exitRight || exitTop || exitBottom);
+                    entity.toBeRemoved |= (exitLeft || exitRight || exitTop || exitBottom);
                     break;
 
             }

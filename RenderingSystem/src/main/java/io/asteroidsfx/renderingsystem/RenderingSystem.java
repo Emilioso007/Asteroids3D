@@ -1,35 +1,31 @@
 package io.asteroidsfx.renderingsystem;
 
 import io.asteroidsfx.anglecomponent.AngleComponent;
+import io.asteroidsfx.common.Component;
 import io.asteroidsfx.common.Entity;
 import io.asteroidsfx.common.System;
 import io.asteroidsfx.positioncomponent.PositionComponent;
 import io.asteroidsfx.rendercomponent.RenderComponent;
 import javafx.scene.canvas.GraphicsContext;
 
-import java.util.HashSet;
+import java.util.List;
 
 public class RenderingSystem extends System{
-    private GraphicsContext gc;
+    private final GraphicsContext gc;
 
     public RenderingSystem(GraphicsContext gc) {
         this.gc = gc;
     }
 
-    public void setGraphicsContext(GraphicsContext gc) {
-        this.gc = gc;
+    @Override
+    public List<Class<? extends Component>> getSignature() {
+        return List.of(RenderComponent.class);
     }
 
     @Override
-    public void tick(float dt, HashSet<Entity> entities) {
-        if (gc == null) {
-            return;
-        }
+    public void tick(float dt, List<Entity> entities) {
         for(Entity entity : entities){
             RenderComponent renderComponent = entity.getComponent(RenderComponent.class);
-            if (renderComponent == null) {
-                continue;
-            }
 
             // If entity has position and/or rotation, use translation/rotation to draw
             PositionComponent positionComponent = entity.getComponent(PositionComponent.class);

@@ -69,7 +69,7 @@ public class PlayerEntity extends Entity {
 
         ShootComponent shootComponent = new ShootComponent();
         shootComponent.roundsPerSecond = 5;
-        shootComponent.velocity = 10;
+        shootComponent.velocity = 600;
         this.components.add(shootComponent);
 
 
