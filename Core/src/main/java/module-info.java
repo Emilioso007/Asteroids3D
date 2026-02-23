@@ -12,5 +12,7 @@ module Core {
     requires ShootSystem;
     requires BulletEntity;
     requires OutOfBoundsSystem;
+    requires AsteroidBulletCollisionResponseSystem;
+    requires AsteroidPlayerCollisionResponseSystem;
     exports io.asteroidsfx;
 }

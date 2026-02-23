@@ -22,6 +22,8 @@ public class PlayerEntity extends Entity {
 
     public PlayerEntity(int startX, int startY){
 
+        this.components.add(new PlayerTag());
+
         PositionComponent positionComponent = new PositionComponent();
         positionComponent.x = startX;
         positionComponent.y = startY;
@@ -96,7 +98,7 @@ public class PlayerEntity extends Entity {
         inputComponent.inputActionHashMap.put(KeyCode.UP, (entity, dt) -> {
             LinearAccelerationComponent acceleration = entity.getComponent(LinearAccelerationComponent.class);
             if(acceleration != null){
-                acceleration.acceleration += 0.125;
+                acceleration.acceleration += 25;
             }
         });
 

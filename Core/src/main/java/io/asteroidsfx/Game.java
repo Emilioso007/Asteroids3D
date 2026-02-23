@@ -1,7 +1,8 @@
 package io.asteroidsfx;
 
+import io.asteroidsfx.asteroidbulletcollisionresponsesystem.AsteroidBulletCollisionResponseSystem;
 import io.asteroidsfx.asteroidentity.AsteroidEntity;
-import io.asteroidsfx.bulletentity.BulletEntity;
+import io.asteroidsfx.asteroidplayercollisionresponsesystem.AsteroidPlayerCollisionResponseSystem;
 import io.asteroidsfx.collisionsystem.CollisionSystem;
 import io.asteroidsfx.common.World;
 import io.asteroidsfx.inputsystem.InputSystem;
@@ -48,18 +49,10 @@ public class Game {
         World.getInstance().addSystem(new MovementSystem());
         World.getInstance().addSystem(new OutOfBoundsSystem(World.getInstance().width, World.getInstance().height));
         World.getInstance().addSystem(new RotateSystem());
+        World.getInstance().addSystem(new CollisionSystem());
 
-        // if asteroid hits player, remove player
-        World.getInstance().addSystem(new CollisionSystem<>(AsteroidEntity.class, PlayerEntity.class,
-                (collider, target) -> target.toBeRemoved = true));
-
-        // if bullet hits asteroid, remove both
-        World.getInstance().addSystem(new CollisionSystem<>(BulletEntity.class, AsteroidEntity.class,
-                (collider, target) -> {
-                    collider.toBeRemoved = true;
-                    target.toBeRemoved = true;
-                }));
-
+        World.getInstance().addSystem(new AsteroidBulletCollisionResponseSystem(World.getInstance().getEventBus()));
+        World.getInstance().addSystem(new AsteroidPlayerCollisionResponseSystem(World.getInstance().getEventBus()));
 
         World.getInstance().addSystem(new RenderingSystem(gc));
 

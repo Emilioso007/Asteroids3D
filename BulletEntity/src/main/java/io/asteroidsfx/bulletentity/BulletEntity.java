@@ -15,6 +15,8 @@ public class BulletEntity extends Entity {
 
     public BulletEntity(double startX, double startY, double angle, double velocity){
 
+        this.components.add(new BulletTag());
+
         PositionComponent positionComponent = new PositionComponent();
         positionComponent.x = startX;
         positionComponent.y = startY;

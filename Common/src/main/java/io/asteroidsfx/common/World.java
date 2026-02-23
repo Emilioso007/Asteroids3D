@@ -1,5 +1,6 @@
 package io.asteroidsfx.common;
 
+import io.asteroidsfx.common.event.EventBus;
 import javafx.scene.input.KeyCode;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ public final class World {
     public int height;
     public List<Entity> entities;
     public HashSet<System> systems;
+    private final EventBus eventBus;
 
     public HashSet<KeyCode> keysPressed;
 
@@ -21,6 +23,7 @@ public final class World {
         entities = new ArrayList<>();
         systems = new HashSet<>();
         keysPressed = new HashSet<>();
+        eventBus = new EventBus();
     }
 
     public static World getInstance(){
@@ -28,6 +31,10 @@ public final class World {
             instance = new World();
         }
         return instance;
+    }
+
+    public EventBus getEventBus(){
+        return eventBus;
     }
 
     public void tick(float dt){

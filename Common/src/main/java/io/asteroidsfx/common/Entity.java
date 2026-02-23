@@ -15,6 +15,15 @@ public abstract class Entity {
         }
 
         return null;
-
     }
+
+    public <T extends Component> boolean hasComponent(Class<T> componentType) {
+        for (Component c : components){
+            if(componentType.isAssignableFrom(c.getClass())){
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

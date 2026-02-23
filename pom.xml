@@ -34,6 +34,8 @@
         <module>ShootSystem</module>
         <module>OutOfBoundsComponent</module>
         <module>OutOfBoundsSystem</module>
+        <module>AsteroidBulletCollisionResponseSystem</module>
+        <module>AsteroidPlayerCollisionResponseSystem</module>
     </modules>
 
     <properties>

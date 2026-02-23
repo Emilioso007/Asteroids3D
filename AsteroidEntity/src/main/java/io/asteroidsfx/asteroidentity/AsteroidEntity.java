@@ -19,6 +19,9 @@ public class AsteroidEntity extends Entity{
 
     public AsteroidEntity(int maxX, int maxY) { this(0, maxX, 0, maxY); }
     public AsteroidEntity(int minX, int maxX, int minY, int maxY){
+
+        this.components.add(new AsteroidTag());
+
         Random random = new Random();
 
         PositionComponent positionComponent = new PositionComponent();
