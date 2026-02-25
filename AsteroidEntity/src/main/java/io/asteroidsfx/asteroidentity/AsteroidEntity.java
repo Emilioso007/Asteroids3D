@@ -53,8 +53,8 @@ public class AsteroidEntity extends Entity{
         double angleBetween = Math.toRadians(360f/points);
 
         for(int i = 0; i < points; i++){
-            xs[i] = Math.cos(i*angleBetween)*random.nextInt(25, 75);
-            ys[i] = Math.sin(i*angleBetween)*random.nextInt(25, 75);
+            xs[i] = Math.cos(i*angleBetween)*random.nextInt(250, 750);
+            ys[i] = Math.sin(i*angleBetween)*random.nextInt(250, 750);
         }
 
         renderComponent.polygon = new Polygon(xs, ys, Color.DARKGRAY, Color.GRAY, 2);
@@ -62,7 +62,7 @@ public class AsteroidEntity extends Entity{
         this.components.add(renderComponent);
 
         OutOfBoundsComponent outOfBoundsComponent = new OutOfBoundsComponent();
-        int buffer = 50; // a buffer to counteract the rotation
+        int buffer = 500; // a buffer to counteract the rotation
         outOfBoundsComponent.rightExtent = (int) Arrays.stream(renderComponent.polygon.x).max().orElse(0) + buffer;
         outOfBoundsComponent.leftExtent = (int) Arrays.stream(renderComponent.polygon.x).min().orElse(0) - buffer;
         outOfBoundsComponent.bottomExtent = (int) Arrays.stream(renderComponent.polygon.y).max().orElse(0) + buffer;

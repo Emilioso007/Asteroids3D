@@ -9,4 +9,3 @@ public class OutOfBoundsComponent extends Component {
     public double topExtent;
     public double bottomExtent;
 }
-

@@ -65,6 +65,10 @@ public class PlayerEntity extends Entity {
 
 
         OutOfBoundsComponent outOfBoundsComponent = new OutOfBoundsComponent();
+        outOfBoundsComponent.topExtent = -60;
+        outOfBoundsComponent.bottomExtent = 60;
+        outOfBoundsComponent.leftExtent = -60;
+        outOfBoundsComponent.rightExtent = 60;
         outOfBoundsComponent.boundsAction = BoundsAction.WRAP;
         this.components.add(outOfBoundsComponent);
 

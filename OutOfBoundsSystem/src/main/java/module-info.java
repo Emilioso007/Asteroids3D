@@ -1,3 +1,6 @@
+import io.asteroidsfx.common.SystemSpi;
+import io.asteroidsfx.outofboundssystem.OutOfBoundsSystemProvider;
+
 module OutOfBoundsSystem {
     requires AngleComponent;
     requires Common;
@@ -5,5 +8,6 @@ module OutOfBoundsSystem {
     requires OutOfBoundsComponent;
     requires PositionComponent;
     requires VelocityComponent;
-    exports io.asteroidsfx.outofboundssystem;
+
+    provides SystemSpi with OutOfBoundsSystemProvider;
 }

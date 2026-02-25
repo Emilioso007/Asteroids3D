@@ -1,3 +1,6 @@
+import io.asteroidsfx.asteroidentity.AsteroidProvider;
+import io.asteroidsfx.common.EntitySpi;
+
 module AsteroidEntity {
     exports io.asteroidsfx.asteroidentity;
     requires Common;
@@ -10,4 +13,6 @@ module AsteroidEntity {
     requires InputComponent;
     requires CircleColliderComponent;
     requires OutOfBoundsComponent;
+
+    provides EntitySpi with AsteroidProvider;
 }

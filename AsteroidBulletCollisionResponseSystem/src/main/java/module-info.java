@@ -1,7 +1,11 @@
+import io.asteroidsfx.asteroidbulletcollisionresponsesystem.AsteroidBulletCollisionResponseSystemProvider;
+import io.asteroidsfx.common.SystemSpi;
+
 module AsteroidBulletCollisionResponseSystem {
-    exports io.asteroidsfx.asteroidbulletcollisionresponsesystem;
     requires AsteroidEntity;
     requires BulletEntity;
     requires CollisionSystem;
     requires Common;
+
+    provides SystemSpi with AsteroidBulletCollisionResponseSystemProvider;
 }

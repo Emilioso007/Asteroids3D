@@ -1,6 +1,10 @@
+import io.asteroidsfx.common.SystemSpi;
+import io.asteroidsfx.inputsystem.InputSystemProvider;
+
 module InputSystem {
     requires Common;
     requires InputComponent;
     requires javafx.graphics;
-    exports io.asteroidsfx.inputsystem;
+
+    provides SystemSpi with InputSystemProvider;
 }
