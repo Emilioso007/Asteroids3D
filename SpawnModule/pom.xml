@@ -9,8 +9,8 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>io.asteroidsfx.shootsystem</groupId>
-    <artifactId>ShootSystem</artifactId>
+    <groupId>io.asteroidsfx.spawn</groupId>
+    <artifactId>Spawn</artifactId>
 
     <properties>
         <maven.compiler.source>22</maven.compiler.source>
@@ -25,26 +25,8 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>io.asteroidsfx</groupId>
-            <artifactId>PositionComponent</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.asteroidsfx.AngleComponent</groupId>
-            <artifactId>AngleComponent</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.asteroidsfx.shootcomponent</groupId>
-            <artifactId>ShootComponent</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.asteroidsfx.bulletentity</groupId>
-            <artifactId>BulletEntity</artifactId>
+            <groupId>io.asteroidsfx.TimerComponent</groupId>
+            <artifactId>TimerComponent</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>

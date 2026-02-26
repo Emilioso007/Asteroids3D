@@ -13,16 +13,16 @@ import javafx.scene.paint.Color;
 
 public class BulletEntity extends Entity {
 
-    public BulletEntity(float startX, float startY, float angle, float velocity){
+    public BulletEntity(Vector startPosition, Vector velocity) {
 
         this.components.add(new BulletTag());
 
         PositionComponent positionComponent = new PositionComponent();
-        positionComponent.pos = new Vector(startX, startY);
+        positionComponent.pos = startPosition;
         this.components.add(positionComponent);
 
         VelocityComponent velocityComponent = new VelocityComponent();
-        velocityComponent.vel = Vector.fromAngle(angle).setMag(velocity);
+        velocityComponent.vel = velocity;
         this.components.add(velocityComponent);
 
         CircleColliderComponent circleColliderComponent = new CircleColliderComponent();

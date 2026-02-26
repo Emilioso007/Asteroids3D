@@ -27,12 +27,12 @@
         <module>AccelerationComponent</module>
         <module>CollisionModule</module>
         <module>BulletEntity</module>
-        <module>ShootComponent</module>
-        <module>ShootSystem</module>
         <module>OutOfBoundsModule</module>
         <module>AsteroidBulletCollisionResponseSystem</module>
         <module>AsteroidPlayerCollisionResponseSystem</module>
         <module>EnemyEntity</module>
+        <module>SpawnModule</module>
+        <module>TimerComponent</module>
     </modules>
 
     <properties>

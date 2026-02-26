@@ -9,8 +9,8 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>io.asteroidsfx.shootcomponent</groupId>
-    <artifactId>ShootComponent</artifactId>
+    <groupId>io.asteroidsfx.TimerComponent</groupId>
+    <artifactId>TimerComponent</artifactId>
 
     <properties>
         <maven.compiler.source>22</maven.compiler.source>

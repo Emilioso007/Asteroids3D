@@ -7,13 +7,13 @@ import io.asteroidsfx.inputcomponent.InputComponent;
 import javafx.scene.input.KeyCode;
 
 import java.util.List;
-import java.util.HashSet;
+import java.util.Set;
 
 public class InputSystem extends System{
 
-    HashSet<KeyCode> keysPressed;
+    Set<KeyCode> keysPressed;
 
-    public InputSystem(HashSet<KeyCode> keysPressed){
+    public InputSystem(Set<KeyCode> keysPressed){
         this.keysPressed = keysPressed;
     }
 

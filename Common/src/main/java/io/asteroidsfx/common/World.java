@@ -6,21 +6,24 @@ import javafx.scene.input.KeyCode;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public final class World {
 
     public int width;
     public int height;
     public List<Entity> entities;
-    public HashSet<System> systems;
+    private List<Entity> entitiesToAdd;
+    public Set<System> systems;
     private final EventBus eventBus;
 
-    public HashSet<KeyCode> keysPressed;
+    public Set<KeyCode> keysPressed;
 
     private static World instance = null;
 
     private World(){
         entities = new ArrayList<>();
+        entitiesToAdd = new ArrayList<>();
         systems = new HashSet<>();
         keysPressed = new HashSet<>();
         eventBus = new EventBus();
@@ -55,6 +58,8 @@ public final class World {
             system.tick(dt, filteredEntities);
         }
         entities.removeIf(entity -> entity.toBeRemoved);
+        entities.addAll(entitiesToAdd);
+        entitiesToAdd.clear();
     }
 
     public boolean addEntity(Entity entity){
@@ -87,5 +92,9 @@ public final class World {
             if(!hasComponent) return false;
         }
         return true;
+    }
+
+    public void queueAddEntity(Entity entityToSpawn) {
+        entitiesToAdd.add(entityToSpawn);
     }
 }
