@@ -18,15 +18,15 @@ import java.util.Random;
 
 public class AsteroidEntity extends Entity{
 
-    public AsteroidEntity(int maxX, int maxY) { this(0, maxX, 0, maxY); }
-    public AsteroidEntity(int minX, int maxX, int minY, int maxY){
+    public AsteroidEntity(Vector startPosition){
 
         this.components.add(new AsteroidTag());
+        this.components.add(new AsteroidSizeComponent());
 
         Random random = new Random();
 
         PositionComponent positionComponent = new PositionComponent();
-        positionComponent.pos = new Vector(random.nextInt(minX, maxX), random.nextInt(minY, maxY));
+        positionComponent.pos = startPosition;
         this.components.add(positionComponent);
 
         VelocityComponent velocityComponent = new VelocityComponent();

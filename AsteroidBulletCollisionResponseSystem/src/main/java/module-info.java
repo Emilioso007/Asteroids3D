@@ -6,6 +6,8 @@ module AsteroidBulletCollisionResponseSystem {
     requires BulletEntity;
     requires Collision;
     requires Common;
+    requires PositionComponent;
+    requires VelocityComponent;
 
     provides SystemSpi with AsteroidBulletCollisionResponseSystemProvider;
 }

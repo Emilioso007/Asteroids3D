@@ -16,14 +16,16 @@ public class CollisionSystem extends System {
     @Override
     public void tick(float dt, List<Entity> entities) {
 
-        for(Entity collider : entities){
+        for(int i = 0; i < entities.size() - 1; i++){
+
+            Entity collider = entities.get(i);
 
             PositionComponent colliderPosition = collider.getComponent(PositionComponent.class);
             CircleColliderComponent colliderCircle = collider.getComponent(CircleColliderComponent.class);
 
-            for(Entity target : entities){
+            for(int j = i + 1; j < entities.size(); j++){
 
-                if(collider == target) continue;
+                Entity target = entities.get(j);
 
                 PositionComponent targetPosition = target.getComponent(PositionComponent.class);
                 CircleColliderComponent targetCircle = target.getComponent(CircleColliderComponent.class);
