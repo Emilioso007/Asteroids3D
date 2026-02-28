@@ -15,7 +15,6 @@ module EnemyEntity {
     requires Collision;
     requires BulletEntity;
     requires Spawn;
-    requires TimerComponent;
 
     provides EntitySpi with EnemyEntityProvider;
     provides BaseSystem with EnemySystem;

@@ -2,7 +2,6 @@ import io.asteroidsfx.common.ecs.BaseSystem;
 
 module OutOfBounds {
     exports io.asteroidsfx.outofbounds;
-    requires AngleComponent;
     requires Common;
     requires PositionComponent;
     requires VelocityComponent;

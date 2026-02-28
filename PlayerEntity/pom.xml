@@ -85,12 +85,6 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>io.asteroidsfx.TimerComponent</groupId>
-            <artifactId>TimerComponent</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>io.asteroidsfx.rotationcomponent</groupId>
             <artifactId>RotationComponent</artifactId>
             <version>1.0-SNAPSHOT</version>

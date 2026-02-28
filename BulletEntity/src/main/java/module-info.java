@@ -1,5 +1,4 @@
 module BulletEntity {
-    requires AngleComponent;
     requires Common;
     requires javafx.graphics;
     requires VelocityComponent;

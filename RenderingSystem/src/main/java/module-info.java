@@ -5,7 +5,6 @@ module RenderingSystem {
     requires Common;
     requires RenderComponent;
     requires PositionComponent;
-    requires RotationComponent;
     requires AngleComponent;
     requires javafx.graphics;
     provides BaseSystem with io.asteroidsfx.renderingsystem.RenderingSystem;

@@ -1,6 +1,5 @@
 package io.asteroidsfx.playerentity;
 
-import io.asteroidsfx.TimerComponent.TimerComponent;
 import io.asteroidsfx.accelerationcomponent.AccelerationComponent;
 import io.asteroidsfx.anglecomponent.AngleComponent;
 import io.asteroidsfx.bulletentity.BulletEntity;
@@ -80,7 +79,6 @@ public class PlayerSystem extends IntervalIteratingSystem {
         BulletEntity bullet = new BulletEntity(position.pos.copy().add(Vector.fromAngle(angle.angle).setMag(60)), Vector.fromAngle(angle.angle).setMag(600));
         SpawnEvent event = new SpawnEvent();
         event.entityToSpawn = bullet;
-        event.addComponent(entity.getComponent(TimerComponent.class));
         World.getInstance().getEventBus().publish(event);
     }
 

@@ -30,7 +30,6 @@
         <module>AsteroidPlayerCollisionResponseSystem</module>
         <module>EnemyEntity</module>
         <module>SpawnModule</module>
-        <module>TimerComponent</module>
     </modules>
 
     <properties>

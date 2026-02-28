@@ -17,7 +17,6 @@ module PlayerEntity {
     requires Collision;
     requires BulletEntity;
     requires Spawn;
-    requires TimerComponent;
     requires RotationComponent;
 
     provides EntitySpi with PlayerEntityProvider;

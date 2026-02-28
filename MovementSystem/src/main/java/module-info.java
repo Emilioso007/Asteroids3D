@@ -4,7 +4,6 @@ module MovementSystem {
     requires Common;
     requires PositionComponent;
     requires VelocityComponent;
-    requires AngleComponent;
     requires DragComponent;
     requires AccelerationComponent;
 
