@@ -2,19 +2,22 @@ package io.asteroidsfx.inputsystem;
 
 import io.asteroidsfx.common.Component;
 import io.asteroidsfx.common.Entity;
-import io.asteroidsfx.common.System;
+import io.asteroidsfx.common.World;
+import io.asteroidsfx.common.system.IteratingSystemECS;
+import io.asteroidsfx.common.system.SystemECS;
 import io.asteroidsfx.inputcomponent.InputComponent;
 import javafx.scene.input.KeyCode;
 
 import java.util.List;
 import java.util.Set;
 
-public class InputSystem extends System{
+public class InputSystem extends IteratingSystemECS {
 
     Set<KeyCode> keysPressed;
 
-    public InputSystem(Set<KeyCode> keysPressed){
-        this.keysPressed = keysPressed;
+    @Override
+    public void start(World world) {
+        this.keysPressed = world.keysPressed;
     }
 
     @Override
@@ -22,17 +25,15 @@ public class InputSystem extends System{
         return List.of(InputComponent.class);
     }
 
+
     @Override
-    public void tick(double dt, List<Entity> entities) {
-        for (Entity entity : entities){
-            InputComponent inputComponent = entity.getComponent(InputComponent.class);
+    public void processEntity(Entity entity, double deltaTime) {
+        InputComponent inputComponent = entity.getComponent(InputComponent.class);
 
-            for (KeyCode keyCode : keysPressed){
-                if(inputComponent.inputActionHashMap.containsKey(keyCode)){
-                    inputComponent.inputActionHashMap.get(keyCode).execute(entity, dt);
-                }
+        for (KeyCode keyCode : keysPressed){
+            if(inputComponent.inputActionHashMap.containsKey(keyCode)){
+                inputComponent.inputActionHashMap.get(keyCode).execute(entity, deltaTime);
             }
-
         }
     }
 }

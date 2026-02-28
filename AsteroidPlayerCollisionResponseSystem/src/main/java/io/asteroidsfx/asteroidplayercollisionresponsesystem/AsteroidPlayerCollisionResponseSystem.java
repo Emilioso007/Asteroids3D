@@ -4,16 +4,20 @@ import io.asteroidsfx.asteroidentity.AsteroidTag;
 import io.asteroidsfx.collision.CollisionEvent;
 import io.asteroidsfx.common.Component;
 import io.asteroidsfx.common.Entity;
-import io.asteroidsfx.common.System;
+import io.asteroidsfx.common.World;
+import io.asteroidsfx.common.system.IteratingSystemECS;
+import io.asteroidsfx.common.system.SystemECS;
 import io.asteroidsfx.common.event.EventBus;
 import io.asteroidsfx.playerentity.PlayerTag;
 
 import java.util.List;
 
-public class AsteroidPlayerCollisionResponseSystem extends System {
+public class AsteroidPlayerCollisionResponseSystem extends IteratingSystemECS {
 
-    public AsteroidPlayerCollisionResponseSystem(EventBus eventBus){
-        eventBus.subscribe(CollisionEvent.class, this::handleCollision);
+
+    @Override
+    public void start(World world) {
+        world.getEventBus().subscribe(CollisionEvent.class, this::handleCollision);
     }
 
     private void handleCollision(CollisionEvent event){
@@ -31,7 +35,13 @@ public class AsteroidPlayerCollisionResponseSystem extends System {
     }
 
     @Override
-    public void tick(double dt, List<Entity> entities) {
+    public void update(List<Entity> entities, double deltaTime) {
 
     }
+
+    @Override
+    public void processEntity(Entity entity, double deltaTime) {
+
+    }
+
 }

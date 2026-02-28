@@ -1,8 +1,8 @@
 package io.asteroidsfx;
 
 import io.asteroidsfx.common.EntitySpi;
-import io.asteroidsfx.common.SystemSpi;
 import io.asteroidsfx.common.World;
+import io.asteroidsfx.common.system.SystemECS;
 import io.asteroidsfx.renderingsystem.RenderingSystem;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
@@ -27,6 +27,8 @@ public class Game {
         Canvas canvas = new Canvas(World.getInstance().width, World.getInstance().height);
         gc = canvas.getGraphicsContext2D();
 
+        World.getInstance().graphicsContext = gc;
+
         Group root = new Group(canvas);
         Scene scene = new Scene(root);
 
@@ -39,14 +41,11 @@ public class Game {
         window.show();
 
         // SETUP SYSTEMS
-        ServiceLoader<SystemSpi> systemSpis = ServiceLoader.load(SystemSpi.class);
-        for (SystemSpi systemSpi : systemSpis){
-            systemSpi.start(World.getInstance());
+        ServiceLoader<SystemECS> systems = ServiceLoader.load(SystemECS.class);
+        for (SystemECS system : systems){
+            World.getInstance().addSystem(system);
+            system.start(World.getInstance());
         }
-
-
-        // RENDERING SYSTEM IS ADDED MANUALLY
-        World.getInstance().addSystem(new RenderingSystem(gc));
 
         ServiceLoader<EntitySpi> entitySpis = ServiceLoader.load(EntitySpi.class);
 

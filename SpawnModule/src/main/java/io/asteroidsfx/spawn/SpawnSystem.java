@@ -3,17 +3,17 @@ package io.asteroidsfx.spawn;
 import io.asteroidsfx.TimerComponent.TimerComponent;
 import io.asteroidsfx.common.Component;
 import io.asteroidsfx.common.Entity;
-import io.asteroidsfx.common.System;
+import io.asteroidsfx.common.system.SystemECS;
 import io.asteroidsfx.common.World;
-import io.asteroidsfx.common.event.EventBus;
 
 import java.time.Instant;
 import java.util.List;
 
-public class SpawnSystem extends System {
+public class SpawnSystem extends SystemECS {
 
-    public SpawnSystem(EventBus eventBus) {
-        eventBus.subscribe(SpawnEvent.class, this::handleSpawnEvent);
+    @Override
+    public void start(World world) {
+        world.getEventBus().subscribe(SpawnEvent.class, this::handleSpawnEvent);
     }
 
     private void handleSpawnEvent(SpawnEvent event) {
@@ -34,7 +34,8 @@ public class SpawnSystem extends System {
     }
 
     @Override
-    public void tick(double dt, List<Entity> entities) {
+    public void update(List<Entity> entities, double deltaTime) {
 
     }
+
 }

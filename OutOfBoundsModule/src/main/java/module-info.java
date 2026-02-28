@@ -1,5 +1,4 @@
-import io.asteroidsfx.common.SystemSpi;
-import io.asteroidsfx.outofbounds.OutOfBoundsSystemProvider;
+import io.asteroidsfx.common.system.SystemECS;
 
 module OutOfBounds {
     exports io.asteroidsfx.outofbounds;
@@ -8,5 +7,5 @@ module OutOfBounds {
     requires PositionComponent;
     requires VelocityComponent;
 
-    provides SystemSpi with OutOfBoundsSystemProvider;
+    provides SystemECS with io.asteroidsfx.outofbounds.OutOfBoundsSystem;
 }

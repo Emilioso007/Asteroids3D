@@ -1,5 +1,4 @@
-import io.asteroidsfx.asteroidbulletcollisionresponsesystem.AsteroidBulletCollisionResponseSystemProvider;
-import io.asteroidsfx.common.SystemSpi;
+import io.asteroidsfx.common.system.SystemECS;
 
 module AsteroidBulletCollisionResponseSystem {
     requires AsteroidEntity;
@@ -9,5 +8,5 @@ module AsteroidBulletCollisionResponseSystem {
     requires PositionComponent;
     requires VelocityComponent;
 
-    provides SystemSpi with AsteroidBulletCollisionResponseSystemProvider;
+    provides SystemECS with io.asteroidsfx.asteroidbulletcollisionresponsesystem.AsteroidBulletCollisionResponseSystem;
 }

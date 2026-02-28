@@ -1,10 +1,9 @@
-import io.asteroidsfx.collision.CollisionSystemProvider;
-import io.asteroidsfx.common.SystemSpi;
+import io.asteroidsfx.common.system.SystemECS;
 
 module Collision {
     exports io.asteroidsfx.collision;
     requires Common;
     requires PositionComponent;
 
-    provides SystemSpi with CollisionSystemProvider;
+    provides SystemECS with io.asteroidsfx.collision.CollisionSystem;
 }

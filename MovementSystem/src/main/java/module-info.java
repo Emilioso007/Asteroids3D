@@ -1,5 +1,4 @@
-import io.asteroidsfx.common.SystemSpi;
-import io.asteroidsfx.movementsystem.MovementSystemProvider;
+import io.asteroidsfx.common.system.SystemECS;
 
 module MovementSystem {
     requires Common;
@@ -9,5 +8,5 @@ module MovementSystem {
     requires DragComponent;
     requires AccelerationComponent;
 
-    provides SystemSpi with MovementSystemProvider;
+    provides SystemECS with io.asteroidsfx.movementsystem.MovementSystem;
 }

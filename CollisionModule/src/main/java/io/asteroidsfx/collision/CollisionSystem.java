@@ -1,12 +1,17 @@
 package io.asteroidsfx.collision;
 
 import io.asteroidsfx.common.*;
-import io.asteroidsfx.common.System;
+import io.asteroidsfx.common.system.SystemECS;
 import io.asteroidsfx.positioncomponent.PositionComponent;
 
 import java.util.List;
 
-public class CollisionSystem extends System {
+public class CollisionSystem extends SystemECS {
+
+    @Override
+    public void start(World world) {
+
+    }
 
     @Override
     public List<Class<? extends Component>> getSignature() {
@@ -14,8 +19,7 @@ public class CollisionSystem extends System {
     }
 
     @Override
-    public void tick(double dt, List<Entity> entities) {
-
+    public void update(List<Entity> entities, double deltaTime) {
         for(int i = 0; i < entities.size() - 1; i++){
 
             Entity collider = entities.get(i);

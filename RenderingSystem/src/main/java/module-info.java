@@ -1,3 +1,5 @@
+import io.asteroidsfx.common.system.SystemECS;
+
 module RenderingSystem {
     exports io.asteroidsfx.renderingsystem;
     requires Common;
@@ -6,4 +8,5 @@ module RenderingSystem {
     requires RotationComponent;
     requires AngleComponent;
     requires javafx.graphics;
+    provides SystemECS with io.asteroidsfx.renderingsystem.RenderingSystem;
 }

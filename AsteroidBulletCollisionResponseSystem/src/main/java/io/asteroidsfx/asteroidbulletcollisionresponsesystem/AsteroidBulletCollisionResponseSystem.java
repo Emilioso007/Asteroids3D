@@ -6,17 +6,19 @@ import io.asteroidsfx.asteroidentity.AsteroidTag;
 import io.asteroidsfx.bulletentity.BulletTag;
 import io.asteroidsfx.collision.CollisionEvent;
 import io.asteroidsfx.common.*;
-import io.asteroidsfx.common.System;
+import io.asteroidsfx.common.system.IteratingSystemECS;
+import io.asteroidsfx.common.system.SystemECS;
 import io.asteroidsfx.common.event.EventBus;
 import io.asteroidsfx.positioncomponent.PositionComponent;
 import io.asteroidsfx.velocitycomponent.VelocityComponent;
 
 import java.util.List;
 
-public class AsteroidBulletCollisionResponseSystem extends System{
+public class AsteroidBulletCollisionResponseSystem extends IteratingSystemECS {
 
-    public AsteroidBulletCollisionResponseSystem(EventBus eventBus){
-        eventBus.subscribe(CollisionEvent.class, this::handleCollision);
+    @Override
+    public void start(World world) {
+        world.getEventBus().subscribe(CollisionEvent.class, this::handleCollision);
     }
 
     private void handleCollision(CollisionEvent event){
@@ -49,7 +51,8 @@ public class AsteroidBulletCollisionResponseSystem extends System{
     }
 
     @Override
-    public void tick(double dt, List<Entity> entities) {
+    public void processEntity(Entity entity, double deltaTime) {
 
     }
+
 }

@@ -1,6 +1,8 @@
 package io.asteroidsfx.common;
 
 import io.asteroidsfx.common.event.EventBus;
+import io.asteroidsfx.common.system.SystemECS;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 
 import java.util.ArrayList;
@@ -12,9 +14,10 @@ public final class World {
 
     public int width;
     public int height;
+    public GraphicsContext graphicsContext;
     public List<Entity> entities;
     private List<Entity> entitiesToAdd;
-    public Set<System> systems;
+    public Set<SystemECS> systems;
     private final EventBus eventBus;
 
     public Set<KeyCode> keysPressed;
@@ -41,11 +44,11 @@ public final class World {
     }
 
     public void tick(double dt){
-        for(System system : systems){
+        for(SystemECS system : systems){
             List<Class<? extends Component>> signature = system.getSignature();
 
             if(signature == null || signature.isEmpty()){
-                system.tick(dt, new ArrayList<>());
+                system.update(new ArrayList<>(), dt);
                 continue;
             }
 
@@ -55,7 +58,7 @@ public final class World {
                 if(matchesSignature(entity, signature)) filteredEntities.add(entity);
             }
 
-            system.tick(dt, filteredEntities);
+            system.update(filteredEntities, dt);
         }
         entities.removeIf(entity -> entity.toBeRemoved);
         entities.addAll(entitiesToAdd);
@@ -66,7 +69,7 @@ public final class World {
         return entities.add(entity);
     }
 
-    public boolean addSystem(System system){
+    public boolean addSystem(SystemECS system){
         return systems.add(system);
     }
 

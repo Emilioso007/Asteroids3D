@@ -3,12 +3,19 @@ package io.asteroidsfx.rotatesystem;
 import io.asteroidsfx.anglecomponent.AngleComponent;
 import io.asteroidsfx.common.Component;
 import io.asteroidsfx.common.Entity;
-import io.asteroidsfx.common.System;
+import io.asteroidsfx.common.World;
+import io.asteroidsfx.common.system.IteratingSystemECS;
 import io.asteroidsfx.rotationcomponent.RotationComponent;
 
 import java.util.List;
 
-public class RotateSystem extends System {
+public class RotateSystem extends IteratingSystemECS {
+
+
+    @Override
+    public void start(World world) {
+
+    }
 
     @Override
     public List<Class<? extends Component>> getSignature() {
@@ -16,12 +23,10 @@ public class RotateSystem extends System {
     }
 
     @Override
-    public void tick(double dt, List<Entity> entities) {
-        for(Entity entity : entities){
-            AngleComponent angleComponent = entity.getComponent(AngleComponent.class);
-            RotationComponent rotationComponent = entity.getComponent(RotationComponent.class);
+    public void processEntity(Entity entity, double deltaTime) {
+        AngleComponent angleComponent = entity.getComponent(AngleComponent.class);
+        RotationComponent rotationComponent = entity.getComponent(RotationComponent.class);
 
-            angleComponent.angle += rotationComponent.dAngle * dt;
-        }
+        angleComponent.angle += rotationComponent.dAngle * deltaTime;
     }
 }

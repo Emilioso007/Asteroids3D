@@ -1,10 +1,9 @@
-import io.asteroidsfx.common.SystemSpi;
-import io.asteroidsfx.rotatesystem.RotateSystemProvider;
+import io.asteroidsfx.common.system.SystemECS;
 
 module RotateSystem {
     requires AngleComponent;
     requires Common;
     requires RotationComponent;
 
-    provides SystemSpi with RotateSystemProvider;
+    provides SystemECS with io.asteroidsfx.rotatesystem.RotateSystem;
 }

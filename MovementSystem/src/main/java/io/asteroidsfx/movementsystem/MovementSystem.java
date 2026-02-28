@@ -3,14 +3,21 @@ package io.asteroidsfx.movementsystem;
 import io.asteroidsfx.accelerationcomponent.AccelerationComponent;
 import io.asteroidsfx.common.Component;
 import io.asteroidsfx.common.Entity;
-import io.asteroidsfx.common.System;
+import io.asteroidsfx.common.World;
+import io.asteroidsfx.common.system.IteratingSystemECS;
+import io.asteroidsfx.common.system.SystemECS;
 import io.asteroidsfx.dragcomponent.DragComponent;
 import io.asteroidsfx.positioncomponent.PositionComponent;
 import io.asteroidsfx.velocitycomponent.VelocityComponent;
 
 import java.util.List;
 
-public class MovementSystem extends System{
+public class MovementSystem extends IteratingSystemECS {
+
+    @Override
+    public void start(World world) {
+
+    }
 
     @Override
     public List<Class<? extends Component>> getSignature() {
@@ -18,25 +25,21 @@ public class MovementSystem extends System{
     }
 
     @Override
-    public void tick(double dt, List<Entity> entities) {
+    public void processEntity(Entity entity, double deltaTime) {
+        PositionComponent positionComponent = entity.getComponent(PositionComponent.class);
+        VelocityComponent velocityComponent = entity.getComponent(VelocityComponent.class);
 
-        for(Entity entity : entities){
-            PositionComponent positionComponent = entity.getComponent(PositionComponent.class);
-            VelocityComponent velocityComponent = entity.getComponent(VelocityComponent.class);
-
-            AccelerationComponent accelerationComponent = entity.getComponent(AccelerationComponent.class);
-            if (accelerationComponent != null){
-                velocityComponent.vel.add(accelerationComponent.acc.copy().mult(dt));
-                accelerationComponent.acc.mult(0);
-            }
-
-            DragComponent dragComponent = entity.getComponent(DragComponent.class);
-            if(dragComponent != null){
-                velocityComponent.vel.mult(Math.max(0.0f, 1.0f - (dragComponent.drag * dt)));
-            }
-
-            positionComponent.pos.add(velocityComponent.vel.copy().mult(dt));
-
+        AccelerationComponent accelerationComponent = entity.getComponent(AccelerationComponent.class);
+        if (accelerationComponent != null){
+            velocityComponent.vel.add(accelerationComponent.acc.copy().mult(deltaTime));
+            accelerationComponent.acc.mult(0);
         }
+
+        DragComponent dragComponent = entity.getComponent(DragComponent.class);
+        if(dragComponent != null){
+            velocityComponent.vel.mult(Math.max(0.0f, 1.0f - (dragComponent.drag * deltaTime)));
+        }
+
+        positionComponent.pos.add(velocityComponent.vel.copy().mult(deltaTime));
     }
 }
