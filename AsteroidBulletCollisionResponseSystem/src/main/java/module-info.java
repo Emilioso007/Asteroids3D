@@ -1,10 +1,10 @@
 import io.asteroidsfx.common.system.SystemECS;
 
 module AsteroidBulletCollisionResponseSystem {
+    requires Common;
     requires AsteroidEntity;
     requires BulletEntity;
     requires Collision;
-    requires Common;
     requires PositionComponent;
     requires VelocityComponent;
 

@@ -2,17 +2,16 @@ import io.asteroidsfx.asteroidentity.AsteroidProvider;
 import io.asteroidsfx.common.EntitySpi;
 
 module AsteroidEntity {
-    exports io.asteroidsfx.asteroidentity;
+    requires AngleComponent;
+    requires Collision;
     requires Common;
+    requires OutOfBounds;
     requires PositionComponent;
     requires RenderComponent;
-    requires javafx.graphics;
-    requires VelocityComponent;
-    requires AngleComponent;
     requires RotationComponent;
-    requires InputComponent;
-    requires OutOfBounds;
-    requires Collision;
+    requires VelocityComponent;
+    requires javafx.graphics;
+    exports io.asteroidsfx.asteroidentity;
 
     provides EntitySpi with AsteroidProvider;
 }
