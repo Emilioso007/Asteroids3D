@@ -9,8 +9,7 @@ import io.asteroidsfx.physics.component.RotationComponent;
 
 import java.util.List;
 
-public class RotateSystem extends IteratingSystem {
-
+public class RotationSystem extends IteratingSystem {
 
     @Override
     public void start(World world) {

@@ -36,7 +36,7 @@ public class PlayerEntity extends BaseEntity {
         this.addComponent(rotationComponent);
 
         DragComponent dragComponent = new DragComponent();
-        dragComponent.drag = 1f;
+        dragComponent.drag = 0.25;
         this.addComponent(dragComponent);
 
 

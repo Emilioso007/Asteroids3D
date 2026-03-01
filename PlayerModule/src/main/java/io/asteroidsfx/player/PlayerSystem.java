@@ -9,10 +9,7 @@ import io.asteroidsfx.common.event.input.KeyDownEvent;
 import io.asteroidsfx.common.event.input.KeyJustPressedEvent;
 import io.asteroidsfx.common.event.input.KeyJustReleasedEvent;
 import io.asteroidsfx.common.util.Vector;
-import io.asteroidsfx.physics.component.AccelerationComponent;
-import io.asteroidsfx.physics.component.AngleComponent;
-import io.asteroidsfx.physics.component.PositionComponent;
-import io.asteroidsfx.physics.component.RotationComponent;
+import io.asteroidsfx.physics.component.*;
 import io.asteroidsfx.spawn.SpawnEvent;
 
 import java.util.List;
@@ -42,11 +39,6 @@ public class PlayerSystem extends IntervalIteratingSystem {
                 break;
             case RIGHT, D:
                 player.getComponent(RotationComponent.class).dAngle = Math.PI;
-                break;
-            case UP, W:
-                AccelerationComponent acceleration = player.getComponent(AccelerationComponent.class);
-                double angle = player.getComponent(AngleComponent.class).angle;
-                acceleration.acc.add(Vector.fromAngle(angle).setMag(2500));
                 break;
         }
     }
