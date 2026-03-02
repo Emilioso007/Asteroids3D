@@ -3,6 +3,8 @@ package io.asteroidsfx;
 import io.asteroidsfx.common.ecs.EntitySpi;
 import io.asteroidsfx.common.World;
 import io.asteroidsfx.common.ecs.BaseSystem;
+import io.asteroidsfx.common.event.input.KeyPressedEvent;
+import io.asteroidsfx.common.event.input.KeyReleasedEvent;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -31,8 +33,8 @@ public class Game {
         Group root = new Group(canvas);
         Scene scene = new Scene(root);
 
-        scene.setOnKeyPressed(event -> World.getInstance().addKeyPressed(event.getCode()));
-        scene.setOnKeyReleased(event -> World.getInstance().removeKeyPressed(event.getCode()));
+        scene.setOnKeyPressed(event -> World.getInstance().getEventBus().publish(new KeyPressedEvent(event.getCode())));
+        scene.setOnKeyReleased(event -> World.getInstance().getEventBus().publish(new KeyReleasedEvent(event.getCode())));
 
         window.setScene(scene);
         window.setTitle("AsteroidsFX");

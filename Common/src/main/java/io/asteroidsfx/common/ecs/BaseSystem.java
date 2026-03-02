@@ -15,15 +15,14 @@ public abstract class BaseSystem {
         this.setPriority(priority);
     }
 
-    public abstract List<Class<? extends BaseComponent>> getSignature();
-    public abstract void update(List<BaseEntity> entities, double deltaTime);
-
     /**
      * Called once at system startup.
-     * @param world the world the system lives in
+     * @param world the world the system operates in.
      */
-
     public abstract void start(World world);
+
+    public abstract List<Class<? extends BaseComponent>> getSignature();
+    public abstract void update(List<BaseEntity> entities, double deltaTime);
 
     /**
      * Gets the priority of this system.

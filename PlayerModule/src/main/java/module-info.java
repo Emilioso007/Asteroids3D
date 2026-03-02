@@ -2,7 +2,8 @@ import io.asteroidsfx.common.ecs.BaseSystem;
 import io.asteroidsfx.common.ecs.EntitySpi;
 import io.asteroidsfx.player.PlayerCollisionResponseSystem;
 import io.asteroidsfx.player.PlayerEntityProvider;
-import io.asteroidsfx.player.PlayerSystem;
+import io.asteroidsfx.player.PlayerMovementSystem;
+import io.asteroidsfx.player.PlayerShootingSystem;
 
 module Player {
     exports io.asteroidsfx.player;
@@ -17,5 +18,5 @@ module Player {
     requires Ownership;
 
     provides EntitySpi with PlayerEntityProvider;
-    provides BaseSystem with PlayerSystem, PlayerCollisionResponseSystem;
+    provides BaseSystem with PlayerShootingSystem, PlayerMovementSystem, PlayerCollisionResponseSystem;
 }

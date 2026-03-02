@@ -4,11 +4,7 @@ import io.asteroidsfx.common.ecs.BaseComponent;
 import io.asteroidsfx.common.ecs.BaseEntity;
 import io.asteroidsfx.common.event.EventBus;
 import io.asteroidsfx.common.ecs.BaseSystem;
-import io.asteroidsfx.common.event.input.KeyDownEvent;
-import io.asteroidsfx.common.event.input.KeyJustPressedEvent;
-import io.asteroidsfx.common.event.input.KeyJustReleasedEvent;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.KeyCode;
 
 import java.util.*;
 
@@ -22,8 +18,6 @@ public final class World {
     public Set<BaseSystem> systems;
     private final EventBus eventBus;
 
-    public Set<KeyCode> keysPressed;
-
     public double deltaTime;
 
     private static World instance = null;
@@ -35,7 +29,6 @@ public final class World {
                 Comparator.comparing(BaseSystem::getPriority)
                 .thenComparingInt(BaseSystem::hashCode);
         systems = new TreeSet<>(systemComparator);
-        keysPressed = new HashSet<>();
         eventBus = new EventBus();
     }
 
@@ -46,27 +39,12 @@ public final class World {
         return instance;
     }
 
-    public void addKeyPressed(KeyCode keyCode){
-        // Only publish if key does not already exist in array
-        if(keysPressed.add(keyCode))
-            eventBus.publish(new KeyJustPressedEvent(keyCode));
-    }
-
-    public void removeKeyPressed(KeyCode keyCode){
-        keysPressed.remove(keyCode);
-        eventBus.publish(new KeyJustReleasedEvent(keyCode));
-    }
-
     public EventBus getEventBus(){
         return eventBus;
     }
 
     public void tick(double deltaTime){
         this.deltaTime = deltaTime;
-
-        for (KeyCode keyCode : keysPressed){
-            eventBus.publish(new KeyDownEvent(keyCode));
-        }
 
         for(BaseSystem system : systems){
             List<Class<? extends BaseComponent>> signature = system.getSignature();
