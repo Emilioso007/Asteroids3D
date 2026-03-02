@@ -83,7 +83,7 @@ public class OutOfBoundsSystem extends IteratingSystem {
                 break;
 
             case REMOVE:
-                entity.toBeRemoved |= (exitLeft || exitRight || exitTop || exitBottom);
+                entity.setToBeRemoved(entity.isToBeRemoved() | (exitLeft || exitRight || exitTop || exitBottom));
                 break;
 
         }

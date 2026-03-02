@@ -28,6 +28,6 @@ public class PlayerCollisionResponseSystem extends ResponseSystem {
             return;
 
         // Mark player to be removed
-        player.toBeRemoved = true;
+        player.setToBeRemoved(true);
     }
 }

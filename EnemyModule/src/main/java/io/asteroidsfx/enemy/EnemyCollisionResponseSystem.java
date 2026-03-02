@@ -28,6 +28,6 @@ public class EnemyCollisionResponseSystem extends ResponseSystem {
             return;
 
         // Mark enemy to be removed
-        enemy.toBeRemoved = true;
+        enemy.setToBeRemoved(true);
     }
 }

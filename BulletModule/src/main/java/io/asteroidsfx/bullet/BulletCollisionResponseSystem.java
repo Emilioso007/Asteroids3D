@@ -26,6 +26,6 @@ public class BulletCollisionResponseSystem extends ResponseSystem {
         if (bullet.getComponent(OwnershipComponent.class).owner == collider) return;
 
         // Mark bullet to be removed
-        bullet.toBeRemoved = true;
+        bullet.setToBeRemoved(true);
     }
 }

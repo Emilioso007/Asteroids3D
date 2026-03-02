@@ -24,6 +24,6 @@ public class VelocitySystem extends IteratingSystem {
 
     @Override
     public void start(World world) {
-        this.priority = 22;
+        this.setPriority(22);
     }
 }

@@ -24,7 +24,7 @@ public class AsteroidCollisionResponseSystem extends ResponseSystem {
         if (collider.hasComponent(AsteroidTag.class)) return;
 
         // Mark asteroid to be removed
-        asteroid.toBeRemoved = true;
+        asteroid.setToBeRemoved(true);
 
         // Optionally split asteroid
         int asteroidSize = asteroid.getComponent(AsteroidSizeComponent.class).size;

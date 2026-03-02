@@ -84,7 +84,7 @@ public final class World {
 
             system.update(filteredEntities, deltaTime);
         }
-        entities.removeIf(entity -> entity.toBeRemoved);
+        entities.removeIf(BaseEntity::isToBeRemoved);
         entities.addAll(entitiesToAdd);
         entitiesToAdd.clear();
     }

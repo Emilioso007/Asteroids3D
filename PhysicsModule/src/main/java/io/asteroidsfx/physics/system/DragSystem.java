@@ -33,6 +33,6 @@ public class DragSystem extends IteratingSystem {
 
     @Override
     public void start(World world) {
-        this.priority = 21;
+        this.setPriority(21);
     }
 }
