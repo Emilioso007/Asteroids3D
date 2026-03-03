@@ -1,6 +1,6 @@
 package io.asteroidsfx.bullet;
 
-import io.asteroidsfx.Ownership.OwnershipComponent;
+import io.asteroidsfx.ownership.OwnershipComponent;
 import io.asteroidsfx.collision.CollisionEvent;
 import io.asteroidsfx.common.World;
 import io.asteroidsfx.common.ecs.BaseEntity;
@@ -12,7 +12,7 @@ public class BulletCollisionResponseSystem extends ResponseSystem {
         world.getEventBus().subscribe(CollisionEvent.class, this::handleCollision);
     }
 
-    private void handleCollision(CollisionEvent event) {
+    private void handleCollision(World world, CollisionEvent event) {
         // If no bullet in collision, do nothing
         if(!event.hasEntityWith(BulletTag.class)) return;
 

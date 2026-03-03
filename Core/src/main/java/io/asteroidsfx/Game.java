@@ -10,6 +10,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -18,6 +19,7 @@ import java.util.ServiceLoader;
 
 public class Game {
 
+    public World world;
     public GraphicsContext gc;
 
     public void start(Stage window) {
@@ -27,39 +29,35 @@ public class Game {
         int worldWidth = 1600;
         int worldHeight = 1600;
 
-        World.getInstance().setWidth(worldWidth);
-        World.getInstance().setHeight(worldHeight);
-        World.getInstance().screenWidth = screenWidth;
-        World.getInstance().screenHeight = screenHeight;
+        world = new World();
+
+        world.setWidth(worldWidth);
+        world.setHeight(worldHeight);
+        world.screenWidth = screenWidth;
+        world.screenHeight = screenHeight;
 
         Canvas canvas = new Canvas(screenWidth, screenHeight);
         gc = canvas.getGraphicsContext2D();
 
-        World.getInstance().setGraphicsContext(gc);
+        world.setGraphicsContext(gc);
 
         Group root = new Group(canvas);
         Scene scene = new Scene(root);
 
-        scene.setOnKeyPressed(event -> World.getInstance().getEventBus().publish(new KeyPressedEvent(event.getCode())));
-        scene.setOnKeyReleased(event -> World.getInstance().getEventBus().publish(new KeyReleasedEvent(event.getCode())));
+        scene.setOnKeyPressed(event -> world.getEventBus().publish(world, new KeyPressedEvent(event.getCode())));
+        scene.setOnKeyReleased(event -> world.getEventBus().publish(world, new KeyReleasedEvent(event.getCode())));
 
         window.setScene(scene);
         window.setTitle("AsteroidsFX");
         window.show();
 
         // ADD ENTITIES
-        ServiceLoader<EntitySpi> entitySpis = ServiceLoader.load(EntitySpi.class);
-        entitySpis.stream()
-            .map(ServiceLoader.Provider::get)
-            .sorted(Comparator.comparingInt(EntitySpi::getPriority))
-            .forEach(entitySpi -> entitySpi.start(World.getInstance()));
+        addEntities();
 
         // START SYSTEMS
-        ServiceLoader<BaseSystem> systems = ServiceLoader.load(BaseSystem.class);
-        for (BaseSystem system : systems){
-            World.getInstance().addSystem(system);
-            system.start(World.getInstance());
-        }
+        addSystems();
+
+        world.getEventBus().subscribe(KeyPressedEvent.class, this::keyPressed);
 
         // LOOP
         new AnimationTimer() {
@@ -74,8 +72,35 @@ public class Game {
                 gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
                 // tick all systems
-                World.getInstance().tick(deltaTime);
+                world.tick(deltaTime);
             }
         }.start();
+    }
+
+    private void addSystems() {
+        ServiceLoader<BaseSystem> systems = ServiceLoader.load(BaseSystem.class);
+        for (BaseSystem system : systems){
+            world.addSystem(system);
+            system.start(world);
+        }
+    }
+
+    private void addEntities() {
+        ServiceLoader<EntitySpi> entitySpis = ServiceLoader.load(EntitySpi.class);
+        entitySpis.stream()
+            .map(ServiceLoader.Provider::get)
+            .sorted(Comparator.comparingInt(EntitySpi::getPriority))
+            .forEach(entitySpi -> entitySpi.start(world));
+    }
+
+    private void keyPressed(World world, KeyPressedEvent event) {
+        if(event.keyCode == KeyCode.R){
+            world.clearEntities();
+            world.clearSystems();
+            world.getEventBus().clear();
+            addEntities();
+            addSystems();
+            world.getEventBus().subscribe(KeyPressedEvent.class, this::keyPressed);
+        }
     }
 }

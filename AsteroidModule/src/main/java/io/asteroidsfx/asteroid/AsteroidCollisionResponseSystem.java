@@ -13,7 +13,7 @@ public class AsteroidCollisionResponseSystem extends ResponseSystem {
         world.getEventBus().subscribe(CollisionEvent.class, this::handleCollision);
     }
 
-    private void handleCollision(CollisionEvent event) {
+    private void handleCollision(World world, CollisionEvent event) {
         // If no asteroid in collision, do nothing
         if(!event.hasEntityWith(AsteroidTag.class)) return;
 
@@ -36,7 +36,7 @@ public class AsteroidCollisionResponseSystem extends ResponseSystem {
                                 .rotate(Math.toRadians(60 + i * 240))
                                 .setMag(asteroid.getComponent(VelocityComponent.class).vel.mag());
                 newAsteroid.getComponent(AsteroidSizeComponent.class).size = asteroidSize - 1;
-                World.getInstance().queueAddEntity(newAsteroid);
+                world.queueAddEntity(newAsteroid);
             }
         }
 

@@ -27,7 +27,7 @@ public class OutOfBoundsSystem extends IteratingSystem {
     }
 
     @Override
-    public void processEntity(BaseEntity entity, double deltaTime) {
+    public void processEntity(World world, BaseEntity entity, double deltaTime) {
         PositionComponent positionComponent = entity.getComponent(PositionComponent.class);
         OutOfBoundsComponent outOfBoundsComponent = entity.getComponent(OutOfBoundsComponent.class);
 

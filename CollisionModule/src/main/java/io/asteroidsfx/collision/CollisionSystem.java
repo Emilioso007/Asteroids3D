@@ -22,7 +22,7 @@ public class CollisionSystem extends BaseSystem {
     }
 
     @Override
-    public void update(List<BaseEntity> entities, double deltaTime) {
+    public void update(World world, List<BaseEntity> entities, double deltaTime) {
         for(int i = 0; i < entities.size() - 1; i++){
 
             BaseEntity collider = entities.get(i);
@@ -40,7 +40,7 @@ public class CollisionSystem extends BaseSystem {
                 double distanceBetweenCenters = Vector.dist(colliderPosition.pos, targetPosition.pos);
                 double radiusSum = colliderCircle.radius + targetCircle.radius;
                 if(distanceBetweenCenters <= radiusSum){
-                    World.getInstance().getEventBus().publish(new CollisionEvent(collider, target));
+                    world.getEventBus().publish(world, new CollisionEvent(collider, target));
                 }
             }
         }

@@ -1,6 +1,6 @@
 package io.asteroidsfx.bullet;
 
-import io.asteroidsfx.Ownership.OwnershipComponent;
+import io.asteroidsfx.ownership.OwnershipComponent;
 import io.asteroidsfx.collision.CircleColliderComponent;
 import io.asteroidsfx.common.ecs.BaseEntity;
 import io.asteroidsfx.common.shapes.Ellipse;

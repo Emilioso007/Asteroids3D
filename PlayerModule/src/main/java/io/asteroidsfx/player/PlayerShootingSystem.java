@@ -26,8 +26,8 @@ public class PlayerShootingSystem extends IteratingSystem {
         world.getEventBus().subscribe(KeyReleasedEvent.class, this::keyReleased);
     }
 
-    private void keyPressed(KeyPressedEvent event){
-        if(!World.getInstance().hasEntitiesWith(PlayerTag.class)) return;
+    private void keyPressed(World world, KeyPressedEvent event){
+        if(!world.hasEntitiesWith(PlayerTag.class)) return;
 
         switch (event.keyCode){
             case SPACE:
@@ -36,8 +36,8 @@ public class PlayerShootingSystem extends IteratingSystem {
         }
     }
 
-    private void keyReleased(KeyReleasedEvent event){
-        if(!World.getInstance().hasEntitiesWith(PlayerTag.class)) return;
+    private void keyReleased(World world, KeyReleasedEvent event){
+        if(!world.hasEntitiesWith(PlayerTag.class)) return;
 
         switch (event.keyCode){
             case SPACE:
@@ -47,14 +47,14 @@ public class PlayerShootingSystem extends IteratingSystem {
     }
 
     @Override
-    public void processEntity(BaseEntity player, double deltaTime) {
+    public void processEntity(World world, BaseEntity player, double deltaTime) {
         // Always track time since last shot
         timeSinceLastShot += deltaTime;
 
         if(!isShooting) return;
 
         if (timeSinceLastShot >= shootInterval) {
-            shoot(player);
+            shoot(world, player);
             timeSinceLastShot = 0;
         }
     }
@@ -64,7 +64,7 @@ public class PlayerShootingSystem extends IteratingSystem {
         return List.of(PlayerTag.class);
     }
 
-    private void shoot(BaseEntity player) {
+    private void shoot(World world, BaseEntity player) {
         PositionComponent position = player.getComponent(PositionComponent.class);
         AngleComponent angle = player.getComponent(AngleComponent.class);
 
@@ -75,6 +75,6 @@ public class PlayerShootingSystem extends IteratingSystem {
 
         SpawnEvent event = new SpawnEvent();
         event.entityToSpawn = bullet;
-        World.getInstance().getEventBus().publish(event);
+        world.getEventBus().publish(world, event);
     }
 }

@@ -22,7 +22,7 @@ public abstract class BaseSystem {
     public abstract void start(World world);
 
     public abstract List<Class<? extends BaseComponent>> getSignature();
-    public abstract void update(List<BaseEntity> entities, double deltaTime);
+    public abstract void update(World world, List<BaseEntity> entities, double deltaTime);
 
     /**
      * Gets the priority of this system.

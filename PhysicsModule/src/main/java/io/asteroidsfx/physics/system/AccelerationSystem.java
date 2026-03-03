@@ -11,7 +11,7 @@ import java.util.List;
 
 public class AccelerationSystem extends IteratingSystem {
     @Override
-    public void processEntity(BaseEntity entity, double deltaTime) {
+    public void processEntity(World world, BaseEntity entity, double deltaTime) {
         VelocityComponent velocityComponent = entity.getComponent(VelocityComponent.class);
         AccelerationComponent accelerationComponent = entity.getComponent(AccelerationComponent.class);
         velocityComponent.vel.add(accelerationComponent.acc.copy().mult(deltaTime));

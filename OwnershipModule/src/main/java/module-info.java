@@ -1,4 +1,4 @@
 module Ownership {
     requires Common;
-    exports io.asteroidsfx.Ownership;
+    exports io.asteroidsfx.ownership;
 }

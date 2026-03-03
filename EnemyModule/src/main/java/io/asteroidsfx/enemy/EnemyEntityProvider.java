@@ -6,7 +6,7 @@ import io.asteroidsfx.common.World;
 public class EnemyEntityProvider implements EntitySpi {
     @Override
     public void start(World world) {
-        world.addEntity(new EnemyEntity());
+        world.addEntity(new EnemyEntity(world));
     }
 
     @Override

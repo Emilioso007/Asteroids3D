@@ -5,6 +5,7 @@ import io.asteroidsfx.common.ecs.BaseEntity;
 import io.asteroidsfx.common.event.EventBus;
 import io.asteroidsfx.common.ecs.BaseSystem;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 
 import java.util.*;
 
@@ -23,9 +24,9 @@ public final class World {
 
     private double deltaTime;
 
-    private static World instance = null;
+    private final Image stars;
 
-    private World(){
+    public World(){
         cameraLocation = new io.asteroidsfx.common.util.Vector();
         this.entities = new ArrayList<>();
         entitiesToAdd = new ArrayList<>();
@@ -34,13 +35,8 @@ public final class World {
                 .thenComparingInt(BaseSystem::hashCode);
         this.systems = new TreeSet<>(systemComparator);
         eventBus = new EventBus();
-    }
 
-    public static World getInstance(){
-        if(instance == null) {
-            instance = new World();
-        }
-        return instance;
+        stars = new Image("stars.png");
     }
 
     public EventBus getEventBus(){
@@ -53,11 +49,21 @@ public final class World {
         graphicsContext.save();
         graphicsContext.translate(-cameraLocation.x + screenWidth/2d, -cameraLocation.y + screenHeight/2d);
 
+        // Background image
+        for(int i = -1; i <= 1; i++){
+            for(int j = -1; j <= 1; j++){
+                graphicsContext.save();
+                graphicsContext.translate(i * width, j * height);
+                graphicsContext.drawImage(stars, 0, 0);
+                graphicsContext.restore();
+            }
+        }
+
         for(BaseSystem system : getSystems()){
             List<Class<? extends BaseComponent>> signature = system.getSignature();
 
             if(signature == null || signature.isEmpty()){
-                system.update(new ArrayList<>(), deltaTime);
+                system.update(this, new ArrayList<>(), deltaTime);
                 continue;
             }
 
@@ -67,7 +73,7 @@ public final class World {
                 if(matchesSignature(entity, signature)) filteredEntities.add(entity);
             }
 
-            system.update(filteredEntities, deltaTime);
+            system.update(this, filteredEntities, deltaTime);
         }
 
         graphicsContext.restore();
@@ -159,5 +165,14 @@ public final class World {
 
     public void setGraphicsContext(GraphicsContext graphicsContext) {
         this.graphicsContext = graphicsContext;
+    }
+
+    public void clearEntities() {
+        entities.clear();
+        entitiesToAdd.clear();
+    }
+
+    public void clearSystems() {
+        systems.clear();
     }
 }

@@ -20,15 +20,15 @@ public class EnemySystem extends IntervalIteratingSystem {
     }
 
     @Override
-    public void updateInterval(BaseEntity enemy, double deltaTime) {
-        if(!World.getInstance().hasEntitiesWith(PlayerTag.class)) return;
+    public void updateInterval(World world, BaseEntity enemy, double deltaTime) {
+        if(!world.hasEntitiesWith(PlayerTag.class)) return;
 
-        BaseEntity player = World.getInstance().getEntitiesWith(PlayerTag.class).getFirst();
+        BaseEntity player = world.getEntitiesWith(PlayerTag.class).getFirst();
 
         PositionComponent enemyPosition = enemy.getComponent(PositionComponent.class);
         PositionComponent playerPosition = player.getComponent(PositionComponent.class);
 
-        if(Vector.dist(enemyPosition.pos, playerPosition.pos) > 300) return;
+        if(Vector.dist(enemyPosition.pos, playerPosition.pos) > 400) return;
 
         Vector bulletStart = enemyPosition.pos.copy();
         Vector bulletVelocity = playerPosition.pos.copy().sub(enemyPosition.pos).setMag(400);
@@ -36,7 +36,7 @@ public class EnemySystem extends IntervalIteratingSystem {
         BulletEntity bullet = new BulletEntity(enemy, bulletStart, bulletVelocity);
         SpawnEvent event = new SpawnEvent();
         event.entityToSpawn = bullet;
-        World.getInstance().getEventBus().publish(event);
+        world.getEventBus().publish(world, event);
     }
 
     @Override

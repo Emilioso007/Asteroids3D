@@ -49,7 +49,7 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>io.asteroidsfx.Ownership</groupId>
+            <groupId>io.asteroidsfx.ownership</groupId>
             <artifactId>Ownership</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>

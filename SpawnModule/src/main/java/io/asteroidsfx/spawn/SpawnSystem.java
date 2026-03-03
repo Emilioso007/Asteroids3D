@@ -10,8 +10,8 @@ public class SpawnSystem extends ResponseSystem {
         world.getEventBus().subscribe(SpawnEvent.class, this::handleSpawnEvent);
     }
 
-    private void handleSpawnEvent(SpawnEvent event) {
-        World.getInstance().queueAddEntity(event.entityToSpawn);
+    private void handleSpawnEvent(World world, SpawnEvent event) {
+        world.queueAddEntity(event.entityToSpawn);
     }
 
 }

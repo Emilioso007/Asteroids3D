@@ -23,10 +23,10 @@ public class PlayerMovementSystem extends IteratingSystem {
         world.getEventBus().subscribe(KeyReleasedEvent.class, this::keyReleased);
     }
 
-    private void keyPressed(KeyPressedEvent event) {
-        if(!World.getInstance().hasEntitiesWith(PlayerTag.class)) return;
+    private void keyPressed(World world, KeyPressedEvent event) {
+        if(!world.hasEntitiesWith(PlayerTag.class)) return;
 
-        BaseEntity player = World.getInstance().getEntitiesWith(PlayerTag.class).getFirst();
+        BaseEntity player = world.getEntitiesWith(PlayerTag.class).getFirst();
         switch (event.keyCode){
             case LEFT, A:
                 player.getComponent(RotationComponent.class).dAngle = -Math.PI;
@@ -40,10 +40,10 @@ public class PlayerMovementSystem extends IteratingSystem {
         }
     }
 
-    private void keyReleased(KeyReleasedEvent event) {
-        if(!World.getInstance().hasEntitiesWith(PlayerTag.class)) return;
+    private void keyReleased(World world, KeyReleasedEvent event) {
+        if(!world.hasEntitiesWith(PlayerTag.class)) return;
 
-        BaseEntity player = World.getInstance().getEntitiesWith(PlayerTag.class).getFirst();
+        BaseEntity player = world.getEntitiesWith(PlayerTag.class).getFirst();
         switch (event.keyCode){
             case LEFT, A:
             case RIGHT, D:
@@ -55,7 +55,7 @@ public class PlayerMovementSystem extends IteratingSystem {
     }
 
     @Override
-    public void processEntity(BaseEntity player, double deltaTime) {
+    public void processEntity(World world, BaseEntity player, double deltaTime) {
         if(!accelerating) return;
 
         AccelerationComponent acceleration = player.getComponent(AccelerationComponent.class);

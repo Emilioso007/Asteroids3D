@@ -1,5 +1,7 @@
 package io.asteroidsfx.common.event;
 
+import io.asteroidsfx.common.World;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +19,7 @@ public final class EventBus {
 
     }
 
-    public void publish(BaseEvent event){
+    public void publish(World world, BaseEvent event){
         Class<? extends BaseEvent> eventType = event.getClass();
 
         List<EventListener> registeredListeners = listeners.get(eventType);
@@ -26,7 +28,7 @@ public final class EventBus {
 
             for (EventListener listener : registeredListeners){
 
-                listener.onEvent(event);
+                listener.onEvent(world, event);
 
             }
 
@@ -34,4 +36,7 @@ public final class EventBus {
 
     }
 
+    public void clear() {
+        listeners.clear();
+    }
 }

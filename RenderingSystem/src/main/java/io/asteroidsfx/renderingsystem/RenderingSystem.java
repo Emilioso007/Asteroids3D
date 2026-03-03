@@ -26,7 +26,7 @@ public class RenderingSystem extends IteratingSystem {
     }
 
     @Override
-    public void processEntity(BaseEntity entity, double deltaTime) {
+    public void processEntity(World world, BaseEntity entity, double deltaTime) {
         RenderComponent renderComponent = entity.getComponent(RenderComponent.class);
 
         // If entity has position and/or rotation, use translation/rotation to draw
@@ -36,7 +36,7 @@ public class RenderingSystem extends IteratingSystem {
         for(int i = -1; i <= 1; i++){
             for(int j = -1; j <= 1; j++){
                 graphicsContext.save();
-                graphicsContext.translate(World.getInstance().getWidth()*i, World.getInstance().getHeight()*j);
+                graphicsContext.translate(world.getWidth()*i, world.getHeight()*j);
 
                 graphicsContext.save();
 

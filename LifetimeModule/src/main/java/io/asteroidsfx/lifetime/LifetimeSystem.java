@@ -11,7 +11,7 @@ import java.util.List;
 
 public class LifetimeSystem extends IteratingSystem {
     @Override
-    public void processEntity(BaseEntity entity, double deltaTime) {
+    public void processEntity(World world, BaseEntity entity, double deltaTime) {
         LifetimeComponent lifetimeComponent = entity.getComponent(LifetimeComponent.class);
         if (Duration.between(lifetimeComponent.startTime, Instant.now()).compareTo(lifetimeComponent.lifetime)>=0){
             entity.setToBeRemoved(true);

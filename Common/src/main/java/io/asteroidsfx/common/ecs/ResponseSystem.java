@@ -1,5 +1,7 @@
 package io.asteroidsfx.common.ecs;
 
+import io.asteroidsfx.common.World;
+
 import java.util.List;
 
 public abstract class ResponseSystem extends BaseSystem {
@@ -10,5 +12,5 @@ public abstract class ResponseSystem extends BaseSystem {
     }
 
     @Override
-    public final void update(List<BaseEntity> entities, double deltaTime){}
+    public final void update(World world, List<BaseEntity> entities, double deltaTime){}
 }

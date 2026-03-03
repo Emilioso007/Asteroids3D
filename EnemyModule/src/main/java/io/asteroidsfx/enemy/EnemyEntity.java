@@ -15,12 +15,12 @@ import javafx.scene.paint.Color;
 
 public class EnemyEntity extends BaseEntity {
 
-    public EnemyEntity(){
+    public EnemyEntity(World world){
 
         this.addComponent(new EnemyTag());
 
         PositionComponent positionComponent = new PositionComponent();
-        positionComponent.pos = new Vector(World.getInstance().getWidth() * 0.25f, World.getInstance().getHeight() * 0.5f);
+        positionComponent.pos = new Vector(world.getWidth() * 0.25f, world.getHeight() * 0.5f);
         this.addComponent(positionComponent);
 
         VelocityComponent velocityComponent = new VelocityComponent();
