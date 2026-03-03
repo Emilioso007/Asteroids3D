@@ -57,10 +57,10 @@ public class AsteroidEntity extends BaseEntity {
         this.addComponent(renderComponent);
 
         OutOfBoundsComponent outOfBoundsComponent = new OutOfBoundsComponent();
-        outOfBoundsComponent.rightExtent = 100;
-        outOfBoundsComponent.leftExtent = -100;
-        outOfBoundsComponent.bottomExtent = 100;
-        outOfBoundsComponent.topExtent = -100;
+        //outOfBoundsComponent.rightExtent = 100;
+        //outOfBoundsComponent.leftExtent = -100;
+        //outOfBoundsComponent.bottomExtent = 100;
+        //outOfBoundsComponent.topExtent = -100;
         outOfBoundsComponent.boundsAction = BoundsAction.WRAP;
         this.addComponent(outOfBoundsComponent);
 

@@ -33,19 +33,28 @@ public class RenderingSystem extends IteratingSystem {
         PositionComponent positionComponent = entity.getComponent(PositionComponent.class);
         AngleComponent angleComponent = entity.getComponent(AngleComponent.class);
 
-        graphicsContext.save();
+        for(int i = -1; i <= 1; i++){
+            for(int j = -1; j <= 1; j++){
+                graphicsContext.save();
+                graphicsContext.translate(World.getInstance().getWidth()*i, World.getInstance().getHeight()*j);
 
-        graphicsContext.translate(renderComponent.shape.xOffset, renderComponent.shape.yOffset);
+                graphicsContext.save();
 
-        if(positionComponent != null){
-            graphicsContext.translate(positionComponent.pos.x, positionComponent.pos.y);
+                graphicsContext.translate(renderComponent.shape.xOffset, renderComponent.shape.yOffset);
+
+                if(positionComponent != null){
+                    graphicsContext.translate(positionComponent.pos.x, positionComponent.pos.y);
+                }
+                if(angleComponent != null){
+                    graphicsContext.rotate(Math.toDegrees(angleComponent.angle));
+                }
+
+                renderComponent.shape.draw(graphicsContext);
+
+                graphicsContext.restore();
+
+                graphicsContext.restore();
+            }
         }
-        if(angleComponent != null){
-            graphicsContext.rotate(Math.toDegrees(angleComponent.angle));
-        }
-
-        renderComponent.shape.draw(graphicsContext);
-
-        graphicsContext.restore();
     }
 }

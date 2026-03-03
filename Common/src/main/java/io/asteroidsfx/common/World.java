@@ -12,6 +12,9 @@ public final class World {
 
     private int width;
     private int height;
+    public int screenWidth;
+    public int screenHeight;
+    public io.asteroidsfx.common.util.Vector cameraLocation;
     private GraphicsContext graphicsContext;
     private final List<BaseEntity> entities;
     private final List<BaseEntity> entitiesToAdd;
@@ -23,6 +26,7 @@ public final class World {
     private static World instance = null;
 
     private World(){
+        cameraLocation = new io.asteroidsfx.common.util.Vector();
         this.entities = new ArrayList<>();
         entitiesToAdd = new ArrayList<>();
         Comparator<BaseSystem> systemComparator =
@@ -46,6 +50,9 @@ public final class World {
     public void tick(double deltaTime){
         this.deltaTime = deltaTime;
 
+        graphicsContext.save();
+        graphicsContext.translate(-cameraLocation.x + screenWidth/2d, -cameraLocation.y + screenHeight/2d);
+
         for(BaseSystem system : getSystems()){
             List<Class<? extends BaseComponent>> signature = system.getSignature();
 
@@ -62,6 +69,9 @@ public final class World {
 
             system.update(filteredEntities, deltaTime);
         }
+
+        graphicsContext.restore();
+
         getEntities().removeIf(BaseEntity::isToBeRemoved);
         getEntities().addAll(entitiesToAdd);
         entitiesToAdd.clear();

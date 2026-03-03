@@ -9,6 +9,7 @@ module Bullet {
     requires Collision;
     requires Physics;
     requires Ownership;
+    requires Lifetime;
     exports io.asteroidsfx.bullet;
 
     provides BaseSystem with BulletCollisionResponseSystem;

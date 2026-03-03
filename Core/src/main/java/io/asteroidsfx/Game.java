@@ -22,10 +22,17 @@ public class Game {
 
     public void start(Stage window) {
 
-        World.getInstance().setWidth(800);
-        World.getInstance().setHeight(800);
+        int screenWidth = 800;
+        int screenHeight = 800;
+        int worldWidth = 1600;
+        int worldHeight = 1600;
 
-        Canvas canvas = new Canvas(World.getInstance().getWidth(), World.getInstance().getHeight());
+        World.getInstance().setWidth(worldWidth);
+        World.getInstance().setHeight(worldHeight);
+        World.getInstance().screenWidth = screenWidth;
+        World.getInstance().screenHeight = screenHeight;
+
+        Canvas canvas = new Canvas(screenWidth, screenHeight);
         gc = canvas.getGraphicsContext2D();
 
         World.getInstance().setGraphicsContext(gc);

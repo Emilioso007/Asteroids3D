@@ -5,12 +5,15 @@ import io.asteroidsfx.collision.CircleColliderComponent;
 import io.asteroidsfx.common.ecs.BaseEntity;
 import io.asteroidsfx.common.shapes.Ellipse;
 import io.asteroidsfx.common.util.Vector;
+import io.asteroidsfx.lifetime.LifetimeComponent;
 import io.asteroidsfx.outofbounds.BoundsAction;
 import io.asteroidsfx.outofbounds.OutOfBoundsComponent;
 import io.asteroidsfx.physics.component.PositionComponent;
 import io.asteroidsfx.physics.component.VelocityComponent;
 import io.asteroidsfx.rendercomponent.RenderComponent;
 import javafx.scene.paint.Color;
+
+import java.time.Duration;
 
 public class BulletEntity extends BaseEntity {
 
@@ -39,12 +42,15 @@ public class BulletEntity extends BaseEntity {
         this.addComponent(renderComponent);
 
         OutOfBoundsComponent outOfBoundsComponent = new OutOfBoundsComponent();
-        outOfBoundsComponent.leftExtent = -2.5;
-        outOfBoundsComponent.rightExtent = 2.5;
-        outOfBoundsComponent.topExtent = -2.5;
-        outOfBoundsComponent.bottomExtent = 2.5;
-        outOfBoundsComponent.boundsAction = BoundsAction.REMOVE;
+        //outOfBoundsComponent.leftExtent = -2.5;
+        //outOfBoundsComponent.rightExtent = 2.5;
+        //outOfBoundsComponent.topExtent = -2.5;
+        //outOfBoundsComponent.bottomExtent = 2.5;
+        outOfBoundsComponent.boundsAction = BoundsAction.WRAP;
         this.addComponent(outOfBoundsComponent);
+
+        LifetimeComponent lifetimeComponent = new LifetimeComponent(Duration.ofSeconds(2));
+        this.addComponent(lifetimeComponent);
 
     }
 

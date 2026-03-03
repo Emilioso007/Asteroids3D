@@ -22,6 +22,7 @@
         <module>SpawnModule</module>
         <module>PhysicsModule</module>
         <module>OwnershipModule</module>
+        <module>LifetimeModule</module>
     </modules>
 
     <properties>

@@ -28,8 +28,10 @@ public class EnemySystem extends IntervalIteratingSystem {
         PositionComponent enemyPosition = enemy.getComponent(PositionComponent.class);
         PositionComponent playerPosition = player.getComponent(PositionComponent.class);
 
+        if(Vector.dist(enemyPosition.pos, playerPosition.pos) > 300) return;
+
         Vector bulletStart = enemyPosition.pos.copy();
-        Vector bulletVelocity = playerPosition.pos.copy().sub(enemyPosition.pos).setMag(600);
+        Vector bulletVelocity = playerPosition.pos.copy().sub(enemyPosition.pos).setMag(400);
 
         BulletEntity bullet = new BulletEntity(enemy, bulletStart, bulletVelocity);
         SpawnEvent event = new SpawnEvent();
