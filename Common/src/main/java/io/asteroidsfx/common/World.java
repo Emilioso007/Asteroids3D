@@ -59,7 +59,7 @@ public final class World {
             }
         }
 
-        for(BaseSystem system : getSystems()){
+        for(BaseSystem system : systems){
             List<Class<? extends BaseComponent>> signature = system.getSignature();
 
             if(signature == null || signature.isEmpty()){

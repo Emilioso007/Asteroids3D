@@ -13,7 +13,7 @@ public class RotationSystem extends IteratingSystem {
 
     @Override
     public void start(World world) {
-
+        this.setPriority(30);
     }
 
     @Override

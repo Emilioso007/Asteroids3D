@@ -11,16 +11,16 @@ import java.util.List;
 
 public class LifetimeSystem extends IteratingSystem {
     @Override
+    public void start(World world) {
+        this.setPriority(0);
+    }
+
+    @Override
     public void processEntity(World world, BaseEntity entity, double deltaTime) {
         LifetimeComponent lifetimeComponent = entity.getComponent(LifetimeComponent.class);
         if (Duration.between(lifetimeComponent.startTime, Instant.now()).compareTo(lifetimeComponent.lifetime)>=0){
             entity.setToBeRemoved(true);
         }
-    }
-
-    @Override
-    public void start(World world) {
-
     }
 
     @Override

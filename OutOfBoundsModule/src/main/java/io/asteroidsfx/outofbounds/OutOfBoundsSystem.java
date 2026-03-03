@@ -15,6 +15,7 @@ public class OutOfBoundsSystem extends IteratingSystem {
 
     @Override
     public void start(World world) {
+        this.setPriority(25);
         this.minX = 0;
         this.maxX = world.getWidth();
         this.minY = 0;

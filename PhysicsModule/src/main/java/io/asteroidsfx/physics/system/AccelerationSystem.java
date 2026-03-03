@@ -10,6 +10,12 @@ import io.asteroidsfx.physics.component.VelocityComponent;
 import java.util.List;
 
 public class AccelerationSystem extends IteratingSystem {
+
+    @Override
+    public void start(World world) {
+        this.setPriority(20);
+    }
+
     @Override
     public void processEntity(World world, BaseEntity entity, double deltaTime) {
         VelocityComponent velocityComponent = entity.getComponent(VelocityComponent.class);
@@ -23,8 +29,4 @@ public class AccelerationSystem extends IteratingSystem {
         return List.of(VelocityComponent.class, AccelerationComponent.class);
     }
 
-    @Override
-    public void start(World world) {
-        this.setPriority(20);
-    }
 }

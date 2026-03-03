@@ -13,7 +13,7 @@ public class CollisionSystem extends BaseSystem {
 
     @Override
     public void start(World world) {
-
+        this.setPriority(70);
     }
 
     @Override

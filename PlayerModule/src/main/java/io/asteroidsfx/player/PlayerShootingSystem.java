@@ -21,6 +21,7 @@ public class PlayerShootingSystem extends IteratingSystem {
 
     @Override
     public void start(World world) {
+        this.setPriority(10);
         this.timeSinceLastShot = shootInterval;
         world.getEventBus().subscribe(KeyPressedEvent.class, this::keyPressed);
         world.getEventBus().subscribe(KeyReleasedEvent.class, this::keyReleased);

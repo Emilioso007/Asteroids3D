@@ -19,6 +19,7 @@ public class PlayerMovementSystem extends IteratingSystem {
 
     @Override
     public void start(World world) {
+        this.setPriority(5);
         world.getEventBus().subscribe(KeyPressedEvent.class, this::keyPressed);
         world.getEventBus().subscribe(KeyReleasedEvent.class, this::keyReleased);
     }

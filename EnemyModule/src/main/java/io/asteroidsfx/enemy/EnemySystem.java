@@ -16,6 +16,7 @@ public class EnemySystem extends IntervalIteratingSystem {
 
     @Override
     public void start(World world) {
+        this.setPriority(30);
         this.interval = 2.0;
     }
 
