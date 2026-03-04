@@ -32,7 +32,7 @@ public final class World {
         entitiesToAdd = new ArrayList<>();
         Comparator<BaseSystem> systemComparator =
                 Comparator.comparing(BaseSystem::getPriority)
-                .thenComparingInt(BaseSystem::hashCode);
+                .thenComparing(system -> system.getClass().getName());
         this.systems = new TreeSet<>(systemComparator);
         eventBus = new EventBus();
 
@@ -46,20 +46,10 @@ public final class World {
     public void tick(double deltaTime){
         this.deltaTime = deltaTime;
 
-        graphicsContext.save();
-        graphicsContext.translate(-cameraLocation.x + screenWidth/2d, -cameraLocation.y + screenHeight/2d);
-
-        // Background image
-        for(int i = -1; i <= 1; i++){
-            for(int j = -1; j <= 1; j++){
-                graphicsContext.save();
-                graphicsContext.translate(i * width, j * height);
-                graphicsContext.drawImage(stars, 0, 0);
-                graphicsContext.restore();
-            }
-        }
-
         for(BaseSystem system : systems){
+
+            if(system.getPriority() == 100) continue;
+
             List<Class<? extends BaseComponent>> signature = system.getSignature();
 
             if(signature == null || signature.isEmpty()){
@@ -75,6 +65,39 @@ public final class World {
 
             system.update(this, filteredEntities, deltaTime);
         }
+
+        graphicsContext.save();
+        graphicsContext.translate(-cameraLocation.x + screenWidth/2d, -cameraLocation.y + screenHeight/2d);
+
+        // Background image
+        for(int i = -1; i <= 1; i++){
+            for(int j = -1; j <= 1; j++){
+                graphicsContext.save();
+                graphicsContext.translate(i * width, j * height);
+                graphicsContext.drawImage(stars, 0, 0);
+                graphicsContext.restore();
+            }
+        }
+
+        for (BaseSystem system : systems) {
+            if(system.getPriority() != 100) continue;
+
+            List<Class<? extends BaseComponent>> signature = system.getSignature();
+
+            if(signature == null || signature.isEmpty()){
+                system.update(this, new ArrayList<>(), deltaTime);
+                continue;
+            }
+
+            List<BaseEntity> filteredEntities = new ArrayList<>();
+
+            for(BaseEntity entity : getEntities()){
+                if(matchesSignature(entity, signature)) filteredEntities.add(entity);
+            }
+
+            system.update(this, filteredEntities, deltaTime);
+        }
+
 
         graphicsContext.restore();
 

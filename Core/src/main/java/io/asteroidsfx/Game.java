@@ -80,8 +80,8 @@ public class Game {
     private void addSystems() {
         ServiceLoader<BaseSystem> systems = ServiceLoader.load(BaseSystem.class);
         for (BaseSystem system : systems){
-            world.addSystem(system);
             system.start(world);
+            world.addSystem(system);
         }
     }
 
