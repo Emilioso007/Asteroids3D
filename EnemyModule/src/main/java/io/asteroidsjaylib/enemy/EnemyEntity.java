@@ -13,6 +13,7 @@ import io.asteroidsjaylib.physics.component.VelocityComponent;
 import io.asteroidsjaylib.rendercomponent.RenderComponent;
 
 import static com.raylib.Colors.*;
+import static com.raylib.Raylib.*;
 
 public class EnemyEntity extends BaseEntity {
 
@@ -33,7 +34,7 @@ public class EnemyEntity extends BaseEntity {
         this.addComponent(angleComponent);
 
         RenderComponent renderComponent = new RenderComponent();
-        renderComponent.shape = new Ellipse(60, 40, DARKBROWN, RED, 4);
+        renderComponent.shape = new Ellipse(60, 40, GetColor(0x8b0000ff), RED, 4);
         this.addComponent(renderComponent);
 
         OutOfBoundsComponent outOfBoundsComponent = new OutOfBoundsComponent();

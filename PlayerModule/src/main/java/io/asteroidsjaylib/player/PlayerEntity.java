@@ -10,6 +10,7 @@ import io.asteroidsjaylib.physics.component.*;
 import io.asteroidsjaylib.rendercomponent.RenderComponent;
 
 import static com.raylib.Colors.*;
+import static com.raylib.Raylib.GetColor;
 
 public class PlayerEntity extends BaseEntity {
 
@@ -52,7 +53,7 @@ public class PlayerEntity extends BaseEntity {
         }
         xs[0] = 60;
 
-        renderComponent.shape = new Polygon(xs, ys, BLUE, LIME, 4);
+        renderComponent.shape = new Polygon(xs, ys, BLUE, GetColor(0x00ffffff), 4);
 
         this.addComponent(renderComponent);
 

@@ -24,18 +24,8 @@ public class Ellipse extends BaseShape{
     @Override
     public void draw() {
 
-        Raylib.DrawEllipse(0, 0, (float) (height/2), (float) (width/2), strokeColor);
-        Raylib.DrawEllipse(0, 0, (float) (height/2-strokeWeight), (float) (width/2-strokeWeight), fillColor);
+        Raylib.DrawEllipse(0, 0, (float) (width/2), (float) (height/2), strokeColor);
+        Raylib.DrawEllipse(0, 0, (float) (width/2-strokeWeight), (float) (height/2-strokeWeight), fillColor);
 
-        /*
-        graphicsContext.setFill(fillColor);
-        graphicsContext.setStroke(strokeColor);
-        graphicsContext.setLineWidth(strokeWeight);
-
-        double x = -width/2;
-        double y = -height/2;
-        graphicsContext.fillOval(x, y, width, height);
-        graphicsContext.strokeOval(x, y, width, height);
-         */
     }
 }
