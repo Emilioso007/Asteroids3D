@@ -4,12 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>io.asteroidsfx</groupId>
-        <artifactId>AsteroidsFX</artifactId>
+        <groupId>io.asteroidsjaylib</groupId>
+        <artifactId>AsteroidsJaylib</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>io.asteroidsfx.bullet</groupId>
+    <groupId>io.asteroidsjaylib.bullet</groupId>
     <artifactId>Bullet</artifactId>
 
     <properties>
@@ -19,43 +19,43 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>io.asteroidsfx</groupId>
+            <groupId>io.asteroidsjaylib</groupId>
             <artifactId>Common</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>io.asteroidsfx</groupId>
+            <groupId>io.asteroidsjaylib</groupId>
             <artifactId>RenderComponent</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>io.asteroidsfx.outofbounds</groupId>
+            <groupId>io.asteroidsjaylib.outofbounds</groupId>
             <artifactId>OutOfBounds</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>io.asteroidsfx.collision</groupId>
+            <groupId>io.asteroidsjaylib.collision</groupId>
             <artifactId>Collision</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>io.asteroidsfx.physics</groupId>
+            <groupId>io.asteroidsjaylib.physics</groupId>
             <artifactId>Physics</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>io.asteroidsfx.ownership</groupId>
+            <groupId>io.asteroidsjaylib.ownership</groupId>
             <artifactId>Ownership</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>io.asteroidsfx.lifetime</groupId>
+            <groupId>io.asteroidsjaylib.lifetime</groupId>
             <artifactId>Lifetime</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>

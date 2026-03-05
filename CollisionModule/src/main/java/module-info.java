@@ -1,9 +1,9 @@
-import io.asteroidsfx.common.ecs.BaseSystem;
+import io.asteroidsjaylib.common.ecs.BaseSystem;
 
 module Collision {
-    exports io.asteroidsfx.collision;
+    exports io.asteroidsjaylib.collision;
     requires Common;
     requires Physics;
 
-    provides BaseSystem with io.asteroidsfx.collision.CollisionSystem;
+    provides BaseSystem with io.asteroidsjaylib.collision.CollisionSystem;
 }

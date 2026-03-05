@@ -1,9 +1,9 @@
 module Common {
-    requires javafx.graphics;
-    exports io.asteroidsfx.common;
-    exports io.asteroidsfx.common.ecs;
-    exports io.asteroidsfx.common.event;
-    exports io.asteroidsfx.common.event.input;
-    exports io.asteroidsfx.common.shapes;
-    exports io.asteroidsfx.common.util;
+    requires jaylib;
+    exports io.asteroidsjaylib.common;
+    exports io.asteroidsjaylib.common.ecs;
+    exports io.asteroidsjaylib.common.event;
+    exports io.asteroidsjaylib.common.event.input;
+    exports io.asteroidsjaylib.common.shapes;
+    exports io.asteroidsjaylib.common.util;
 }

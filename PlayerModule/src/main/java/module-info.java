@@ -1,14 +1,13 @@
-import io.asteroidsfx.common.ecs.BaseSystem;
-import io.asteroidsfx.common.ecs.EntitySpi;
-import io.asteroidsfx.player.PlayerCollisionResponseSystem;
-import io.asteroidsfx.player.PlayerEntityProvider;
-import io.asteroidsfx.player.PlayerMovementSystem;
-import io.asteroidsfx.player.PlayerShootingSystem;
+import io.asteroidsjaylib.common.ecs.BaseSystem;
+import io.asteroidsjaylib.common.ecs.EntitySpi;
+import io.asteroidsjaylib.player.PlayerCollisionResponseSystem;
+import io.asteroidsjaylib.player.PlayerEntityProvider;
+import io.asteroidsjaylib.player.PlayerMovementSystem;
+import io.asteroidsjaylib.player.PlayerShootingSystem;
 
 module Player {
-    exports io.asteroidsfx.player;
+    exports io.asteroidsjaylib.player;
     requires Common;
-    requires javafx.graphics;
     requires RenderComponent;
     requires OutOfBounds;
     requires Collision;
@@ -16,6 +15,7 @@ module Player {
     requires Spawn;
     requires Physics;
     requires Ownership;
+    requires jaylib;
 
     provides EntitySpi with PlayerEntityProvider;
     provides BaseSystem with PlayerShootingSystem, PlayerMovementSystem, PlayerCollisionResponseSystem;

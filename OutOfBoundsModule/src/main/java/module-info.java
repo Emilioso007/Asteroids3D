@@ -1,9 +1,9 @@
-import io.asteroidsfx.common.ecs.BaseSystem;
+import io.asteroidsjaylib.common.ecs.BaseSystem;
 
 module OutOfBounds {
-    exports io.asteroidsfx.outofbounds;
+    exports io.asteroidsjaylib.outofbounds;
     requires Common;
     requires Physics;
 
-    provides BaseSystem with io.asteroidsfx.outofbounds.OutOfBoundsSystem;
+    provides BaseSystem with io.asteroidsjaylib.outofbounds.OutOfBoundsSystem;
 }

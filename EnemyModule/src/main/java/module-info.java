@@ -1,12 +1,11 @@
-import io.asteroidsfx.common.ecs.EntitySpi;
-import io.asteroidsfx.common.ecs.BaseSystem;
-import io.asteroidsfx.enemy.EnemyCollisionResponseSystem;
-import io.asteroidsfx.enemy.EnemyEntityProvider;
-import io.asteroidsfx.enemy.EnemySystem;
+import io.asteroidsjaylib.common.ecs.EntitySpi;
+import io.asteroidsjaylib.common.ecs.BaseSystem;
+import io.asteroidsjaylib.enemy.EnemyCollisionResponseSystem;
+import io.asteroidsjaylib.enemy.EnemyEntityProvider;
+import io.asteroidsjaylib.enemy.EnemySystem;
 
 module Enemy {
     requires Common;
-    requires javafx.graphics;
     requires RenderComponent;
     requires Player;
     requires OutOfBounds;
@@ -15,6 +14,8 @@ module Enemy {
     requires Spawn;
     requires Physics;
     requires Ownership;
+
+    requires jaylib;
 
     provides EntitySpi with EnemyEntityProvider;
     provides BaseSystem with EnemySystem, EnemyCollisionResponseSystem;

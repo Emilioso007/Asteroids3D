@@ -1,7 +1,7 @@
-import io.asteroidsfx.common.ecs.BaseSystem;
+import io.asteroidsjaylib.common.ecs.BaseSystem;
 
 module Spawn {
     requires Common;
-    exports io.asteroidsfx.spawn;
-    provides BaseSystem with io.asteroidsfx.spawn.SpawnSystem;
+    exports io.asteroidsjaylib.spawn;
+    provides BaseSystem with io.asteroidsjaylib.spawn.SpawnSystem;
 }
