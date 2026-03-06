@@ -25,12 +25,6 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>io.asteroidsjaylib</groupId>
-            <artifactId>RenderComponent</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>io.asteroidsjaylib.player</groupId>
             <artifactId>Player</artifactId>
             <version>1.0-SNAPSHOT</version>

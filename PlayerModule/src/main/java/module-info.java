@@ -8,7 +8,6 @@ import io.asteroidsjaylib.player.PlayerShootingSystem;
 module Player {
     exports io.asteroidsjaylib.player;
     requires Common;
-    requires RenderComponent;
     requires OutOfBounds;
     requires Collision;
     requires Bullet;
@@ -16,6 +15,7 @@ module Player {
     requires Physics;
     requires Ownership;
     requires jaylib;
+    requires Render;
 
     provides EntitySpi with PlayerEntityProvider;
     provides BaseSystem with PlayerShootingSystem, PlayerMovementSystem, PlayerCollisionResponseSystem;

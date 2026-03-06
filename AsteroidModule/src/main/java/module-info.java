@@ -7,10 +7,10 @@ module Asteroid {
     requires Collision;
     requires Common;
     requires OutOfBounds;
-    requires RenderComponent;
     requires Physics;
 
     requires jaylib;
+    requires Render;
 
     exports io.asteroidsjaylib.asteroid;
 

@@ -3,14 +3,15 @@ package io.asteroidsjaylib.bullet;
 import io.asteroidsjaylib.ownership.OwnershipComponent;
 import io.asteroidsjaylib.collision.CircleColliderComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
-import io.asteroidsjaylib.common.shapes.Ellipse;
 import io.asteroidsjaylib.common.util.Vector;
 import io.asteroidsjaylib.lifetime.LifetimeComponent;
 import io.asteroidsjaylib.outofbounds.BoundsAction;
 import io.asteroidsjaylib.outofbounds.OutOfBoundsComponent;
 import io.asteroidsjaylib.physics.component.PositionComponent;
 import io.asteroidsjaylib.physics.component.VelocityComponent;
-import io.asteroidsjaylib.rendercomponent.RenderComponent;
+import io.asteroidsjaylib.render.component.ShapeComponent;
+import io.asteroidsjaylib.render.shapes.BaseShape;
+import io.asteroidsjaylib.render.shapes.Ellipse;
 
 import static com.raylib.Colors.*;
 
@@ -38,9 +39,9 @@ public class BulletEntity extends BaseEntity {
         circleColliderComponent.radius = 2.5;
         this.addComponent(circleColliderComponent);
 
-        RenderComponent renderComponent = new RenderComponent();
-        renderComponent.shape = new Ellipse(5, 5, LIGHTGRAY);
-        this.addComponent(renderComponent);
+        BaseShape shape = new Ellipse(5, 5, LIGHTGRAY);
+        ShapeComponent shapeComponent = new ShapeComponent(shape);
+        this.addComponent(shapeComponent);
 
         OutOfBoundsComponent outOfBoundsComponent = new OutOfBoundsComponent();
         //outOfBoundsComponent.leftExtent = -2.5;

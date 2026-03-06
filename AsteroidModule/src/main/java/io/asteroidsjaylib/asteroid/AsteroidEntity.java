@@ -2,7 +2,6 @@ package io.asteroidsjaylib.asteroid;
 
 import io.asteroidsjaylib.collision.CircleColliderComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
-import io.asteroidsjaylib.common.shapes.Polygon;
 import io.asteroidsjaylib.common.util.Vector;
 import io.asteroidsjaylib.outofbounds.BoundsAction;
 import io.asteroidsjaylib.outofbounds.OutOfBoundsComponent;
@@ -10,7 +9,9 @@ import io.asteroidsjaylib.physics.component.AngleComponent;
 import io.asteroidsjaylib.physics.component.PositionComponent;
 import io.asteroidsjaylib.physics.component.RotationComponent;
 import io.asteroidsjaylib.physics.component.VelocityComponent;
-import io.asteroidsjaylib.rendercomponent.RenderComponent;
+import io.asteroidsjaylib.render.component.ShapeComponent;
+import io.asteroidsjaylib.render.shapes.BaseShape;
+import io.asteroidsjaylib.render.shapes.Polygon;
 
 import static com.raylib.Colors.*;
 
@@ -44,8 +45,6 @@ public class AsteroidEntity extends BaseEntity {
         rotationComponent.dAngle = Math.toRadians(random.nextInt(45, 135));
         this.addComponent(rotationComponent);
 
-        RenderComponent renderComponent = new RenderComponent();
-
         int points = random.nextInt(4, 13);
         double[] xs = new double[points];
         double[] ys = new double[points];
@@ -60,8 +59,9 @@ public class AsteroidEntity extends BaseEntity {
             ys[i] = Math.sin(i*angleBetween)*random.nextInt(min, max);
         }
 
-        renderComponent.shape = new Polygon(xs, ys, DARKGRAY, GRAY, 2);
-        this.addComponent(renderComponent);
+        BaseShape shape = new Polygon(xs, ys, DARKGRAY, GRAY, 2);
+        ShapeComponent shapeComponent = new ShapeComponent(shape);
+        this.addComponent(shapeComponent);
 
         OutOfBoundsComponent outOfBoundsComponent = new OutOfBoundsComponent();
         //outOfBoundsComponent.rightExtent = 100;

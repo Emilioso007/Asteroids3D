@@ -9,8 +9,8 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>io.asteroidsjaylib.player</groupId>
-    <artifactId>Player</artifactId>
+    <groupId>io.asteroidsjaylib.render</groupId>
+    <artifactId>Render</artifactId>
 
     <properties>
         <maven.compiler.source>22</maven.compiler.source>
@@ -24,32 +24,13 @@
             <version>[5.5.0,5.6)</version>
         </dependency>
         <dependency>
+            <groupId>io.asteroidsjaylib.physics</groupId>
+            <artifactId>Physics</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>io.asteroidsjaylib</groupId>
             <artifactId>Common</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.asteroidsjaylib.outofbounds</groupId>
-            <artifactId>OutOfBounds</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.asteroidsjaylib.collision</groupId>
-            <artifactId>Collision</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.asteroidsjaylib.spawn</groupId>
-            <artifactId>Spawn</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.asteroidsjaylib.bullet</groupId>
-            <artifactId>Bullet</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>

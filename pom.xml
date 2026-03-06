@@ -10,9 +10,9 @@
     <packaging>pom</packaging>
     <modules>
         <module>Core</module>
-        <module>Common</module>
-        <module>RenderComponent</module>
-        <module>RenderingSystem</module>
+        <module>CommonModule</module>
+        <module>PhysicsModule</module>
+        <module>RenderModule</module>
         <module>AsteroidModule</module>
         <module>PlayerModule</module>
         <module>CollisionModule</module>
@@ -20,7 +20,6 @@
         <module>OutOfBoundsModule</module>
         <module>EnemyModule</module>
         <module>SpawnModule</module>
-        <module>PhysicsModule</module>
         <module>OwnershipModule</module>
         <module>LifetimeModule</module>
     </modules>

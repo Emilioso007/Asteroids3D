@@ -3,7 +3,6 @@ import io.asteroidsjaylib.common.ecs.BaseSystem;
 
 module Bullet {
     requires Common;
-    requires RenderComponent;
     requires OutOfBounds;
     requires Collision;
     requires Physics;
@@ -11,6 +10,7 @@ module Bullet {
     requires Lifetime;
 
     requires jaylib;
+    requires Render;
 
     exports io.asteroidsjaylib.bullet;
 

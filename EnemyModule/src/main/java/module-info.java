@@ -6,7 +6,6 @@ import io.asteroidsjaylib.enemy.EnemySystem;
 
 module Enemy {
     requires Common;
-    requires RenderComponent;
     requires Player;
     requires OutOfBounds;
     requires Collision;
@@ -16,6 +15,7 @@ module Enemy {
     requires Ownership;
 
     requires jaylib;
+    requires Render;
 
     provides EntitySpi with EnemyEntityProvider;
     provides BaseSystem with EnemySystem, EnemyCollisionResponseSystem;

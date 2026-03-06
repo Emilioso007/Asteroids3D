@@ -2,12 +2,13 @@ package io.asteroidsjaylib.player;
 
 import io.asteroidsjaylib.collision.CircleColliderComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
-import io.asteroidsjaylib.common.shapes.Polygon;
 import io.asteroidsjaylib.common.util.Vector;
 import io.asteroidsjaylib.outofbounds.BoundsAction;
 import io.asteroidsjaylib.outofbounds.OutOfBoundsComponent;
 import io.asteroidsjaylib.physics.component.*;
-import io.asteroidsjaylib.rendercomponent.RenderComponent;
+import io.asteroidsjaylib.render.component.ShapeComponent;
+import io.asteroidsjaylib.render.shapes.BaseShape;
+import io.asteroidsjaylib.render.shapes.Polygon;
 
 import static com.raylib.Colors.*;
 import static com.raylib.Raylib.GetColor;
@@ -42,8 +43,6 @@ public class PlayerEntity extends BaseEntity {
         this.addComponent(dragComponent);
 
 
-        RenderComponent renderComponent = new RenderComponent();
-
         double[] xs = new double[3];
         double[] ys = new double[3];
 
@@ -53,9 +52,10 @@ public class PlayerEntity extends BaseEntity {
         }
         xs[0] = 60;
 
-        renderComponent.shape = new Polygon(xs, ys, BLUE, GetColor(0x00ffffff), 4);
+        BaseShape shape = new Polygon(xs, ys, BLUE, GetColor(0x00ffffff), 4);
 
-        this.addComponent(renderComponent);
+        ShapeComponent shapeComponent = new ShapeComponent(shape);
+        this.addComponent(shapeComponent);
 
         OutOfBoundsComponent outOfBoundsComponent = new OutOfBoundsComponent();
         //outOfBoundsComponent.topExtent = -60;
