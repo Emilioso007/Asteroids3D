@@ -1,5 +1,6 @@
 package io.asteroidsjaylib.player;
 
+import io.asteroidsjaylib.coincommon.CoinTag;
 import io.asteroidsjaylib.collisioncommon.CollisionEvent;
 import io.asteroidsjaylib.common.World;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
@@ -22,6 +23,7 @@ public class PlayerCollisionResponseSystem extends ResponseSystem {
 
         // If collider is also player, do nothing
         if (collider.hasComponent(PlayerTag.class)) return;
+        if (collider.hasComponent(CoinTag.class)) return;
 
         // If collider owner is player, do nothing
         if (collider.hasComponent(OwnershipComponent.class)

@@ -67,7 +67,14 @@ public class RenderSystem extends BulkSystem {
                     for (int j = -1; j <= 1; j++) {
                         rlPushMatrix();
                         rlTranslatef(i * w, j * h, 0);
+
+                        rlPushMatrix();
+                        rlTranslatef((float) component.xoffset, (float) component.yoffset, 0);
+
                         component.draw(result.position(), result.angle);
+
+                        rlPopMatrix();
+
                         rlPopMatrix();
                     }
                 }

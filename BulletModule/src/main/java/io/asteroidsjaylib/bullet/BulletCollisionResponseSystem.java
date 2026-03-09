@@ -1,6 +1,7 @@
 package io.asteroidsjaylib.bullet;
 
 import io.asteroidsjaylib.bulletcommon.BulletTag;
+import io.asteroidsjaylib.coincommon.CoinTag;
 import io.asteroidsjaylib.collisioncommon.CollisionEvent;
 import io.asteroidsjaylib.ownershipcommon.OwnershipComponent;
 import io.asteroidsjaylib.common.World;
@@ -22,6 +23,7 @@ public class BulletCollisionResponseSystem extends ResponseSystem {
 
         // If collider is also bullet, do nothing
         if (collider.hasComponent(BulletTag.class)) return;
+        if (collider.hasComponent(CoinTag.class)) return;
 
         // If collider is also bullet owner, do nothing
         if (bullet.getComponent(OwnershipComponent.class).owner == collider) return;

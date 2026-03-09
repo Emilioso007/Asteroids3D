@@ -14,6 +14,7 @@ module Bullet {
     requires RenderCommon;
     requires OutOfBoundsCommon;
     requires LifetimeCommon;
+    requires CoinCommon;
 
     provides BaseSystem with BulletCollisionResponseSystem;
     provides BulletSPI with BulletProvider;

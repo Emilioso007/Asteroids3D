@@ -9,8 +9,8 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>io.asteroidsjaylib.asteroid</groupId>
-    <artifactId>Asteroid</artifactId>
+    <groupId>io.asteroidsjaylib.coin</groupId>
+    <artifactId>Coin</artifactId>
 
     <properties>
         <maven.compiler.source>22</maven.compiler.source>
@@ -25,14 +25,8 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>io.asteroidsjaylib.asteroidcommon</groupId>
-            <artifactId>AsteroidCommon</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.asteroidsjaylib.collisioncommon</groupId>
-            <artifactId>CollisionCommon</artifactId>
+            <groupId>io.asteroidsjaylib.coincommon</groupId>
+            <artifactId>CoinCommon</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
@@ -49,26 +43,20 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>io.asteroidsjaylib.outofboundscommon</groupId>
-            <artifactId>OutOfBoundsCommon</artifactId>
+            <groupId>io.asteroidsjaylib.collisioncommon</groupId>
+            <artifactId>CollisionCommon</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.asteroidsjaylib.playercommon</groupId>
+            <artifactId>PlayerCommon</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>io.asteroidsjaylib.scorecommon</groupId>
             <artifactId>ScoreCommon</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.asteroidsjaylib.coincommon</groupId>
-            <artifactId>CoinCommon</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.asteroidsjaylib.spawncommon</groupId>
-            <artifactId>SpawnCommon</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>

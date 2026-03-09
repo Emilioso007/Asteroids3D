@@ -22,7 +22,7 @@
         <module>OutOfBoundsCommonModule</module>
         <module>PhysicsCommonModule</module>
         <module>PlayerCommonModule</module>
-        <module>RenderCommonComponent</module>
+        <module>RenderCommonModule</module>
         <module>SpawnCommonModule</module>
 
         <module>PhysicsModule</module>
@@ -38,6 +38,8 @@
         <module>BackgroundModule</module>
         <module>ScoreModule</module>
         <module>ScoreCommonModule</module>
+        <module>CoinModule</module>
+        <module>CoinCommonModule</module>
     </modules>
 
     <properties>

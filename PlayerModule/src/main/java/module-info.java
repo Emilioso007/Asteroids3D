@@ -17,6 +17,7 @@ module Player {
     requires OutOfBoundsCommon;
     requires BulletCommon;
     requires SpawnCommon;
+    requires CoinCommon;
 
     provides EntitySpi with PlayerEntityProvider;
     provides BaseSystem with PlayerShootingSystem, PlayerMovementSystem, PlayerCollisionResponseSystem;

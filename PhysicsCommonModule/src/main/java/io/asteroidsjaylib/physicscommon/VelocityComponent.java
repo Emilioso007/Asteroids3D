@@ -7,4 +7,11 @@ public class VelocityComponent extends BaseComponent {
 
     public Vector vel;
 
+    public VelocityComponent(){
+        this.vel = new Vector();
+    }
+    public VelocityComponent(Vector vel){
+        this.vel = vel;
+    }
+
 }
