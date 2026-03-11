@@ -12,6 +12,7 @@ module Coin {
     requires CollisionCommon;
     requires PlayerCommon;
     requires ScoreCommon;
+    requires OutOfBoundsCommon;
 
     provides CoinSPI with CoinProvider;
     provides BaseSystem with CoinCollisionResponseSystem;

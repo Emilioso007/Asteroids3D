@@ -4,6 +4,8 @@ import io.asteroidsjaylib.coincommon.CoinTag;
 import io.asteroidsjaylib.collisioncommon.CircleColliderComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.util.Vector;
+import io.asteroidsjaylib.outofboundscommon.BoundsAction;
+import io.asteroidsjaylib.outofboundscommon.OutOfBoundsComponent;
 import io.asteroidsjaylib.physicscommon.PositionComponent;
 import io.asteroidsjaylib.physicscommon.VelocityComponent;
 import io.asteroidsjaylib.rendercommon.RenderTag;
@@ -36,6 +38,10 @@ public class CoinEntity extends BaseEntity {
         CircleColliderComponent circleColliderComponent = new CircleColliderComponent();
         circleColliderComponent.radius = 8;
         this.addComponent(circleColliderComponent);
+
+        OutOfBoundsComponent outOfBoundsComponent = new OutOfBoundsComponent();
+        outOfBoundsComponent.boundsAction = BoundsAction.WRAP;
+        this.addComponent(outOfBoundsComponent);
 
     }
 }
