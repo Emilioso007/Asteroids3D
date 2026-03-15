@@ -8,13 +8,13 @@ import io.asteroidsjaylib.outofboundscommon.BoundsAction;
 import io.asteroidsjaylib.outofboundscommon.OutOfBoundsComponent;
 import io.asteroidsjaylib.physicscommon.PositionComponent;
 import io.asteroidsjaylib.physicscommon.VelocityComponent;
+import io.asteroidsjaylib.rendercommon.RenderAlign;
 import io.asteroidsjaylib.rendercommon.RenderTag;
 import io.asteroidsjaylib.rendercommon.ShapeComponent;
 import io.asteroidsjaylib.rendercommon.TextComponent;
 import io.asteroidsjaylib.rendercommon.shapes.Ellipse;
 
 import static com.raylib.Colors.*;
-import static com.raylib.Raylib.*;
 
 public class CoinEntity extends BaseEntity {
 
@@ -29,8 +29,8 @@ public class CoinEntity extends BaseEntity {
 
         String text = value+"";
         TextComponent textComponent = new TextComponent(text, 12, BLACK);
-        textComponent.xoffset = (float) -MeasureText(text, 12) / 2;
-        textComponent.yoffset = (float) (-12.0 / 2);
+        textComponent.horizontalAlign = RenderAlign.CENTER;
+        textComponent.verticalAlign = RenderAlign.CENTER;
         renderTag.addRenderComponent(textComponent, 1);
 
         this.addComponent(renderTag);

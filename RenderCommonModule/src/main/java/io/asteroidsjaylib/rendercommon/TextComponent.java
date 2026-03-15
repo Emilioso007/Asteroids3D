@@ -18,6 +18,21 @@ public class TextComponent extends RenderComponent {
 
     @Override
     public void draw(Raylib.Vector2 position, float angle) {
-        Raylib.DrawText(text, (int) position.x(), (int) position.y(), fontSize, color);
+
+        float xOffset = switch (horizontalAlign){
+            case LEFT -> 0;
+            case CENTER -> (float) -MeasureText(text, fontSize) /2;
+            case RIGHT -> -MeasureText(text, fontSize);
+            default -> 0;
+        };
+
+        float yOffset = switch (verticalAlign){
+            case TOP -> 0;
+            case CENTER -> (float) -fontSize /2;
+            case BOTTOM -> -fontSize;
+            default -> 0;
+        };
+
+        Raylib.DrawText(text, (int) (position.x() + xOffset), (int) (position.y() + yOffset), fontSize, color);
     }
 }

@@ -50,11 +50,26 @@ public class ImageComponent extends RenderComponent {
 
     @Override
     public void draw(Vector2 position, float angle) {
+
+        float xOffset = switch (horizontalAlign){
+            case LEFT -> 0;
+            case CENTER -> (float) -texture.width() / 2;
+            case RIGHT -> -texture.width();
+            default -> 0;
+        };
+
+        float yOffset = switch (verticalAlign){
+            case TOP -> 0;
+            case CENTER -> (float) -texture.height() / 2;
+            case BOTTOM -> -texture.height();
+            default -> 0;
+        };
+
         rlPushMatrix();
         // Rotate around the entity position, then place sprite relative to that pivot.
         rlTranslatef(position.x(), position.y(), 0);
         rlRotatef(angle, 0 ,0, 1);
-        Raylib.DrawTexture(texture, Math.round(xoffset), Math.round(yoffset), WHITE);
+        Raylib.DrawTexture(texture, Math.round(xOffset), Math.round(yOffset), WHITE);
         rlPopMatrix();
     }
 }

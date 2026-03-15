@@ -8,6 +8,7 @@ import io.asteroidsjaylib.outofboundscommon.OutOfBoundsComponent;
 import io.asteroidsjaylib.physicscommon.*;
 import io.asteroidsjaylib.playercommon.PlayerTag;
 import io.asteroidsjaylib.rendercommon.ImageComponent;
+import io.asteroidsjaylib.rendercommon.RenderAlign;
 import io.asteroidsjaylib.rendercommon.RenderTag;
 
 public class PlayerEntity extends BaseEntity {
@@ -40,8 +41,8 @@ public class PlayerEntity extends BaseEntity {
 
         RenderTag renderTag = new RenderTag(50);
         ImageComponent imageComponent = new ImageComponent("spaceship.png", 76, 76);
-        imageComponent.xoffset = -38;
-        imageComponent.yoffset = -38;
+        imageComponent.horizontalAlign = RenderAlign.CENTER;
+        imageComponent.verticalAlign = RenderAlign.CENTER;
         renderTag.addRenderComponent(imageComponent, 0);
         this.addComponent(renderTag);
 
