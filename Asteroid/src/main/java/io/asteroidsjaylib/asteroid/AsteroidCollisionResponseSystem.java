@@ -1,0 +1,62 @@
+package io.asteroidsjaylib.asteroid;
+
+import io.asteroidsjaylib.common.asteroid.AsteroidSizeComponent;
+import io.asteroidsjaylib.common.asteroid.AsteroidTag;
+import io.asteroidsjaylib.common.coin.CoinSPI;
+import io.asteroidsjaylib.common.coin.CoinTag;
+import io.asteroidsjaylib.common.World;
+import io.asteroidsjaylib.common.collision.CollisionEvent;
+import io.asteroidsjaylib.common.ecs.BaseEntity;
+import io.asteroidsjaylib.common.ecs.ResponseSystem;
+import io.asteroidsjaylib.common.physics.PositionComponent;
+import io.asteroidsjaylib.common.physics.VelocityComponent;
+import io.asteroidsjaylib.common.util.Vector2D;
+import io.asteroidsjaylib.common.spawn.SpawnEvent;
+
+import java.util.ServiceLoader;
+
+public class AsteroidCollisionResponseSystem extends ResponseSystem {
+    @Override
+    public void start(World world) {
+        world.getEventBus().subscribe(CollisionEvent.class, this::handleCollision);
+    }
+
+    private void handleCollision(World world, CollisionEvent event) {
+        // If no asteroid in collision, do nothing
+        if(!event.hasEntityWith(AsteroidTag.class)) return;
+
+        BaseEntity asteroid = event.getEntityWith(AsteroidTag.class);
+        BaseEntity collider = event.getOther(asteroid);
+
+        // If collider is also asteroid, do nothing
+        if (collider.hasComponent(AsteroidTag.class)) return;
+        if (collider.hasComponent(CoinTag.class)) return;
+
+        // Mark asteroid to be removed
+        asteroid.setToBeRemoved(true);
+
+        // Optionally split asteroid
+        int asteroidSize = asteroid.getComponent(AsteroidSizeComponent.class).map(c -> c.size).orElseThrow();
+        if (asteroidSize > AsteroidSizeComponent.SMALL){
+            for(int i = 0; i < 2; i++){
+
+                Vector2D position = asteroid.getComponent(PositionComponent.class).map(c -> c.pos.copy()).orElseThrow();
+
+                float magnitude = (float) (50 + 200 * Math.random());
+
+                Vector2D velocity = collider.getComponent(VelocityComponent.class).map(c -> c.vel.copy()).orElseThrow();
+                velocity.rotate(60 + i * 240).setMag(magnitude);
+
+                AsteroidEntity newAsteroid = new AsteroidEntity(position, velocity, asteroidSize - 1);
+                world.queueAddEntity(newAsteroid);
+            }
+        }
+
+        // Publish event
+        CoinSPI coinSPI = ServiceLoader.load(CoinSPI.class).findFirst().orElseThrow();
+        Vector2D pos = asteroid.getComponent(PositionComponent.class).orElseThrow().pos.copy();
+        Vector2D vel = Vector2D.randomVector(25);
+        world.getEventBus().publish(world, new SpawnEvent(coinSPI.createCoin(pos, vel, asteroidSize+1)));
+
+    }
+}

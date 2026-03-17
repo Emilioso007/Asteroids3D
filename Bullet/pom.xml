@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>io.asteroidsjaylib</groupId>
+        <artifactId>AsteroidsJaylib</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <groupId>io.asteroidsjaylib.bullet</groupId>
+    <artifactId>Bullet</artifactId>
+
+    <properties>
+        <maven.compiler.source>22</maven.compiler.source>
+        <maven.compiler.target>22</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>io.asteroidsjaylib.common</groupId>
+            <artifactId>Common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.asteroidsjaylib.common.collision</groupId>
+            <artifactId>CommonCollision</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.asteroidsjaylib.common.bullet</groupId>
+            <artifactId>CommonBullet</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.asteroidsjaylib.common.coin</groupId>
+            <artifactId>CommonCoin</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.asteroidsjaylib.common.ownership</groupId>
+            <artifactId>CommonOwnership</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.asteroidsjaylib.common.lifetime</groupId>
+            <artifactId>CommonLifetime</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.asteroidsjaylib.common.render</groupId>
+            <artifactId>CommonRender</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.asteroidsjaylib.common.physics</groupId>
+            <artifactId>CommonPhysics</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.asteroidsjaylib.common.outofbounds</groupId>
+            <artifactId>CommonOutOfBounds</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

@@ -9,42 +9,42 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
-        <module>CoreModule</module>
+        <module>Core</module>
 
-        <module>CommonModule</module>
+        <module>Common</module>
 
-        <module>OwnershipCommonModule</module>
-        <module>AsteroidCommonModule</module>
-        <module>BulletCommonModule</module>
-        <module>CollisionCommonModule</module>
-        <module>EnemyCommonModule</module>
-        <module>LifetimeCommonModule</module>
-        <module>OutOfBoundsCommonModule</module>
-        <module>PhysicsCommonModule</module>
-        <module>PlayerCommonModule</module>
-        <module>RenderCommonModule</module>
-        <module>SpawnCommonModule</module>
+        <module>CommonOwnership</module>
+        <module>CommonAsteroid</module>
+        <module>CommonBullet</module>
+        <module>CommonCollision</module>
+        <module>CommonEnemy</module>
+        <module>CommonLifetime</module>
+        <module>CommonOutOfBounds</module>
+        <module>CommonPhysics</module>
+        <module>CommonPlayer</module>
+        <module>CommonRender</module>
+        <module>CommonSpawn</module>
+        <module>CommonCoin</module>
+        <module>CommonScore</module>
 
-        <module>PhysicsModule</module>
-        <module>RenderModule</module>
-        <module>AsteroidModule</module>
-        <module>PlayerModule</module>
-        <module>CollisionModule</module>
-        <module>BulletModule</module>
-        <module>OutOfBoundsModule</module>
-        <module>EnemyModule</module>
-        <module>SpawnModule</module>
-        <module>LifetimeModule</module>
-        <module>BackgroundModule</module>
-        <module>ScoreModule</module>
-        <module>ScoreCommonModule</module>
-        <module>CoinModule</module>
-        <module>CoinCommonModule</module>
+        <module>Physics</module>
+        <module>Render</module>
+        <module>Asteroid</module>
+        <module>Player</module>
+        <module>Collision</module>
+        <module>Bullet</module>
+        <module>OutOfBounds</module>
+        <module>Enemy</module>
+        <module>Spawn</module>
+        <module>Lifetime</module>
+        <module>Background</module>
+        <module>Score</module>
+        <module>Coin</module>
     </modules>
 
     <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.source>25</maven.compiler.source>
+        <maven.compiler.target>25</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring.version>6.1.3</spring.version>
     </properties>
@@ -55,6 +55,76 @@
                 <groupId>uk.co.electronstudio.jaylib</groupId>
                 <artifactId>jaylib</artifactId>
                 <version>[5.5.0,5.6)</version>
+            </dependency>
+            <dependency>
+                <groupId>io.asteroidsjaylib.common</groupId>
+                <artifactId>Common</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>io.asteroidsjaylib.common.asteroid</groupId>
+                <artifactId>CommonAsteroid</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>io.asteroidsjaylib.common.bullet</groupId>
+                <artifactId>CommonBullet</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>io.asteroidsjaylib.common.coin</groupId>
+                <artifactId>CommonCoin</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>io.asteroidsjaylib.common.collision</groupId>
+                <artifactId>CommonCollision</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>io.asteroidsjaylib.common.enemy</groupId>
+                <artifactId>CommonEnemy</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>io.asteroidsjaylib.common.lifetime</groupId>
+                <artifactId>CommonLifetime</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>io.asteroidsjaylib.common.outofbounds</groupId>
+                <artifactId>CommonOutOfBounds</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>io.asteroidsjaylib.common.ownership</groupId>
+                <artifactId>CommonOwnership</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>io.asteroidsjaylib.common.physics</groupId>
+                <artifactId>CommonPhysics</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>io.asteroidsjaylib.common.player</groupId>
+                <artifactId>CommonPlayer</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>io.asteroidsjaylib.common.render</groupId>
+                <artifactId>CommonRender</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>io.asteroidsjaylib.common.score</groupId>
+                <artifactId>CommonScore</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>io.asteroidsjaylib.common.spawn</groupId>
+                <artifactId>CommonSpawn</artifactId>
+                <version>1.0-SNAPSHOT</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
