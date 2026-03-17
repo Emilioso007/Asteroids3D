@@ -1,7 +1,7 @@
 package io.asteroidsjaylib;
 
+import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.ecs.EntitySpi;
-import io.asteroidsjaylib.common.World;
 import io.asteroidsjaylib.common.ecs.BaseSystem;
 import io.asteroidsjaylib.common.event.input.KeyDownEvent;
 import io.asteroidsjaylib.common.event.input.KeyPressedEvent;
@@ -30,8 +30,8 @@ public class Game {
 
         world.setWidth(worldWidth);
         world.setHeight(worldHeight);
-        world.screenWidth = screenWidth;
-        world.screenHeight = screenHeight;
+        world.setScreenWidth(screenWidth);
+        world.setScreenHeight(screenHeight);
 
         // ADD ENTITIES
         addEntities();
@@ -84,7 +84,7 @@ public class Game {
         }
     }
 
-    private void keyPressed(World world, KeyPressedEvent event) {
+    private void keyPressed(IWorld world, KeyPressedEvent event) {
         if(event.keyCode == KEY_R){
             world.clearEntities();
             world.clearSystems();

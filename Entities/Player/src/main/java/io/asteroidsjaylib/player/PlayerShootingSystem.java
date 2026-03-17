@@ -1,7 +1,7 @@
 package io.asteroidsjaylib.player;
 
 import io.asteroidsjaylib.common.bullet.BulletSPI;
-import io.asteroidsjaylib.common.World;
+import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.ecs.BaseComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.ecs.IteratingSystem;
@@ -25,14 +25,14 @@ public class PlayerShootingSystem extends IteratingSystem {
     private boolean isShooting = false;
 
     @Override
-    public void start(World world) {
+    public void start(IWorld world) {
         this.setPriority(10);
         this.timeSinceLastShot = shootInterval;
         world.getEventBus().subscribe(KeyPressedEvent.class, this::keyPressed);
         world.getEventBus().subscribe(KeyReleasedEvent.class, this::keyReleased);
     }
 
-    private void keyPressed(World world, KeyPressedEvent event){
+    private void keyPressed(IWorld world, KeyPressedEvent event){
         if(!world.hasEntitiesWith(PlayerTag.class)) return;
 
         switch (event.keyCode){
@@ -42,7 +42,7 @@ public class PlayerShootingSystem extends IteratingSystem {
         }
     }
 
-    private void keyReleased(World world, KeyReleasedEvent event){
+    private void keyReleased(IWorld world, KeyReleasedEvent event){
         if(!world.hasEntitiesWith(PlayerTag.class)) return;
 
         switch (event.keyCode){
@@ -53,7 +53,7 @@ public class PlayerShootingSystem extends IteratingSystem {
     }
 
     @Override
-    public void processEntity(World world, BaseEntity player, float deltaTime) {
+    public void processEntity(IWorld world, BaseEntity player, float deltaTime) {
         // Always track time since last shot
         timeSinceLastShot += deltaTime;
 
@@ -70,7 +70,7 @@ public class PlayerShootingSystem extends IteratingSystem {
         return List.of(PlayerTag.class);
     }
 
-    private void shoot(World world, BaseEntity player) {
+    private void shoot(IWorld world, BaseEntity player) {
         PositionComponent position = player.getComponent(PositionComponent.class).orElseThrow();
         AngleComponent angle = player.getComponent(AngleComponent.class).orElseThrow();
 

@@ -2,7 +2,7 @@ package io.asteroidsjaylib.outofbounds;
 
 import io.asteroidsjaylib.common.ecs.BaseComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
-import io.asteroidsjaylib.common.World;
+import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.ecs.IteratingSystem;
 import io.asteroidsjaylib.common.physics.PositionComponent;
 import io.asteroidsjaylib.common.physics.VelocityComponent;
@@ -16,7 +16,7 @@ public class OutOfBoundsSystem extends IteratingSystem {
     int minX, maxX, minY, maxY;
 
     @Override
-    public void start(World world) {
+    public void start(IWorld world) {
         this.setPriority(25);
         this.minX = 0;
         this.maxX = world.getWidth();
@@ -30,7 +30,7 @@ public class OutOfBoundsSystem extends IteratingSystem {
     }
 
     @Override
-    public void processEntity(World world, BaseEntity entity, float deltaTime) {
+    public void processEntity(IWorld world, BaseEntity entity, float deltaTime) {
         PositionComponent positionComponent = entity.getComponent(PositionComponent.class).orElseThrow();
         OutOfBoundsComponent outOfBoundsComponent = entity.getComponent(OutOfBoundsComponent.class).orElseThrow();
 

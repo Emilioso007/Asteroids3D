@@ -260,7 +260,7 @@ public class Vector2D extends Vector2 {
     /// @param magnitude the magnitude of the Vector.
     /// @return the random Vector with magnitude.
     public static Vector2D randomVector(float magnitude) {
-        return (new Vector2D(magnitude, 0)).rotate(Math.random()*Math.PI*2);
+        return (new Vector2D(magnitude, 0)).rotate(Math.random()*360);
     }
 
 }

@@ -1,6 +1,6 @@
 package io.asteroidsjaylib.common.ecs;
 
-import io.asteroidsjaylib.common.World;
+import io.asteroidsjaylib.common.IWorld;
 
 import java.util.List;
 
@@ -17,10 +17,10 @@ public abstract class BaseSystem {
 
     /// Called once at system startup.
     /// @param world the world the system operates in.
-    public abstract void start(World world);
+    public abstract void start(IWorld world);
 
     public abstract List<Class<? extends BaseComponent>> getSignature();
-    public abstract void update(World world, List<BaseEntity> entities, float deltaTime);
+    public abstract void update(IWorld world, List<BaseEntity> entities, float deltaTime);
 
     /// Gets the priority of this system.
     /// Systems with lower values are processed first.

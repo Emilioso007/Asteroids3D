@@ -1,6 +1,6 @@
 package io.asteroidsjaylib.score;
 
-import io.asteroidsjaylib.common.World;
+import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.ecs.BaseComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.ecs.IteratingSystem;
@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ScoreSystem extends IteratingSystem {
     @Override
-    public void start(World world) {
+    public void start(IWorld world) {
         world.getEventBus().subscribe(IncrementScoreEvent.class, this::handleIncrementScore);
     }
 
@@ -22,7 +22,7 @@ public class ScoreSystem extends IteratingSystem {
         return List.of(ScoreTag.class);
     }
 
-    private void handleIncrementScore(World world, IncrementScoreEvent incrementScoreEvent) {
+    private void handleIncrementScore(IWorld world, IncrementScoreEvent incrementScoreEvent) {
 
         BaseEntity scoreEntity = world.getEntitiesWith(ScoreTag.class).getFirst();
 
@@ -31,7 +31,7 @@ public class ScoreSystem extends IteratingSystem {
     }
 
     @Override
-    public void processEntity(World world, BaseEntity entity, float deltaTime) {
+    public void processEntity(IWorld world, BaseEntity entity, float deltaTime) {
 
         if(!entity.hasComponent(RenderTag.class)) return;
 

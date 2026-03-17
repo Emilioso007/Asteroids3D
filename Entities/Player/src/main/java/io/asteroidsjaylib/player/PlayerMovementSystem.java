@@ -1,6 +1,6 @@
 package io.asteroidsjaylib.player;
 
-import io.asteroidsjaylib.common.World;
+import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.ecs.BaseComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.ecs.IteratingSystem;
@@ -21,13 +21,13 @@ public class PlayerMovementSystem extends IteratingSystem {
     private boolean accelerating = false;
 
     @Override
-    public void start(World world) {
+    public void start(IWorld world) {
         this.setPriority(5);
         world.getEventBus().subscribe(KeyPressedEvent.class, this::keyPressed);
         world.getEventBus().subscribe(KeyReleasedEvent.class, this::keyReleased);
     }
 
-    private void keyPressed(World world, KeyPressedEvent event) {
+    private void keyPressed(IWorld world, KeyPressedEvent event) {
         if(!world.hasEntitiesWith(PlayerTag.class)) return;
 
         BaseEntity player = world.getEntitiesWith(PlayerTag.class).getFirst();
@@ -44,7 +44,7 @@ public class PlayerMovementSystem extends IteratingSystem {
         }
     }
 
-    private void keyReleased(World world, KeyReleasedEvent event) {
+    private void keyReleased(IWorld world, KeyReleasedEvent event) {
         if(!world.hasEntitiesWith(PlayerTag.class)) return;
 
         BaseEntity player = world.getEntitiesWith(PlayerTag.class).getFirst();
@@ -59,7 +59,7 @@ public class PlayerMovementSystem extends IteratingSystem {
     }
 
     @Override
-    public void processEntity(World world, BaseEntity player, float deltaTime) {
+    public void processEntity(IWorld world, BaseEntity player, float deltaTime) {
         if(!accelerating) return;
 
         Vector2D acceleration = player.getComponent(AccelerationComponent.class).orElseThrow().acc;

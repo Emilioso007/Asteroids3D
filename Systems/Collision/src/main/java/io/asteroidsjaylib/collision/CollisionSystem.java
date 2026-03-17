@@ -1,6 +1,6 @@
 package io.asteroidsjaylib.collision;
 
-import io.asteroidsjaylib.common.*;
+import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.collision.CircleColliderComponent;
 import io.asteroidsjaylib.common.collision.CollisionEvent;
 import io.asteroidsjaylib.common.ecs.BaseComponent;
@@ -14,7 +14,7 @@ import java.util.List;
 public class CollisionSystem extends BaseSystem {
 
     @Override
-    public void start(World world) {
+    public void start(IWorld world) {
         this.setPriority(70);
     }
 
@@ -24,7 +24,7 @@ public class CollisionSystem extends BaseSystem {
     }
 
     @Override
-    public void update(World world, List<BaseEntity> entities, float deltaTime) {
+    public void update(IWorld world, List<BaseEntity> entities, float deltaTime) {
         for(int i = 0; i < entities.size() - 1; i++){
 
             BaseEntity collider = entities.get(i);

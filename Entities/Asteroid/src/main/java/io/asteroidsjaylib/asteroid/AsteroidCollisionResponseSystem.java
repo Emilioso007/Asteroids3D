@@ -4,7 +4,7 @@ import io.asteroidsjaylib.common.asteroid.AsteroidSizeComponent;
 import io.asteroidsjaylib.common.asteroid.AsteroidTag;
 import io.asteroidsjaylib.common.coin.CoinSPI;
 import io.asteroidsjaylib.common.coin.CoinTag;
-import io.asteroidsjaylib.common.World;
+import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.collision.CollisionEvent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.ecs.ResponseSystem;
@@ -17,11 +17,11 @@ import java.util.ServiceLoader;
 
 public class AsteroidCollisionResponseSystem extends ResponseSystem {
     @Override
-    public void start(World world) {
+    public void start(IWorld world) {
         world.getEventBus().subscribe(CollisionEvent.class, this::handleCollision);
     }
 
-    private void handleCollision(World world, CollisionEvent event) {
+    private void handleCollision(IWorld world, CollisionEvent event) {
         // If no asteroid in collision, do nothing
         if(!event.hasEntityWith(AsteroidTag.class)) return;
 

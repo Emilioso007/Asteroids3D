@@ -1,7 +1,7 @@
 package io.asteroidsjaylib.render;
 
 
-import io.asteroidsjaylib.common.World;
+import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.ecs.BaseComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.ecs.BulkSystem;
@@ -18,7 +18,7 @@ import static com.raylib.Raylib.*;
 public class RenderSystem extends BulkSystem {
 
     @Override
-    public void start(World world) {
+    public void start(IWorld world) {
         this.setPriority(100);
     }
 
@@ -28,7 +28,7 @@ public class RenderSystem extends BulkSystem {
     }
 
     @Override
-    public void update(World world, List<BaseEntity> entities, float deltaTime) {
+    public void update(IWorld world, List<BaseEntity> entities, float deltaTime) {
 
         // Order entities based on their zIndex in ascending order, meaning higher values gets drawn last
         entities.sort((a, b) -> {
@@ -58,8 +58,8 @@ public class RenderSystem extends BulkSystem {
                 // Apply camera offset
                 rlPushMatrix();
                 rlTranslatef(
-                        (float)(-world.cameraLocation.x() + world.screenWidth  / 2.0),
-                        (float)(-world.cameraLocation.y() + world.screenHeight / 2.0),
+                        (float)(-world.getCameraLocation().x() + world.getScreenWidth()  / 2.0),
+                        (float)(-world.getCameraLocation().y() + world.getScreenHeight() / 2.0),
                         0
                 );
 

@@ -1,11 +1,11 @@
 package io.asteroidsjaylib.enemy;
 
+import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.bullet.BulletSPI;
 import io.asteroidsjaylib.common.ecs.BaseComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.physics.PositionComponent;
 import io.asteroidsjaylib.common.util.Vector2D;
-import io.asteroidsjaylib.common.World;
 import io.asteroidsjaylib.common.ecs.IntervalIteratingSystem;
 import io.asteroidsjaylib.common.enemy.EnemyTag;
 import io.asteroidsjaylib.common.player.PlayerTag;
@@ -17,13 +17,13 @@ import java.util.ServiceLoader;
 public class EnemySystem extends IntervalIteratingSystem {
 
     @Override
-    public void start(World world) {
+    public void start(IWorld world) {
         this.setPriority(30);
         this.interval = 2.0;
     }
 
     @Override
-    public void updateInterval(World world, BaseEntity enemy, double deltaTime) {
+    public void updateInterval(IWorld world, BaseEntity enemy, double deltaTime) {
         if(!world.hasEntitiesWith(PlayerTag.class)) return;
 
         BaseEntity player = world.getEntitiesWith(PlayerTag.class).getFirst();

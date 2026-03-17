@@ -1,6 +1,6 @@
 package io.asteroidsjaylib.physics;
 
-import io.asteroidsjaylib.common.World;
+import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.ecs.BaseComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.ecs.IteratingSystem;
@@ -13,12 +13,12 @@ import java.util.List;
 public class AccelerationSystem extends IteratingSystem {
 
     @Override
-    public void start(World world) {
+    public void start(IWorld world) {
         this.setPriority(20);
     }
 
     @Override
-    public void processEntity(World world, BaseEntity entity, float deltaTime) {
+    public void processEntity(IWorld world, BaseEntity entity, float deltaTime) {
         Vector2D velocity = entity.getComponent(VelocityComponent.class).orElseThrow().vel;
         Vector2D acceleration = entity.getComponent(AccelerationComponent.class).orElseThrow().acc;
         velocity.add(acceleration.copy().mult(deltaTime));

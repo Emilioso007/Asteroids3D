@@ -1,6 +1,6 @@
 package io.asteroidsjaylib.common.ecs;
 
-import io.asteroidsjaylib.common.World;
+import io.asteroidsjaylib.common.IWorld;
 
 import java.util.List;
 
@@ -12,5 +12,5 @@ public abstract class ResponseSystem extends BaseSystem {
     }
 
     @Override
-    public final void update(World world, List<BaseEntity> entities, float deltaTime){}
+    public final void update(IWorld world, List<BaseEntity> entities, float deltaTime){}
 }

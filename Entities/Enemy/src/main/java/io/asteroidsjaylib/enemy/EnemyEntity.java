@@ -6,7 +6,7 @@ import io.asteroidsjaylib.common.physics.AngleComponent;
 import io.asteroidsjaylib.common.physics.PositionComponent;
 import io.asteroidsjaylib.common.physics.VelocityComponent;
 import io.asteroidsjaylib.common.util.Vector2D;
-import io.asteroidsjaylib.common.World;
+import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.enemy.EnemyTag;
 import io.asteroidsjaylib.common.render.RenderTag;
 import io.asteroidsjaylib.common.render.ShapeComponent;
@@ -20,7 +20,7 @@ import static com.raylib.Raylib.*;
 
 public class EnemyEntity extends BaseEntity {
 
-    public EnemyEntity(World world){
+    public EnemyEntity(IWorld world){
 
         this.addComponent(new EnemyTag());
 

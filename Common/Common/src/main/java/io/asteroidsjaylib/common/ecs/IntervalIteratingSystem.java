@@ -1,6 +1,6 @@
 package io.asteroidsjaylib.common.ecs;
 
-import io.asteroidsjaylib.common.World;
+import io.asteroidsjaylib.common.IWorld;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ public abstract class IntervalIteratingSystem extends BaseSystem {
     public double accumulator;
 
     @Override
-    public void update(World world, List<BaseEntity> entities, float deltaTime){
+    public void update(IWorld world, List<BaseEntity> entities, float deltaTime){
         accumulator += deltaTime;
         if(accumulator >= interval){
             accumulator = 0;
@@ -19,5 +19,5 @@ public abstract class IntervalIteratingSystem extends BaseSystem {
         }
     }
 
-    public abstract void updateInterval(World world, BaseEntity entity, double deltaTime);
+    public abstract void updateInterval(IWorld world, BaseEntity entity, double deltaTime);
 }

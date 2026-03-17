@@ -1,6 +1,6 @@
 package io.asteroidsjaylib.enemy;
 
-import io.asteroidsjaylib.common.World;
+import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.collision.CollisionEvent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.ecs.ResponseSystem;
@@ -10,11 +10,11 @@ import io.asteroidsjaylib.common.score.IncrementScoreEvent;
 
 public class EnemyCollisionResponseSystem extends ResponseSystem {
     @Override
-    public void start(World world) {
+    public void start(IWorld world) {
         world.getEventBus().subscribe(CollisionEvent.class, this::handleCollision);
     }
 
-    private void handleCollision(World world, CollisionEvent event) {
+    private void handleCollision(IWorld world, CollisionEvent event) {
         // If no enemy in collision, do nothing
         if(!event.hasEntityWith(EnemyTag.class)) return;
 

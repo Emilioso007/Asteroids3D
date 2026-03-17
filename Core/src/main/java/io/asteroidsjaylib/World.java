@@ -1,9 +1,10 @@
-package io.asteroidsjaylib.common;
+package io.asteroidsjaylib;
 
+import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.ecs.BaseComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
-import io.asteroidsjaylib.common.event.EventBus;
 import io.asteroidsjaylib.common.ecs.BaseSystem;
+import io.asteroidsjaylib.common.event.IEventBus;
 import io.asteroidsjaylib.common.util.Vector2D;
 
 import java.util.Comparator;
@@ -12,22 +13,22 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.ArrayList;
 
-public final class World {
+public final class World implements IWorld {
 
     private int width;
     private int height;
-    public int screenWidth;
-    public int screenHeight;
-    public Vector2D cameraLocation;
+    private int screenWidth;
+    private int screenHeight;
+    private Vector2D cameraLocation;
     private final List<BaseEntity> entities;
     private final List<BaseEntity> entitiesToAdd;
     private final Set<BaseSystem> systems;
-    private final EventBus eventBus;
+    private final IEventBus eventBus;
 
     private double deltaTime;
 
     public World(){
-        cameraLocation = new Vector2D();
+        setCameraLocation(new Vector2D());
         this.entities = new ArrayList<>();
         entitiesToAdd = new ArrayList<>();
         Comparator<BaseSystem> systemComparator =
@@ -37,14 +38,14 @@ public final class World {
         eventBus = new EventBus();
     }
 
-    public EventBus getEventBus(){
+    @Override
+    public IEventBus getEventBus(){
         return eventBus;
     }
 
+    @Override
     public void tick(float deltaTime){
         this.deltaTime = deltaTime;
-
-        eventBus.updateInputBus(this);
 
         // Run all systems in priority order
         for (BaseSystem system : systems) {
@@ -75,19 +76,23 @@ public final class World {
     }
 
 
+    @Override
     public boolean addEntity(BaseEntity entity){
         return getEntities().add(entity);
     }
 
+    @Override
     public boolean addSystem(BaseSystem system){
         return getSystems().add(system);
     }
 
+    @Override
     public <T extends BaseComponent> boolean hasEntitiesWith(Class<T> requiredComponent) {
         return getEntities().stream().anyMatch(baseEntity -> baseEntity.hasComponent(requiredComponent));
     }
 
     @SafeVarargs
+    @Override
     public final <T extends BaseComponent> List<BaseEntity> getEntitiesWith(Class<T>... requiredComponents){
         List<BaseEntity> result = new ArrayList<>();
         for (BaseEntity entity : getEntities()){
@@ -119,44 +124,84 @@ public final class World {
         return true;
     }
 
+    @Override
     public void queueAddEntity(BaseEntity entityToSpawn) {
         entitiesToAdd.add(entityToSpawn);
     }
 
+    @Override
     public int getWidth() {
         return width;
     }
 
+    @Override
     public int getHeight() {
         return height;
     }
 
+    @Override
     public List<BaseEntity> getEntities() {
         return entities;
     }
 
+    @Override
     public Set<BaseSystem> getSystems() {
         return systems;
     }
 
+    @Override
     public double getDeltaTime() {
         return deltaTime;
     }
 
+    @Override
     public void setWidth(int width) {
         this.width = width;
     }
 
+    @Override
     public void setHeight(int height) {
         this.height = height;
     }
 
+    @Override
     public void clearEntities() {
         entities.clear();
         entitiesToAdd.clear();
     }
 
+    @Override
     public void clearSystems() {
         systems.clear();
+    }
+
+    @Override
+    public Vector2D getCameraLocation() {
+        return cameraLocation;
+    }
+
+    @Override
+    public void setCameraLocation(Vector2D cameraLocation) {
+        this.cameraLocation = cameraLocation;
+    }
+
+    @Override
+    public int getScreenWidth() {
+        return screenWidth;
+    }
+
+    @Override
+    public void setScreenWidth(int screenWidth) {
+        this.screenWidth = screenWidth;
+    }
+
+    @Override
+    public int getScreenHeight() {
+        return screenHeight;
+    }
+
+    @Override
+    public void setScreenHeight(int screenHeight) {
+        this.screenHeight = screenHeight;
     }
 }

@@ -1,6 +1,6 @@
 package io.asteroidsjaylib.coin;
 
-import io.asteroidsjaylib.common.World;
+import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.coin.CoinTag;
 import io.asteroidsjaylib.common.collision.CollisionEvent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
@@ -10,11 +10,11 @@ import io.asteroidsjaylib.common.score.IncrementScoreEvent;
 
 public class CoinCollisionResponseSystem extends ResponseSystem {
     @Override
-    public void start(World world) {
+    public void start(IWorld world) {
         world.getEventBus().subscribe(CollisionEvent.class, this::handleCollision);
     }
 
-    private void handleCollision(World world, CollisionEvent collisionEvent) {
+    private void handleCollision(IWorld world, CollisionEvent collisionEvent) {
         if(!collisionEvent.hasEntityWith(CoinTag.class)) return;
 
         BaseEntity coin = collisionEvent.getEntityWith(CoinTag.class);

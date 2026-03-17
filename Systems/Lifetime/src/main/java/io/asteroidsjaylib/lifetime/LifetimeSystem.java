@@ -1,6 +1,6 @@
 package io.asteroidsjaylib.lifetime;
 
-import io.asteroidsjaylib.common.World;
+import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.ecs.BaseComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.ecs.IteratingSystem;
@@ -12,12 +12,12 @@ import java.util.List;
 
 public class LifetimeSystem extends IteratingSystem {
     @Override
-    public void start(World world) {
+    public void start(IWorld world) {
         this.setPriority(0);
     }
 
     @Override
-    public void processEntity(World world, BaseEntity entity, float deltaTime) {
+    public void processEntity(IWorld world, BaseEntity entity, float deltaTime) {
         LifetimeComponent lifetimeComponent = entity.getComponent(LifetimeComponent.class).orElseThrow();
         if (Duration.between(lifetimeComponent.startTime, Instant.now()).compareTo(lifetimeComponent.lifetime)>=0){
             entity.setToBeRemoved(true);
