@@ -11,35 +11,36 @@
     <modules>
         <module>Core</module>
 
-        <module>Common</module>
+        <module>Common/Common</module>
 
-        <module>CommonOwnership</module>
-        <module>CommonAsteroid</module>
-        <module>CommonBullet</module>
-        <module>CommonCollision</module>
-        <module>CommonEnemy</module>
-        <module>CommonLifetime</module>
-        <module>CommonOutOfBounds</module>
-        <module>CommonPhysics</module>
-        <module>CommonPlayer</module>
-        <module>CommonRender</module>
-        <module>CommonSpawn</module>
-        <module>CommonCoin</module>
-        <module>CommonScore</module>
+        <module>Common/CommonOwnership</module>
+        <module>Common/CommonAsteroid</module>
+        <module>Common/CommonBullet</module>
+        <module>Common/CommonCollision</module>
+        <module>Common/CommonEnemy</module>
+        <module>Common/CommonLifetime</module>
+        <module>Common/CommonOutOfBounds</module>
+        <module>Common/CommonPhysics</module>
+        <module>Common/CommonPlayer</module>
+        <module>Common/CommonRender</module>
+        <module>Common/CommonSpawn</module>
+        <module>Common/CommonCoin</module>
+        <module>Common/CommonScore</module>
 
-        <module>Physics</module>
-        <module>Render</module>
-        <module>Asteroid</module>
-        <module>Player</module>
-        <module>Collision</module>
-        <module>Bullet</module>
-        <module>OutOfBounds</module>
-        <module>Enemy</module>
-        <module>Spawn</module>
-        <module>Lifetime</module>
-        <module>Background</module>
-        <module>Score</module>
-        <module>Coin</module>
+        <module>Systems/Physics</module>
+        <module>Systems/Collision</module>
+        <module>Systems/OutOfBounds</module>
+        <module>Systems/Spawn</module>
+        <module>Systems/Lifetime</module>
+        <module>Systems/Render</module>
+
+        <module>Entities/Asteroid</module>
+        <module>Entities/Background</module>
+        <module>Entities/Bullet</module>
+        <module>Entities/Coin</module>
+        <module>Entities/Enemy</module>
+        <module>Entities/Player</module>
+        <module>Entities/Score</module>
     </modules>
 
     <properties>
@@ -231,7 +232,7 @@
                                             <type>jar</type>
                                         </artifactItem>
                                     </artifactItems>
-                                    <outputDirectory>../mods-mvn</outputDirectory>
+                                    <outputDirectory>${maven.multiModuleProjectDirectory}/mods-mvn</outputDirectory>
                                 </configuration>
                             </execution>
                         </executions>
