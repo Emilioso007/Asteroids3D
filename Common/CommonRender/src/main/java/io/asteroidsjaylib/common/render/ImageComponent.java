@@ -36,7 +36,7 @@ public class ImageComponent extends RenderComponent {
 
             // if width and height are set (non-negative), resize the image to reduce footprint in vram later.
             if (width > 0 && height > 0) {
-                ImageResize(img, width, height);
+                ImageResizeNN(img, width, height);
             }
 
             texture = LoadTextureFromImage(img);

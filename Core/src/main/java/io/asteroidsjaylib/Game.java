@@ -3,9 +3,12 @@ package io.asteroidsjaylib;
 import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.ecs.EntitySpi;
 import io.asteroidsjaylib.common.ecs.BaseSystem;
-import io.asteroidsjaylib.common.event.input.KeyDownEvent;
-import io.asteroidsjaylib.common.event.input.KeyPressedEvent;
-import io.asteroidsjaylib.common.event.input.KeyReleasedEvent;
+import io.asteroidsjaylib.common.event.input.key.KeyDownEvent;
+import io.asteroidsjaylib.common.event.input.key.KeyPressedEvent;
+import io.asteroidsjaylib.common.event.input.key.KeyReleasedEvent;
+import io.asteroidsjaylib.common.event.input.key.KeyUpEvent;
+import io.asteroidsjaylib.common.event.input.mouse.*;
+import io.asteroidsjaylib.common.util.Vector2D;
 
 import static com.raylib.Raylib.*;
 import static com.raylib.Colors.*;
@@ -56,7 +59,7 @@ public class Game {
     }
 
     public void processInput() {
-        for (int i = 1; i <= 366; i++) { // Should be all keys, hopefully
+        for (int i = 1; i <= 348; i++) {
             if (IsKeyPressed(i)) {
                 world.getEventBus().publish(world, new KeyPressedEvent(i));
             }
@@ -66,7 +69,29 @@ public class Game {
             if (IsKeyDown(i)) {
                 world.getEventBus().publish(world, new KeyDownEvent(i));
             }
+            if(IsKeyUp(i)){
+                world.getEventBus().publish(world, new KeyUpEvent(i));
+            }
         }
+
+        Vector2D mousePos = new Vector2D(GetMouseX(), GetMouseY());
+
+        for(int i = 0; i <= 6; i++){
+            if(IsMouseButtonPressed(i)){
+                world.getEventBus().publish(world, new MousePressedEvent(i, mousePos));
+            }
+            if(IsMouseButtonReleased(i)){
+                world.getEventBus().publish(world, new MouseReleasedEvent(i, mousePos));
+            }
+            if(IsMouseButtonDown(i)){
+                world.getEventBus().publish(world, new MouseDownEvent(i, mousePos));
+            }
+            if(IsMouseButtonUp(i)){
+                world.getEventBus().publish(world, new MouseUpEvent(i, mousePos));
+            }
+        }
+
+        world.getEventBus().publish(world, new MousePositionEvent(mousePos));
     }
 
     private void addSystems() {
