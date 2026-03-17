@@ -26,6 +26,7 @@
         <module>Common/CommonSpawn</module>
         <module>Common/CommonCoin</module>
         <module>Common/CommonScore</module>
+        <module>Common/CommonButton</module>
 
         <module>Systems/Physics</module>
         <module>Systems/Collision</module>
@@ -41,6 +42,7 @@
         <module>Entities/Enemy</module>
         <module>Entities/Player</module>
         <module>Entities/Score</module>
+        <module>Entities/Button</module>
     </modules>
 
     <properties>

@@ -32,6 +32,7 @@ public class AsteroidCollisionResponseSystem extends ResponseSystem {
         if (collider.hasComponent(AsteroidTag.class)) return;
         if (collider.hasComponent(CoinTag.class)) return;
 
+
         // Mark asteroid to be removed
         asteroid.setToBeRemoved(true);
 
@@ -44,7 +45,7 @@ public class AsteroidCollisionResponseSystem extends ResponseSystem {
 
                 float magnitude = (float) (50 + 200 * Math.random());
 
-                Vector2D velocity = collider.getComponent(VelocityComponent.class).map(c -> c.vel.copy()).orElseThrow();
+                Vector2D velocity = collider.getComponent(VelocityComponent.class).map(c -> c.vel.copy()).orElse(Vector2D.randomVector(1));
                 velocity.rotate(60 + i * 240).setMag(magnitude);
 
                 AsteroidEntity newAsteroid = new AsteroidEntity(position, velocity, asteroidSize - 1);

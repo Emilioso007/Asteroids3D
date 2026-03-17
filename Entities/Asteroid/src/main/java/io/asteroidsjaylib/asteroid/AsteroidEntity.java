@@ -41,8 +41,8 @@ public class AsteroidEntity extends BaseEntity {
         this.addComponent(rotationComponent);
 
         int points = random.nextInt(4, 13);
-        double[] xs = new double[points];
-        double[] ys = new double[points];
+        float[] xs = new float[points];
+        float[] ys = new float[points];
 
         double angleBetween = Math.toRadians(360f/points);
 
@@ -50,8 +50,8 @@ public class AsteroidEntity extends BaseEntity {
         int max = 35 + size * 20;
 
         for(int i = 0; i < points; i++){
-            xs[i] = Math.cos(i*angleBetween)*random.nextInt(min, max);
-            ys[i] = Math.sin(i*angleBetween)*random.nextInt(min, max);
+            xs[i] = (float) (Math.cos(i*angleBetween)*random.nextInt(min, max));
+            ys[i] = (float) (Math.sin(i*angleBetween)*random.nextInt(min, max));
         }
 
         RenderTag renderTag = new RenderTag(30);

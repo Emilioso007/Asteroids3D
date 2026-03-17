@@ -93,7 +93,7 @@ public final class World implements IWorld {
 
     @SafeVarargs
     @Override
-    public final <T extends BaseComponent> List<BaseEntity> getEntitiesWith(Class<T>... requiredComponents){
+    public final List<BaseEntity> getEntitiesWith(Class<? extends BaseComponent>... requiredComponents){
         List<BaseEntity> result = new ArrayList<>();
         for (BaseEntity entity : getEntities()){
             boolean hasAllComponents = true;

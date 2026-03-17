@@ -4,10 +4,10 @@ import com.raylib.Raylib;
 import com.raylib.Raylib.Color;
 
 public class Polygon extends BaseShape {
-    public double[] x;
-    public double[] y;
+    public float[] x;
+    public float[] y;
 
-    public Polygon(double[] x, double[] y, Color fillColor, Color strokeColor, double strokeWeight){
+    public Polygon(float[] x, float[] y, Color fillColor, Color strokeColor, double strokeWeight){
         this.x = x;
         this.y = y;
         this.fillColor = fillColor;

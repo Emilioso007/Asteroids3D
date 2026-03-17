@@ -20,7 +20,7 @@ public interface IWorld {
 
     <T extends BaseComponent> boolean hasEntitiesWith(Class<T> requiredComponent);
 
-    <T extends BaseComponent> List<BaseEntity> getEntitiesWith(Class<T>... requiredComponents);
+    List<BaseEntity> getEntitiesWith(Class<? extends BaseComponent>... requiredComponents);
 
     void queueAddEntity(BaseEntity entityToSpawn);
 
