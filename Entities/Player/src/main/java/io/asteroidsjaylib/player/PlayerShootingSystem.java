@@ -2,72 +2,44 @@ package io.asteroidsjaylib.player;
 
 import io.asteroidsjaylib.common.bullet.BulletSPI;
 import io.asteroidsjaylib.common.IWorld;
-import io.asteroidsjaylib.common.ecs.BaseComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
-import io.asteroidsjaylib.common.ecs.IteratingSystem;
-import io.asteroidsjaylib.common.event.input.key.KeyPressedEvent;
-import io.asteroidsjaylib.common.event.input.key.KeyReleasedEvent;
+import io.asteroidsjaylib.common.ecs.ResponseSystem;
+import io.asteroidsjaylib.common.event.input.key.KeyDownEvent;
 import io.asteroidsjaylib.common.physics.AngleComponent;
 import io.asteroidsjaylib.common.physics.PositionComponent;
 import io.asteroidsjaylib.common.util.Vector2D;
 import io.asteroidsjaylib.common.player.PlayerTag;
 import io.asteroidsjaylib.common.spawn.SpawnEvent;
 
-import java.util.List;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ServiceLoader;
 
 import static com.raylib.Raylib.KEY_SPACE;
 
-public class PlayerShootingSystem extends IteratingSystem {
+public class PlayerShootingSystem extends ResponseSystem {
 
-    private double timeSinceLastShot = 0;
-    private final double shootInterval = 0.2;
-    private boolean isShooting = false;
+    private Instant lastShot = Instant.EPOCH;
+    private Duration timeBetweenShots = Duration.ofMillis(200);
 
     @Override
     public void start(IWorld world) {
         this.setPriority(10);
-        this.timeSinceLastShot = shootInterval;
-        world.getEventBus().subscribe(KeyPressedEvent.class, this::keyPressed);
-        world.getEventBus().subscribe(KeyReleasedEvent.class, this::keyReleased);
+        world.getEventBus().subscribe(KeyDownEvent.class, this::keyDown);
     }
 
-    private void keyPressed(IWorld world, KeyPressedEvent event){
-        if(!world.hasEntitiesWith(PlayerTag.class)) return;
+    private void keyDown(IWorld world, KeyDownEvent keyDownEvent) {
 
-        switch (event.keyCode){
-            case KEY_SPACE:
-                this.isShooting = true;
-                break;
-        }
-    }
+        if (keyDownEvent.keyCode != KEY_SPACE) return;
 
-    private void keyReleased(IWorld world, KeyReleasedEvent event){
-        if(!world.hasEntitiesWith(PlayerTag.class)) return;
+        BaseEntity player = world.getEntitiesWith(PlayerTag.class).getFirst();
 
-        switch (event.keyCode){
-            case KEY_SPACE:
-                this.isShooting = false;
-                break;
-        }
-    }
+        Instant now = Instant.now();
 
-    @Override
-    public void processEntity(IWorld world, BaseEntity player, float deltaTime) {
-        // Always track time since last shot
-        timeSinceLastShot += deltaTime;
-
-        if(!isShooting) return;
-
-        if (timeSinceLastShot >= shootInterval) {
+        if (now.isAfter(lastShot.plus(timeBetweenShots))) {
             shoot(world, player);
-            timeSinceLastShot = 0;
+            lastShot = now;
         }
-    }
-
-    @Override
-    public List<Class<? extends BaseComponent>> getSignature() {
-        return List.of(PlayerTag.class);
     }
 
     private void shoot(IWorld world, BaseEntity player) {
@@ -79,6 +51,5 @@ public class PlayerShootingSystem extends IteratingSystem {
 
         BulletSPI bulletSPI = ServiceLoader.load(BulletSPI.class).findFirst().orElseThrow();
         world.getEventBus().publish(world, new SpawnEvent(bulletSPI.CreateBullet(player, startPosition, velocity)));
-
     }
 }
