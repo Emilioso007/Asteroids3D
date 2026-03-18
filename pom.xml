@@ -43,6 +43,9 @@
         <module>Entities/Player</module>
         <module>Entities/Score</module>
         <module>Entities/Button</module>
+
+        <module>GameStates/MainMenu</module>
+        <module>GameStates/Playing</module>
     </modules>
 
     <properties>

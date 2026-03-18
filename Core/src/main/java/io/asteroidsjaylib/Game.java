@@ -1,17 +1,13 @@
 package io.asteroidsjaylib;
 
 import io.asteroidsjaylib.common.IWorld;
-import io.asteroidsjaylib.common.button.ButtonSPI;
-import io.asteroidsjaylib.common.button.ButtonTag;
-import io.asteroidsjaylib.common.button.ClickedEvent;
-import io.asteroidsjaylib.common.ecs.EntitySpi;
-import io.asteroidsjaylib.common.ecs.BaseSystem;
+import io.asteroidsjaylib.common.ecs.IGameStateProvider;
+import io.asteroidsjaylib.common.event.StateChangedEvent;
 import io.asteroidsjaylib.common.event.input.key.KeyDownEvent;
 import io.asteroidsjaylib.common.event.input.key.KeyPressedEvent;
 import io.asteroidsjaylib.common.event.input.key.KeyReleasedEvent;
 import io.asteroidsjaylib.common.event.input.key.KeyUpEvent;
 import io.asteroidsjaylib.common.event.input.mouse.*;
-import io.asteroidsjaylib.common.score.IncrementScoreEvent;
 import io.asteroidsjaylib.common.util.Vector2D;
 
 import static com.raylib.Raylib.*;
@@ -40,17 +36,9 @@ public class Game {
         world.setScreenWidth(screenWidth);
         world.setScreenHeight(screenHeight);
 
-        // ADD ENTITIES
-        addEntities();
+        world.getEventBus().subscribe(StateChangedEvent.class, this::onStateChanged);
 
-        // START SYSTEMS
-        addSystems();
-
-        // Try adding a button
-        world.addEntity(ServiceLoader.load(ButtonSPI.class).findFirst().orElseThrow().createButton("INCREMENT_SCORE_BUTTON", new Vector2D(100, 100), "Hello world!"));
-
-        world.getEventBus().subscribe(KeyPressedEvent.class, this::keyPressed);
-        world.getEventBus().subscribe(ClickedEvent.class, this::clicked);
+        world.getEventBus().publish(world, new StateChangedEvent("MAIN_MENU"));
 
         while(!WindowShouldClose()) {
             processInput();
@@ -64,17 +52,6 @@ public class Game {
         }
 
         CloseWindow();
-    }
-
-    private void clicked(IWorld world, ClickedEvent clickedEvent) {
-        System.out.println("SOMETHING WAS CLICKED IM SCARED!");
-
-        if (!clickedEvent.clickedEntity.hasComponent(ButtonTag.class)) return;
-
-        ButtonTag buttonTag = clickedEvent.clickedEntity.getComponent(ButtonTag.class).orElseThrow();
-        if (buttonTag.id.equals("INCREMENT_SCORE_BUTTON")) {
-            world.getEventBus().publish(world, new IncrementScoreEvent(1));
-        }
     }
 
     public void processInput() {
@@ -113,29 +90,22 @@ public class Game {
         world.getEventBus().publish(world, new MousePositionEvent(mousePos));
     }
 
-    private void addSystems() {
-        ServiceLoader<BaseSystem> systems = ServiceLoader.load(BaseSystem.class);
-        for (BaseSystem system : systems){
-            system.start(world);
-            world.addSystem(system);
+    private void onStateChanged(IWorld world, StateChangedEvent event){
+
+        world.clearEntities();
+        world.clearSystems();
+        world.getEventBus().clear();
+        world.getEventBus().subscribe(StateChangedEvent.class, this::onStateChanged);
+
+        ServiceLoader<IGameStateProvider> providers = ServiceLoader.load(IGameStateProvider.class);
+        for (IGameStateProvider provider : providers){
+            if (provider.getStateName().equalsIgnoreCase(event.newState)){
+                provider.onEnter(world);
+
+                return;
+            }
         }
+
     }
 
-    private void addEntities() {
-        ServiceLoader<EntitySpi> entitySpis = ServiceLoader.load(EntitySpi.class);
-        for (EntitySpi entitySpi : entitySpis){
-            entitySpi.start(world);
-        }
-    }
-
-    private void keyPressed(IWorld world, KeyPressedEvent event) {
-        if(event.keyCode == KEY_R){
-            world.clearEntities();
-            world.clearSystems();
-            world.getEventBus().clear();
-            addEntities();
-            addSystems();
-            world.getEventBus().subscribe(KeyPressedEvent.class, this::keyPressed);
-        }
-    }
 }

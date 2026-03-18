@@ -32,6 +32,8 @@ public class PlayerShootingSystem extends ResponseSystem {
 
         if (keyDownEvent.keyCode != KEY_SPACE) return;
 
+        if (!world.hasEntitiesWith(PlayerTag.class)) return;
+
         BaseEntity player = world.getEntitiesWith(PlayerTag.class).getFirst();
 
         Instant now = Instant.now();
