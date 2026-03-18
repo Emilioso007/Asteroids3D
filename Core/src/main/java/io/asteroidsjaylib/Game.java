@@ -2,6 +2,7 @@ package io.asteroidsjaylib;
 
 import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.button.ButtonSPI;
+import io.asteroidsjaylib.common.button.ButtonTag;
 import io.asteroidsjaylib.common.button.ClickedEvent;
 import io.asteroidsjaylib.common.ecs.EntitySpi;
 import io.asteroidsjaylib.common.ecs.BaseSystem;
@@ -46,7 +47,7 @@ public class Game {
         addSystems();
 
         // Try adding a button
-        world.addEntity(ServiceLoader.load(ButtonSPI.class).findFirst().orElseThrow().createButton(new Vector2D(100, 100), "Hello world!"));
+        world.addEntity(ServiceLoader.load(ButtonSPI.class).findFirst().orElseThrow().createButton("INCREMENT_SCORE_BUTTON", new Vector2D(100, 100), "Hello world!"));
 
         world.getEventBus().subscribe(KeyPressedEvent.class, this::keyPressed);
         world.getEventBus().subscribe(ClickedEvent.class, this::clicked);
@@ -67,8 +68,13 @@ public class Game {
 
     private void clicked(IWorld world, ClickedEvent clickedEvent) {
         System.out.println("SOMETHING WAS CLICKED IM SCARED!");
-        System.out.println(clickedEvent.clickedEntity.getClass().getName());
-        world.getEventBus().publish(world, new IncrementScoreEvent(1));
+
+        if (!clickedEvent.clickedEntity.hasComponent(ButtonTag.class)) return;
+
+        ButtonTag buttonTag = clickedEvent.clickedEntity.getComponent(ButtonTag.class).orElseThrow();
+        if (buttonTag.id.equals("INCREMENT_SCORE_BUTTON")) {
+            world.getEventBus().publish(world, new IncrementScoreEvent(1));
+        }
     }
 
     public void processInput() {

@@ -17,9 +17,9 @@ import static com.raylib.Colors.WHITE;
 
 public class Button extends BaseEntity {
 
-    public Button(Vector2D position, String text){
+    public Button(String id, Vector2D position, String text){
 
-        this.addComponent(new ButtonTag());
+        this.addComponent(new ButtonTag(id));
 
         this.addComponent(new PositionComponent(position));
 
