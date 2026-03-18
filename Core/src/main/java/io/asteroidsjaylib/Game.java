@@ -52,7 +52,7 @@ public class Game {
         world.getEventBus().subscribe(KeyPressedEvent.class, this::keyPressed);
         world.getEventBus().subscribe(ClickedEvent.class, this::clicked);
 
-        while(!WindowShouldClose()){
+        while(!WindowShouldClose()) {
             processInput();
 
             BeginDrawing();

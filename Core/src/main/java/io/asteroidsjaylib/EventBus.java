@@ -7,6 +7,7 @@ import io.asteroidsjaylib.common.event.IEventBus;
 
 import java.util.*;
 
+// TODO: Make a interface that responsesystems implement, and use servicelodaer to find listeners, IoC ftw!
 public final class EventBus implements IEventBus {
 
     private final Map<Class<? extends BaseEvent>, List<EventListener>> listeners = new HashMap<>();

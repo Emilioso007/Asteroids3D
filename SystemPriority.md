@@ -39,8 +39,9 @@ xx: [SpawnSystem](SpawnModule/src/main/java/io/asteroidsjaylib/spawn/SpawnSystem
 Plan: Endless Waves Progression
 
 Build a wave director so the game never “runs out” of content after the first asteroid/enemy cycle. The idea is to detect when threats are cleared, increment a wave counter, and spawn stronger/faster mixes each round using SPI-based factories (matching your existing BulletSPI/CoinSPI pattern). This keeps module boundaries clean, adds replayability, and gives score progression a clear gameplay loop.
-Steps
 
+
+Steps
 
 Add WaveTag and StartNextWaveEvent in SpawnCommonModule/src/main/java for shared wave state/events.
 
