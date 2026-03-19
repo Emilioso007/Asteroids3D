@@ -4,6 +4,7 @@ import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.ecs.BaseSystem;
 import io.asteroidsjaylib.common.ecs.EntitySpi;
 import io.asteroidsjaylib.common.ecs.IGameStateProvider;
+import io.asteroidsjaylib.common.event.StateChangedEvent;
 import io.asteroidsjaylib.common.event.input.key.KeyPressedEvent;
 
 import java.util.ServiceLoader;
@@ -44,12 +45,7 @@ public class Playing implements IGameStateProvider {
 
     private void keyPressed(IWorld world, KeyPressedEvent event) {
         if(event.keyCode == KEY_R){
-            world.clearEntities();
-            world.clearSystems();
-            world.getEventBus().clear();
-            addEntities(world);
-            addSystems(world);
-            world.getEventBus().subscribe(KeyPressedEvent.class, this::keyPressed);
+            world.getEventBus().publish(world, new StateChangedEvent("PLAYING"));
         }
     }
 }
