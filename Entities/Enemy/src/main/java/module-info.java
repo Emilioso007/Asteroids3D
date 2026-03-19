@@ -1,8 +1,8 @@
 import io.asteroidsjaylib.common.bullet.BulletSPI;
-import io.asteroidsjaylib.common.ecs.EntitySpi;
 import io.asteroidsjaylib.common.ecs.BaseSystem;
+import io.asteroidsjaylib.common.enemy.EnemySPI;
 import io.asteroidsjaylib.enemy.EnemyCollisionResponseSystem;
-import io.asteroidsjaylib.enemy.EnemyEntityProvider;
+import io.asteroidsjaylib.enemy.EnemyProvider;
 import io.asteroidsjaylib.enemy.EnemySystem;
 
 module Enemy {
@@ -20,7 +20,8 @@ module Enemy {
     requires CommonCollision;
     requires CommonOwnership;
     requires CommonOutOfBounds;
+    requires CommonCoin;
 
-    provides EntitySpi with EnemyEntityProvider;
+    provides EnemySPI with EnemyProvider;
     provides BaseSystem with EnemySystem, EnemyCollisionResponseSystem;
 }

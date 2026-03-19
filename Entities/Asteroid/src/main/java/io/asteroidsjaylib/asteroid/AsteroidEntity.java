@@ -1,5 +1,6 @@
 package io.asteroidsjaylib.asteroid;
 
+import io.asteroidsjaylib.common.asteroid.AsteroidSize;
 import io.asteroidsjaylib.common.asteroid.AsteroidSizeComponent;
 import io.asteroidsjaylib.common.asteroid.AsteroidTag;
 import io.asteroidsjaylib.common.collision.CircleColliderComponent;import io.asteroidsjaylib.common.ecs.BaseEntity;
@@ -16,7 +17,7 @@ import java.util.Random;
 
 public class AsteroidEntity extends BaseEntity {
 
-    public AsteroidEntity(Vector2D startPosition, Vector2D startVelocity, int size){
+    public AsteroidEntity(Vector2D startPosition, Vector2D startVelocity, AsteroidSize size){
 
         this.addComponent(new AsteroidTag());
 
@@ -46,8 +47,8 @@ public class AsteroidEntity extends BaseEntity {
 
         double angleBetween = Math.toRadians(360f/points);
 
-        int min = 15 + size * 10;
-        int max = 35 + size * 20;
+        int min = 15 + size.ordinal() * 10;
+        int max = 35 + size.ordinal() * 20;
 
         for(int i = 0; i < points; i++){
             xs[i] = (float) (Math.cos(i*angleBetween)*random.nextInt(min, max));
@@ -67,7 +68,7 @@ public class AsteroidEntity extends BaseEntity {
         this.addComponent(outOfBoundsComponent);
 
         CircleColliderComponent circleColliderComponent = new CircleColliderComponent();
-        circleColliderComponent.radius = (35 + size * 20);
+        circleColliderComponent.radius = (35 + size.ordinal() * 20);
         this.addComponent(circleColliderComponent);
 
     }

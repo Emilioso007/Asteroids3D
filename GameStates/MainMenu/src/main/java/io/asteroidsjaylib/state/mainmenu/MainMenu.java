@@ -11,6 +11,8 @@ import io.asteroidsjaylib.common.util.Vector2D;
 
 import java.util.ServiceLoader;
 
+import static com.raylib.Raylib.SetWindowTitle;
+
 public class MainMenu implements IGameStateProvider {
 
     @Override
@@ -21,6 +23,7 @@ public class MainMenu implements IGameStateProvider {
     @Override
     public void onEnter(IWorld world) {
         System.out.println("HELLO FROM MAIN MENU STATE!!!");
+        SetWindowTitle("Main Menu");
 
         ServiceLoader<BaseSystem> systems = ServiceLoader.load(BaseSystem.class);
         for (BaseSystem system : systems){

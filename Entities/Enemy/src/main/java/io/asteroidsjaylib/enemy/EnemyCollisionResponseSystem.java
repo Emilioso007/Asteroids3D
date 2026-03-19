@@ -1,6 +1,7 @@
 package io.asteroidsjaylib.enemy;
 
 import io.asteroidsjaylib.common.IWorld;
+import io.asteroidsjaylib.common.coin.CoinTag;
 import io.asteroidsjaylib.common.collision.CollisionEvent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.ecs.ResponseSystem;
@@ -23,6 +24,7 @@ public class EnemyCollisionResponseSystem extends ResponseSystem {
 
         // If collider is also enemy, do nothing
         if (collider.hasComponent(EnemyTag.class)) return;
+        if (collider.hasComponent(CoinTag.class)) return;
 
         // If collider owner is enemy, do nothing
         var ownership = collider.getComponent(OwnershipComponent.class);

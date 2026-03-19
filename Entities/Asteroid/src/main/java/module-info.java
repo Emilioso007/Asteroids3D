@@ -1,5 +1,7 @@
+import io.asteroidsjaylib.asteroid.AsteroidCollisionResponseSystem;
+import io.asteroidsjaylib.asteroid.AsteroidProvider;
+import io.asteroidsjaylib.common.asteroid.AsteroidSPI;
 import io.asteroidsjaylib.common.ecs.BaseSystem;
-import io.asteroidsjaylib.common.ecs.EntitySpi;
 
 module Asteroid {
     uses io.asteroidsjaylib.common.coin.CoinSPI;
@@ -13,6 +15,6 @@ module Asteroid {
     requires CommonCollision;
     requires CommonCoin;
 
-    provides EntitySpi with io.asteroidsjaylib.asteroid.AsteroidProvider;
-    provides BaseSystem with io.asteroidsjaylib.asteroid.AsteroidCollisionResponseSystem;
+    provides AsteroidSPI with AsteroidProvider;
+    provides BaseSystem with AsteroidCollisionResponseSystem;
 }

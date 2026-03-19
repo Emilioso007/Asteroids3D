@@ -1,5 +1,6 @@
 package io.asteroidsjaylib.asteroid;
 
+import io.asteroidsjaylib.common.asteroid.AsteroidSize;
 import io.asteroidsjaylib.common.asteroid.AsteroidSizeComponent;
 import io.asteroidsjaylib.common.asteroid.AsteroidTag;
 import io.asteroidsjaylib.common.coin.CoinSPI;
@@ -37,8 +38,8 @@ public class AsteroidCollisionResponseSystem extends ResponseSystem {
         asteroid.setToBeRemoved(true);
 
         // Optionally split asteroid
-        int asteroidSize = asteroid.getComponent(AsteroidSizeComponent.class).map(c -> c.size).orElseThrow();
-        if (asteroidSize > AsteroidSizeComponent.SMALL){
+        AsteroidSize asteroidSize = asteroid.getComponent(AsteroidSizeComponent.class).map(c -> c.size).orElseThrow();
+        if (asteroidSize.ordinal() > AsteroidSize.SMALL.ordinal()){
             for(int i = 0; i < 2; i++){
 
                 Vector2D position = asteroid.getComponent(PositionComponent.class).map(c -> c.pos.copy()).orElseThrow();
@@ -48,7 +49,7 @@ public class AsteroidCollisionResponseSystem extends ResponseSystem {
                 Vector2D velocity = collider.getComponent(VelocityComponent.class).map(c -> c.vel.copy()).orElse(Vector2D.randomVector(1));
                 velocity.rotate(60 + i * 240).setMag(magnitude);
 
-                AsteroidEntity newAsteroid = new AsteroidEntity(position, velocity, asteroidSize - 1);
+                AsteroidEntity newAsteroid = new AsteroidEntity(position, velocity, AsteroidSize.values()[asteroidSize.ordinal() - 1]);
                 world.queueAddEntity(newAsteroid);
             }
         }
@@ -57,7 +58,7 @@ public class AsteroidCollisionResponseSystem extends ResponseSystem {
         CoinSPI coinSPI = ServiceLoader.load(CoinSPI.class).findFirst().orElseThrow();
         Vector2D pos = asteroid.getComponent(PositionComponent.class).orElseThrow().pos.copy();
         Vector2D vel = Vector2D.randomVector(25);
-        world.getEventBus().publish(world, new SpawnEvent(coinSPI.createCoin(pos, vel, asteroidSize+1)));
+        world.getEventBus().publish(world, new SpawnEvent(coinSPI.createCoin(pos, vel, asteroidSize.ordinal()+1)));
 
     }
 }

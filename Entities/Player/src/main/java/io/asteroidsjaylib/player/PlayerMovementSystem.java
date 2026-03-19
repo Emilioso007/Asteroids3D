@@ -33,10 +33,10 @@ public class PlayerMovementSystem extends IteratingSystem {
         BaseEntity player = world.getEntitiesWith(PlayerTag.class).getFirst();
         switch (event.keyCode){
             case KEY_LEFT, KEY_A:
-                player.getComponent(RotationComponent.class).orElseThrow().dAngle = (float) -90;
+                player.getComponent(RotationComponent.class).orElseThrow().dAngle += (float) -90;
                 break;
             case KEY_RIGHT, KEY_D:
-                player.getComponent(RotationComponent.class).orElseThrow().dAngle = (float) 90;
+                player.getComponent(RotationComponent.class).orElseThrow().dAngle += (float) 90;
                 break;
             case KEY_UP, KEY_W:
                 accelerating = true;
@@ -50,11 +50,14 @@ public class PlayerMovementSystem extends IteratingSystem {
         BaseEntity player = world.getEntitiesWith(PlayerTag.class).getFirst();
         switch (event.keyCode){
             case KEY_LEFT, KEY_A:
+                player.getComponent(RotationComponent.class).orElseThrow().dAngle += (float) 90;
+                break;
             case KEY_RIGHT, KEY_D:
-                player.getComponent(RotationComponent.class).orElseThrow().dAngle = 0;
+                player.getComponent(RotationComponent.class).orElseThrow().dAngle += (float) -90;
                 break;
             case KEY_UP, KEY_W:
                 accelerating = false;
+                break;
         }
     }
 

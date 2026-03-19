@@ -6,7 +6,6 @@ import io.asteroidsjaylib.common.physics.AngleComponent;
 import io.asteroidsjaylib.common.physics.PositionComponent;
 import io.asteroidsjaylib.common.physics.VelocityComponent;
 import io.asteroidsjaylib.common.util.Vector2D;
-import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.enemy.EnemyTag;
 import io.asteroidsjaylib.common.render.RenderTag;
 import io.asteroidsjaylib.common.render.ShapeComponent;
@@ -20,20 +19,15 @@ import static com.raylib.Raylib.*;
 
 public class EnemyEntity extends BaseEntity {
 
-    public EnemyEntity(IWorld world){
+    public EnemyEntity(Vector2D startPosition){
 
         this.addComponent(new EnemyTag());
 
-        PositionComponent positionComponent = new PositionComponent(new Vector2D(world.getWidth() * 0.25f, world.getHeight() * 0.5f));
-        this.addComponent(positionComponent);
+        this.addComponent(new PositionComponent(startPosition));
 
-        VelocityComponent velocityComponent = new VelocityComponent();
-        velocityComponent.vel = new Vector2D(50, 0);
-        this.addComponent(velocityComponent);
+        this.addComponent(new VelocityComponent(new Vector2D(50, 0)));
 
-        AngleComponent angleComponent = new AngleComponent();
-        angleComponent.angle = 0;
-        this.addComponent(angleComponent);
+        this.addComponent(new AngleComponent());
 
         RenderTag renderTag = new RenderTag(20);
 

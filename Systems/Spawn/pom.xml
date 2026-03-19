@@ -26,6 +26,22 @@
             <groupId>io.asteroidsjaylib.common.spawn</groupId>
             <artifactId>CommonSpawn</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.asteroidsjaylib.common.asteroid</groupId>
+            <artifactId>CommonAsteroid</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.asteroidsjaylib.common.enemy</groupId>
+            <artifactId>CommonEnemy</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.asteroidsjaylib.common.player</groupId>
+            <artifactId>CommonPlayer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.asteroidsjaylib.common.physics</groupId>
+            <artifactId>CommonPhysics</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

@@ -12,6 +12,7 @@ public class SpawnSystem extends ResponseSystem {
     }
 
     private void handleSpawnEvent(IWorld world, SpawnEvent event) {
+        System.out.println(event.entityToSpawn.getClass().getName());
         world.queueAddEntity(event.entityToSpawn);
     }
 

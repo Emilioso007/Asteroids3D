@@ -10,6 +10,7 @@ import io.asteroidsjaylib.common.event.input.key.KeyPressedEvent;
 import java.util.ServiceLoader;
 
 import static com.raylib.Raylib.KEY_R;
+import static com.raylib.Raylib.SetWindowTitle;
 
 public class Playing implements IGameStateProvider {
 
@@ -21,6 +22,7 @@ public class Playing implements IGameStateProvider {
     @Override
     public void onEnter(IWorld world) {
         System.out.println("HELLO FROM PLAYING STATE!!!");
+        SetWindowTitle("Playing");
 
         addSystems(world);
         addEntities(world);

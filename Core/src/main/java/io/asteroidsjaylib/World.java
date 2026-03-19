@@ -63,7 +63,7 @@ public final class World implements IWorld {
         List<Class<? extends BaseComponent>> signature = system.getSignature();
 
         if (signature == null || signature.isEmpty()) {
-            system.update(this, new ArrayList<>(), deltaTime);
+            system.update(this, entities, deltaTime);
             return;
         }
 
