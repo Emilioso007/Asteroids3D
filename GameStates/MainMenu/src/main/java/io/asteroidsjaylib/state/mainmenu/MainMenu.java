@@ -28,7 +28,8 @@ public class MainMenu implements IGameStateProvider {
             world.addSystem(system);
         }
 
-        world.addEntity(ServiceLoader.load(ButtonSPI.class).findFirst().orElseThrow().createButton("START_GAME_BUTTON", new Vector2D((float) world.getScreenWidth() /2, (float) world.getScreenHeight() /2), "Start game!"));
+        world.addEntity(ServiceLoader.load(ButtonSPI.class).findFirst().orElseThrow().createButton("START_GAME_BUTTON", new Vector2D((float) world.getScreenWidth() /2, (float) world.getScreenHeight() /2 - 50), "Start game!"));
+        world.addEntity(ServiceLoader.load(ButtonSPI.class).findFirst().orElseThrow().createButton("QUIT_GAME_BUTTON", new Vector2D((float) world.getScreenWidth() /2, (float) world.getScreenHeight() /2 + 50), "Quit game!"));
 
         world.getEventBus().subscribe(ClickedEvent.class, this::clicked);
     }
@@ -37,8 +38,15 @@ public class MainMenu implements IGameStateProvider {
         if (!clickedEvent.clickedEntity.hasComponent(ButtonTag.class)) return;
 
         ButtonTag buttonTag = clickedEvent.clickedEntity.getComponent(ButtonTag.class).orElseThrow();
-        if (buttonTag.id.equals("START_GAME_BUTTON")) {
+
+        switch(buttonTag.id){
+            case "START_GAME_BUTTON":
             world.getEventBus().publish(world, new StateChangedEvent("PLAYING"));
+                break;
+            case "QUIT_GAME_BUTTON":
+                world.getEventBus().publish(world, new StateChangedEvent("QUIT"));
+                break;
         }
+
     }
 }

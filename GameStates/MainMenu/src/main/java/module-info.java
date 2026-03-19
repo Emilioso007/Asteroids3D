@@ -6,6 +6,7 @@ module MainMenu {
     uses io.asteroidsjaylib.common.ecs.BaseSystem;
     requires Common;
     requires CommonButton;
+    requires jaylib;
 
     provides IGameStateProvider with MainMenu;
 }

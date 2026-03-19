@@ -17,6 +17,8 @@ import java.util.ServiceLoader;
 
 public class Game {
 
+    private boolean running = true;
+
     public World world;
 
     public void start() {
@@ -28,6 +30,7 @@ public class Game {
 
         InitWindow(screenWidth, screenHeight, "AsteroidsJaylib");
         SetTargetFPS(60);
+        SetExitKey(KEY_NULL);
 
         world = new World();
 
@@ -37,10 +40,11 @@ public class Game {
         world.setScreenHeight(screenHeight);
 
         world.getEventBus().subscribe(StateChangedEvent.class, this::onStateChanged);
+        world.getEventBus().subscribe(KeyPressedEvent.class, this::keyPressed);
 
         world.getEventBus().publish(world, new StateChangedEvent("MAIN_MENU"));
 
-        while(!WindowShouldClose()) {
+        while(!WindowShouldClose() && running) {
             processInput();
 
             BeginDrawing();
@@ -52,6 +56,14 @@ public class Game {
         }
 
         CloseWindow();
+    }
+
+    private void keyPressed(IWorld world, KeyPressedEvent keyPressedEvent) {
+        switch (keyPressedEvent.keyCode){
+            case KEY_ESCAPE:
+                world.getEventBus().publish(world, new StateChangedEvent("MAIN_MENU"));
+                break;
+        }
     }
 
     public void processInput() {
@@ -92,10 +104,17 @@ public class Game {
 
     private void onStateChanged(IWorld world, StateChangedEvent event){
 
+        if (event.newState.equalsIgnoreCase("QUIT")){
+            running = false;
+            return;
+        }
+
         world.clearEntities();
         world.clearSystems();
         world.getEventBus().clear();
         world.getEventBus().subscribe(StateChangedEvent.class, this::onStateChanged);
+        world.getEventBus().subscribe(KeyPressedEvent.class, this::keyPressed);
+
 
         ServiceLoader<IGameStateProvider> providers = ServiceLoader.load(IGameStateProvider.class);
         for (IGameStateProvider provider : providers){
