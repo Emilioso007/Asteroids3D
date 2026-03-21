@@ -33,7 +33,3 @@ xx: [EnemyCollisionResponseSystem](Entities/Enemy/src/main/java/io/asteroidsjayl
 xx: [PlayerCollisionResponseSystem](Entities/Player/src/main/java/io/asteroidsjaylib/player/PlayerCollisionResponseSystem.java) - Listens to collision events
 
 xx: [SpawnSystem](Systems/Spawn/src/main/java/io/asteroidsjaylib/spawn/SpawnSystem.java) - Listens to spawn events
-
-
-
-Plan: Visible Thruster

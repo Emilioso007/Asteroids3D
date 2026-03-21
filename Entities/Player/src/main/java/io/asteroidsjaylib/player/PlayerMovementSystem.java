@@ -9,6 +9,8 @@ import io.asteroidsjaylib.common.event.input.key.KeyReleasedEvent;
 import io.asteroidsjaylib.common.physics.AccelerationComponent;
 import io.asteroidsjaylib.common.physics.AngleComponent;
 import io.asteroidsjaylib.common.physics.RotationComponent;
+import io.asteroidsjaylib.common.render.AnimationImageComponent;
+import io.asteroidsjaylib.common.render.RenderTag;
 import io.asteroidsjaylib.common.util.Vector2D;
 import io.asteroidsjaylib.common.player.PlayerTag;
 
@@ -19,6 +21,9 @@ import java.util.List;
 public class PlayerMovementSystem extends IteratingSystem {
 
     private boolean accelerating = false;
+    private float animationTimer = 0;
+    private float nextInterval = 0.07f; // Start with a default speed
+    private int currentThrustFrame = 1;
 
     @Override
     public void start(IWorld world) {
@@ -63,7 +68,38 @@ public class PlayerMovementSystem extends IteratingSystem {
 
     @Override
     public void processEntity(IWorld world, BaseEntity player, float deltaTime) {
-        if(!accelerating) return;
+
+        AnimationImageComponent img = player.getComponent(RenderTag.class).orElseThrow().getRenderComponent(AnimationImageComponent.class);
+
+        if(!accelerating) {
+            img.frameIndex = 0;
+            animationTimer = 0;
+            return;
+        }
+
+
+        // 1. Add deltaTime to our accumulator
+        animationTimer += deltaTime;
+
+        // 2. The "Trick": Only change frames when the timer exceeds our threshold
+        if (animationTimer >= nextInterval) {
+            animationTimer = 0; // Reset the accumulator
+
+            // 3. Pick a "random but not excessive" next step
+            // We ensure the new frame is different from the current one for a clear flicker
+            int nextFrame;
+            do {
+                nextFrame = (int) (Math.random() * 3) + 1; // Pick 1, 2, or 3
+            } while (nextFrame == currentThrustFrame);
+
+            currentThrustFrame = nextFrame;
+            img.frameIndex = currentThrustFrame;
+
+            // 4. Randomize the NEXT interval slightly to break the mechanical pattern
+            // This creates the "organic" feel
+            nextInterval = 0.04f + (float)(Math.random() * 0.06f);
+        }
+
 
         Vector2D acceleration = player.getComponent(AccelerationComponent.class).orElseThrow().acc;
         float angle = player.getComponent(AngleComponent.class).orElseThrow().angle;

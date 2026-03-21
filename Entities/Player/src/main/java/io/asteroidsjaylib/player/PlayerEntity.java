@@ -3,9 +3,9 @@ package io.asteroidsjaylib.player;
 import io.asteroidsjaylib.common.collision.CircleColliderComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.physics.*;
+import io.asteroidsjaylib.common.render.AnimationImageComponent;
 import io.asteroidsjaylib.common.util.Vector2D;
 import io.asteroidsjaylib.common.player.PlayerTag;
-import io.asteroidsjaylib.common.render.ImageComponent;
 import io.asteroidsjaylib.common.render.RenderAlign;
 import io.asteroidsjaylib.common.render.RenderTag;
 import io.asteroidsjaylib.common.outofbounds.BoundsAction;
@@ -40,10 +40,10 @@ public class PlayerEntity extends BaseEntity {
         this.addComponent(dragComponent);
 
         RenderTag renderTag = new RenderTag(50);
-        ImageComponent imageComponent = new ImageComponent("spaceship.png", 50, 50);
-        imageComponent.horizontalAlign = RenderAlign.CENTER;
-        imageComponent.verticalAlign = RenderAlign.CENTER;
-        renderTag.addRenderComponent(imageComponent, 0);
+        AnimationImageComponent animationImageComponent = new AnimationImageComponent("spaceship-animation.png", 75, 75, 4);
+        animationImageComponent.horizontalAlign = RenderAlign.CENTER;
+        animationImageComponent.verticalAlign = RenderAlign.CENTER;
+        renderTag.addRenderComponent(animationImageComponent, 0);
         this.addComponent(renderTag);
 
         OutOfBoundsComponent outOfBoundsComponent = new OutOfBoundsComponent();
@@ -51,7 +51,7 @@ public class PlayerEntity extends BaseEntity {
         this.addComponent(outOfBoundsComponent);
 
         CircleColliderComponent circleColliderComponent = new CircleColliderComponent();
-        circleColliderComponent.radius = 25;
+        circleColliderComponent.radius = 75/2f;
 
         this.addComponent(circleColliderComponent);
 
