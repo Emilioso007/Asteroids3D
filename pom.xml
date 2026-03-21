@@ -27,6 +27,7 @@
         <module>Common/CommonCoin</module>
         <module>Common/CommonScore</module>
         <module>Common/CommonButton</module>
+        <module>Common/CommonSound</module>
 
         <module>Systems/Physics</module>
         <module>Systems/Collision</module>
@@ -34,6 +35,7 @@
         <module>Systems/Spawn</module>
         <module>Systems/Lifetime</module>
         <module>Systems/Render</module>
+        <module>Systems/Sound</module>
 
         <module>Entities/Asteroid</module>
         <module>Entities/Background</module>

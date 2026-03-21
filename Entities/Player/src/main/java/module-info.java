@@ -19,6 +19,7 @@ module Player {
     requires CommonOwnership;
     requires CommonOutOfBounds;
     requires CommonBullet;
+    requires CommonSound;
 
     provides EntitySpi with PlayerEntityProvider;
     provides BaseSystem with PlayerShootingSystem, PlayerMovementSystem, PlayerCollisionResponseSystem;

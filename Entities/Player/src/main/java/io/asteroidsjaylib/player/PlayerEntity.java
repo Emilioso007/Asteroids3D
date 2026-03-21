@@ -4,6 +4,7 @@ import io.asteroidsjaylib.common.collision.CircleColliderComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.physics.*;
 import io.asteroidsjaylib.common.render.AnimationImageComponent;
+import io.asteroidsjaylib.common.sound.SoundComponent;
 import io.asteroidsjaylib.common.util.Vector2D;
 import io.asteroidsjaylib.common.player.PlayerTag;
 import io.asteroidsjaylib.common.render.RenderAlign;
@@ -54,6 +55,9 @@ public class PlayerEntity extends BaseEntity {
         circleColliderComponent.radius = 75/2f;
 
         this.addComponent(circleColliderComponent);
+
+        SoundComponent soundComponent = new SoundComponent("rocket-sound.wav");
+        this.addComponent(soundComponent);
 
     }
 

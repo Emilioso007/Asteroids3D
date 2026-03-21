@@ -11,6 +11,7 @@ import io.asteroidsjaylib.common.physics.AngleComponent;
 import io.asteroidsjaylib.common.physics.RotationComponent;
 import io.asteroidsjaylib.common.render.AnimationImageComponent;
 import io.asteroidsjaylib.common.render.RenderTag;
+import io.asteroidsjaylib.common.sound.SoundComponent;
 import io.asteroidsjaylib.common.util.Vector2D;
 import io.asteroidsjaylib.common.player.PlayerTag;
 
@@ -49,6 +50,7 @@ public class PlayerMovementSystem extends IteratingSystem {
                 break;
             case KEY_UP, KEY_W:
                 accelerating = true;
+                player.getComponent(SoundComponent.class).orElseThrow().playing = true;
                 break;
         }
     }
@@ -66,6 +68,7 @@ public class PlayerMovementSystem extends IteratingSystem {
                 break;
             case KEY_UP, KEY_W:
                 accelerating = false;
+                player.getComponent(SoundComponent.class).orElseThrow().playing = false;
                 break;
         }
     }

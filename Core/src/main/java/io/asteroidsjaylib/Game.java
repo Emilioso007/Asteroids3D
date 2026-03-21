@@ -29,6 +29,7 @@ public class Game {
         int worldHeight = 1600;
 
         InitWindow(screenWidth, screenHeight, "AsteroidsJaylib");
+        InitAudioDevice();
         //SetTargetFPS(60);
         SetExitKey(KEY_NULL);
 
