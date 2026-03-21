@@ -40,7 +40,7 @@ public class PlayerEntity extends BaseEntity {
         this.addComponent(dragComponent);
 
         RenderTag renderTag = new RenderTag(50);
-        ImageComponent imageComponent = new ImageComponent("spaceship.png", 76, 76);
+        ImageComponent imageComponent = new ImageComponent("spaceship.png", 50, 50);
         imageComponent.horizontalAlign = RenderAlign.CENTER;
         imageComponent.verticalAlign = RenderAlign.CENTER;
         renderTag.addRenderComponent(imageComponent, 0);
@@ -51,7 +51,7 @@ public class PlayerEntity extends BaseEntity {
         this.addComponent(outOfBoundsComponent);
 
         CircleColliderComponent circleColliderComponent = new CircleColliderComponent();
-        circleColliderComponent.radius = 38;
+        circleColliderComponent.radius = 25;
 
         this.addComponent(circleColliderComponent);
 

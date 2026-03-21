@@ -29,7 +29,7 @@ public class Game {
         int worldHeight = 1600;
 
         InitWindow(screenWidth, screenHeight, "AsteroidsJaylib");
-        SetTargetFPS(60);
+        //SetTargetFPS(60);
         SetExitKey(KEY_NULL);
 
         world = new World();
@@ -52,6 +52,7 @@ public class Game {
 
             world.tick(GetFrameTime());
 
+            DrawFPS(50, 50);
             EndDrawing();
         }
 

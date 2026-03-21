@@ -29,12 +29,16 @@ public class CollisionSystem extends BaseSystem {
 
             BaseEntity collider = entities.get(i);
 
+            if(collider.isToBeRemoved()) continue;
+
             Vector2D colliderPosition = collider.getComponent(PositionComponent.class).orElseThrow().pos;
             float colliderCircle = collider.getComponent(CircleColliderComponent.class).orElseThrow().radius;
 
             for(int j = i + 1; j < entities.size(); j++){
 
                 BaseEntity target = entities.get(j);
+
+                if(target.isToBeRemoved()) continue;
 
                 Vector2D targetPosition = target.getComponent(PositionComponent.class).orElseThrow().pos;
                 float targetCircle = target.getComponent(CircleColliderComponent.class).orElseThrow().radius;
