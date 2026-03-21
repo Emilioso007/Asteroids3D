@@ -20,6 +20,7 @@ public final class World implements IWorld {
     private int screenWidth;
     private int screenHeight;
     private Vector2D cameraLocation;
+    private Vector2D cameraShake = new Vector2D();
     private final List<BaseEntity> entities;
     private final List<BaseEntity> entitiesToAdd;
     private final Set<BaseSystem> systems;
@@ -57,6 +58,8 @@ public final class World implements IWorld {
         getEntities().removeIf(BaseEntity::isToBeRemoved);
         getEntities().addAll(entitiesToAdd);
         entitiesToAdd.clear();
+
+        cameraShake = new Vector2D();
     }
 
     private void runSystem(BaseSystem system, float deltaTime) {
@@ -183,6 +186,16 @@ public final class World implements IWorld {
     @Override
     public void setCameraLocation(Vector2D cameraLocation) {
         this.cameraLocation = cameraLocation;
+    }
+
+    @Override
+    public void shakeCamera(Vector2D shakeVector){
+        cameraShake.add(shakeVector);
+    }
+
+    @Override
+    public Vector2D getCameraShake(){
+        return cameraShake;
     }
 
     @Override

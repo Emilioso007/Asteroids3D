@@ -63,6 +63,8 @@ public class RenderSystem extends BulkSystem {
                         0
                 );
 
+                rlTranslatef(world.getCameraShake().x(), world.getCameraShake().y(), 0);
+
                 for (int i = -1; i <= 1; i++) {
                     for (int j = -1; j <= 1; j++) {
                         rlPushMatrix();

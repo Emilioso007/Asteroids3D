@@ -25,11 +25,15 @@ public class PlayerMovementSystem extends IteratingSystem {
     private float nextInterval = 0.07f; // Start with a default speed
     private int currentThrustFrame = 1;
 
+    private Vector2D cameraShake;
+
     @Override
     public void start(IWorld world) {
         this.setPriority(5);
         world.getEventBus().subscribe(KeyPressedEvent.class, this::keyPressed);
         world.getEventBus().subscribe(KeyReleasedEvent.class, this::keyReleased);
+
+        cameraShake = new Vector2D(-5, -5);
     }
 
     private void keyPressed(IWorld world, KeyPressedEvent event) {
@@ -100,6 +104,9 @@ public class PlayerMovementSystem extends IteratingSystem {
             nextInterval = 0.04f + (float)(Math.random() * 0.06f);
         }
 
+        world.shakeCamera(cameraShake);
+
+        cameraShake.rotate(Math.random()*360);
 
         Vector2D acceleration = player.getComponent(AccelerationComponent.class).orElseThrow().acc;
         float angle = player.getComponent(AngleComponent.class).orElseThrow().angle;

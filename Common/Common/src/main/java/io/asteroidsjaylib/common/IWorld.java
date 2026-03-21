@@ -47,6 +47,8 @@ public interface IWorld {
 
     void setCameraLocation(Vector2D cameraLocation);
 
+    void shakeCamera(Vector2D shakeVector);
+
     int getScreenWidth();
 
     void setScreenWidth(int screenWidth);
@@ -54,4 +56,6 @@ public interface IWorld {
     int getScreenHeight();
 
     void setScreenHeight(int screenHeight);
+
+    Vector2D getCameraShake();
 }
