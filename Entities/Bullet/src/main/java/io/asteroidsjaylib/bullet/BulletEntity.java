@@ -7,6 +7,7 @@ import io.asteroidsjaylib.common.ownership.OwnershipComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.physics.PositionComponent;
 import io.asteroidsjaylib.common.physics.VelocityComponent;
+import io.asteroidsjaylib.common.sound.SoundComponent;
 import io.asteroidsjaylib.common.util.Vector2D;
 import io.asteroidsjaylib.common.render.RenderTag;
 import io.asteroidsjaylib.common.render.ShapeComponent;
@@ -54,6 +55,10 @@ public class BulletEntity extends BaseEntity{
 
         LifetimeComponent lifetimeComponent = new LifetimeComponent(Duration.ofSeconds(2));
         this.addComponent(lifetimeComponent);
+
+        SoundComponent soundComponent = new SoundComponent("shot.wav");
+        soundComponent.playing = true;
+        this.addComponent(soundComponent);
 
     }
 }

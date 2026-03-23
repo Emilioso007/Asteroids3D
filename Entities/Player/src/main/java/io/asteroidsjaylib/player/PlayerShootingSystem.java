@@ -50,7 +50,7 @@ public class PlayerShootingSystem extends ResponseSystem {
         VelocityComponent velocityComponent = player.getComponent(VelocityComponent.class).orElseThrow();
         AngleComponent angle = player.getComponent(AngleComponent.class).orElseThrow();
 
-        Vector2D startPosition = position.pos.copy().add(Vector2D.fromAngle(angle.angle).setMag(60));
+        Vector2D startPosition = position.pos.copy().add(Vector2D.fromAngle(angle.angle).setMag(75/2f));
         Vector2D velocity = Vector2D.fromAngle(angle.angle).setMag(600);
         velocity.add(velocityComponent.vel.copy().setHeading(velocity.heading()));
 
