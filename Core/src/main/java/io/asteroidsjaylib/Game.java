@@ -7,7 +7,11 @@ import io.asteroidsjaylib.common.event.input.key.KeyDownEvent;
 import io.asteroidsjaylib.common.event.input.key.KeyPressedEvent;
 import io.asteroidsjaylib.common.event.input.key.KeyReleasedEvent;
 import io.asteroidsjaylib.common.event.input.key.KeyUpEvent;
-import io.asteroidsjaylib.common.event.input.mouse.*;
+import io.asteroidsjaylib.common.event.input.mouse.MouseDownEvent;
+import io.asteroidsjaylib.common.event.input.mouse.MousePressedEvent;
+import io.asteroidsjaylib.common.event.input.mouse.MouseReleasedEvent;
+import io.asteroidsjaylib.common.event.input.mouse.MouseUpEvent;
+import io.asteroidsjaylib.common.event.input.mouse.MousePositionEvent;
 import io.asteroidsjaylib.common.util.Vector2D;
 
 import static com.raylib.Raylib.*;
@@ -30,7 +34,7 @@ public class Game {
 
         InitWindow(screenWidth, screenHeight, "AsteroidsJaylib");
         InitAudioDevice();
-        //SetTargetFPS(60);
+        SetTargetFPS(60);
         SetExitKey(KEY_NULL);
 
         world = new World();
@@ -84,24 +88,25 @@ public class Game {
             }
         }
 
-        Vector2D mousePos = new Vector2D(GetMouseX(), GetMouseY());
+        Vector2D screenPosition = new Vector2D(GetMouseX(), GetMouseY());
+        Vector2D worldPosition = new Vector2D(GetScreenToWorld2D(screenPosition, world.getCamera()));
 
         for(int i = 0; i <= 6; i++){
             if(IsMouseButtonPressed(i)){
-                world.getEventBus().publish(world, new MousePressedEvent(i, mousePos));
+                world.getEventBus().publish(world, new MousePressedEvent(i, screenPosition, worldPosition));
             }
             if(IsMouseButtonReleased(i)){
-                world.getEventBus().publish(world, new MouseReleasedEvent(i, mousePos));
+                world.getEventBus().publish(world, new MouseReleasedEvent(i, screenPosition, worldPosition));
             }
             if(IsMouseButtonDown(i)){
-                world.getEventBus().publish(world, new MouseDownEvent(i, mousePos));
+                world.getEventBus().publish(world, new MouseDownEvent(i, screenPosition, worldPosition));
             }
             if(IsMouseButtonUp(i)){
-                world.getEventBus().publish(world, new MouseUpEvent(i, mousePos));
+                world.getEventBus().publish(world, new MouseUpEvent(i, screenPosition, worldPosition));
             }
         }
 
-        world.getEventBus().publish(world, new MousePositionEvent(mousePos));
+        world.getEventBus().publish(world, new MousePositionEvent(screenPosition, worldPosition));
     }
 
     private void onStateChanged(IWorld world, StateChangedEvent event){

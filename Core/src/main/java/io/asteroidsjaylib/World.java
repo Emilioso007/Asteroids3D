@@ -1,10 +1,14 @@
 package io.asteroidsjaylib;
 
+import com.raylib.Raylib.Camera2D;
+import com.raylib.Raylib.Vector2;
 import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.ecs.BaseComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.ecs.BaseSystem;
 import io.asteroidsjaylib.common.event.IEventBus;
+import io.asteroidsjaylib.common.physics.PositionComponent;
+import io.asteroidsjaylib.common.player.PlayerTag;
 import io.asteroidsjaylib.common.util.Vector2D;
 
 import java.util.Comparator;
@@ -19,16 +23,21 @@ public final class World implements IWorld {
     private int height;
     private int screenWidth;
     private int screenHeight;
-    private Vector2D cameraLocation;
     private Vector2D cameraShake = new Vector2D();
     private final List<BaseEntity> entities;
     private final List<BaseEntity> entitiesToAdd;
     private final Set<BaseSystem> systems;
     private final IEventBus eventBus;
 
+    private final Camera2D camera;
+
     private double deltaTime;
 
     public World(){
+        this.camera = new Camera2D();
+        this.camera.offset(new Vector2().x(0).y(0));
+        this.camera.zoom(1);
+        this.camera.rotation(0);
         setCameraLocation(new Vector2D());
         this.entities = new ArrayList<>();
         entitiesToAdd = new ArrayList<>();
@@ -47,6 +56,10 @@ public final class World implements IWorld {
     @Override
     public void tick(float deltaTime){
         this.deltaTime = deltaTime;
+        this.camera.offset(new Vector2().x((float) getScreenWidth() /2).y((float) getScreenHeight() /2));
+        if(!getEntitiesWith(PlayerTag.class).isEmpty()){
+            this.camera.target(getEntitiesWith(PlayerTag.class).getFirst().getComponent(PositionComponent.class).orElseThrow().pos);
+        }
 
         // Run all systems in priority order
         for (BaseSystem system : systems) {
@@ -179,13 +192,13 @@ public final class World implements IWorld {
     }
 
     @Override
-    public Vector2D getCameraLocation() {
-        return cameraLocation;
+    public Camera2D getCamera() {
+        return camera;
     }
 
     @Override
     public void setCameraLocation(Vector2D cameraLocation) {
-        this.cameraLocation = cameraLocation;
+        camera.target(cameraLocation);
     }
 
     @Override

@@ -4,12 +4,17 @@ import io.asteroidsjaylib.common.asteroid.AsteroidSize;
 import io.asteroidsjaylib.common.asteroid.AsteroidSizeComponent;
 import io.asteroidsjaylib.common.asteroid.AsteroidTag;
 import io.asteroidsjaylib.common.collision.CircleColliderComponent;import io.asteroidsjaylib.common.ecs.BaseEntity;
+import io.asteroidsjaylib.common.physics.AngleComponent;
+import io.asteroidsjaylib.common.physics.PositionComponent;
+import io.asteroidsjaylib.common.physics.RotationComponent;
+import io.asteroidsjaylib.common.physics.VelocityComponent;
 import io.asteroidsjaylib.common.render.RenderTag;
 import io.asteroidsjaylib.common.render.ShapeComponent;
 import io.asteroidsjaylib.common.render.shapes.BaseShape;
 import io.asteroidsjaylib.common.render.shapes.Polygon;
 import io.asteroidsjaylib.common.util.Vector2D;
-import io.asteroidsjaylib.common.physics.*;import io.asteroidsjaylib.common.outofbounds.BoundsAction;import io.asteroidsjaylib.common.outofbounds.OutOfBoundsComponent;
+import io.asteroidsjaylib.common.outofbounds.BoundsAction;
+import io.asteroidsjaylib.common.outofbounds.OutOfBoundsComponent;
 
 import static com.raylib.Colors.*;
 

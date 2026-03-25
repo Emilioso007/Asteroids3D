@@ -19,6 +19,10 @@ public class Vector2D extends Vector2 {
         y(y);
     }
 
+    public Vector2D(Vector2 vector2){
+        this(vector2.x(), vector2.y());
+    }
+
     /// Create a unit Vector from an angle.
     /// @param angleInDegrees the angle given in degrees.
     /// @return the unit Vector facing the specified angle.

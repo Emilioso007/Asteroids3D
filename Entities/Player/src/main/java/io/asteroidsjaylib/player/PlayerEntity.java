@@ -2,7 +2,12 @@ package io.asteroidsjaylib.player;
 
 import io.asteroidsjaylib.common.collision.CircleColliderComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
-import io.asteroidsjaylib.common.physics.*;
+import io.asteroidsjaylib.common.physics.AccelerationComponent;
+import io.asteroidsjaylib.common.physics.AngleComponent;
+import io.asteroidsjaylib.common.physics.PositionComponent;
+import io.asteroidsjaylib.common.physics.VelocityComponent;
+import io.asteroidsjaylib.common.physics.RotationComponent;
+import io.asteroidsjaylib.common.physics.DragComponent;
 import io.asteroidsjaylib.common.render.AnimationImageComponent;
 import io.asteroidsjaylib.common.sound.SoundComponent;
 import io.asteroidsjaylib.common.util.Vector2D;

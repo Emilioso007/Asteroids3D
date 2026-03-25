@@ -1,13 +1,15 @@
 package io.asteroidsjaylib.common.sound;
 
-import com.raylib.Raylib.*;
+import com.raylib.Raylib.Wave;
+import com.raylib.Raylib.Sound;
 import io.asteroidsjaylib.common.ecs.BaseComponent;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.raylib.Raylib.*;
+import static com.raylib.Raylib.LoadSoundFromWave;
+import static com.raylib.Raylib.LoadWaveFromMemory;
 
 public class SoundComponent extends BaseComponent {
     private static final Map<SoundDefinition, Wave> cache = new HashMap<>();

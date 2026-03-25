@@ -23,12 +23,6 @@ public class MouseCollisionSystem extends ResponseSystem {
 
         if (entities.isEmpty()) return;
 
-        // Convert mouse position from screen coordinates to world coordinates
-        // Screen position is relative to the center of the screen
-        // World position = screen position + camera location - (screen size / 2)
-        double mouseWorldX = mousePressedEvent.position.x() + world.getCameraLocation().x() - (world.getScreenWidth() / 2.0);
-        double mouseWorldY = mousePressedEvent.position.y() + world.getCameraLocation().y() - (world.getScreenHeight() / 2.0);
-
         for (BaseEntity entity : entities){
 
             PositionComponent positionComponent = entity.getComponent(PositionComponent.class).orElseThrow();
@@ -45,12 +39,12 @@ public class MouseCollisionSystem extends ResponseSystem {
 
             if (isAbsolutePosition) {
                 // For absolute position entities: use screen coordinates directly
-                dx = mousePressedEvent.position.x() - positionComponent.pos.x();
-                dy = mousePressedEvent.position.y() - positionComponent.pos.y();
+                dx = mousePressedEvent.screenPosition.x() - positionComponent.pos.x();
+                dy = mousePressedEvent.screenPosition.y() - positionComponent.pos.y();
             } else {
                 // For world entities: use converted world coordinates
-                dx = mouseWorldX - positionComponent.pos.x();
-                dy = mouseWorldY - positionComponent.pos.y();
+                dx = mousePressedEvent.worldPosition.x() - positionComponent.pos.x();
+                dy = mousePressedEvent.worldPosition.y() - positionComponent.pos.y();
             }
 
             double distance = Math.sqrt(dx * dx + dy * dy);

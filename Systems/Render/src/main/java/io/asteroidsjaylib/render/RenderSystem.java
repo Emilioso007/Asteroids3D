@@ -56,12 +56,7 @@ public class RenderSystem extends BulkSystem {
             for (RenderComponent component : renderTag.getRenderComponents()){
 
                 // Apply camera offset
-                rlPushMatrix();
-                rlTranslatef(
-                        (float)(-world.getCameraLocation().x() + world.getScreenWidth()  / 2.0),
-                        (float)(-world.getCameraLocation().y() + world.getScreenHeight() / 2.0),
-                        0
-                );
+                BeginMode2D(world.getCamera());
 
                 rlTranslatef(world.getCameraShake().x(), world.getCameraShake().y(), 0);
 
@@ -76,7 +71,7 @@ public class RenderSystem extends BulkSystem {
                     }
                 }
 
-                rlPopMatrix();
+                EndMode2D();
             }
         }
     }

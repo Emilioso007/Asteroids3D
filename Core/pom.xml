@@ -31,6 +31,14 @@
             <groupId>io.asteroidsjaylib.common.score</groupId>
             <artifactId>CommonScore</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.asteroidsjaylib.common.player</groupId>
+            <artifactId>CommonPlayer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.asteroidsjaylib.common.physics</groupId>
+            <artifactId>CommonPhysics</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

@@ -8,4 +8,6 @@ module Core {
     requires jaylib;
     requires CommonButton;
     requires CommonScore;
+    requires CommonPlayer;
+    requires CommonPhysics;
 }

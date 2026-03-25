@@ -1,5 +1,6 @@
 package io.asteroidsjaylib.common;
 
+import com.raylib.Raylib;
 import io.asteroidsjaylib.common.ecs.BaseComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.ecs.BaseSystem;
@@ -43,7 +44,7 @@ public interface IWorld {
     void clearSystems();
 
 
-    Vector2D getCameraLocation();
+    Raylib.Camera2D getCamera();
 
     void setCameraLocation(Vector2D cameraLocation);
 
