@@ -21,7 +21,7 @@ import static com.raylib.Raylib.KEY_SPACE;
 public class PlayerShootingSystem extends ResponseSystem {
 
     private Instant lastShot = Instant.EPOCH;
-    private final Duration timeBetweenShots = Duration.ofMillis(0);
+    private final Duration timeBetweenShots = Duration.ofMillis(200);
 
     @Override
     public void start(IWorld world) {
