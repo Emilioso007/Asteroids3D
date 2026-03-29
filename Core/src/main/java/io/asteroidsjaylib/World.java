@@ -104,7 +104,7 @@ public final class World implements IWorld {
 
     @Override
     public <T extends BaseComponent> boolean hasEntitiesWith(Class<T> requiredComponent) {
-        return getEntities().stream().anyMatch(baseEntity -> baseEntity.hasComponent(requiredComponent));
+        return getEntities().stream().anyMatch(baseEntity -> baseEntity.hasComponents(requiredComponent));
     }
 
     @SafeVarargs
@@ -114,7 +114,7 @@ public final class World implements IWorld {
         for (BaseEntity entity : getEntities()){
             boolean hasAllComponents = true;
             for(Class<? extends BaseComponent> requiredComponent : requiredComponents){
-                if (!entity.hasComponent(requiredComponent)) {
+                if (!entity.hasComponents(requiredComponent)) {
                     hasAllComponents = false;
                     break;
                 }

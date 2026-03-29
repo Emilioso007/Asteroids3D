@@ -8,6 +8,7 @@ module Collision {
     requires CommonCollision;
     requires CommonButton;
     requires CommonRender;
+    requires jdk.jshell;
 
     provides BaseSystem with CollisionSystem, MouseCollisionSystem;
 }

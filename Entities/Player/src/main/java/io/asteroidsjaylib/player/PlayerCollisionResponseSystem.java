@@ -22,12 +22,12 @@ public class PlayerCollisionResponseSystem extends ResponseSystem {
         BaseEntity collider = event.getOther(player);
 
         // If collider is also player, do nothing
-        if (collider.hasComponent(PlayerTag.class)) return;
-        if (collider.hasComponent(CoinTag.class)) return;
+        if (collider.hasComponents(PlayerTag.class)) return;
+        if (collider.hasComponents(CoinTag.class)) return;
 
         // If collider owner is player, do nothing
         var ownership = collider.getComponent(OwnershipComponent.class);
-        if (ownership.isPresent() && ownership.get().owner.hasComponent(PlayerTag.class)) {
+        if (ownership.isPresent() && ownership.get().owner.hasComponents(PlayerTag.class)) {
             return;
         }
 

@@ -20,7 +20,7 @@ public class CoinCollisionResponseSystem extends ResponseSystem {
         BaseEntity coin = collisionEvent.getEntityWith(CoinTag.class);
         BaseEntity other = collisionEvent.getOther(coin);
 
-        if(!other.hasComponent(PlayerTag.class)) return;
+        if(!other.hasComponents(PlayerTag.class)) return;
 
         coin.setToBeRemoved(true);
         world.getEventBus().publish(world, new IncrementScoreEvent(coin.getComponent(CoinTag.class).orElseThrow().value));

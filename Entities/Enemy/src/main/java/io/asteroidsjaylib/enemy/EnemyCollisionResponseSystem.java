@@ -23,12 +23,12 @@ public class EnemyCollisionResponseSystem extends ResponseSystem {
         BaseEntity collider = event.getOther(enemy);
 
         // If collider is also enemy, do nothing
-        if (collider.hasComponent(EnemyTag.class)) return;
-        if (collider.hasComponent(CoinTag.class)) return;
+        if (collider.hasComponents(EnemyTag.class)) return;
+        if (collider.hasComponents(CoinTag.class)) return;
 
         // If collider owner is enemy, do nothing
         var ownership = collider.getComponent(OwnershipComponent.class);
-        if (ownership.isPresent() && ownership.get().owner.hasComponent(EnemyTag.class)) {
+        if (ownership.isPresent() && ownership.get().owner.hasComponents(EnemyTag.class)) {
             return;
         }
 

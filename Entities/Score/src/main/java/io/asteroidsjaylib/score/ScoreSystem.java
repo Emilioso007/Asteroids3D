@@ -33,7 +33,7 @@ public class ScoreSystem extends IteratingSystem {
     @Override
     public void processEntity(IWorld world, BaseEntity entity, float deltaTime) {
 
-        if(!entity.hasComponent(RenderTag.class)) return;
+        if(!entity.hasComponents(RenderTag.class)) return;
 
         RenderTag renderTag = entity.getComponent(RenderTag.class).orElseThrow();
 

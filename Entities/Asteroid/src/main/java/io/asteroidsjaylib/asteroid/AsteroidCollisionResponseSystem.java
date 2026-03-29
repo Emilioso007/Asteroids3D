@@ -30,8 +30,8 @@ public class AsteroidCollisionResponseSystem extends ResponseSystem {
         BaseEntity collider = event.getOther(asteroid);
 
         // If collider is also asteroid, do nothing
-        if (collider.hasComponent(AsteroidTag.class)) return;
-        if (collider.hasComponent(CoinTag.class)) return;
+        if (collider.hasComponents(AsteroidTag.class)) return;
+        if (collider.hasComponents(CoinTag.class)) return;
 
 
         // Mark asteroid to be removed

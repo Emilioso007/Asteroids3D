@@ -154,6 +154,7 @@ public class Vector2D extends Vector2 {
     }
 
     /// Calculates the distance from a Vector to another Vector.
+    /// Consider using [Vector2D#distSq(Vector2D, Vector2D)] to prevent expensive sqrt calculation.
     /// @param v1 the first Vector.
     /// @param v2 the second Vector.
     /// @return the distance between the Vectors.
@@ -161,6 +162,16 @@ public class Vector2D extends Vector2 {
         float dx = v1.x() - v2.x();
         float dy = v1.y() - v2.y();
         return (float) Math.sqrt(dx*dx + dy*dy);
+    }
+
+    /// Calculates the squared distance from a Vector to another Vector.
+    /// @param v1 the first Vector.
+    /// @param v2 the second Vector.
+    /// @return the squared distance between the Vectors.
+    public static float distSq(Vector2D v1, Vector2D v2) {
+        float dx = v1.x() - v2.x();
+        float dy = v1.y() - v2.y();
+        return dx*dx + dy*dy;
     }
 
     /// Calculates the dot-product between a Vector and the Vector.

@@ -22,8 +22,8 @@ public class BulletCollisionResponseSystem extends ResponseSystem {
         BaseEntity collider = event.getOther(bullet);
 
         // If collider is also bullet, do nothing
-        if (collider.hasComponent(BulletTag.class)) return;
-        if (collider.hasComponent(CoinTag.class)) return;
+        if (collider.hasComponents(BulletTag.class)) return;
+        if (collider.hasComponents(CoinTag.class)) return;
 
         // If collider is also bullet owner, do nothing
         if (bullet.getComponent(OwnershipComponent.class).orElseThrow().owner == collider) return;

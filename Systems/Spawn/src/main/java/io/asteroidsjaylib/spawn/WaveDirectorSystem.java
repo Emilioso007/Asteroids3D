@@ -34,7 +34,7 @@ public class WaveDirectorSystem extends BulkSystem {
     @Override
     public void update(IWorld world, List<BaseEntity> entities, float deltaTime) {
         for (BaseEntity entity : entities){
-            if (entity.hasComponent(AsteroidTag.class) || entity.hasComponent(EnemyTag.class)){
+            if (entity.hasComponents(AsteroidTag.class) || entity.hasComponents(EnemyTag.class)){
                 return;
             }
         }

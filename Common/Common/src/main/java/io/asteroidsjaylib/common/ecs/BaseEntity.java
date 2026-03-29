@@ -42,14 +42,25 @@ public abstract class BaseEntity {
         return components.values();
     }
 
-    public <T extends BaseComponent> boolean hasComponent(Class<T> componentType) {
-        if (components.containsKey(componentType)) return true;
+    @SafeVarargs
+    public final boolean hasComponents(Class<? extends BaseComponent>... componentTypes) {
 
-        for (BaseComponent c : components.values()) {
-            if (componentType.isAssignableFrom(c.getClass())) return true;
+        inputLoop:
+        for (Class<? extends BaseComponent> componentType : componentTypes){
+            if(components.containsKey(componentType)) {
+                continue;
+            }
+
+            for (BaseComponent component : components.values()){
+                if (componentType.isAssignableFrom(component.getClass())){
+                    continue inputLoop;
+                }
+            }
+
+            return false;
         }
 
-        return false;
+        return true;
     }
 
     public boolean isToBeRemoved() {
