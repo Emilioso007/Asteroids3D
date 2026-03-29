@@ -6,6 +6,7 @@ module Render {
     requires Common;
     requires CommonRender;
     requires CommonPhysics;
+    requires CommonCollision;
 
     provides BaseSystem with RenderSystem;
 }

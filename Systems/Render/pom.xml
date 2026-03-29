@@ -31,6 +31,10 @@
             <groupId>io.asteroidsjaylib.common.physics</groupId>
             <artifactId>CommonPhysics</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.asteroidsjaylib.common.collision</groupId>
+            <artifactId>CommonCollision</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

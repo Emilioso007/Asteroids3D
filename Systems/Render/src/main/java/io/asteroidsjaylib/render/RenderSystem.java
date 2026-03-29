@@ -2,6 +2,7 @@ package io.asteroidsjaylib.render;
 
 
 import io.asteroidsjaylib.common.IWorld;
+import io.asteroidsjaylib.common.collision.CircleColliderComponent;
 import io.asteroidsjaylib.common.ecs.BaseComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.ecs.BulkSystem;
@@ -40,11 +41,17 @@ public class RenderSystem extends BulkSystem {
         int w = world.getWidth();
         int h = world.getHeight();
 
+        Camera2D camera = world.getCamera();
+        float viewMinX = camera.target().x() - camera.offset().x();
+        float viewMaxX = camera.target().x() + (world.getScreenWidth() - camera.offset().x());
+        float viewMinY = camera.target().y() - camera.offset().y();
+        float viewMaxY = camera.target().y() + (world.getScreenHeight() - camera.offset().y());
+
         for (BaseEntity entity : entities) {
 
             RenderTag renderTag = entity.getComponent(RenderTag.class).orElseThrow();
             Vector2D position = entity.getComponent(PositionComponent.class).map(positionComponent -> positionComponent.pos).orElse(Vector2D.ZERO.copy());
-            float  angle    = entity.getComponent(AngleComponent.class   ).map(angleComponent -> angleComponent.angle).orElse((float) 0);
+            float angle = entity.getComponent(AngleComponent.class).map(angleComponent -> angleComponent.angle).orElse((float) 0);
 
             if(renderTag.isAbsolutePosition()){
                 for (RenderComponent component : renderTag.getRenderComponents()){
@@ -52,6 +59,10 @@ public class RenderSystem extends BulkSystem {
                 }
                 continue;
             }
+
+            float margin = entity.getComponent(CircleColliderComponent.class)
+                    .map(circleColliderComponent -> circleColliderComponent.radius * 2)
+                    .orElse(Float.POSITIVE_INFINITY);
 
             for (RenderComponent component : renderTag.getRenderComponents()){
 
@@ -62,6 +73,17 @@ public class RenderSystem extends BulkSystem {
 
                 for (int i = -1; i <= 1; i++) {
                     for (int j = -1; j <= 1; j++) {
+
+                        float drawX = position.x() + (i*w);
+                        float drawY = position.y() + (j*h);
+
+                        if (drawX + margin < viewMinX ||
+                            drawX - margin > viewMaxX ||
+                            drawY + margin < viewMinY ||
+                            drawY - margin > viewMaxY) {
+                            continue;
+                        }
+
                         rlPushMatrix();
                         rlTranslatef(i * w, j * h, 0);
 
