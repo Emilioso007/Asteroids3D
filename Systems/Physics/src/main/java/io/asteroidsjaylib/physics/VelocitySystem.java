@@ -21,7 +21,7 @@ public class VelocitySystem extends IteratingSystem {
     public void processEntity(IWorld world, BaseEntity entity, float deltaTime) {
         Vector2D position = entity.getComponent(PositionComponent.class).orElseThrow().pos;
         Vector2D velocity = entity.getComponent(VelocityComponent.class).orElseThrow().vel;
-        position.add(velocity.copy().mult(deltaTime));
+        position.add(velocity.x()*deltaTime, velocity.y()*deltaTime);
     }
 
     @Override
