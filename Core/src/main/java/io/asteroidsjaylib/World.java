@@ -11,11 +11,7 @@ import io.asteroidsjaylib.common.physics.PositionComponent;
 import io.asteroidsjaylib.common.player.PlayerTag;
 import io.asteroidsjaylib.common.util.Vector2D;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.ArrayList;
+import java.util.*;
 
 public final class World implements IWorld {
 
@@ -31,7 +27,9 @@ public final class World implements IWorld {
 
     private final Camera2D camera;
 
-    private double deltaTime;
+    private float deltaTime;
+
+    private final Map<BaseSystem, List<BaseEntity>> systemEntityCache = new HashMap<>();
 
     public World(){
         this.camera = new Camera2D();
@@ -61,57 +59,72 @@ public final class World implements IWorld {
             this.camera.target(getEntitiesWith(PlayerTag.class).getFirst().getComponent(PositionComponent.class).orElseThrow().pos);
         }
 
+        boolean entitiesChanged = false;
+        if (entities.removeIf(BaseEntity::isToBeRemoved)) entitiesChanged = true;
+        if (!entitiesToAdd.isEmpty()){
+            entities.addAll(entitiesToAdd);
+            entitiesToAdd.clear();
+            entitiesChanged = true;
+        }
+
+        if (entitiesChanged || systemEntityCache.isEmpty()){
+            for (BaseSystem system : systems){
+                List<Class<? extends BaseComponent>> signature = system.getSignature();
+                List<BaseEntity> matching = new ArrayList<>();
+                if (signature != null && !signature.isEmpty()){
+                    for (BaseEntity entity : entities){
+                        if (matchesSignature(entity, signature)) matching.add(entity);
+                    }
+                }
+                systemEntityCache.put(system, matching);
+            }
+        }
+
         // Run all systems in priority order
         for (BaseSystem system : systems) {
             if(!system.running) continue;
-            runSystem(system, deltaTime);
-        }
+            List<Class<? extends BaseComponent>> signature = system.getSignature();
 
-        // Cleanup
-        getEntities().removeIf(BaseEntity::isToBeRemoved);
-        getEntities().addAll(entitiesToAdd);
-        entitiesToAdd.clear();
+            if (signature == null || signature.isEmpty()){
+                system.update(this, entities, deltaTime);
+            } else {
+                system.update(this, systemEntityCache.get(system), deltaTime);
+            }
+        }
 
         cameraShake = new Vector2D();
     }
 
-    private void runSystem(BaseSystem system, float deltaTime) {
-        List<Class<? extends BaseComponent>> signature = system.getSignature();
-
-        if (signature == null || signature.isEmpty()) {
-            system.update(this, entities, deltaTime);
-            return;
-        }
-
-        List<BaseEntity> filteredEntities = new ArrayList<>();
-        for (BaseEntity entity : getEntities()) {
-            if (matchesSignature(entity, signature)) filteredEntities.add(entity);
-        }
-
-        system.update(this, filteredEntities, deltaTime);
-    }
-
-
     @Override
-    public boolean addEntity(BaseEntity entity){
-        return getEntities().add(entity);
+    public void addEntity(BaseEntity entity){
+        entitiesToAdd.add(entity);
     }
 
     @Override
-    public boolean addSystem(BaseSystem system){
-        return getSystems().add(system);
+    public void addSystem(BaseSystem system){
+        systems.add(system);
+    }
+
+    @Override
+    public void removeEntity(BaseEntity entity){
+        entities.remove(entity);
+    }
+
+    @Override
+    public void removeSystem(BaseSystem system){
+        systems.remove(system);
     }
 
     @Override
     public <T extends BaseComponent> boolean hasEntitiesWith(Class<T> requiredComponent) {
-        return getEntities().stream().anyMatch(baseEntity -> baseEntity.hasComponents(requiredComponent));
+        return entities.stream().anyMatch(baseEntity -> baseEntity.hasComponents(requiredComponent));
     }
 
     @SafeVarargs
     @Override
     public final List<BaseEntity> getEntitiesWith(Class<? extends BaseComponent>... requiredComponents){
         List<BaseEntity> result = new ArrayList<>();
-        for (BaseEntity entity : getEntities()){
+        for (BaseEntity entity : entities){
             boolean hasAllComponents = true;
             for(Class<? extends BaseComponent> requiredComponent : requiredComponents){
                 if (!entity.hasComponents(requiredComponent)) {
@@ -156,17 +169,7 @@ public final class World implements IWorld {
     }
 
     @Override
-    public List<BaseEntity> getEntities() {
-        return entities;
-    }
-
-    @Override
-    public Set<BaseSystem> getSystems() {
-        return systems;
-    }
-
-    @Override
-    public double getDeltaTime() {
+    public float getDeltaTime() {
         return deltaTime;
     }
 

@@ -8,16 +8,16 @@ import io.asteroidsjaylib.common.event.IEventBus;
 import io.asteroidsjaylib.common.util.Vector2D;
 
 import java.util.List;
-import java.util.Set;
 
 public interface IWorld {
     IEventBus getEventBus();
 
     void tick(float deltaTime);
 
-    boolean addEntity(BaseEntity entity);
-
-    boolean addSystem(BaseSystem system);
+    void addEntity(BaseEntity entity);
+    void removeEntity(BaseEntity entity);
+    void addSystem(BaseSystem system);
+    void removeSystem(BaseSystem system);
 
     <T extends BaseComponent> boolean hasEntitiesWith(Class<T> requiredComponent);
 
@@ -29,11 +29,7 @@ public interface IWorld {
 
     int getHeight();
 
-    List<BaseEntity> getEntities();
-
-    Set<BaseSystem> getSystems();
-
-    double getDeltaTime();
+    float getDeltaTime();
 
     void setWidth(int width);
 
@@ -42,7 +38,6 @@ public interface IWorld {
     void clearEntities();
 
     void clearSystems();
-
 
     Raylib.Camera2D getCamera();
 
