@@ -9,7 +9,7 @@ import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.ecs.BulkSystem;
 import io.asteroidsjaylib.common.enemy.EnemySPI;
 import io.asteroidsjaylib.common.enemy.EnemyTag;
-import io.asteroidsjaylib.common.physics.PositionComponent;
+import io.asteroidsjaylib.common.physics2d.PositionComponent;
 import io.asteroidsjaylib.common.player.PlayerTag;
 import io.asteroidsjaylib.common.spawn.SpawnEvent;
 import io.asteroidsjaylib.common.util.Vector2D;

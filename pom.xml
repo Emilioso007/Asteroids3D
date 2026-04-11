@@ -29,7 +29,7 @@
         <module>Common/CommonButton</module>
         <module>Common/CommonSound</module>
 
-        <module>Systems/Physics</module>
+        <module>Systems/Physics2D</module>
         <module>Systems/Collision</module>
         <module>Systems/OutOfBounds</module>
         <module>Systems/Spawn</module>
@@ -154,7 +154,7 @@
                 <version>1.0-SNAPSHOT</version>
             </dependency>
             <dependency>
-                <groupId>io.asteroidsjaylib.common.physics</groupId>
+                <groupId>io.asteroidsjaylib.common.physics2d</groupId>
                 <artifactId>CommonPhysics2D</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
@@ -178,6 +178,17 @@
                 <artifactId>CommonSpawn</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
+            <dependency>
+                <groupId>io.asteroidsjaylib.common.sound</groupId>
+                <artifactId>CommonSound</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>io.asteroidsjaylib.common.button</groupId>
+                <artifactId>CommonButton</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

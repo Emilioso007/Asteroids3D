@@ -7,7 +7,7 @@ import io.asteroidsjaylib.common.ecs.BaseComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.ecs.BaseSystem;
 import io.asteroidsjaylib.common.event.IEventBus;
-import io.asteroidsjaylib.common.physics.PositionComponent;
+import io.asteroidsjaylib.common.physics2d.PositionComponent;
 import io.asteroidsjaylib.common.player.PlayerTag;
 import io.asteroidsjaylib.common.util.Vector2D;
 

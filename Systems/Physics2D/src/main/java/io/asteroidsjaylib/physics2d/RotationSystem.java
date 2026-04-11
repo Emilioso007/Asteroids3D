@@ -1,11 +1,11 @@
-package io.asteroidsjaylib.physics;
+package io.asteroidsjaylib.physics2d;
 
 import io.asteroidsjaylib.common.ecs.BaseComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.ecs.IteratingSystem;
-import io.asteroidsjaylib.common.physics.AngleComponent;
-import io.asteroidsjaylib.common.physics.RotationComponent;
+import io.asteroidsjaylib.common.physics2d.AngleComponent;
+import io.asteroidsjaylib.common.physics2d.RotationComponent;
 
 import java.util.List;
 

@@ -4,7 +4,7 @@ import com.raylib.Raylib;
 import io.asteroidsjaylib.common.button.ButtonTag;
 import io.asteroidsjaylib.common.collision.CircleColliderComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
-import io.asteroidsjaylib.common.physics.PositionComponent;
+import io.asteroidsjaylib.common.physics2d.PositionComponent;
 import io.asteroidsjaylib.common.render.RenderAlign;
 import io.asteroidsjaylib.common.render.RenderTag;
 import io.asteroidsjaylib.common.render.ShapeComponent;

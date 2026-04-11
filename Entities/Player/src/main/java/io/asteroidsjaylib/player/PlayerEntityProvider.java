@@ -1,7 +1,7 @@
 package io.asteroidsjaylib.player;
 
 import io.asteroidsjaylib.common.ecs.EntitySpi;
-import io.asteroidsjaylib.common.physics.PositionComponent;
+import io.asteroidsjaylib.common.physics2d.PositionComponent;
 import io.asteroidsjaylib.common.util.Vector2D;
 import io.asteroidsjaylib.common.IWorld;
 

@@ -6,7 +6,7 @@ import io.asteroidsjaylib.common.collision.CircleColliderComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.ecs.ResponseSystem;
 import io.asteroidsjaylib.common.event.input.mouse.MousePressedEvent;
-import io.asteroidsjaylib.common.physics.PositionComponent;
+import io.asteroidsjaylib.common.physics2d.PositionComponent;
 import io.asteroidsjaylib.common.render.RenderTag;
 
 import java.util.List;

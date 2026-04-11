@@ -6,7 +6,7 @@ import io.asteroidsjaylib.common.collision.CollisionEvent;
 import io.asteroidsjaylib.common.ecs.BaseComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.ecs.BulkSystem;
-import io.asteroidsjaylib.common.physics.PositionComponent;
+import io.asteroidsjaylib.common.physics2d.PositionComponent;
 import io.asteroidsjaylib.common.util.Vector2D;
 
 import java.util.*;

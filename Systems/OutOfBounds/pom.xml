@@ -24,7 +24,7 @@
             <artifactId>Common</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.asteroidsjaylib.common.physics</groupId>
+            <groupId>io.asteroidsjaylib.common.physics2d</groupId>
             <artifactId>CommonPhysics2D</artifactId>
         </dependency>
         <dependency>

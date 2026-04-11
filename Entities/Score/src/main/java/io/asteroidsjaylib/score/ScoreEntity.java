@@ -1,7 +1,7 @@
 package io.asteroidsjaylib.score;
 
 import io.asteroidsjaylib.common.ecs.BaseEntity;
-import io.asteroidsjaylib.common.physics.PositionComponent;
+import io.asteroidsjaylib.common.physics2d.PositionComponent;
 import io.asteroidsjaylib.common.score.ScoreTag;
 import io.asteroidsjaylib.common.util.Vector2D;
 import io.asteroidsjaylib.common.render.RenderTag;

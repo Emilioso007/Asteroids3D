@@ -24,7 +24,7 @@
             <artifactId>Common</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.asteroidsjaylib.common.physics</groupId>
+            <groupId>io.asteroidsjaylib.common.physics2d</groupId>
             <artifactId>CommonPhysics2D</artifactId>
         </dependency>
         <dependency>
@@ -34,8 +34,6 @@
         <dependency>
             <groupId>io.asteroidsjaylib.common.button</groupId>
             <artifactId>CommonButton</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>io.asteroidsjaylib.common.collision</groupId>

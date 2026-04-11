@@ -2,9 +2,9 @@ package io.asteroidsjaylib.enemy;
 
 import io.asteroidsjaylib.common.collision.CircleColliderComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
-import io.asteroidsjaylib.common.physics.AngleComponent;
-import io.asteroidsjaylib.common.physics.PositionComponent;
-import io.asteroidsjaylib.common.physics.VelocityComponent;
+import io.asteroidsjaylib.common.physics2d.AngleComponent;
+import io.asteroidsjaylib.common.physics2d.PositionComponent;
+import io.asteroidsjaylib.common.physics2d.VelocityComponent;
 import io.asteroidsjaylib.common.util.Vector2D;
 import io.asteroidsjaylib.common.enemy.EnemyTag;
 import io.asteroidsjaylib.common.render.RenderTag;

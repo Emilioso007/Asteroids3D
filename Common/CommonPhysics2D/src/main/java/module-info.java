@@ -1,4 +1,4 @@
 module CommonPhysics2D {
     requires Common;
-    exports io.asteroidsjaylib.common.physics;
+    exports io.asteroidsjaylib.common.physics2d;
 }
