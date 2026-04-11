@@ -6,14 +6,15 @@ import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.ecs.IteratingSystem;
 import io.asteroidsjaylib.common.event.input.key.KeyPressedEvent;
 import io.asteroidsjaylib.common.event.input.key.KeyReleasedEvent;
-import io.asteroidsjaylib.common.physics2d.AccelerationComponent;
-import io.asteroidsjaylib.common.physics2d.AngleComponent;
-import io.asteroidsjaylib.common.physics2d.RotationComponent;
+import io.asteroidsjaylib.common.physics3d.AccelerationComponent;
+import io.asteroidsjaylib.common.physics3d.RotationComponent;
 import io.asteroidsjaylib.common.render.AnimationImageComponent;
 import io.asteroidsjaylib.common.render.RenderTag;
 import io.asteroidsjaylib.common.sound.SoundComponent;
-import io.asteroidsjaylib.common.util.Vector2D;
 import io.asteroidsjaylib.common.player.PlayerTag;
+import io.asteroidsjaylib.common.util.Quaternion;
+import io.asteroidsjaylib.common.util.Vector2D;
+import io.asteroidsjaylib.common.util.Vector3D;
 
 import static com.raylib.Raylib.*;
 
@@ -43,10 +44,10 @@ public class PlayerMovementSystem extends IteratingSystem {
         BaseEntity player = world.getEntitiesWith(PlayerTag.class).getFirst();
         switch (event.keyCode){
             case KEY_LEFT, KEY_A:
-                player.getComponent(RotationComponent.class).orElseThrow().dAngle += (float) -90;
+                //player.getComponent(RotationComponent.class).orElseThrow().dAngle += (float) -90;
                 break;
             case KEY_RIGHT, KEY_D:
-                player.getComponent(RotationComponent.class).orElseThrow().dAngle += (float) 90;
+                //player.getComponent(RotationComponent.class).orElseThrow().dAngle += (float) 90;
                 break;
             case KEY_UP, KEY_W:
                 accelerating = true;
@@ -61,10 +62,10 @@ public class PlayerMovementSystem extends IteratingSystem {
         BaseEntity player = world.getEntitiesWith(PlayerTag.class).getFirst();
         switch (event.keyCode){
             case KEY_LEFT, KEY_A:
-                player.getComponent(RotationComponent.class).orElseThrow().dAngle += (float) 90;
+                //player.getComponent(RotationComponent.class).orElseThrow().dAngle += (float) 90;
                 break;
             case KEY_RIGHT, KEY_D:
-                player.getComponent(RotationComponent.class).orElseThrow().dAngle += (float) -90;
+                //player.getComponent(RotationComponent.class).orElseThrow().dAngle += (float) -90;
                 break;
             case KEY_UP, KEY_W:
                 accelerating = false;
@@ -111,10 +112,10 @@ public class PlayerMovementSystem extends IteratingSystem {
 
         cameraShake.rotate(Math.random()*360);
 
-        Vector2D acceleration = player.getComponent(AccelerationComponent.class).orElseThrow().acc;
-        float angle = player.getComponent(AngleComponent.class).orElseThrow().angle;
-        int force = 2500;
-        acceleration.add(Vector2D.fromAngle(angle).setMag(force));
+        Vector3D acceleration = player.getComponent(AccelerationComponent.class).orElseThrow().acc;
+        Quaternion heading = player.getComponent(RotationComponent.class).orElseThrow().quaternion;
+        Vector3D forceVector = new Vector3D(2500, 0, 0);
+        acceleration.add(heading.rotateVector(forceVector));
     }
 
     @Override

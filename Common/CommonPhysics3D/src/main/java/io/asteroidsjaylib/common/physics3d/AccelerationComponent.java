@@ -1,12 +1,13 @@
-package io.asteroidsjaylib.common.physics2d;
+package io.asteroidsjaylib.common.physics3d;
 
 import io.asteroidsjaylib.common.ecs.BaseComponent;
-import io.asteroidsjaylib.common.util.Vector2D;
+import io.asteroidsjaylib.common.util.Vector3D;
 
 public class AccelerationComponent extends BaseComponent {
-    public Vector2D acc;
+    public Vector3D acc;
 
     public AccelerationComponent(){
-        this.acc = new Vector2D();
+        this.acc = new Vector3D();
     }
+
 }

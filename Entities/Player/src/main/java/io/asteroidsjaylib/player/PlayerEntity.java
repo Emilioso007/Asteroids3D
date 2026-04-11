@@ -2,24 +2,19 @@ package io.asteroidsjaylib.player;
 
 import io.asteroidsjaylib.common.collision.CircleColliderComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
-import io.asteroidsjaylib.common.physics2d.AccelerationComponent;
-import io.asteroidsjaylib.common.physics2d.AngleComponent;
-import io.asteroidsjaylib.common.physics2d.PositionComponent;
-import io.asteroidsjaylib.common.physics2d.VelocityComponent;
-import io.asteroidsjaylib.common.physics2d.RotationComponent;
-import io.asteroidsjaylib.common.physics2d.DragComponent;
+import io.asteroidsjaylib.common.physics3d.*;
 import io.asteroidsjaylib.common.render.AnimationImageComponent;
 import io.asteroidsjaylib.common.sound.SoundComponent;
-import io.asteroidsjaylib.common.util.Vector2D;
 import io.asteroidsjaylib.common.player.PlayerTag;
 import io.asteroidsjaylib.common.render.RenderAlign;
 import io.asteroidsjaylib.common.render.RenderTag;
 import io.asteroidsjaylib.common.outofbounds.BoundsAction;
 import io.asteroidsjaylib.common.outofbounds.OutOfBoundsComponent;
+import io.asteroidsjaylib.common.util.Vector3D;
 
 public class PlayerEntity extends BaseEntity {
 
-    public PlayerEntity(Vector2D startPosition){
+    public PlayerEntity(Vector3D startPosition){
 
         this.addComponent(new PlayerTag());
 
@@ -27,16 +22,10 @@ public class PlayerEntity extends BaseEntity {
         this.addComponent(positionComponent);
 
         VelocityComponent velocityComponent = new VelocityComponent();
-        velocityComponent.vel = new Vector2D();
         this.addComponent(velocityComponent);
 
         AccelerationComponent accelerationComponent = new AccelerationComponent();
-        accelerationComponent.acc = new Vector2D();
         this.addComponent(accelerationComponent);
-
-        AngleComponent angleComponent = new AngleComponent();
-        angleComponent.angle = 0;
-        this.addComponent(angleComponent);
 
         RotationComponent rotationComponent = new RotationComponent();
         this.addComponent(rotationComponent);

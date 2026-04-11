@@ -7,7 +7,6 @@ import io.asteroidsjaylib.common.ecs.BaseComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.ecs.BaseSystem;
 import io.asteroidsjaylib.common.event.IEventBus;
-import io.asteroidsjaylib.common.physics2d.PositionComponent;
 import io.asteroidsjaylib.common.player.PlayerTag;
 import io.asteroidsjaylib.common.util.Vector2D;
 
@@ -56,7 +55,7 @@ public final class World implements IWorld {
         this.deltaTime = deltaTime;
         this.camera.offset(new Vector2().x((float) getScreenWidth() /2).y((float) getScreenHeight() /2));
         if(!getEntitiesWith(PlayerTag.class).isEmpty()){
-            this.camera.target(getEntitiesWith(PlayerTag.class).getFirst().getComponent(PositionComponent.class).orElseThrow().pos);
+            //this.camera.target(getEntitiesWith(PlayerTag.class).getFirst().getComponent(PositionComponent.class).orElseThrow().pos);
         }
 
         boolean entitiesChanged = false;
