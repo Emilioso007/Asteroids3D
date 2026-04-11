@@ -16,7 +16,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ServiceLoader;
 
-import static com.raylib.Raylib.KEY_SPACE;
+import static com.raylib.Raylib.KEY_F;
 
 public class PlayerShootingSystem extends ResponseSystem {
 
@@ -31,7 +31,7 @@ public class PlayerShootingSystem extends ResponseSystem {
 
     private void keyDown(IWorld world, KeyDownEvent keyDownEvent) {
 
-        if (keyDownEvent.keyCode != KEY_SPACE) return;
+        if (keyDownEvent.keyCode != KEY_F) return;
 
         if (!world.hasEntitiesWith(PlayerTag.class)) return;
 

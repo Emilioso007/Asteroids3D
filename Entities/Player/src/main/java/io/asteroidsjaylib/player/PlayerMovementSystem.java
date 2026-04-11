@@ -8,7 +8,6 @@ import io.asteroidsjaylib.common.event.input.key.KeyPressedEvent;
 import io.asteroidsjaylib.common.event.input.key.KeyReleasedEvent;
 import io.asteroidsjaylib.common.physics3d.AccelerationComponent;
 import io.asteroidsjaylib.common.physics3d.RotationComponent;
-import io.asteroidsjaylib.common.sound.SoundComponent;
 import io.asteroidsjaylib.common.player.PlayerTag;
 import io.asteroidsjaylib.common.util.Quaternion;
 import io.asteroidsjaylib.common.util.Vector3D;
@@ -20,16 +19,11 @@ import java.util.List;
 public class PlayerMovementSystem extends IteratingSystem {
 
     private boolean accelerating = false;
-    private boolean turningLeft = false;
-    private boolean turningRight = false;
+    private boolean yawLeft = false, yawRight = false;
+    private boolean pitchUp = false, pitchDown = false;
+    private boolean rollLeft = false, rollRight = false;
 
     private float turnSpeed = (float) Math.toRadians(180);
-
-    private float animationTimer = 0;
-    private float nextInterval = 0.07f; // Start with a default speed
-    private int currentThrustFrame = 1;
-
-    private Vector3D cameraShake;
 
     @Override
     public void start(IWorld world) {
@@ -37,41 +31,56 @@ public class PlayerMovementSystem extends IteratingSystem {
         world.getEventBus().subscribe(KeyPressedEvent.class, this::keyPressed);
         world.getEventBus().subscribe(KeyReleasedEvent.class, this::keyReleased);
 
-        cameraShake = new Vector3D(-5, -5, -5);
     }
 
     private void keyPressed(IWorld world, KeyPressedEvent event) {
-        if(!world.hasEntitiesWith(PlayerTag.class)) return;
-
-        BaseEntity player = world.getEntitiesWith(PlayerTag.class).getFirst();
         switch (event.keyCode){
-            case KEY_LEFT, KEY_A:
-                turningLeft = true;
+            case KEY_W:
+                pitchDown = true;
                 break;
-            case KEY_RIGHT, KEY_D:
-                turningRight = true;
+            case KEY_S:
+                pitchUp = true;
                 break;
-            case KEY_UP, KEY_W:
+            case KEY_A:
+                yawLeft = true;
+                break;
+            case KEY_D:
+                yawRight = true;
+                break;
+            case KEY_Q:
+                rollLeft = true;
+                break;
+            case KEY_E:
+                rollRight = true;
+                break;
+            case KEY_SPACE:
                 accelerating = true;
-                player.getComponent(SoundComponent.class).orElseThrow().playing = true;
                 break;
         }
     }
 
     private void keyReleased(IWorld world, KeyReleasedEvent event) {
-        if(!world.hasEntitiesWith(PlayerTag.class)) return;
-
-        BaseEntity player = world.getEntitiesWith(PlayerTag.class).getFirst();
         switch (event.keyCode){
-            case KEY_LEFT, KEY_A:
-                turningLeft = false;
+            case KEY_W:
+                pitchDown = false;
                 break;
-            case KEY_RIGHT, KEY_D:
-                turningRight = false;
+            case KEY_S:
+                pitchUp = false;
                 break;
-            case KEY_UP, KEY_W:
+            case KEY_A:
+                yawLeft = false;
+                break;
+            case KEY_D:
+                yawRight = false;
+                break;
+            case KEY_Q:
+                rollLeft = false;
+                break;
+            case KEY_E:
+                rollRight = false;
+                break;
+            case KEY_SPACE:
                 accelerating = false;
-                player.getComponent(SoundComponent.class).orElseThrow().playing = false;
                 break;
         }
     }
@@ -79,59 +88,27 @@ public class PlayerMovementSystem extends IteratingSystem {
     @Override
     public void processEntity(IWorld world, BaseEntity player, float deltaTime) {
 
-        /*
-        AnimationImageComponent img = player.getComponent(RenderTag.class).orElseThrow().getRenderComponent(AnimationImageComponent.class);
+        RotationComponent rotComp = player.getComponent(RotationComponent.class).orElseThrow();
 
-        if(!accelerating) {
-            img.frameIndex = 0;
-            animationTimer = 0;
-            return;
+        float yawAmount = 0, pitchAmount = 0, rollAmount = 0;
+        if (yawLeft) yawAmount += turnSpeed * deltaTime;
+        if (yawRight) yawAmount -= turnSpeed * deltaTime;
+        if (pitchUp) pitchAmount -= turnSpeed * deltaTime;
+        if (pitchDown) pitchAmount += turnSpeed * deltaTime;
+        if (rollLeft) rollAmount -= turnSpeed * deltaTime;
+        if (rollRight) rollAmount += turnSpeed * deltaTime;
+
+        if (yawAmount != 0){
+            Quaternion yaw = Quaternion.fromAxisAngle(new Vector3D(0, 0, 1), yawAmount);
+            rotComp.quaternion.multiply(yaw).normalize();
         }
-
-
-        // 1. Add deltaTime to our accumulator
-        animationTimer += deltaTime;
-
-        // 2. The "Trick": Only change frames when the timer exceeds our threshold
-        if (animationTimer >= nextInterval) {
-            animationTimer = 0; // Reset the accumulator
-
-            // 3. Pick a "random but not excessive" next step
-            // We ensure the new frame is different from the current one for a clear flicker
-            int nextFrame;
-            do {
-                nextFrame = (int) (Math.random() * 3) + 1; // Pick 1, 2, or 3
-            } while (nextFrame == currentThrustFrame);
-
-            currentThrustFrame = nextFrame;
-            img.frameIndex = currentThrustFrame;
-
-            // 4. Randomize the NEXT interval slightly to break the mechanical pattern
-            // This creates the "organic" feel
-            nextInterval = 0.04f + (float)(Math.random() * 0.06f);
+        if (pitchAmount != 0){
+            Quaternion pitch = Quaternion.fromAxisAngle(new Vector3D(0, 1, 0), pitchAmount);
+            rotComp.quaternion.multiply(pitch).normalize();
         }
-
-        world.shakeCamera(cameraShake);
-
-        //cameraShake.rotate(Math.random()*360);
-
-         */
-
-
-
-        float turnAmount = 0;
-        if (turningLeft) turnAmount += turnSpeed * deltaTime;
-        if (turningRight) turnAmount -= turnSpeed * deltaTime;
-
-        if (turnAmount != 0){
-
-            Vector3D rotationAxis = new Vector3D(0, 0, 1);
-
-            Quaternion turn = Quaternion.fromAxisAngle(rotationAxis, turnAmount);
-
-            RotationComponent rotComp = player.getComponent(RotationComponent.class).orElseThrow();
-
-            rotComp.quaternion.multiply(turn).normalize();
+        if (rollAmount != 0){
+            Quaternion roll = Quaternion.fromAxisAngle(new Vector3D(1, 0, 0), rollAmount);
+            rotComp.quaternion.multiply(roll).normalize();
         }
 
         if(accelerating) {

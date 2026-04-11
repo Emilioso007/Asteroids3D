@@ -41,15 +41,17 @@ public class RenderSystem extends BulkSystem {
 
             Vector3D forwardVector = playerRot.rotateVector(new Vector3D(1, 0, 0));
 
-            Vector3D cameraPos = playerPos.copy().sub(forwardVector.mult(400));
+            Vector3D localUp = playerRot.rotateVector(new Vector3D(0, 0, 1));
 
-            cameraPos.z += 200;
+            Vector3D cameraPos = playerPos.copy().sub(forwardVector.copy().mult(400));
+
+            cameraPos.add(localUp.copy().mult(100));
 
             camera._position(cameraPos.toVector3());
 
-            camera.target(playerPos.toVector3());
+            camera.target(playerPos.copy().add(forwardVector.copy().mult(1500)).toVector3());
 
-            camera.up(new Vector3D(0, 0, 1).toVector3());
+            camera.up(localUp.toVector3());
         }
 
         rlSetClipPlanes(0.01, 5000);
@@ -59,8 +61,14 @@ public class RenderSystem extends BulkSystem {
 
             Vector3D pos = entity.getComponent(PositionComponent.class).map(c -> c.pos).orElse(new Vector3D());
 
-            float angle = entity.getComponent(RotationComponent.class)
-                    .map(rot-> rot.quaternion.getZAngleDegrees()).orElse(0f);
+            RotationComponent rotComp = entity.getComponent(RotationComponent.class).orElse(null);
+            float angle = 0.0f;
+            Vector3D axis = new Vector3D(0, 0, 1);
+
+            if(rotComp != null){
+                angle = rotComp.quaternion.getAngleDegrees();
+                axis = rotComp.quaternion.getAxis();
+            }
 
             List<Base3DShape> shapes = entity.getComponent(Render3DComponent.class).get().shapes;
 
@@ -73,7 +81,7 @@ public class RenderSystem extends BulkSystem {
                     rlTranslatef(shape.offset.x, shape.offset.y, shape.offset.z);
                 }
 
-                rlRotatef(angle, 0, 0, 1);
+                rlRotatef(angle, axis.x, axis.y, axis.z);
 
                 shape.draw();
 

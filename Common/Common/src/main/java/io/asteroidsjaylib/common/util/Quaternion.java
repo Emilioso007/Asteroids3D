@@ -85,4 +85,19 @@ public class Quaternion {
         return (float) Math.toDegrees(2.0 * Math.atan2(this.z, this.w));
     }
 
+    public float getAngleDegrees() {
+        return (float) Math.toDegrees(2.0 * Math.acos(this.w));
+    }
+
+    public Vector3D getAxis() {
+        float sinHalf = (float) Math.sqrt(1.0 - this.w * this.w);
+
+        if(sinHalf < 0.001f){
+            return new Vector3D(0, 0, 1);
+        }
+
+        return new Vector3D(this.x / sinHalf, this.y / sinHalf, this.z / Math.abs(sinHalf));
+
+    }
+
 }
