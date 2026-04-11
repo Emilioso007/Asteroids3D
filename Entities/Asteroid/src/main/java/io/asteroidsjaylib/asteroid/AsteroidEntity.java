@@ -3,6 +3,7 @@ package io.asteroidsjaylib.asteroid;
 import io.asteroidsjaylib.common.asteroid.AsteroidSize;
 import io.asteroidsjaylib.common.asteroid.AsteroidSizeComponent;
 import io.asteroidsjaylib.common.asteroid.AsteroidTag;
+import io.asteroidsjaylib.common.collision.SphereColliderComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.physics3d.PositionComponent;
 import io.asteroidsjaylib.common.physics3d.RotationComponent;
@@ -40,9 +41,13 @@ public class AsteroidEntity extends BaseEntity {
         int max = 35 + size.ordinal() * 20;
 
         Render3DComponent render3DComponent = new Render3DComponent();
-        Sphere3D sphere3D = new Sphere3D(random.nextFloat(min, max), DARKGRAY, GRAY);
+        float radius = random.nextFloat(min, max);
+        Sphere3D sphere3D = new Sphere3D(radius, DARKGRAY, GRAY);
         render3DComponent.shapes.add(sphere3D);
         this.addComponent(render3DComponent);
+
+        SphereColliderComponent sphereColliderComponent = new SphereColliderComponent(radius);
+        this.addComponent(sphereColliderComponent);
 
     }
 

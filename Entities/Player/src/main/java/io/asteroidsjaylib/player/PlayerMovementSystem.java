@@ -41,16 +41,16 @@ public class PlayerMovementSystem extends IteratingSystem {
             case KEY_S:
                 pitchUp = true;
                 break;
-            case KEY_A:
+            case KEY_Q:
                 yawLeft = true;
                 break;
-            case KEY_D:
+            case KEY_E:
                 yawRight = true;
                 break;
-            case KEY_Q:
+            case KEY_A:
                 rollLeft = true;
                 break;
-            case KEY_E:
+            case KEY_D:
                 rollRight = true;
                 break;
             case KEY_SPACE:
@@ -67,16 +67,16 @@ public class PlayerMovementSystem extends IteratingSystem {
             case KEY_S:
                 pitchUp = false;
                 break;
-            case KEY_A:
+            case KEY_Q:
                 yawLeft = false;
                 break;
-            case KEY_D:
+            case KEY_E:
                 yawRight = false;
                 break;
-            case KEY_Q:
+            case KEY_A:
                 rollLeft = false;
                 break;
-            case KEY_E:
+            case KEY_D:
                 rollRight = false;
                 break;
             case KEY_SPACE:

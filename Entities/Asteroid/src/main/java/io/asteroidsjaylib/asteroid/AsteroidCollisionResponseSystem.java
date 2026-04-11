@@ -1,11 +1,20 @@
 package io.asteroidsjaylib.asteroid;
 
+import io.asteroidsjaylib.common.asteroid.AsteroidSPI;
+import io.asteroidsjaylib.common.asteroid.AsteroidSize;
+import io.asteroidsjaylib.common.asteroid.AsteroidSizeComponent;
 import io.asteroidsjaylib.common.asteroid.AsteroidTag;
 import io.asteroidsjaylib.common.coin.CoinTag;
 import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.collision.CollisionEvent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.ecs.ResponseSystem;
+import io.asteroidsjaylib.common.physics3d.PositionComponent;
+import io.asteroidsjaylib.common.spawn.SpawnEvent;
+import io.asteroidsjaylib.common.util.Vector3D;
+
+import java.util.Random;
+import java.util.ServiceLoader;
 
 public class AsteroidCollisionResponseSystem extends ResponseSystem {
     @Override
@@ -28,29 +37,27 @@ public class AsteroidCollisionResponseSystem extends ResponseSystem {
         // Mark asteroid to be removed
         asteroid.setToBeRemoved(true);
 
-        /*
         // Optionally split asteroid
+        Random random = new Random();
+        AsteroidSPI asteroidSPI = ServiceLoader.load(AsteroidSPI.class).findFirst().orElseThrow();
+
         AsteroidSize asteroidSize = asteroid.getComponent(AsteroidSizeComponent.class).map(c -> c.size).orElseThrow();
         if (asteroidSize.ordinal() > AsteroidSize.SMALL.ordinal()){
             for(int i = 0; i < 2; i++){
-
-                Vector2D position = asteroid.getComponent(PositionComponent.class).map(c -> c.pos.copy()).orElseThrow();
-
-                float magnitude = (float) (50 + 200 * Math.random());
-
-                Vector2D velocity = collider.getComponent(VelocityComponent.class).map(c -> c.vel.copy()).orElse(Vector2D.randomVector(1));
-                velocity.rotate(60 + i * 240).setMag(magnitude);
-
-                AsteroidEntity newAsteroid = new AsteroidEntity(position, velocity, AsteroidSize.values()[asteroidSize.ordinal() - 1]);
-                world.queueAddEntity(newAsteroid);
+                world.getEventBus().publish(world,
+                        new SpawnEvent(asteroidSPI.createAsteroid(
+                                asteroid.getComponent(PositionComponent.class).orElseThrow().pos.copy(),
+                                new Vector3D(-50+random.nextFloat()*100, -50+random.nextFloat()*100, -50+random.nextFloat()*100),
+                                AsteroidSize.values()[asteroidSize.ordinal() - 1])));
             }
         }
 
+        /*
         // Publish event
         CoinSPI coinSPI = ServiceLoader.load(CoinSPI.class).findFirst().orElseThrow();
         Vector2D pos = asteroid.getComponent(PositionComponent.class).orElseThrow().pos.copy();
         Vector2D vel = Vector2D.randomVector(25);
         world.getEventBus().publish(world, new SpawnEvent(coinSPI.createCoin(pos, vel, asteroidSize.ordinal()+1)));
-*/
+        */
     }
 }

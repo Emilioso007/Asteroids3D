@@ -5,6 +5,7 @@ import io.asteroidsjaylib.common.ecs.BaseSystem;
 
 module Asteroid {
     uses io.asteroidsjaylib.common.coin.CoinSPI;
+    uses io.asteroidsjaylib.common.asteroid.AsteroidSPI;
     requires Common;
     requires CommonAsteroid;
     requires CommonPhysics2D;

@@ -1,6 +1,7 @@
 package io.asteroidsjaylib.bullet;
 
 import io.asteroidsjaylib.common.bullet.BulletTag;
+import io.asteroidsjaylib.common.collision.SphereColliderComponent;
 import io.asteroidsjaylib.common.lifetime.LifetimeComponent;
 import io.asteroidsjaylib.common.ownership.OwnershipComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
@@ -43,6 +44,9 @@ public class BulletEntity extends BaseEntity{
         Cube3D laser = new Cube3D(80, 5, 5, YELLOW, ORANGE);
         render3DComponent.shapes.add(laser);
         this.addComponent(render3DComponent);
+
+        SphereColliderComponent sphereColliderComponent = new SphereColliderComponent(10);
+        this.addComponent(sphereColliderComponent);
 
     }
 }
