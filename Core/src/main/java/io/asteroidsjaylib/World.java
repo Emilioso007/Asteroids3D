@@ -1,14 +1,12 @@
 package io.asteroidsjaylib;
 
-import com.raylib.Raylib.Camera2D;
-import com.raylib.Raylib.Vector2;
+import com.raylib.Raylib;
 import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.ecs.BaseComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.ecs.BaseSystem;
 import io.asteroidsjaylib.common.event.IEventBus;
-import io.asteroidsjaylib.common.player.PlayerTag;
-import io.asteroidsjaylib.common.util.Vector2D;
+import io.asteroidsjaylib.common.util.Vector3D;
 
 import java.util.*;
 
@@ -18,24 +16,26 @@ public final class World implements IWorld {
     private int height;
     private int screenWidth;
     private int screenHeight;
-    private Vector2D cameraShake = new Vector2D();
+    private Vector3D cameraShake = new Vector3D();
     private final List<BaseEntity> entities;
     private final List<BaseEntity> entitiesToAdd;
     private final Set<BaseSystem> systems;
     private final IEventBus eventBus;
 
-    private final Camera2D camera;
+    private final Raylib.Camera3D camera;
 
     private float deltaTime;
 
     private final Map<BaseSystem, List<BaseEntity>> systemEntityCache = new HashMap<>();
 
     public World(){
-        this.camera = new Camera2D();
-        this.camera.offset(new Vector2().x(0).y(0));
-        this.camera.zoom(1);
-        this.camera.rotation(0);
-        setCameraLocation(new Vector2D());
+        this.camera = new Raylib.Camera3D();
+        this.camera._position(new Vector3D(0, 0, 2000).toVector3());
+        this.camera.target(new Vector3D(0, 0, 0).toVector3());
+        this.camera.up(new Vector3D(0, 0, 1).toVector3());
+        this.camera.fovy(45f);
+        this.camera.projection(Raylib.CAMERA_PERSPECTIVE);
+
         this.entities = new ArrayList<>();
         entitiesToAdd = new ArrayList<>();
         Comparator<BaseSystem> systemComparator =
@@ -53,10 +53,6 @@ public final class World implements IWorld {
     @Override
     public void tick(float deltaTime){
         this.deltaTime = deltaTime;
-        this.camera.offset(new Vector2().x((float) getScreenWidth() /2).y((float) getScreenHeight() /2));
-        if(!getEntitiesWith(PlayerTag.class).isEmpty()){
-            //this.camera.target(getEntitiesWith(PlayerTag.class).getFirst().getComponent(PositionComponent.class).orElseThrow().pos);
-        }
 
         boolean entitiesChanged = false;
         if (entities.removeIf(BaseEntity::isToBeRemoved)) entitiesChanged = true;
@@ -91,7 +87,7 @@ public final class World implements IWorld {
             }
         }
 
-        cameraShake = new Vector2D();
+        cameraShake = new Vector3D();
     }
 
     @Override
@@ -194,22 +190,22 @@ public final class World implements IWorld {
     }
 
     @Override
-    public Camera2D getCamera() {
+    public Raylib.Camera3D getCamera() {
         return camera;
     }
 
     @Override
-    public void setCameraLocation(Vector2D cameraLocation) {
-        camera.target(cameraLocation);
+    public void setCameraLocation(Vector3D cameraLocation) {
+        camera.target(cameraLocation.toVector3());
     }
 
     @Override
-    public void shakeCamera(Vector2D shakeVector){
+    public void shakeCamera(Vector3D shakeVector){
         cameraShake.add(shakeVector);
     }
 
     @Override
-    public Vector2D getCameraShake(){
+    public Vector3D getCameraShake(){
         return cameraShake;
     }
 

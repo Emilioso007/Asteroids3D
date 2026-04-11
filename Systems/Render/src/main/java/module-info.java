@@ -7,6 +7,8 @@ module Render {
     requires CommonRender;
     requires CommonPhysics2D;
     requires CommonCollision;
+    requires CommonPhysics3D;
+    requires CommonPlayer;
 
     provides BaseSystem with RenderSystem;
 }

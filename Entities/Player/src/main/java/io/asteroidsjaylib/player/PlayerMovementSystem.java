@@ -8,12 +8,9 @@ import io.asteroidsjaylib.common.event.input.key.KeyPressedEvent;
 import io.asteroidsjaylib.common.event.input.key.KeyReleasedEvent;
 import io.asteroidsjaylib.common.physics3d.AccelerationComponent;
 import io.asteroidsjaylib.common.physics3d.RotationComponent;
-import io.asteroidsjaylib.common.render.AnimationImageComponent;
-import io.asteroidsjaylib.common.render.RenderTag;
 import io.asteroidsjaylib.common.sound.SoundComponent;
 import io.asteroidsjaylib.common.player.PlayerTag;
 import io.asteroidsjaylib.common.util.Quaternion;
-import io.asteroidsjaylib.common.util.Vector2D;
 import io.asteroidsjaylib.common.util.Vector3D;
 
 import static com.raylib.Raylib.*;
@@ -23,11 +20,16 @@ import java.util.List;
 public class PlayerMovementSystem extends IteratingSystem {
 
     private boolean accelerating = false;
+    private boolean turningLeft = false;
+    private boolean turningRight = false;
+
+    private float turnSpeed = (float) Math.toRadians(180);
+
     private float animationTimer = 0;
     private float nextInterval = 0.07f; // Start with a default speed
     private int currentThrustFrame = 1;
 
-    private Vector2D cameraShake;
+    private Vector3D cameraShake;
 
     @Override
     public void start(IWorld world) {
@@ -35,7 +37,7 @@ public class PlayerMovementSystem extends IteratingSystem {
         world.getEventBus().subscribe(KeyPressedEvent.class, this::keyPressed);
         world.getEventBus().subscribe(KeyReleasedEvent.class, this::keyReleased);
 
-        cameraShake = new Vector2D(-5, -5);
+        cameraShake = new Vector3D(-5, -5, -5);
     }
 
     private void keyPressed(IWorld world, KeyPressedEvent event) {
@@ -44,10 +46,10 @@ public class PlayerMovementSystem extends IteratingSystem {
         BaseEntity player = world.getEntitiesWith(PlayerTag.class).getFirst();
         switch (event.keyCode){
             case KEY_LEFT, KEY_A:
-                //player.getComponent(RotationComponent.class).orElseThrow().dAngle += (float) -90;
+                turningLeft = true;
                 break;
             case KEY_RIGHT, KEY_D:
-                //player.getComponent(RotationComponent.class).orElseThrow().dAngle += (float) 90;
+                turningRight = true;
                 break;
             case KEY_UP, KEY_W:
                 accelerating = true;
@@ -62,10 +64,10 @@ public class PlayerMovementSystem extends IteratingSystem {
         BaseEntity player = world.getEntitiesWith(PlayerTag.class).getFirst();
         switch (event.keyCode){
             case KEY_LEFT, KEY_A:
-                //player.getComponent(RotationComponent.class).orElseThrow().dAngle += (float) 90;
+                turningLeft = false;
                 break;
             case KEY_RIGHT, KEY_D:
-                //player.getComponent(RotationComponent.class).orElseThrow().dAngle += (float) -90;
+                turningRight = false;
                 break;
             case KEY_UP, KEY_W:
                 accelerating = false;
@@ -77,6 +79,7 @@ public class PlayerMovementSystem extends IteratingSystem {
     @Override
     public void processEntity(IWorld world, BaseEntity player, float deltaTime) {
 
+        /*
         AnimationImageComponent img = player.getComponent(RenderTag.class).orElseThrow().getRenderComponent(AnimationImageComponent.class);
 
         if(!accelerating) {
@@ -110,12 +113,33 @@ public class PlayerMovementSystem extends IteratingSystem {
 
         world.shakeCamera(cameraShake);
 
-        cameraShake.rotate(Math.random()*360);
+        //cameraShake.rotate(Math.random()*360);
 
-        Vector3D acceleration = player.getComponent(AccelerationComponent.class).orElseThrow().acc;
-        Quaternion heading = player.getComponent(RotationComponent.class).orElseThrow().quaternion;
-        Vector3D forceVector = new Vector3D(2500, 0, 0);
-        acceleration.add(heading.rotateVector(forceVector));
+         */
+
+
+
+        float turnAmount = 0;
+        if (turningLeft) turnAmount += turnSpeed * deltaTime;
+        if (turningRight) turnAmount -= turnSpeed * deltaTime;
+
+        if (turnAmount != 0){
+
+            Vector3D rotationAxis = new Vector3D(0, 0, 1);
+
+            Quaternion turn = Quaternion.fromAxisAngle(rotationAxis, turnAmount);
+
+            RotationComponent rotComp = player.getComponent(RotationComponent.class).orElseThrow();
+
+            rotComp.quaternion.multiply(turn).normalize();
+        }
+
+        if(accelerating) {
+            Vector3D acceleration = player.getComponent(AccelerationComponent.class).orElseThrow().acc;
+            Quaternion heading = player.getComponent(RotationComponent.class).orElseThrow().quaternion;
+            Vector3D forceVector = new Vector3D(2500, 0, 0);
+            acceleration.add(heading.rotateVector(forceVector));
+        }
     }
 
     @Override

@@ -49,9 +49,12 @@ public class Game {
         world.getEventBus().subscribe(StateChangedEvent.class, this::onStateChanged);
         world.getEventBus().subscribe(KeyPressedEvent.class, this::keyPressed);
 
-        world.getEventBus().publish(world, new StateChangedEvent("MAIN_MENU"));
+        world.getEventBus().publish(world, new StateChangedEvent("PLAYING"));
 
         while(!WindowShouldClose() && running) {
+
+            //UpdateCamera(world.getCamera(), CAMERA_FIRST_PERSON);
+
             processInput();
 
             BeginDrawing();
@@ -95,7 +98,7 @@ public class Game {
                 world.getEventBus().publish(world, new KeyUpEvent(i));
             }
         }
-
+        /*
         Vector2D screenPosition = new Vector2D(GetMouseX(), GetMouseY());
         Vector2D worldPosition = new Vector2D(GetScreenToWorld2D(screenPosition, world.getCamera()));
 
@@ -115,6 +118,8 @@ public class Game {
         }
 
         world.getEventBus().publish(world, new MousePositionEvent(screenPosition, worldPosition));
+
+         */
     }
 
     private void onStateChanged(IWorld world, StateChangedEvent event){

@@ -3,18 +3,12 @@ package io.asteroidsjaylib.asteroid;
 import io.asteroidsjaylib.common.asteroid.AsteroidSize;
 import io.asteroidsjaylib.common.asteroid.AsteroidSizeComponent;
 import io.asteroidsjaylib.common.asteroid.AsteroidTag;
-import io.asteroidsjaylib.common.collision.CircleColliderComponent;import io.asteroidsjaylib.common.ecs.BaseEntity;
-import io.asteroidsjaylib.common.physics2d.AngleComponent;
-import io.asteroidsjaylib.common.physics2d.PositionComponent;
-import io.asteroidsjaylib.common.physics2d.RotationComponent;
-import io.asteroidsjaylib.common.physics2d.VelocityComponent;
-import io.asteroidsjaylib.common.render.RenderTag;
-import io.asteroidsjaylib.common.render.ShapeComponent;
-import io.asteroidsjaylib.common.render.shapes.BaseShape;
-import io.asteroidsjaylib.common.render.shapes.Polygon;
-import io.asteroidsjaylib.common.util.Vector2D;
-import io.asteroidsjaylib.common.outofbounds.BoundsAction;
-import io.asteroidsjaylib.common.outofbounds.OutOfBoundsComponent;
+import io.asteroidsjaylib.common.ecs.BaseEntity;
+import io.asteroidsjaylib.common.physics3d.PositionComponent;
+import io.asteroidsjaylib.common.physics3d.RotationComponent;
+import io.asteroidsjaylib.common.physics3d.VelocityComponent;
+import io.asteroidsjaylib.common.render.shapes3d.Sphere3DComponent;
+import io.asteroidsjaylib.common.util.Vector3D;
 
 import static com.raylib.Colors.*;
 
@@ -22,7 +16,7 @@ import java.util.Random;
 
 public class AsteroidEntity extends BaseEntity {
 
-    public AsteroidEntity(Vector2D startPosition, Vector2D startVelocity, AsteroidSize size){
+    public AsteroidEntity(Vector3D startPosition, Vector3D startVelocity, AsteroidSize size){
 
         this.addComponent(new AsteroidTag());
 
@@ -38,43 +32,14 @@ public class AsteroidEntity extends BaseEntity {
         VelocityComponent velocityComponent = new VelocityComponent(startVelocity);
         this.addComponent(velocityComponent);
 
-        AngleComponent angleComponent = new AngleComponent();
-        angleComponent.angle = 0;
-        this.addComponent(angleComponent);
-
         RotationComponent rotationComponent = new RotationComponent();
-        rotationComponent.dAngle = random.nextInt(45, 135);
         this.addComponent(rotationComponent);
-
-        int points = random.nextInt(4, 13);
-        float[] xs = new float[points];
-        float[] ys = new float[points];
-
-        double angleBetween = Math.toRadians(360f/points);
 
         int min = 15 + size.ordinal() * 10;
         int max = 35 + size.ordinal() * 20;
 
-        for(int i = 0; i < points; i++){
-            xs[i] = (float) (Math.cos(i*angleBetween)*random.nextInt(min, max));
-            ys[i] = (float) (Math.sin(i*angleBetween)*random.nextInt(min, max));
-        }
-
-        RenderTag renderTag = new RenderTag(30);
-
-        BaseShape shape = new Polygon(xs, ys, DARKGRAY, GRAY, 2);
-        ShapeComponent shapeComponent = new ShapeComponent(shape);
-        renderTag.addRenderComponent(shapeComponent, 0);
-
-        this.addComponent(renderTag);
-
-        OutOfBoundsComponent outOfBoundsComponent = new OutOfBoundsComponent();
-        outOfBoundsComponent.boundsAction = BoundsAction.WRAP;
-        this.addComponent(outOfBoundsComponent);
-
-        CircleColliderComponent circleColliderComponent = new CircleColliderComponent();
-        circleColliderComponent.radius = (35 + size.ordinal() * 20);
-        this.addComponent(circleColliderComponent);
+        Sphere3DComponent sphere3DComponent = new Sphere3DComponent(random.nextFloat(min, max), DARKGRAY, GRAY);
+        this.addComponent(sphere3DComponent);
 
     }
 

@@ -70,4 +70,19 @@ public class Quaternion {
         return part1.add(part2).add(part3);
     }
 
+    public Quaternion normalize() {
+        float mag = (float) Math.sqrt(x*x + y*y + z*z + w*w);
+        if (mag != 0) {
+            this.x /= mag;
+            this.y /= mag;
+            this.z /= mag;
+            this.w /= mag;
+        }
+        return this;
+    }
+
+    public float getZAngleDegrees() {
+        return (float) Math.toDegrees(2.0 * Math.atan2(this.z, this.w));
+    }
+
 }

@@ -5,7 +5,7 @@ import io.asteroidsjaylib.common.ecs.BaseComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.ecs.BaseSystem;
 import io.asteroidsjaylib.common.event.IEventBus;
-import io.asteroidsjaylib.common.util.Vector2D;
+import io.asteroidsjaylib.common.util.Vector3D;
 
 import java.util.List;
 
@@ -39,11 +39,11 @@ public interface IWorld {
 
     void clearSystems();
 
-    Raylib.Camera2D getCamera();
+    Raylib.Camera3D getCamera();
 
-    void setCameraLocation(Vector2D cameraLocation);
+    void setCameraLocation(Vector3D cameraLocation);
 
-    void shakeCamera(Vector2D shakeVector);
+    void shakeCamera(Vector3D shakeVector);
 
     int getScreenWidth();
 
@@ -53,5 +53,5 @@ public interface IWorld {
 
     void setScreenHeight(int screenHeight);
 
-    Vector2D getCameraShake();
+    Vector3D getCameraShake();
 }

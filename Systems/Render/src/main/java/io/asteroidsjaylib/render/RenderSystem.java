@@ -2,15 +2,16 @@ package io.asteroidsjaylib.render;
 
 
 import io.asteroidsjaylib.common.IWorld;
-import io.asteroidsjaylib.common.collision.CircleColliderComponent;
 import io.asteroidsjaylib.common.ecs.BaseComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.ecs.BulkSystem;
-import io.asteroidsjaylib.common.physics2d.AngleComponent;
-import io.asteroidsjaylib.common.physics2d.PositionComponent;
-import io.asteroidsjaylib.common.util.Vector2D;
-import io.asteroidsjaylib.common.render.RenderComponent;
-import io.asteroidsjaylib.common.render.RenderTag;
+import io.asteroidsjaylib.common.physics3d.PositionComponent;
+import io.asteroidsjaylib.common.physics3d.RotationComponent;
+import io.asteroidsjaylib.common.player.PlayerTag;
+import io.asteroidsjaylib.common.render.shapes3d.Cube3DComponent;
+import io.asteroidsjaylib.common.render.shapes3d.Sphere3DComponent;
+import io.asteroidsjaylib.common.util.Quaternion;
+import io.asteroidsjaylib.common.util.Vector3D;
 
 import java.util.List;
 
@@ -25,76 +26,64 @@ public class RenderSystem extends BulkSystem {
 
     @Override
     public List<Class<? extends BaseComponent>> getSignature() {
-        return List.of(RenderTag.class);
+        return List.of(PositionComponent.class);
     }
 
     @Override
     public void update(IWorld world, List<BaseEntity> entities, float deltaTime) {
 
-        // Order entities based on their zIndex in ascending order, meaning higher values gets drawn last
-        entities.sort((a, b) -> {
-            RenderTag ra = a.getComponent(RenderTag.class).orElseThrow();
-            RenderTag rb = b.getComponent(RenderTag.class).orElseThrow();
-            return Integer.compare(ra.getzIndex(), rb.getzIndex());
-        });
+        Camera3D camera = world.getCamera();
 
-        int w = world.getWidth();
-        int h = world.getHeight();
+        if(!world.getEntitiesWith(PlayerTag.class).isEmpty()){
+            BaseEntity player = world.getEntitiesWith(PlayerTag.class).getFirst();
+            Vector3D playerPos = player.getComponent(PositionComponent.class).orElseThrow().pos;
+            Quaternion playerRot = player.getComponent(RotationComponent.class).orElseThrow().quaternion;
 
-        Camera2D camera = world.getCamera();
-        float viewMinX = camera.target().x() - camera.offset().x();
-        float viewMaxX = camera.target().x() + (world.getScreenWidth() - camera.offset().x());
-        float viewMinY = camera.target().y() - camera.offset().y();
-        float viewMaxY = camera.target().y() + (world.getScreenHeight() - camera.offset().y());
+            Vector3D forwardVector = playerRot.rotateVector(new Vector3D(1, 0, 0));
 
-        for (BaseEntity entity : entities) {
+            Vector3D cameraPos = playerPos.copy().sub(forwardVector.mult(400));
 
-            RenderTag renderTag = entity.getComponent(RenderTag.class).orElseThrow();
-            Vector2D position = entity.getComponent(PositionComponent.class).map(positionComponent -> positionComponent.pos).orElse(Vector2D.ZERO.copy());
-            float angle = entity.getComponent(AngleComponent.class).map(angleComponent -> angleComponent.angle).orElse((float) 0);
+            cameraPos.z += 200;
 
-            if(renderTag.isAbsolutePosition()){
-                for (RenderComponent component : renderTag.getRenderComponents()){
-                    component.draw(position, angle);
-                }
-                continue;
-            }
+            camera._position(cameraPos.toVector3());
 
-            float margin = entity.getComponent(CircleColliderComponent.class)
-                    .map(circleColliderComponent -> circleColliderComponent.radius * 2)
-                    .orElse(Float.POSITIVE_INFINITY);
+            camera.target(playerPos.toVector3());
 
-            for (RenderComponent component : renderTag.getRenderComponents()){
-
-                // Apply camera offset
-                BeginMode2D(world.getCamera());
-
-                rlTranslatef(world.getCameraShake().x(), world.getCameraShake().y(), 0);
-
-                for (int i = -1; i <= 1; i++) {
-                    for (int j = -1; j <= 1; j++) {
-
-                        float drawX = position.x() + (i*w);
-                        float drawY = position.y() + (j*h);
-
-                        if (drawX + margin < viewMinX ||
-                            drawX - margin > viewMaxX ||
-                            drawY + margin < viewMinY ||
-                            drawY - margin > viewMaxY) {
-                            continue;
-                        }
-
-                        rlPushMatrix();
-                        rlTranslatef(i * w, j * h, 0);
-
-                        component.draw(position, angle);
-
-                        rlPopMatrix();
-                    }
-                }
-
-                EndMode2D();
-            }
+            camera.up(new Vector3D(0, 0, 1).toVector3());
         }
+
+        BeginMode3D(camera);
+
+        for(BaseEntity entity : entities){
+
+            Vector3D pos = entity.getComponent(PositionComponent.class).map(c -> c.pos).orElseThrow();
+
+            float angle = entity.getComponent(RotationComponent.class)
+                    .map(rot-> rot.quaternion.getZAngleDegrees()).orElse(0f);
+
+            rlPushMatrix();
+
+            rlTranslatef(pos.x, pos.y, pos.z);
+
+            rlRotatef(angle, 0, 0, 1);
+
+            Vector3 localOrigin = new Vector3().x(0).y(0).z(0);
+
+            entity.getComponent(Cube3DComponent.class).ifPresent(cube -> {
+                DrawCube(localOrigin, cube.width, cube.height, cube.length, cube.color);
+                DrawCubeWires(localOrigin, cube.width, cube.height, cube.length, cube.wireColor);
+            });
+
+            entity.getComponent(Sphere3DComponent.class).ifPresent(sphere -> {
+                DrawSphereEx(localOrigin, sphere.radius, 16, 16, sphere.color);
+                DrawSphereWires(localOrigin, sphere.radius, 16 ,16, sphere.wireColor);
+            });
+
+            rlPopMatrix();
+
+        }
+
+        EndMode3D();
+
     }
 }

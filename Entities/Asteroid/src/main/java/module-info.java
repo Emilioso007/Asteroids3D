@@ -14,6 +14,7 @@ module Asteroid {
     requires CommonOutOfBounds;
     requires CommonCollision;
     requires CommonCoin;
+    requires CommonPhysics3D;
 
     provides AsteroidSPI with AsteroidProvider;
     provides BaseSystem with AsteroidCollisionResponseSystem;

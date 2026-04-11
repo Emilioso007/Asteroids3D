@@ -1,20 +1,11 @@
 package io.asteroidsjaylib.asteroid;
 
-import io.asteroidsjaylib.common.asteroid.AsteroidSize;
-import io.asteroidsjaylib.common.asteroid.AsteroidSizeComponent;
 import io.asteroidsjaylib.common.asteroid.AsteroidTag;
-import io.asteroidsjaylib.common.coin.CoinSPI;
 import io.asteroidsjaylib.common.coin.CoinTag;
 import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.collision.CollisionEvent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.ecs.ResponseSystem;
-import io.asteroidsjaylib.common.physics2d.PositionComponent;
-import io.asteroidsjaylib.common.physics2d.VelocityComponent;
-import io.asteroidsjaylib.common.util.Vector2D;
-import io.asteroidsjaylib.common.spawn.SpawnEvent;
-
-import java.util.ServiceLoader;
 
 public class AsteroidCollisionResponseSystem extends ResponseSystem {
     @Override
@@ -37,6 +28,7 @@ public class AsteroidCollisionResponseSystem extends ResponseSystem {
         // Mark asteroid to be removed
         asteroid.setToBeRemoved(true);
 
+        /*
         // Optionally split asteroid
         AsteroidSize asteroidSize = asteroid.getComponent(AsteroidSizeComponent.class).map(c -> c.size).orElseThrow();
         if (asteroidSize.ordinal() > AsteroidSize.SMALL.ordinal()){
@@ -59,6 +51,6 @@ public class AsteroidCollisionResponseSystem extends ResponseSystem {
         Vector2D pos = asteroid.getComponent(PositionComponent.class).orElseThrow().pos.copy();
         Vector2D vel = Vector2D.randomVector(25);
         world.getEventBus().publish(world, new SpawnEvent(coinSPI.createCoin(pos, vel, asteroidSize.ordinal()+1)));
-
+*/
     }
 }
