@@ -10,7 +10,7 @@ module Enemy {
     requires Common;
 
     requires jaylib;
-    requires CommonPhysics;
+    requires CommonPhysics2D;
     requires CommonRender;
     requires CommonPlayer;
     requires CommonSpawn;

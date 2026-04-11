@@ -20,7 +20,7 @@
         <module>Common/CommonEnemy</module>
         <module>Common/CommonLifetime</module>
         <module>Common/CommonOutOfBounds</module>
-        <module>Common/CommonPhysics</module>
+        <module>Common/CommonPhysics2D</module>
         <module>Common/CommonPlayer</module>
         <module>Common/CommonRender</module>
         <module>Common/CommonSpawn</module>
@@ -155,7 +155,7 @@
             </dependency>
             <dependency>
                 <groupId>io.asteroidsjaylib.common.physics</groupId>
-                <artifactId>CommonPhysics</artifactId>
+                <artifactId>CommonPhysics2D</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
             <dependency>

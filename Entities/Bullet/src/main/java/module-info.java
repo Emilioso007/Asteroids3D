@@ -7,7 +7,7 @@ module Bullet {
     requires Common;
 
     requires jaylib;
-    requires CommonPhysics;
+    requires CommonPhysics2D;
     requires CommonRender;
     requires CommonCollision;
     requires CommonBullet;

@@ -11,7 +11,7 @@ module Player {
     requires Common;
     requires jaylib;
     requires CommonPlayer;
-    requires CommonPhysics;
+    requires CommonPhysics2D;
     requires CommonRender;
     requires CommonSpawn;
     requires CommonCollision;

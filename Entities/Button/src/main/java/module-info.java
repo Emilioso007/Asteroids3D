@@ -3,7 +3,7 @@ import io.asteroidsjaylib.common.button.ButtonSPI;
 
 module Button {
     requires Common;
-    requires CommonPhysics;
+    requires CommonPhysics2D;
     requires CommonRender;
     requires jaylib;
     requires CommonButton;

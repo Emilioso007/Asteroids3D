@@ -4,7 +4,7 @@ import io.asteroidsjaylib.common.ecs.BaseSystem;
 
 module Collision {
     requires Common;
-    requires CommonPhysics;
+    requires CommonPhysics2D;
     requires CommonCollision;
     requires CommonButton;
     requires CommonRender;

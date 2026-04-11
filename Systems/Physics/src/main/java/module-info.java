@@ -6,7 +6,7 @@ import io.asteroidsjaylib.physics.VelocitySystem;
 
 module Physics {
     requires Common;
-    requires CommonPhysics;
+    requires CommonPhysics2D;
 
     provides BaseSystem with AccelerationSystem, DragSystem, RotationSystem, VelocitySystem;
 }

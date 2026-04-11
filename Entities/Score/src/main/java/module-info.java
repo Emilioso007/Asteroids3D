@@ -8,7 +8,7 @@ module Score {
     requires CommonRender;
     requires jaylib;
     requires CommonScore;
-    requires CommonPhysics;
+    requires CommonPhysics2D;
 
     provides EntitySpi with ScoreProvider;
     provides BaseSystem with ScoreSystem;

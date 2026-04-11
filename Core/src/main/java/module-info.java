@@ -9,5 +9,5 @@ module Core {
     requires CommonButton;
     requires CommonScore;
     requires CommonPlayer;
-    requires CommonPhysics;
+    requires CommonPhysics2D;
 }

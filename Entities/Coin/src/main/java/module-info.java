@@ -11,7 +11,7 @@ module Coin {
     requires CommonScore;
     requires CommonCoin;
     requires CommonRender;
-    requires CommonPhysics;
+    requires CommonPhysics2D;
     requires CommonOutOfBounds;
     requires jaylib;
     provides CoinSPI with CoinProvider;

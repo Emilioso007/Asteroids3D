@@ -7,7 +7,7 @@ module Asteroid {
     uses io.asteroidsjaylib.common.coin.CoinSPI;
     requires Common;
     requires CommonAsteroid;
-    requires CommonPhysics;
+    requires CommonPhysics2D;
     requires CommonSpawn;
     requires CommonRender;
     requires jaylib;

@@ -11,7 +11,7 @@
     </parent>
 
     <groupId>io.asteroidsjaylib.common.physics</groupId>
-    <artifactId>CommonPhysics</artifactId>
+    <artifactId>CommonPhysics2D</artifactId>
 
     <properties>
         <maven.compiler.source>25</maven.compiler.source>
