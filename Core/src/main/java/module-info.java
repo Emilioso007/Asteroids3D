@@ -10,4 +10,5 @@ module Core {
     requires CommonScore;
     requires CommonPlayer;
     requires CommonPhysics2D;
+    requires CommonPhysics3D;
 }

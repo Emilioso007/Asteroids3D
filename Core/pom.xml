@@ -37,6 +37,12 @@
             <groupId>io.asteroidsjaylib.common.physics2d</groupId>
             <artifactId>CommonPhysics2D</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.asteroidsjaylib.common.physics3d</groupId>
+            <artifactId>CommonPhysics3D</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>

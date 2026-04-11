@@ -12,6 +12,8 @@ import io.asteroidsjaylib.common.event.input.mouse.MousePressedEvent;
 import io.asteroidsjaylib.common.event.input.mouse.MouseReleasedEvent;
 import io.asteroidsjaylib.common.event.input.mouse.MouseUpEvent;
 import io.asteroidsjaylib.common.event.input.mouse.MousePositionEvent;
+import io.asteroidsjaylib.common.physics3d.PositionComponent;
+import io.asteroidsjaylib.common.player.PlayerTag;
 import io.asteroidsjaylib.common.util.Vector2D;
 
 import static com.raylib.Raylib.*;
@@ -58,6 +60,12 @@ public class Game {
             world.tick(GetFrameTime());
 
             DrawFPS(50, 50);
+
+            if(world.hasEntitiesWith(PlayerTag.class))
+                DrawText(world.getEntitiesWith(PlayerTag.class).getFirst().getComponent(PositionComponent.class).orElseThrow().pos.toString(),
+                100, 100, 24, WHITE);
+
+
             EndDrawing();
         }
 

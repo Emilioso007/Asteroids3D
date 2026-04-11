@@ -31,6 +31,7 @@
         <module>Common/CommonSound</module>
 
         <module>Systems/Physics2D</module>
+        <module>Systems/Physics3D</module>
         <module>Systems/Collision</module>
         <module>Systems/OutOfBounds</module>
         <module>Systems/Spawn</module>
