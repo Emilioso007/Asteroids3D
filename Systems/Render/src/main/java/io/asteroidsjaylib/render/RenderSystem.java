@@ -8,8 +8,8 @@ import io.asteroidsjaylib.common.ecs.BulkSystem;
 import io.asteroidsjaylib.common.physics3d.PositionComponent;
 import io.asteroidsjaylib.common.physics3d.RotationComponent;
 import io.asteroidsjaylib.common.player.PlayerTag;
-import io.asteroidsjaylib.common.render.shapes3d.Cube3DComponent;
-import io.asteroidsjaylib.common.render.shapes3d.Sphere3DComponent;
+import io.asteroidsjaylib.common.render.Render3DComponent;
+import io.asteroidsjaylib.common.render.shapes3d.Base3DShape;
 import io.asteroidsjaylib.common.util.Quaternion;
 import io.asteroidsjaylib.common.util.Vector3D;
 
@@ -26,7 +26,7 @@ public class RenderSystem extends BulkSystem {
 
     @Override
     public List<Class<? extends BaseComponent>> getSignature() {
-        return List.of(PositionComponent.class);
+        return List.of(Render3DComponent.class);
     }
 
     @Override
@@ -52,34 +52,33 @@ public class RenderSystem extends BulkSystem {
             camera.up(new Vector3D(0, 0, 1).toVector3());
         }
 
+        rlSetClipPlanes(0.01, 5000);
         BeginMode3D(camera);
 
         for(BaseEntity entity : entities){
 
-            Vector3D pos = entity.getComponent(PositionComponent.class).map(c -> c.pos).orElseThrow();
+            Vector3D pos = entity.getComponent(PositionComponent.class).map(c -> c.pos).orElse(new Vector3D());
 
             float angle = entity.getComponent(RotationComponent.class)
                     .map(rot-> rot.quaternion.getZAngleDegrees()).orElse(0f);
 
-            rlPushMatrix();
+            List<Base3DShape> shapes = entity.getComponent(Render3DComponent.class).get().shapes;
 
-            rlTranslatef(pos.x, pos.y, pos.z);
+            for (var shape : shapes){
+                rlPushMatrix();
 
-            rlRotatef(angle, 0, 0, 1);
+                rlTranslatef(pos.x, pos.y, pos.z);
 
-            Vector3 localOrigin = new Vector3().x(0).y(0).z(0);
+                if (shape.offset != null){
+                    rlTranslatef(shape.offset.x, shape.offset.y, shape.offset.z);
+                }
 
-            entity.getComponent(Cube3DComponent.class).ifPresent(cube -> {
-                DrawCube(localOrigin, cube.width, cube.height, cube.length, cube.color);
-                DrawCubeWires(localOrigin, cube.width, cube.height, cube.length, cube.wireColor);
-            });
+                rlRotatef(angle, 0, 0, 1);
 
-            entity.getComponent(Sphere3DComponent.class).ifPresent(sphere -> {
-                DrawSphereEx(localOrigin, sphere.radius, 16, 16, sphere.color);
-                DrawSphereWires(localOrigin, sphere.radius, 16 ,16, sphere.wireColor);
-            });
+                shape.draw();
 
-            rlPopMatrix();
+                rlPopMatrix();
+            }
 
         }
 

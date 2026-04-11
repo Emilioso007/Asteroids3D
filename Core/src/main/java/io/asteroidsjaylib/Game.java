@@ -7,14 +7,8 @@ import io.asteroidsjaylib.common.event.input.key.KeyDownEvent;
 import io.asteroidsjaylib.common.event.input.key.KeyPressedEvent;
 import io.asteroidsjaylib.common.event.input.key.KeyReleasedEvent;
 import io.asteroidsjaylib.common.event.input.key.KeyUpEvent;
-import io.asteroidsjaylib.common.event.input.mouse.MouseDownEvent;
-import io.asteroidsjaylib.common.event.input.mouse.MousePressedEvent;
-import io.asteroidsjaylib.common.event.input.mouse.MouseReleasedEvent;
-import io.asteroidsjaylib.common.event.input.mouse.MouseUpEvent;
-import io.asteroidsjaylib.common.event.input.mouse.MousePositionEvent;
 import io.asteroidsjaylib.common.physics3d.PositionComponent;
 import io.asteroidsjaylib.common.player.PlayerTag;
-import io.asteroidsjaylib.common.util.Vector2D;
 
 import static com.raylib.Raylib.*;
 import static com.raylib.Colors.*;
