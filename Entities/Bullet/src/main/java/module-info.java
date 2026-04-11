@@ -16,6 +16,7 @@ module Bullet {
     requires CommonLifetime;
     requires CommonOutOfBounds;
     requires CommonSound;
+    requires CommonPhysics3D;
 
     provides BaseSystem with BulletCollisionResponseSystem;
     provides BulletSPI with BulletProvider;

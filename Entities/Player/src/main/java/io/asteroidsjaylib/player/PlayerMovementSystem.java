@@ -23,7 +23,7 @@ public class PlayerMovementSystem extends IteratingSystem {
     private boolean pitchUp = false, pitchDown = false;
     private boolean rollLeft = false, rollRight = false;
 
-    private float turnSpeed = (float) Math.toRadians(180);
+    private float turnSpeed = (float) Math.toRadians(90);
 
     @Override
     public void start(IWorld world) {

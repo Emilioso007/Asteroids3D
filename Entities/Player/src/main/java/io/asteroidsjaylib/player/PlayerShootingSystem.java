@@ -5,12 +5,13 @@ import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.ecs.ResponseSystem;
 import io.asteroidsjaylib.common.event.input.key.KeyDownEvent;
-import io.asteroidsjaylib.common.physics2d.AngleComponent;
-import io.asteroidsjaylib.common.physics2d.PositionComponent;
-import io.asteroidsjaylib.common.physics2d.VelocityComponent;
-import io.asteroidsjaylib.common.util.Vector2D;
+import io.asteroidsjaylib.common.physics3d.PositionComponent;
+import io.asteroidsjaylib.common.physics3d.RotationComponent;
+import io.asteroidsjaylib.common.physics3d.VelocityComponent;
+import io.asteroidsjaylib.common.util.Quaternion;
 import io.asteroidsjaylib.common.player.PlayerTag;
 import io.asteroidsjaylib.common.spawn.SpawnEvent;
+import io.asteroidsjaylib.common.util.Vector3D;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -46,15 +47,19 @@ public class PlayerShootingSystem extends ResponseSystem {
     }
 
     private void shoot(IWorld world, BaseEntity player) {
-        PositionComponent position = player.getComponent(PositionComponent.class).orElseThrow();
-        VelocityComponent velocityComponent = player.getComponent(VelocityComponent.class).orElseThrow();
-        AngleComponent angle = player.getComponent(AngleComponent.class).orElseThrow();
 
-        Vector2D startPosition = position.pos.copy().add(Vector2D.fromAngle(angle.angle).setMag(75/2f));
-        Vector2D velocity = Vector2D.fromAngle(angle.angle).setMag(600);
-        velocity.add(velocityComponent.vel.copy().setHeading(velocity.heading()));
+        Vector3D playerPos = player.getComponent(PositionComponent.class).orElseThrow().pos;
+        Vector3D playerVel = player.getComponent(VelocityComponent.class).orElseThrow().vel;
+        Quaternion playerRot = player.getComponent(RotationComponent.class).orElseThrow().quaternion;
+
+        Vector3D forwardVector = playerRot.rotateVector(new Vector3D(1, 0, 0));
+
+        Vector3D nosePosition = playerPos.copy().add(forwardVector.copy().mult(50));
+
+        Vector3D bulletVelocity = playerVel.copy().add(forwardVector.copy().mult(2500));
 
         BulletSPI bulletSPI = ServiceLoader.load(BulletSPI.class).findFirst().orElseThrow();
-        world.getEventBus().publish(world, new SpawnEvent(bulletSPI.CreateBullet(player, startPosition, velocity)));
+        world.getEventBus().publish(world, new SpawnEvent(bulletSPI.CreateBullet(player, nosePosition, bulletVelocity, playerRot)));
+
     }
 }
