@@ -35,16 +35,9 @@ public class AsteroidEntity extends BaseEntity {
         RotationComponent rotationComponent = new RotationComponent();
         this.addComponent(rotationComponent);
 
-        int min = 15 + size.ordinal() * 10;
-        int max = 35 + size.ordinal() * 20;
-
         Render3DComponent render3DComponent = new Render3DComponent();
-        float radius = random.nextFloat(min, max);
-        /*
-        Sphere3D sphere3D = new Sphere3D(radius, DARKGRAY, GRAY);
-        render3DComponent.shapes.add(sphere3D);
-         */
-        Model3D asteroid = new Model3D("/LegoAsteroid.obj", "/LegoAsteroid.mtl", 1, 0, 0, 0);
+        float radius = 10 * size.ordinal() + 20;
+        Model3D asteroid = new Model3D("/LegoAsteroid.obj", "/LegoAsteroid.mtl", radius/40f, random.nextFloat((float) Math.TAU), random.nextFloat((float) Math.TAU), random.nextFloat((float) Math.TAU));
         render3DComponent.shapes.add(asteroid);
         this.addComponent(render3DComponent);
 
