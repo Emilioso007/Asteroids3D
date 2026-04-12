@@ -9,10 +9,8 @@ import io.asteroidsjaylib.common.physics3d.PositionComponent;
 import io.asteroidsjaylib.common.physics3d.RotationComponent;
 import io.asteroidsjaylib.common.physics3d.VelocityComponent;
 import io.asteroidsjaylib.common.render.Render3DComponent;
-import io.asteroidsjaylib.common.render.shapes3d.Sphere3D;
+import io.asteroidsjaylib.common.render.shapes3d.Model3D;
 import io.asteroidsjaylib.common.util.Vector3D;
-
-import static com.raylib.Colors.*;
 
 import java.util.Random;
 
@@ -42,8 +40,12 @@ public class AsteroidEntity extends BaseEntity {
 
         Render3DComponent render3DComponent = new Render3DComponent();
         float radius = random.nextFloat(min, max);
+        /*
         Sphere3D sphere3D = new Sphere3D(radius, DARKGRAY, GRAY);
         render3DComponent.shapes.add(sphere3D);
+         */
+        Model3D asteroid = new Model3D("/LegoAsteroid.obj", "/LegoAsteroid.mtl", 1, 0, 0, 0);
+        render3DComponent.shapes.add(asteroid);
         this.addComponent(render3DComponent);
 
         SphereColliderComponent sphereColliderComponent = new SphereColliderComponent(radius);

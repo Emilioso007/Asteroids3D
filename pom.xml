@@ -162,7 +162,7 @@
             </dependency>
             <dependency>
                 <groupId>io.asteroidsjaylib.common.physics3d</groupId>
-                <artifactId>CommmonPhysics3D</artifactId>
+                <artifactId>CommonPhysics3D</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
             <dependency>
