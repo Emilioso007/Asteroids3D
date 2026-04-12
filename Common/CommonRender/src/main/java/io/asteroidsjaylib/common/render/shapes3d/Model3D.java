@@ -1,6 +1,5 @@
 package io.asteroidsjaylib.common.render.shapes3d;
 
-import com.raylib.Raylib;
 import com.raylib.Raylib.Model;
 
 import static com.raylib.Colors.WHITE;
@@ -83,7 +82,8 @@ public class Model3D extends Base3DShape {
         rlRotatef(pitchOffset, 1, 0, 0);
         rlRotatef(rollOffset, 0, 1, 0);
 
-        DrawModel(model, new Raylib.Vector3().x(0).y(0).z(0), scale, WHITE);
+        DrawModel(model, new Vector3(), scale, WHITE);
+        //DrawModelWires(model, new Vector3(), scale, BLACK);
 
         rlPopMatrix();
     }
