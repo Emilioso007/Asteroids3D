@@ -23,7 +23,13 @@ public class PlayerMovementSystem extends IteratingSystem {
     private boolean pitchUp = false, pitchDown = false;
     private boolean rollLeft = false, rollRight = false;
 
-    private float turnSpeed = (float) Math.toRadians(90);
+    private float maxTurnSpeed = (float) Math.toRadians(90);
+    private float angularAcceleration = (float) Math.toRadians(270);
+    private float angularDrag = (float) Math.toRadians(180);
+
+    private float currentYawSpeed = 0f;
+    private float currentPitchSpeed = 0f;
+    private float currentRollSpeed = 0f;
 
     @Override
     public void start(IWorld world) {
@@ -90,13 +96,13 @@ public class PlayerMovementSystem extends IteratingSystem {
 
         RotationComponent rotComp = player.getComponent(RotationComponent.class).orElseThrow();
 
-        float yawAmount = 0, pitchAmount = 0, rollAmount = 0;
-        if (yawLeft) yawAmount += turnSpeed * deltaTime;
-        if (yawRight) yawAmount -= turnSpeed * deltaTime;
-        if (pitchUp) pitchAmount -= turnSpeed * deltaTime;
-        if (pitchDown) pitchAmount += turnSpeed * deltaTime;
-        if (rollLeft) rollAmount -= turnSpeed * deltaTime;
-        if (rollRight) rollAmount += turnSpeed * deltaTime;
+        currentYawSpeed = updateSpeed(currentYawSpeed, yawLeft, yawRight, deltaTime);
+        currentPitchSpeed = updateSpeed(currentPitchSpeed, pitchDown, pitchUp, deltaTime);
+        currentRollSpeed = updateSpeed(currentRollSpeed, rollRight, rollLeft, deltaTime);
+
+        float yawAmount = currentYawSpeed * deltaTime;
+        float pitchAmount = currentPitchSpeed * deltaTime;
+        float rollAmount = currentRollSpeed * deltaTime;
 
         if (yawAmount != 0){
             Quaternion yaw = Quaternion.fromAxisAngle(new Vector3D(0, 0, 1), yawAmount);
@@ -117,6 +123,21 @@ public class PlayerMovementSystem extends IteratingSystem {
             Vector3D forceVector = new Vector3D(2500, 0, 0);
             acceleration.add(heading.rotateVector(forceVector));
         }
+    }
+
+    private float updateSpeed(float currentSpeed, boolean positiveInput, boolean negativeInput, float deltaTime) {
+        if (positiveInput){
+            currentSpeed += angularAcceleration * deltaTime;
+        } else if (negativeInput){
+            currentSpeed -= angularAcceleration * deltaTime;
+        } else {
+            if (currentSpeed > 0){
+                currentSpeed = Math.max(0, currentSpeed - angularDrag * deltaTime);
+            } else if (currentSpeed < 0) {
+                currentSpeed = Math.min(0, currentSpeed + angularDrag * deltaTime);
+            }
+        }
+        return Math.max(-maxTurnSpeed, Math.min(maxTurnSpeed, currentSpeed));
     }
 
     @Override

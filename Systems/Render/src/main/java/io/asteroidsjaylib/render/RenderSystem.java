@@ -19,6 +19,14 @@ import static com.raylib.Raylib.*;
 
 public class RenderSystem extends BulkSystem {
 
+    private Vector3D smoothedCameraPos = null;
+    private Vector3D smoothedCameraTarget = null;
+    private Vector3D smoothedCameraUp = null;
+
+    private final float posLerpSpeed = 8.0f;
+    private final float targetLerpSpeed = 10.0f;
+    private final float upLerpSpeed = 2.0f;
+
     @Override
     public void start(IWorld world) {
         this.setPriority(100);
@@ -40,18 +48,28 @@ public class RenderSystem extends BulkSystem {
             Quaternion playerRot = player.getComponent(RotationComponent.class).orElseThrow().quaternion;
 
             Vector3D forwardVector = playerRot.rotateVector(new Vector3D(1, 0, 0));
-
             Vector3D localUp = playerRot.rotateVector(new Vector3D(0, 0, 1));
 
-            Vector3D cameraPos = playerPos.copy().sub(forwardVector.copy().mult(400));
+            Vector3D desiredCameraPos = playerPos.copy().sub(forwardVector.copy().mult(400)).add(localUp.copy().mult(100));
+            Vector3D desiredCameraTarget = playerPos.copy().add(forwardVector.copy().mult(1500));
+            Vector3D desiredCameraUp = localUp;
 
-            cameraPos.add(localUp.copy().mult(100));
+            // Initialize smoothed vectors instantly on the very first frame to prevent massive snapping
+            if (smoothedCameraPos == null) {
+                smoothedCameraPos = desiredCameraPos.copy();
+                smoothedCameraTarget = desiredCameraTarget.copy();
+                smoothedCameraUp = desiredCameraUp.copy();
+            } else {
+                // Smoothly interpolate (Lerp) from current position to the desired position
+                // Formula: current = current + (desired - current) * lerpSpeed * deltaTime
+                smoothedCameraPos.add(desiredCameraPos.copy().sub(smoothedCameraPos).mult(posLerpSpeed * deltaTime));
+                smoothedCameraTarget.add(desiredCameraTarget.copy().sub(smoothedCameraTarget).mult(targetLerpSpeed * deltaTime));
+                smoothedCameraUp.add(desiredCameraUp.copy().sub(smoothedCameraUp).mult(upLerpSpeed * deltaTime)).normalize();
+            }
 
-            camera._position(cameraPos.toVector3());
-
-            camera.target(playerPos.copy().add(forwardVector.copy().mult(1500)).toVector3());
-
-            camera.up(localUp.toVector3());
+            camera._position(smoothedCameraPos.toVector3());
+            camera.target(smoothedCameraTarget.toVector3());
+            camera.up(smoothedCameraUp.toVector3());
         }
 
         rlSetClipPlanes(0.01, 5000);
