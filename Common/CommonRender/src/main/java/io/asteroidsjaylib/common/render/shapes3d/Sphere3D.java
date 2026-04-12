@@ -4,7 +4,6 @@ import com.raylib.Raylib;
 import com.raylib.Raylib.Color;
 
 import static com.raylib.Raylib.DrawSphereEx;
-import static com.raylib.Raylib.DrawSphereWires;
 
 public class Sphere3D extends Base3DShape {
     public float radius;
@@ -19,6 +18,6 @@ public class Sphere3D extends Base3DShape {
     @Override
     public void draw() {
         DrawSphereEx(new Raylib.Vector3(), radius, 16, 16, color);
-        DrawSphereWires(new Raylib.Vector3(), radius, 16 ,16, wireColor);
+        //DrawSphereWires(new Raylib.Vector3(), radius, 16 ,16, wireColor);
     }
 }
