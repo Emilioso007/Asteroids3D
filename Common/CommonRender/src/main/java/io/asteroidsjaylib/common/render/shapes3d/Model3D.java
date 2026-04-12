@@ -90,7 +90,12 @@ public class Model3D extends Base3DShape {
 
     public void applyShader(Shader shader){
         if (this.model != null){
-            this.model.materials().position(0).shader(shader);
+
+            for(int i = 0; i < this.model.materialCount(); i++) {
+                this.model.materials().position(i).shader(shader);
+            }
+
+            this.model.materials().position(0);
         }
     }
 }
