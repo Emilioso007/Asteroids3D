@@ -39,8 +39,14 @@ public class PlayerEntity extends BaseEntity {
         Sphere3D sphere3D = new Sphere3D(40, BLANK, WHITE);
         render3DComponent.shapes.add(sphere3D);
         */
-        Model3D model3D = new Model3D("/craft_speederA.obj", "/craft_speederA.mtl", 40, 80,90,0);
-        render3DComponent.shapes.add(model3D);
+
+        // Model3D model3D = new Model3D("/craft_speederA.obj", "/craft_speederA.mtl", 40, 80,90,0);
+
+        Model3D idleModel = new Model3D("/LegoSpaceship.obj", "/LegoSpaceship.mtl", 1, 90,-90,0);
+        render3DComponent.shapeLibrary.put("idle", idleModel);
+        Model3D thrustModel = new Model3D("/LegoSpaceshipThrust.obj", "/LegoSpaceshipThrust.mtl", 1, 90,-90,0);
+        render3DComponent.shapeLibrary.put("thrust", thrustModel);
+        render3DComponent.state = "idle";
         this.addComponent(render3DComponent);
 
         SphereColliderComponent sphereColliderComponent = new SphereColliderComponent(40);

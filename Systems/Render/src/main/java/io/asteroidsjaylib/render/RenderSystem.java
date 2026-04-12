@@ -14,6 +14,7 @@ import io.asteroidsjaylib.common.util.Quaternion;
 import io.asteroidsjaylib.common.util.Vector3D;
 
 import java.util.List;
+import java.util.Objects;
 
 import static com.raylib.Raylib.*;
 
@@ -88,27 +89,42 @@ public class RenderSystem extends BulkSystem {
                 axis = rotComp.quaternion.getAxis();
             }
 
-            List<Base3DShape> shapes = entity.getComponent(Render3DComponent.class).get().shapes;
+            Render3DComponent render3DComponent = entity.getComponent(Render3DComponent.class).orElseThrow();
 
-            for (var shape : shapes){
-                rlPushMatrix();
+            if (!Objects.equals(render3DComponent.state, "")) {
 
-                rlTranslatef(pos.x, pos.y, pos.z);
-
-                if (shape.offset != null){
-                    rlTranslatef(shape.offset.x, shape.offset.y, shape.offset.z);
+                Base3DShape shape = render3DComponent.shapeLibrary.get(render3DComponent.state);
+                if (shape != null){
+                    drawShape(shape, pos, angle, axis);
                 }
 
-                rlRotatef(angle, axis.x, axis.y, axis.z);
+            } else {
 
-                shape.draw();
+                for (var shape : render3DComponent.shapes){
+                    drawShape(shape, pos, angle, axis);
+                }
 
-                rlPopMatrix();
             }
 
         }
 
         EndMode3D();
 
+    }
+
+    private static void drawShape(Base3DShape shape, Vector3D pos, float angle, Vector3D axis) {
+        rlPushMatrix();
+
+        rlTranslatef(pos.x, pos.y, pos.z);
+
+        if (shape.offset != null){
+            rlTranslatef(shape.offset.x, shape.offset.y, shape.offset.z);
+        }
+
+        rlRotatef(angle, axis.x, axis.y, axis.z);
+
+        shape.draw();
+
+        rlPopMatrix();
     }
 }

@@ -9,6 +9,7 @@ import io.asteroidsjaylib.common.event.input.key.KeyReleasedEvent;
 import io.asteroidsjaylib.common.physics3d.AccelerationComponent;
 import io.asteroidsjaylib.common.physics3d.RotationComponent;
 import io.asteroidsjaylib.common.player.PlayerTag;
+import io.asteroidsjaylib.common.render.Render3DComponent;
 import io.asteroidsjaylib.common.util.Quaternion;
 import io.asteroidsjaylib.common.util.Vector3D;
 
@@ -122,6 +123,10 @@ public class PlayerMovementSystem extends IteratingSystem {
             Quaternion heading = player.getComponent(RotationComponent.class).orElseThrow().quaternion;
             Vector3D forceVector = new Vector3D(2500, 0, 0);
             acceleration.add(heading.rotateVector(forceVector));
+
+            player.getComponent(Render3DComponent.class).orElseThrow().state = "thrust";
+        } else {
+            player.getComponent(Render3DComponent.class).orElseThrow().state = "idle";
         }
     }
 
