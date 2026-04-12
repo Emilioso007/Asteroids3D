@@ -6,7 +6,7 @@ import static com.raylib.Raylib.DrawPoint3D;
 
 public class Point3D extends Base3DShape{
 
-    private Raylib.Color color;
+    public Raylib.Color color;
 
     public Point3D(Raylib.Color color) {
         this.color = color;
