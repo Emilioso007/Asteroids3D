@@ -51,7 +51,8 @@ public class WaveDirectorSystem extends BulkSystem {
                     new SpawnEvent(asteroidSPI.createAsteroid(
                                     new Vector3D(),
                                     new Vector3D(-50+random.nextFloat()*100, -50+random.nextFloat()*100, -50+random.nextFloat()*100),
-                                    AsteroidSize.LARGE)));
+                                    AsteroidSize.LARGE,
+                                    world.getShader())));
         }
 
         /*

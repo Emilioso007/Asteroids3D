@@ -1,5 +1,6 @@
 package io.asteroidsjaylib.player;
 
+import com.raylib.Raylib;
 import io.asteroidsjaylib.common.collision.SphereColliderComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.physics3d.*;
@@ -10,7 +11,7 @@ import io.asteroidsjaylib.common.util.Vector3D;
 
 public class PlayerEntity extends BaseEntity {
 
-    public PlayerEntity(Vector3D startPosition){
+    public PlayerEntity(Vector3D startPosition, Raylib.Shader shader){
 
         this.addComponent(new PlayerTag());
 
@@ -43,8 +44,10 @@ public class PlayerEntity extends BaseEntity {
         // Model3D model3D = new Model3D("/craft_speederA.obj", "/craft_speederA.mtl", 40, 80,90,0);
 
         Model3D idleModel = new Model3D("/LegoSpaceship.obj", "/LegoSpaceship.mtl", 1, 90,-90,0);
+        idleModel.applyShader(shader);
         render3DComponent.shapeLibrary.put("idle", idleModel);
         Model3D thrustModel = new Model3D("/LegoSpaceshipThrust.obj", "/LegoSpaceshipThrust.mtl", 1, 90,-90,0);
+        thrustModel.applyShader(shader);
         render3DComponent.shapeLibrary.put("thrust", thrustModel);
         render3DComponent.state = "idle";
         this.addComponent(render3DComponent);

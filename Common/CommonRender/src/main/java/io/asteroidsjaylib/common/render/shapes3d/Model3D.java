@@ -87,4 +87,10 @@ public class Model3D extends Base3DShape {
 
         rlPopMatrix();
     }
+
+    public void applyShader(Shader shader){
+        if (this.model != null){
+            this.model.materials().position(0).shader(shader);
+        }
+    }
 }

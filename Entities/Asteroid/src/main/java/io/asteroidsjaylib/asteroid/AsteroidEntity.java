@@ -1,5 +1,6 @@
 package io.asteroidsjaylib.asteroid;
 
+import com.raylib.Raylib;
 import io.asteroidsjaylib.common.asteroid.AsteroidSize;
 import io.asteroidsjaylib.common.asteroid.AsteroidSizeComponent;
 import io.asteroidsjaylib.common.asteroid.AsteroidTag;
@@ -16,7 +17,7 @@ import java.util.Random;
 
 public class AsteroidEntity extends BaseEntity {
 
-    public AsteroidEntity(Vector3D startPosition, Vector3D startVelocity, AsteroidSize size){
+    public AsteroidEntity(Vector3D startPosition, Vector3D startVelocity, AsteroidSize size, Raylib.Shader shader){
 
         this.addComponent(new AsteroidTag());
 
@@ -38,6 +39,7 @@ public class AsteroidEntity extends BaseEntity {
         Render3DComponent render3DComponent = new Render3DComponent();
         float radius = 10 * size.ordinal() + 20;
         Model3D asteroid = new Model3D("/LegoAsteroid.obj", "/LegoAsteroid.mtl", radius/40f, random.nextFloat(360), random.nextFloat(360), random.nextFloat(360));
+        asteroid.applyShader(shader);
         render3DComponent.shapes.add(asteroid);
         this.addComponent(render3DComponent);
 

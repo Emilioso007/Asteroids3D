@@ -50,7 +50,8 @@ public class AsteroidCollisionResponseSystem extends ResponseSystem {
                         new SpawnEvent(asteroidSPI.createAsteroid(
                                 asteroid.getComponent(PositionComponent.class).orElseThrow().pos.copy(),
                                 new Vector3D(-50+random.nextFloat()*100, -50+random.nextFloat()*100, -50+random.nextFloat()*100),
-                                AsteroidSize.values()[asteroidSize.ordinal() - 1])));
+                                AsteroidSize.values()[asteroidSize.ordinal() - 1],
+                                world.getShader())));
             }
         }
 

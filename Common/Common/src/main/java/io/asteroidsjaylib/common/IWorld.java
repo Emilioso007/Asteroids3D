@@ -54,4 +54,7 @@ public interface IWorld {
     void setScreenHeight(int screenHeight);
 
     Vector3D getCameraShake();
+
+    Raylib.Shader getShader();
+    int getViewPosLoc();
 }

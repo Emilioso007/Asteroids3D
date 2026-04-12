@@ -73,6 +73,7 @@ public class RenderSystem extends BulkSystem {
             camera.up(smoothedCameraUp.toVector3());
         }
 
+        SetShaderValue(world.getShader(), world.getViewPosLoc(), camera._position(), SHADER_UNIFORM_VEC3);
         rlSetClipPlanes(0.01, 5000);
         BeginMode3D(camera);
 
