@@ -33,6 +33,8 @@ public class AsteroidCollisionResponseSystem extends ResponseSystem {
         if (collider.hasComponents(AsteroidTag.class)) return;
         if (collider.hasComponents(CoinTag.class)) return;
 
+        if (collider.isToBeRemoved()) return;
+
 
         // Mark asteroid to be removed
         asteroid.setToBeRemoved(true);
