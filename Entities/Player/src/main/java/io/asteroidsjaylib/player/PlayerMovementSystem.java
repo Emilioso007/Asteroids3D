@@ -124,9 +124,9 @@ public class PlayerMovementSystem extends IteratingSystem {
             Vector3D forceVector = new Vector3D(2500, 0, 0);
             acceleration.add(heading.rotateVector(forceVector));
 
-            player.getComponent(Render3DComponent.class).orElseThrow().state = "thrust";
+            player.getComponent(Render3DComponent.class).orElseThrow().setCurrentState("thrust");
         } else {
-            player.getComponent(Render3DComponent.class).orElseThrow().state = "idle";
+            player.getComponent(Render3DComponent.class).orElseThrow().setCurrentState("normal");
         }
     }
 

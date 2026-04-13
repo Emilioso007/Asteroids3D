@@ -11,4 +11,5 @@ module Core {
     requires CommonPlayer;
     requires CommonPhysics2D;
     requires CommonPhysics3D;
+    requires CommonEnemy;
 }

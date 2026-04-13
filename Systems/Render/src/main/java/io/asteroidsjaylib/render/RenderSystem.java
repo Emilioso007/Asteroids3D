@@ -9,12 +9,12 @@ import io.asteroidsjaylib.common.physics3d.PositionComponent;
 import io.asteroidsjaylib.common.physics3d.RotationComponent;
 import io.asteroidsjaylib.common.player.PlayerTag;
 import io.asteroidsjaylib.common.render.Render3DComponent;
+import io.asteroidsjaylib.common.render.ShaderManager;
 import io.asteroidsjaylib.common.render.shapes3d.Base3DShape;
 import io.asteroidsjaylib.common.util.Quaternion;
 import io.asteroidsjaylib.common.util.Vector3D;
 
 import java.util.List;
-import java.util.Objects;
 
 import static com.raylib.Raylib.*;
 
@@ -73,8 +73,15 @@ public class RenderSystem extends BulkSystem {
             camera.up(smoothedCameraUp.toVector3());
         }
 
-        SetShaderValue(world.getShader(), world.getViewPosLoc(), camera._position(), SHADER_UNIFORM_VEC3);
-        rlSetClipPlanes(0.01, 5000);
+        ShaderManager.setGlobalShaderValue("viewPos", camera._position(), SHADER_UNIFORM_VEC3);
+
+        Vector3 sunDirection = new Vector3().x(-1.0f).y(-1.0f).z(-1.0f);
+        ShaderManager.setGlobalShaderValue("lightDirection", sunDirection, SHADER_UNIFORM_VEC3);
+
+        float currentTime = (float) GetTime();
+        ShaderManager.setGlobalShaderValue("time", new float[]{currentTime}, SHADER_UNIFORM_FLOAT);
+
+        rlSetClipPlanes(1.0, 5000);
         BeginMode3D(camera);
 
         for(BaseEntity entity : entities){
@@ -92,19 +99,8 @@ public class RenderSystem extends BulkSystem {
 
             Render3DComponent render3DComponent = entity.getComponent(Render3DComponent.class).orElseThrow();
 
-            if (!Objects.equals(render3DComponent.state, "")) {
-
-                Base3DShape shape = render3DComponent.shapeLibrary.get(render3DComponent.state);
-                if (shape != null){
-                    drawShape(shape, pos, angle, axis);
-                }
-
-            } else {
-
-                for (var shape : render3DComponent.shapes){
-                    drawShape(shape, pos, angle, axis);
-                }
-
+            for (Base3DShape shape : render3DComponent.getActiveShapes()){
+                drawShape(shape, pos, angle, axis);
             }
 
         }

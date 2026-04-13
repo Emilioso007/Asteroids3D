@@ -1,6 +1,5 @@
 package io.asteroidsjaylib.asteroid;
 
-import com.raylib.Raylib;
 import io.asteroidsjaylib.common.asteroid.AsteroidSize;
 import io.asteroidsjaylib.common.asteroid.AsteroidSizeComponent;
 import io.asteroidsjaylib.common.asteroid.AsteroidTag;
@@ -10,6 +9,7 @@ import io.asteroidsjaylib.common.physics3d.PositionComponent;
 import io.asteroidsjaylib.common.physics3d.RotationComponent;
 import io.asteroidsjaylib.common.physics3d.VelocityComponent;
 import io.asteroidsjaylib.common.render.Render3DComponent;
+import io.asteroidsjaylib.common.render.ShaderManager;
 import io.asteroidsjaylib.common.render.shapes3d.Model3D;
 import io.asteroidsjaylib.common.util.Vector3D;
 
@@ -17,7 +17,7 @@ import java.util.Random;
 
 public class AsteroidEntity extends BaseEntity {
 
-    public AsteroidEntity(Vector3D startPosition, Vector3D startVelocity, AsteroidSize size, Raylib.Shader shader){
+    public AsteroidEntity(Vector3D startPosition, Vector3D startVelocity, AsteroidSize size){
 
         this.addComponent(new AsteroidTag());
 
@@ -39,8 +39,8 @@ public class AsteroidEntity extends BaseEntity {
         Render3DComponent render3DComponent = new Render3DComponent();
         float radius = 10 * size.ordinal() + 20;
         Model3D asteroid = new Model3D("/LegoAsteroid.obj", "/LegoAsteroid.mtl", radius/40f, random.nextFloat(360), random.nextFloat(360), random.nextFloat(360));
-        asteroid.applyShader(shader);
-        render3DComponent.shapes.add(asteroid);
+        asteroid.applyShader(ShaderManager.getShader("lighting"));
+        render3DComponent.addShape(asteroid);
         this.addComponent(render3DComponent);
 
         SphereColliderComponent sphereColliderComponent = new SphereColliderComponent(radius);

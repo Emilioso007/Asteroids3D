@@ -55,6 +55,4 @@ public interface IWorld {
 
     Vector3D getCameraShake();
 
-    Raylib.Shader getShader();
-    int getViewPosLoc();
 }

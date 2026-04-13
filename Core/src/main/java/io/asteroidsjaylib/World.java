@@ -8,15 +8,7 @@ import io.asteroidsjaylib.common.ecs.BaseSystem;
 import io.asteroidsjaylib.common.event.IEventBus;
 import io.asteroidsjaylib.common.util.Vector3D;
 
-import java.io.File;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.*;
-
-import static com.raylib.Raylib.*;
-import static com.raylib.Raylib.SHADER_UNIFORM_VEC3;
 
 public final class World implements IWorld {
 
@@ -36,9 +28,6 @@ public final class World implements IWorld {
 
     private final Map<BaseSystem, List<BaseEntity>> systemEntityCache = new HashMap<>();
 
-    private Raylib.Shader shader;
-    private int viewPosLoc;
-
     public World(){
         this.camera = new Raylib.Camera3D();
         this.camera._position(new Vector3D(0, 0, 2000).toVector3());
@@ -54,44 +43,6 @@ public final class World implements IWorld {
                 .thenComparing(system -> system.getClass().getName());
         this.systems = new TreeSet<>(systemComparator);
         eventBus = new EventBus();
-
-
-        try {
-            Path tempDir = Files.createTempDirectory("asteroids_shaders_");
-
-            String vsPath = "/lighting.vs";
-            String fsPath = "/lighting.fs";
-
-            String vsFileName = new File(vsPath).getName();
-            String fsFileName = new File(fsPath).getName();
-
-            File tempVsFile = new File(tempDir.toFile(), vsFileName);
-            File tempFsFile = new File(tempDir.toFile(), fsFileName);
-
-            InputStream vsStream = World.class.getResourceAsStream(vsPath);
-            if (vsStream == null) throw new RuntimeException("Could not find .vs");
-            Files.copy(vsStream, tempVsFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            vsStream.close();
-
-            InputStream fsStream = World.class.getResourceAsStream(fsPath);
-            if (fsStream == null) throw new RuntimeException("Could not find .fs");
-            Files.copy(fsStream, tempFsFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            fsStream.close();
-
-            shader = LoadShader(tempVsFile.getAbsolutePath(), tempFsFile.getAbsolutePath());
-            int lightDirLoc = GetShaderLocation(shader, "lightDirection");
-            Raylib.Vector3 lightDir = new Raylib.Vector3().x(1).y(-1).z(-1);
-            SetShaderValue(shader, lightDirLoc, lightDir, SHADER_UNIFORM_VEC3);
-            viewPosLoc = GetShaderLocation(shader, "viewPos");
-
-            tempVsFile.deleteOnExit();
-            tempFsFile.deleteOnExit();
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-
     }
 
     @Override
@@ -256,16 +207,6 @@ public final class World implements IWorld {
     @Override
     public Vector3D getCameraShake(){
         return cameraShake;
-    }
-
-    @Override
-    public Raylib.Shader getShader() {
-        return shader;
-    }
-
-    @Override
-    public int getViewPosLoc(){
-        return viewPosLoc;
     }
 
     @Override

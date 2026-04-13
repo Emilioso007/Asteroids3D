@@ -42,7 +42,7 @@ public class BulletEntity extends BaseEntity{
 
         Render3DComponent render3DComponent = new Render3DComponent();
         Cube3D laser = new Cube3D(80, 5, 5, YELLOW, ORANGE);
-        render3DComponent.shapes.add(laser);
+        render3DComponent.addShape(laser);
         this.addComponent(render3DComponent);
 
         SphereColliderComponent sphereColliderComponent = new SphereColliderComponent(10);

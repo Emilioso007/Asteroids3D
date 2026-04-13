@@ -2,6 +2,7 @@ package io.asteroidsjaylib;
 
 import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.ecs.IGameStateProvider;
+import io.asteroidsjaylib.common.enemy.EnemyTag;
 import io.asteroidsjaylib.common.event.StateChangedEvent;
 import io.asteroidsjaylib.common.event.input.key.KeyDownEvent;
 import io.asteroidsjaylib.common.event.input.key.KeyPressedEvent;
@@ -61,6 +62,10 @@ public class Game {
             if(world.hasEntitiesWith(PlayerTag.class))
                 DrawText(world.getEntitiesWith(PlayerTag.class).getFirst().getComponent(PositionComponent.class).orElseThrow().pos.toString(),
                 100, 100, 24, WHITE);
+
+            if(world.hasEntitiesWith(EnemyTag.class))
+                DrawText(world.getEntitiesWith(EnemyTag.class).getFirst().getComponent(PositionComponent.class).orElseThrow().pos.toString(),
+                        100, 200, 24, WHITE);
 
 
             EndDrawing();

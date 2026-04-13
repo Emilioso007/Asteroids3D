@@ -19,7 +19,7 @@ public class BackgroundEntity extends BaseEntity {
         for (int i = 0; i < 1500; i++){
             Cube3D star = new Cube3D(2, 2, 2, WHITE, BLANK);
             star.offset = new Vector3D(random.nextFloat(-5000, 5000),random.nextFloat(-5000, 5000),random.nextFloat(-5000, 5000));
-            render3DComponent.shapes.add(star);
+            render3DComponent.addShape(star);
         }
 
         this.addComponent(render3DComponent);

@@ -51,17 +51,13 @@ public class WaveDirectorSystem extends BulkSystem {
                     new SpawnEvent(asteroidSPI.createAsteroid(
                                     new Vector3D(),
                                     new Vector3D(-50+random.nextFloat()*100, -50+random.nextFloat()*100, -50+random.nextFloat()*100),
-                                    AsteroidSize.LARGE,
-                                    world.getShader())));
+                                    AsteroidSize.LARGE)));
         }
 
-        /*
-        for (int i = 0; i < 2; i++){
+        for (int i = 0; i < 1; i++){
             world.getEventBus().publish(world,
-                    new SpawnEvent(enemySPI.createEnemy(
-                            playerLocation.copy().add((float) (world.getWidth() /2f -100 + Math.random()*200) , (float) (Math.random()*world.getHeight())))));
+                    new SpawnEvent(enemySPI.createEnemy(new Vector3D(100, 0, 0))));
         }
-         */
 
     }
 

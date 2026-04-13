@@ -1,49 +1,35 @@
 package io.asteroidsjaylib.enemy;
 
-import io.asteroidsjaylib.common.collision.CircleColliderComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
-import io.asteroidsjaylib.common.physics2d.AngleComponent;
-import io.asteroidsjaylib.common.physics2d.PositionComponent;
-import io.asteroidsjaylib.common.physics2d.VelocityComponent;
-import io.asteroidsjaylib.common.util.Vector2D;
 import io.asteroidsjaylib.common.enemy.EnemyTag;
-import io.asteroidsjaylib.common.render.RenderTag;
-import io.asteroidsjaylib.common.render.ShapeComponent;
-import io.asteroidsjaylib.common.render.shapes.BaseShape;
-import io.asteroidsjaylib.common.render.shapes.Ellipse;
-import io.asteroidsjaylib.common.outofbounds.BoundsAction;
-import io.asteroidsjaylib.common.outofbounds.OutOfBoundsComponent;
-
-import static com.raylib.Colors.*;
-import static com.raylib.Raylib.*;
+import io.asteroidsjaylib.common.physics3d.PositionComponent;
+import io.asteroidsjaylib.common.physics3d.RotationComponent;
+import io.asteroidsjaylib.common.physics3d.VelocityComponent;
+import io.asteroidsjaylib.common.render.Render3DComponent;
+import io.asteroidsjaylib.common.render.ShaderManager;
+import io.asteroidsjaylib.common.render.shapes3d.Model3D;
+import io.asteroidsjaylib.common.util.Vector3D;
 
 public class EnemyEntity extends BaseEntity {
 
-    public EnemyEntity(Vector2D startPosition){
+    public EnemyEntity(Vector3D startPosition){
 
         this.addComponent(new EnemyTag());
 
         this.addComponent(new PositionComponent(startPosition));
 
-        this.addComponent(new VelocityComponent(new Vector2D(50, 0)));
+        this.addComponent(new VelocityComponent(new Vector3D(5, 0, 0)));
 
-        this.addComponent(new AngleComponent());
+        this.addComponent(new RotationComponent());
 
-        RenderTag renderTag = new RenderTag(20);
+        Render3DComponent render3DComponent = new Render3DComponent();
+        Model3D ufo = new Model3D("/LegoUfo.glb", 1, 90, -90, 0);
+        ufo.applyShader(ShaderManager.getShader("lighting"));
+        render3DComponent.addShape(ufo);
+        this.addComponent(render3DComponent);
 
-        BaseShape shape = new Ellipse(60, 40, GetColor(0x8b0000ff), RED, 4);
-        ShapeComponent shapeComponent = new ShapeComponent(shape);
-        renderTag.addRenderComponent(shapeComponent, 0);
+        //this.addComponent(new SphereColliderComponent(80));
 
-        this.addComponent(renderTag);
-
-        OutOfBoundsComponent outOfBoundsComponent = new OutOfBoundsComponent();
-        outOfBoundsComponent.boundsAction = BoundsAction.WRAP;
-        this.addComponent(outOfBoundsComponent);
-
-        CircleColliderComponent circleColliderComponent = new CircleColliderComponent();
-        circleColliderComponent.radius = 25;
-        this.addComponent(circleColliderComponent);
     }
 
 }

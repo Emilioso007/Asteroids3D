@@ -10,7 +10,6 @@ module Enemy {
     requires Common;
 
     requires jaylib;
-    requires CommonPhysics2D;
     requires CommonRender;
     requires CommonPlayer;
     requires CommonSpawn;
@@ -21,6 +20,8 @@ module Enemy {
     requires CommonOwnership;
     requires CommonOutOfBounds;
     requires CommonCoin;
+    requires CommonPhysics2D;
+    requires CommonPhysics3D;
 
     provides EnemySPI with EnemyProvider;
     provides BaseSystem with EnemySystem, EnemyCollisionResponseSystem;
