@@ -2,11 +2,11 @@ package io.asteroidsjaylib.player;
 
 import io.asteroidsjaylib.common.bullet.BulletSPI;
 import io.asteroidsjaylib.common.IWorld;
+import io.asteroidsjaylib.common.ecs.BaseComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
-import io.asteroidsjaylib.common.event.BaseEvent;
-import io.asteroidsjaylib.common.event.EventSubscriberSPI;
-import io.asteroidsjaylib.common.event.EventSubscription;
-import io.asteroidsjaylib.common.event.input.key.KeyDownEvent;
+import io.asteroidsjaylib.common.ecs.IteratingSystem;
+import io.asteroidsjaylib.common.event.input.key.KeyPressedEvent;
+import io.asteroidsjaylib.common.event.input.key.KeyReleasedEvent;
 import io.asteroidsjaylib.common.physics3d.PositionComponent;
 import io.asteroidsjaylib.common.physics3d.RotationComponent;
 import io.asteroidsjaylib.common.physics3d.VelocityComponent;
@@ -15,37 +15,44 @@ import io.asteroidsjaylib.common.player.PlayerTag;
 import io.asteroidsjaylib.common.spawn.SpawnEvent;
 import io.asteroidsjaylib.common.util.Vector3D;
 
-import java.time.Duration;
-import java.time.Instant;
 import java.util.List;
 import java.util.ServiceLoader;
 
 import static com.raylib.Raylib.KEY_F;
 
-public class PlayerShootingSystem implements EventSubscriberSPI {
+public class PlayerShootingSystem extends IteratingSystem {
 
-    private Instant lastShot = Instant.EPOCH;
-    private final Duration timeBetweenShots = Duration.ofMillis(200);
+    private static final float SHOT_INTERVAL_SECONDS = 0.2f;
+    private boolean firing = false;
+    private float cooldownSeconds = 0f;
+    private BulletSPI bulletSPI;
 
     @Override
-    public List<EventSubscription<? extends BaseEvent>> getEventSubscriptions() {
-        return List.of(new EventSubscription<>(KeyDownEvent.class, this::keyDown));
+    public void start(IWorld world) {
+        this.setPriority(12);
+        bulletSPI = ServiceLoader.load(BulletSPI.class).findFirst().orElseThrow();
+        world.getEventBus().subscribe(KeyPressedEvent.class, this::keyPressed);
+        world.getEventBus().subscribe(KeyReleasedEvent.class, this::keyReleased);
     }
 
-    private void keyDown(IWorld world, KeyDownEvent keyDownEvent) {
+    private void keyPressed(IWorld world, KeyPressedEvent event) {
+        if (event.keyCode == KEY_F) firing = true;
+    }
 
-        if (keyDownEvent.keyCode != KEY_F) return;
+    private void keyReleased(IWorld world, KeyReleasedEvent event) {
+        if (event.keyCode == KEY_F) firing = false;
+    }
 
-        if (!world.hasEntitiesWith(PlayerTag.class)) return;
-
-        BaseEntity player = world.getEntitiesWith(PlayerTag.class).getFirst();
-
-        Instant now = Instant.now();
-
-        if (now.isAfter(lastShot.plus(timeBetweenShots))) {
-            shoot(world, player);
-            lastShot = now;
+    @Override
+    public void processEntity(IWorld world, BaseEntity player, float deltaTime) {
+        if (cooldownSeconds > 0f) {
+            cooldownSeconds = Math.max(0f, cooldownSeconds - deltaTime);
         }
+
+        if (!firing || cooldownSeconds > 0f) return;
+
+        shoot(world, player);
+        cooldownSeconds = SHOT_INTERVAL_SECONDS;
     }
 
     private void shoot(IWorld world, BaseEntity player) {
@@ -60,7 +67,11 @@ public class PlayerShootingSystem implements EventSubscriberSPI {
 
         Vector3D bulletVelocity = playerVel.copy().add(forwardVector.copy().mult(2500));
 
-        BulletSPI bulletSPI = ServiceLoader.load(BulletSPI.class).findFirst().orElseThrow();
         world.getEventBus().publish(world, new SpawnEvent(bulletSPI.CreateBullet(player, nosePosition, bulletVelocity, playerRot)));
+    }
+
+    @Override
+    public List<Class<? extends BaseComponent>> getSignature() {
+        return List.of(PlayerTag.class, PositionComponent.class, VelocityComponent.class, RotationComponent.class);
     }
 }

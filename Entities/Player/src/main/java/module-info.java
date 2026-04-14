@@ -21,6 +21,6 @@ module Player {
     requires CommonPhysics3D;
 
     provides EntitySpi with PlayerEntityProvider;
-    provides BaseSystem with PlayerMovementSystem;
-    provides EventSubscriberSPI with PlayerCollisionResponseSystem, PlayerShootingSystem;
+    provides BaseSystem with PlayerMovementSystem, PlayerShootingSystem;
+    provides EventSubscriberSPI with PlayerCollisionResponseSystem;
 }

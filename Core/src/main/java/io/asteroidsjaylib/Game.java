@@ -4,10 +4,8 @@ import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.ecs.IGameStateProvider;
 import io.asteroidsjaylib.common.enemy.EnemyTag;
 import io.asteroidsjaylib.common.event.StateChangedEvent;
-import io.asteroidsjaylib.common.event.input.key.KeyDownEvent;
 import io.asteroidsjaylib.common.event.input.key.KeyPressedEvent;
 import io.asteroidsjaylib.common.event.input.key.KeyReleasedEvent;
-import io.asteroidsjaylib.common.event.input.key.KeyUpEvent;
 import io.asteroidsjaylib.common.physics3d.PositionComponent;
 import io.asteroidsjaylib.common.player.PlayerTag;
 
@@ -89,12 +87,6 @@ public class Game {
             }
             if (IsKeyReleased(i)) {
                 world.getEventBus().publish(world, new KeyReleasedEvent(i));
-            }
-            if (IsKeyDown(i)) {
-                world.getEventBus().publish(world, new KeyDownEvent(i));
-            }
-            if(IsKeyUp(i)){
-                world.getEventBus().publish(world, new KeyUpEvent(i));
             }
         }
         /*
