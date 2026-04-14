@@ -44,7 +44,7 @@ public class PlayerEntity extends BaseEntity {
         */
 
         Model3D normal = new Model3D("/LegoSpaceship.glb", 1, 90,-90,0);
-        normal.applyShader(ShaderManager.getShader("lighting"));
+        normal.applyShader(ShaderManager.getShader("solid"));
         render3DComponent.addShape(normal, List.of("normal", "thrust"));
         Model3D thrustModel = new Model3D("/LegoFlame.glb", 1, 90,-90,0);
         thrustModel.applyShader(ShaderManager.getShader("thruster"));

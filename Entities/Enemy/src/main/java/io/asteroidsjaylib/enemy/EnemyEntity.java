@@ -23,9 +23,19 @@ public class EnemyEntity extends BaseEntity {
         this.addComponent(new RotationComponent());
 
         Render3DComponent render3DComponent = new Render3DComponent();
-        Model3D ufo = new Model3D("/LegoUfo.glb", 1, 90, -90, 0);
-        ufo.applyShader(ShaderManager.getShader("lighting"));
-        render3DComponent.addShape(ufo);
+
+        Model3D ufoBody = new Model3D("/LegoUfoBody.glb", 1, 90, -90, 0);
+        ufoBody.applyShader(ShaderManager.getShader("solid"));
+        render3DComponent.addShape(ufoBody);
+
+        Model3D ufoWindscreen = new Model3D("/LegoUfoWindscreen.glb", 1, 90, -90, 0);
+        ufoWindscreen.applyShader(ShaderManager.getShader("glass"));
+        render3DComponent.addShape(ufoWindscreen);
+
+        Model3D ufoWeapon = new Model3D("/LegoUfoWeapon.glb", 1, 90, -90, 0);
+        ufoWeapon.applyShader(ShaderManager.getShader("glass"));
+        render3DComponent.addShape(ufoWeapon);
+
         this.addComponent(render3DComponent);
 
         //this.addComponent(new SphereColliderComponent(80));

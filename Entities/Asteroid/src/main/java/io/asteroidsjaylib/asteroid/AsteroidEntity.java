@@ -38,8 +38,8 @@ public class AsteroidEntity extends BaseEntity {
 
         Render3DComponent render3DComponent = new Render3DComponent();
         float radius = 10 * size.ordinal() + 20;
-        Model3D asteroid = new Model3D("/LegoAsteroid.obj", "/LegoAsteroid.mtl", radius/40f, random.nextFloat(360), random.nextFloat(360), random.nextFloat(360));
-        asteroid.applyShader(ShaderManager.getShader("lighting"));
+        Model3D asteroid = new Model3D("/LegoAsteroid.glb", radius/40f, random.nextFloat(360), random.nextFloat(360), random.nextFloat(360));
+        asteroid.applyShader(ShaderManager.getShader("solid"));
         render3DComponent.addShape(asteroid);
         this.addComponent(render3DComponent);
 
