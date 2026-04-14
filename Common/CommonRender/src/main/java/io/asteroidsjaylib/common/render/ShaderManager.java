@@ -4,6 +4,7 @@ import com.raylib.Raylib;
 import com.raylib.Raylib.*;
 import io.asteroidsjaylib.common.util.ResourceLoader;
 import org.bytedeco.javacpp.FloatPointer;
+import org.bytedeco.javacpp.IntPointer;
 
 import java.lang.module.ModuleReader;
 import java.lang.module.ResolvedModule;
@@ -78,6 +79,26 @@ public class ShaderManager {
     public static void setGlobalShaderValue(String uniformName, float[] values, int uniformType) {
 
         try (FloatPointer nativePointer = new FloatPointer(values)){
+
+            for (var shader : shaderMap.values()){
+
+                int loc = Raylib.GetShaderLocation(shader, uniformName);
+
+                if (loc != -1){
+                    Raylib.SetShaderValue(shader, loc, nativePointer, uniformType);
+                }
+
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void setGlobalShaderValue(String uniformName, int value, int uniformType) {
+
+        try (IntPointer nativePointer = new IntPointer(1).put(value)){
 
             for (var shader : shaderMap.values()){
 

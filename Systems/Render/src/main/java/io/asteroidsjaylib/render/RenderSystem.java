@@ -8,6 +8,7 @@ import io.asteroidsjaylib.common.ecs.BulkSystem;
 import io.asteroidsjaylib.common.physics3d.PositionComponent;
 import io.asteroidsjaylib.common.physics3d.RotationComponent;
 import io.asteroidsjaylib.common.player.PlayerTag;
+import io.asteroidsjaylib.common.render.LightManager;
 import io.asteroidsjaylib.common.render.Render3DComponent;
 import io.asteroidsjaylib.common.render.ShaderManager;
 import io.asteroidsjaylib.common.render.shapes3d.Base3DShape;
@@ -74,6 +75,7 @@ public class RenderSystem extends BulkSystem {
         }
 
         ShaderManager.setGlobalShaderValue("viewPos", camera._position(), SHADER_UNIFORM_VEC3);
+        LightManager.applyLights();
 
         Vector3 sunDirection = new Vector3().x(-1.0f).y(-1.0f).z(-1.0f);
         ShaderManager.setGlobalShaderValue("lightDirection", sunDirection, SHADER_UNIFORM_VEC3);
