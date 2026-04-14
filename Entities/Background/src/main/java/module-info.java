@@ -5,6 +5,7 @@ module Background {
     requires Common;
     requires CommonRender;
     requires jaylib;
+    requires CommonPhysics3D;
 
     provides EntitySpi with BackgroundProvider;
 }

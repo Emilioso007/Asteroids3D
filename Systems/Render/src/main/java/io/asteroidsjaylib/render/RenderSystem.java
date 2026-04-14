@@ -21,6 +21,7 @@ import static com.raylib.Raylib.*;
 
 public class RenderSystem extends BulkSystem {
 
+    private static final Vector3 RL_VEC_SCRATCHPAD = new Vector3();
     private Vector3D smoothedCameraPos = null;
     private Vector3D smoothedCameraTarget = null;
     private Vector3D smoothedCameraUp = null;
@@ -36,7 +37,7 @@ public class RenderSystem extends BulkSystem {
 
     @Override
     public List<Class<? extends BaseComponent>> getSignature() {
-        return List.of(Render3DComponent.class);
+        return List.of(Render3DComponent.class, PositionComponent.class);
     }
 
     @Override
@@ -69,16 +70,17 @@ public class RenderSystem extends BulkSystem {
                 smoothedCameraUp.add(desiredCameraUp.copy().sub(smoothedCameraUp).mult(upLerpSpeed * deltaTime)).normalize();
             }
 
-            camera._position(smoothedCameraPos.toVector3());
-            camera.target(smoothedCameraTarget.toVector3());
-            camera.up(smoothedCameraUp.toVector3());
+            camera._position(smoothedCameraPos.toVector3(RL_VEC_SCRATCHPAD));
+            camera.target(smoothedCameraTarget.toVector3(RL_VEC_SCRATCHPAD));
+            camera.up(smoothedCameraUp.toVector3(RL_VEC_SCRATCHPAD));
         }
 
         ShaderManager.setGlobalShaderValue("viewPos", camera._position(), SHADER_UNIFORM_VEC3);
         LightManager.applyLights();
 
-        Vector3 sunDirection = new Vector3().x(-1.0f).y(-1.0f).z(-1.0f);
-        ShaderManager.setGlobalShaderValue("lightDirection", sunDirection, SHADER_UNIFORM_VEC3);
+        try (Vector3 sunDirection = new Vector3().x(-1.0f).y(-1.0f).z(-1.0f)) {
+            ShaderManager.setGlobalShaderValue("lightDirection", sunDirection, SHADER_UNIFORM_VEC3);
+        }
 
         float currentTime = (float) GetTime();
         ShaderManager.setGlobalShaderValue("time", new float[]{currentTime}, SHADER_UNIFORM_FLOAT);
@@ -88,7 +90,7 @@ public class RenderSystem extends BulkSystem {
 
         for(BaseEntity entity : entities){
 
-            Vector3D pos = entity.getComponent(PositionComponent.class).map(c -> c.pos).orElse(new Vector3D());
+            Vector3D pos = entity.getComponent(PositionComponent.class).map(c -> c.pos).orElseThrow();
 
             RotationComponent rotComp = entity.getComponent(RotationComponent.class).orElse(null);
             float angle = 0.0f;

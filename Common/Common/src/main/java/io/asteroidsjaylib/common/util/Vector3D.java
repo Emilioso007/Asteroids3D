@@ -1,6 +1,6 @@
 package io.asteroidsjaylib.common.util;
 
-import com.raylib.Raylib;
+import com.raylib.Raylib.Vector3;
 
 public class Vector3D {
 
@@ -18,12 +18,12 @@ public class Vector3D {
         this.z = z;
     }
 
-    public Vector3D(Raylib.Vector3 vector3){
+    public Vector3D(Vector3 vector3){
         this(vector3.x(), vector3.y(), vector3.z());
     }
 
-    public Raylib.Vector3 toVector3(){
-        return new Raylib.Vector3().x(x).y(y).z(z);
+    public Vector3 toVector3(Vector3 outNativeVector){
+        return outNativeVector.x(x).y(y).z(z);
     }
 
     public Vector3D copy(){

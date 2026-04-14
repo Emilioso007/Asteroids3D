@@ -1,6 +1,7 @@
 package io.asteroidsjaylib.background;
 
 import io.asteroidsjaylib.common.ecs.BaseEntity;
+import io.asteroidsjaylib.common.physics3d.PositionComponent;
 import io.asteroidsjaylib.common.render.Render3DComponent;
 import io.asteroidsjaylib.common.render.shapes3d.Cube3D;
 import io.asteroidsjaylib.common.util.Vector3D;
@@ -12,6 +13,8 @@ import java.util.Random;
 public class BackgroundEntity extends BaseEntity {
 
     public BackgroundEntity(){
+
+        this.addComponent(new PositionComponent(new Vector3D()));
 
         Render3DComponent render3DComponent = new Render3DComponent();
 

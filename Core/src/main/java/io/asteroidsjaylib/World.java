@@ -1,6 +1,6 @@
 package io.asteroidsjaylib;
 
-import com.raylib.Raylib;
+import com.raylib.Raylib.*;
 import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.ecs.BaseComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
@@ -10,8 +10,11 @@ import io.asteroidsjaylib.common.util.Vector3D;
 
 import java.util.*;
 
+import static com.raylib.Raylib.CAMERA_PERSPECTIVE;
+
 public final class World implements IWorld {
 
+    private static final Vector3 RL_VEC_SCRATCHPAD = new Vector3();
     private int width;
     private int height;
     private int screenWidth;
@@ -22,19 +25,19 @@ public final class World implements IWorld {
     private final Set<BaseSystem> systems;
     private final IEventBus eventBus;
 
-    private final Raylib.Camera3D camera;
+    private final Camera3D camera;
 
     private float deltaTime;
 
     private final Map<BaseSystem, List<BaseEntity>> systemEntityCache = new HashMap<>();
 
     public World(){
-        this.camera = new Raylib.Camera3D();
-        this.camera._position(new Vector3D(0, 0, 2000).toVector3());
-        this.camera.target(new Vector3D(0, 0, 0).toVector3());
-        this.camera.up(new Vector3D(0, 0, 1).toVector3());
+        this.camera = new Camera3D();
+        this.camera._position(new Vector3D(0, 0, 2000).toVector3(RL_VEC_SCRATCHPAD));
+        this.camera.target(new Vector3D(0, 0, 0).toVector3(RL_VEC_SCRATCHPAD));
+        this.camera.up(new Vector3D(0, 0, 1).toVector3(RL_VEC_SCRATCHPAD));
         this.camera.fovy(45f);
-        this.camera.projection(Raylib.CAMERA_PERSPECTIVE);
+        this.camera.projection(CAMERA_PERSPECTIVE);
 
         this.entities = new ArrayList<>();
         entitiesToAdd = new ArrayList<>();
@@ -190,13 +193,13 @@ public final class World implements IWorld {
     }
 
     @Override
-    public Raylib.Camera3D getCamera() {
+    public Camera3D getCamera() {
         return camera;
     }
 
     @Override
     public void setCameraLocation(Vector3D cameraLocation) {
-        camera.target(cameraLocation.toVector3());
+        camera.target(cameraLocation.toVector3(RL_VEC_SCRATCHPAD));
     }
 
     @Override
