@@ -4,17 +4,19 @@ import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.button.ClickedEvent;
 import io.asteroidsjaylib.common.collision.CircleColliderComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
-import io.asteroidsjaylib.common.ecs.ResponseSystem;
+import io.asteroidsjaylib.common.event.BaseEvent;
+import io.asteroidsjaylib.common.event.EventSubscriberSPI;
+import io.asteroidsjaylib.common.event.EventSubscription;
 import io.asteroidsjaylib.common.event.input.mouse.MousePressedEvent;
 import io.asteroidsjaylib.common.physics2d.PositionComponent;
 import io.asteroidsjaylib.common.render.RenderTag;
 
 import java.util.List;
 
-public class MouseCollisionSystem extends ResponseSystem {
+public class MouseCollisionSystem implements EventSubscriberSPI {
     @Override
-    public void start(IWorld world) {
-        world.getEventBus().subscribe(MousePressedEvent.class, this::handleMousePressed);
+    public List<EventSubscription<? extends BaseEvent>> getEventSubscriptions() {
+        return List.of(new EventSubscription<>(MousePressedEvent.class, this::handleMousePressed));
     }
 
     private void handleMousePressed(IWorld world, MousePressedEvent mousePressedEvent) {

@@ -1,6 +1,5 @@
 package io.asteroidsjaylib.common.render.shapes3d;
 
-import com.raylib.Raylib.Model;
 import io.asteroidsjaylib.common.util.ResourceLoader;
 
 import static com.raylib.Colors.WHITE;

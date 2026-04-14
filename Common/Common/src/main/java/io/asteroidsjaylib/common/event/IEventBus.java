@@ -8,4 +8,6 @@ public interface IEventBus {
     void publish(IWorld world, BaseEvent event);
 
     void clear();
+
+    void findSubscribers();
 }

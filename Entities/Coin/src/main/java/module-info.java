@@ -2,7 +2,7 @@
 import io.asteroidsjaylib.coin.CoinCollisionResponseSystem;
 import io.asteroidsjaylib.coin.CoinProvider;
 import io.asteroidsjaylib.common.coin.CoinSPI;
-import io.asteroidsjaylib.common.ecs.BaseSystem;
+import io.asteroidsjaylib.common.event.EventSubscriberSPI;
 
 module Coin {
     requires Common;
@@ -15,5 +15,5 @@ module Coin {
     requires CommonOutOfBounds;
     requires jaylib;
     provides CoinSPI with CoinProvider;
-    provides BaseSystem with CoinCollisionResponseSystem;
+    provides EventSubscriberSPI with CoinCollisionResponseSystem;
 }

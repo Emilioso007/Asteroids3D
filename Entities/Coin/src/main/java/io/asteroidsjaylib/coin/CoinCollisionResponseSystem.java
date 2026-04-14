@@ -4,14 +4,18 @@ import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.coin.CoinTag;
 import io.asteroidsjaylib.common.collision.CollisionEvent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
-import io.asteroidsjaylib.common.ecs.ResponseSystem;
+import io.asteroidsjaylib.common.event.BaseEvent;
+import io.asteroidsjaylib.common.event.EventSubscriberSPI;
+import io.asteroidsjaylib.common.event.EventSubscription;
 import io.asteroidsjaylib.common.player.PlayerTag;
 import io.asteroidsjaylib.common.score.IncrementScoreEvent;
 
-public class CoinCollisionResponseSystem extends ResponseSystem {
+import java.util.List;
+
+public class CoinCollisionResponseSystem implements EventSubscriberSPI {
     @Override
-    public void start(IWorld world) {
-        world.getEventBus().subscribe(CollisionEvent.class, this::handleCollision);
+    public List<EventSubscription<? extends BaseEvent>> getEventSubscriptions() {
+        return List.of(new EventSubscription<>(CollisionEvent.class, this::handleCollision));
     }
 
     private void handleCollision(IWorld world, CollisionEvent collisionEvent) {

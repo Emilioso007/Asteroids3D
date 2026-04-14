@@ -8,18 +8,22 @@ import io.asteroidsjaylib.common.coin.CoinTag;
 import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.collision.CollisionEvent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
-import io.asteroidsjaylib.common.ecs.ResponseSystem;
+import io.asteroidsjaylib.common.event.BaseEvent;
+import io.asteroidsjaylib.common.event.EventSubscriberSPI;
+import io.asteroidsjaylib.common.event.EventSubscription;
 import io.asteroidsjaylib.common.physics3d.PositionComponent;
 import io.asteroidsjaylib.common.spawn.SpawnEvent;
 import io.asteroidsjaylib.common.util.Vector3D;
 
+import java.util.List;
 import java.util.Random;
 import java.util.ServiceLoader;
 
-public class AsteroidCollisionResponseSystem extends ResponseSystem {
+public class AsteroidCollisionResponseSystem implements EventSubscriberSPI {
+
     @Override
-    public void start(IWorld world) {
-        world.getEventBus().subscribe(CollisionEvent.class, this::handleCollision);
+    public List<EventSubscription<? extends BaseEvent>> getEventSubscriptions() {
+        return List.of(new EventSubscription<>(CollisionEvent.class, this::handleCollision));
     }
 
     private void handleCollision(IWorld world, CollisionEvent event) {
@@ -62,4 +66,5 @@ public class AsteroidCollisionResponseSystem extends ResponseSystem {
         world.getEventBus().publish(world, new SpawnEvent(coinSPI.createCoin(pos, vel, asteroidSize.ordinal()+1)));
         */
     }
+
 }

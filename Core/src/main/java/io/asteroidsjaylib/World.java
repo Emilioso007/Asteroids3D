@@ -39,13 +39,15 @@ public final class World implements IWorld {
         this.camera.fovy(45f);
         this.camera.projection(CAMERA_PERSPECTIVE);
 
+        eventBus = new EventBus();
+        eventBus.findSubscribers();
+
         this.entities = new ArrayList<>();
         entitiesToAdd = new ArrayList<>();
         Comparator<BaseSystem> systemComparator =
                 Comparator.comparing(BaseSystem::getPriority)
                 .thenComparing(system -> system.getClass().getName());
         this.systems = new TreeSet<>(systemComparator);
-        eventBus = new EventBus();
     }
 
     @Override

@@ -3,7 +3,9 @@ package io.asteroidsjaylib.player;
 import io.asteroidsjaylib.common.bullet.BulletSPI;
 import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
-import io.asteroidsjaylib.common.ecs.ResponseSystem;
+import io.asteroidsjaylib.common.event.BaseEvent;
+import io.asteroidsjaylib.common.event.EventSubscriberSPI;
+import io.asteroidsjaylib.common.event.EventSubscription;
 import io.asteroidsjaylib.common.event.input.key.KeyDownEvent;
 import io.asteroidsjaylib.common.physics3d.PositionComponent;
 import io.asteroidsjaylib.common.physics3d.RotationComponent;
@@ -15,19 +17,19 @@ import io.asteroidsjaylib.common.util.Vector3D;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.List;
 import java.util.ServiceLoader;
 
 import static com.raylib.Raylib.KEY_F;
 
-public class PlayerShootingSystem extends ResponseSystem {
+public class PlayerShootingSystem implements EventSubscriberSPI {
 
     private Instant lastShot = Instant.EPOCH;
     private final Duration timeBetweenShots = Duration.ofMillis(200);
 
     @Override
-    public void start(IWorld world) {
-        this.setPriority(10);
-        world.getEventBus().subscribe(KeyDownEvent.class, this::keyDown);
+    public List<EventSubscription<? extends BaseEvent>> getEventSubscriptions() {
+        return List.of(new EventSubscription<>(KeyDownEvent.class, this::keyDown));
     }
 
     private void keyDown(IWorld world, KeyDownEvent keyDownEvent) {

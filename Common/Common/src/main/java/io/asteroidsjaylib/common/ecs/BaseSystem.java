@@ -4,7 +4,7 @@ import io.asteroidsjaylib.common.IWorld;
 
 import java.util.List;
 
-public abstract sealed class BaseSystem permits BulkSystem, IntervalIteratingSystem, IteratingSystem, ResponseSystem {
+public abstract sealed class BaseSystem permits BulkSystem, IntervalIteratingSystem, IteratingSystem {
 
     private int priority;
     public boolean running = true;

@@ -1,14 +1,18 @@
 package io.asteroidsjaylib.spawn;
 
 import io.asteroidsjaylib.common.IWorld;
-import io.asteroidsjaylib.common.ecs.ResponseSystem;
+import io.asteroidsjaylib.common.event.BaseEvent;
+import io.asteroidsjaylib.common.event.EventSubscriberSPI;
+import io.asteroidsjaylib.common.event.EventSubscription;
 import io.asteroidsjaylib.common.spawn.SpawnEvent;
 
-public class SpawnSystem extends ResponseSystem {
+import java.util.List;
+
+public class SpawnSystem implements EventSubscriberSPI {
 
     @Override
-    public void start(IWorld world) {
-        world.getEventBus().subscribe(SpawnEvent.class, this::handleSpawnEvent);
+    public List<EventSubscription<? extends BaseEvent>> getEventSubscriptions() {
+        return List.of(new EventSubscription<>(SpawnEvent.class, this::handleSpawnEvent));
     }
 
     private void handleSpawnEvent(IWorld world, SpawnEvent event) {

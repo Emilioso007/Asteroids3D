@@ -1,19 +1,33 @@
 package io.asteroidsjaylib;
 
 import io.asteroidsjaylib.common.IWorld;
-import io.asteroidsjaylib.common.event.BaseEvent;
+import io.asteroidsjaylib.common.event.*;
 import io.asteroidsjaylib.common.event.EventListener;
-import io.asteroidsjaylib.common.event.IEventBus;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-// TODO: Make a interface that responsesystems implement, and use servicelodaer to find listeners, IoC ftw!
 public final class EventBus implements IEventBus {
 
     private final Map<Class<? extends BaseEvent>, List<EventListener>> listeners = new HashMap<>();
+
+    @Override
+    public void findSubscribers() {
+        ServiceLoader<EventSubscriberSPI> loader = ServiceLoader.load(EventSubscriberSPI.class);
+
+        for (EventSubscriberSPI subscriber : loader){
+            List<EventSubscription<? extends BaseEvent>> subscriptions = subscriber.getEventSubscriptions();
+
+            if (subscriptions != null){
+                for (EventSubscription<? extends BaseEvent> sub : subscriptions){
+                    registerSubscription(sub);
+                }
+            }
+        }
+    }
+
+    private <T extends BaseEvent> void registerSubscription(EventSubscription<T> sub) {
+        subscribe(sub.eventType(), sub.listener());
+    }
 
     @Override
     public <T extends BaseEvent> void subscribe(Class<T> eventType, EventListener<T> listener){

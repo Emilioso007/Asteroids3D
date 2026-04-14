@@ -1,7 +1,6 @@
 package io.asteroidsjaylib.common.render;
 
 import com.raylib.Raylib;
-import com.raylib.Raylib.Texture;
 
 import java.io.IOException;
 

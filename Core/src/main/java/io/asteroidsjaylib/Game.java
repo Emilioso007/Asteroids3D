@@ -131,6 +131,7 @@ public class Game {
         world.clearEntities();
         world.clearSystems();
         world.getEventBus().clear();
+        world.getEventBus().findSubscribers();
         world.getEventBus().subscribe(StateChangedEvent.class, this::onStateChanged);
         world.getEventBus().subscribe(KeyPressedEvent.class, this::keyPressed);
 
