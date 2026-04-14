@@ -1,6 +1,7 @@
 package io.asteroidsjaylib.render;
 
 
+import com.raylib.Raylib;
 import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.ecs.BaseComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
@@ -13,10 +14,12 @@ import io.asteroidsjaylib.common.render.Render3DComponent;
 import io.asteroidsjaylib.common.render.ShaderManager;
 import io.asteroidsjaylib.common.render.shapes3d.Base3DShape;
 import io.asteroidsjaylib.common.util.Quaternion;
+import io.asteroidsjaylib.common.util.ResourceLoader;
 import io.asteroidsjaylib.common.util.Vector3D;
 
 import java.util.List;
 
+import static com.raylib.Colors.WHITE;
 import static com.raylib.Raylib.*;
 
 public class RenderSystem extends BulkSystem {
@@ -30,9 +33,19 @@ public class RenderSystem extends BulkSystem {
     private final float targetLerpSpeed = 10.0f;
     private final float upLerpSpeed = 2.0f;
 
+    private Model skyboxModel;
+
     @Override
     public void start(IWorld world) {
         this.setPriority(100);
+
+        String texPath = ResourceLoader.getAsAbsolutePath("/stars.png");
+        Texture starsTexture = Raylib.LoadTexture(texPath);
+
+        Mesh skyMesh = GenMeshSphere(10f, 32, 32);
+        skyboxModel = LoadModelFromMesh(skyMesh);
+
+        skyboxModel.materials().position(0).maps().position(MATERIAL_MAP_ALBEDO).texture(starsTexture);
     }
 
     @Override
@@ -88,6 +101,8 @@ public class RenderSystem extends BulkSystem {
         rlSetClipPlanes(1.0, 5000);
         BeginMode3D(camera);
 
+        DrawSkybox(camera);
+
         for(BaseEntity entity : entities){
 
             Vector3D pos = entity.getComponent(PositionComponent.class).pos;
@@ -111,6 +126,14 @@ public class RenderSystem extends BulkSystem {
 
         EndMode3D();
 
+    }
+
+    private void DrawSkybox(Camera3D camera) {
+        rlDisableDepthMask();
+        rlDisableBackfaceCulling();
+        DrawModel(skyboxModel, camera._position(), 1.0f, WHITE);
+        rlEnableBackfaceCulling();
+        rlEnableDepthMask();
     }
 
     private static void drawShape(Base3DShape shape, Vector3D pos, float angle, Vector3D axis) {

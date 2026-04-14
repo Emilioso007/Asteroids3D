@@ -40,7 +40,6 @@
         <module>Systems/Sound</module>
 
         <module>Entities/Asteroid</module>
-        <module>Entities/Background</module>
         <module>Entities/Bullet</module>
         <module>Entities/Coin</module>
         <module>Entities/Enemy</module>

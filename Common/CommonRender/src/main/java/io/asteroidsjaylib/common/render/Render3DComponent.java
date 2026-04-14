@@ -8,6 +8,8 @@ import java.util.*;
 public class Render3DComponent extends BaseComponent {
 
     private final Map<String, List<Base3DShape>> shapeLibrary;
+    private final List<Base3DShape> allShapesCache = new ArrayList<>();
+    private boolean allShapesDirty = true;
     private String currentState = "";
 
     public Render3DComponent() {
@@ -15,23 +17,29 @@ public class Render3DComponent extends BaseComponent {
     }
 
     public List<Base3DShape> getActiveShapes() {
-        if (getCurrentState().equalsIgnoreCase("")) {
-            List<Base3DShape> allShapes = new ArrayList<>();
-            for (List<Base3DShape> shapeSet : shapeLibrary.values()) {
-                allShapes.addAll(shapeSet);
+        if (getCurrentState().isEmpty()) {
+            if (allShapesDirty) {
+                allShapesCache.clear();
+                for (List<Base3DShape> shapes : shapeLibrary.values()) {
+                    allShapesCache.addAll(shapes);
+                }
+                allShapesDirty = false;
             }
-            return allShapes;
+            return allShapesCache;
         }
 
         return shapeLibrary.getOrDefault(getCurrentState(), Collections.emptyList());
     }
+
 
     public void addShape(Base3DShape shape, List<String> states){
         for (String state : states){
             if(!shapeLibrary.containsKey(state)) shapeLibrary.put(state, new ArrayList<>());
             shapeLibrary.get(state).add(shape);
         }
+        allShapesDirty = true;
     }
+
 
     public void addShape(Base3DShape shape, String state){
         addShape(shape, List.of(state));
