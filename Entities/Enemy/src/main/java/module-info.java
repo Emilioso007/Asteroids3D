@@ -9,16 +9,13 @@ module Enemy {
     uses BulletSPI;
     requires Common;
 
-    requires jaylib;
     requires CommonRender;
     requires CommonPlayer;
-    requires CommonSpawn;
     requires CommonScore;
     requires CommonBullet;
     requires CommonEnemy;
     requires CommonCollision;
     requires CommonOwnership;
-    requires CommonOutOfBounds;
     requires CommonCoin;
     requires CommonPhysics2D;
     requires CommonPhysics3D;

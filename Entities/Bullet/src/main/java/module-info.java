@@ -7,15 +7,12 @@ module Bullet {
     requires Common;
 
     requires jaylib;
-    requires CommonPhysics2D;
     requires CommonRender;
     requires CommonCollision;
     requires CommonBullet;
     requires CommonOwnership;
     requires CommonCoin;
     requires CommonLifetime;
-    requires CommonOutOfBounds;
-    requires CommonSound;
     requires CommonPhysics3D;
 
     provides BaseSystem with BulletCollisionResponseSystem;

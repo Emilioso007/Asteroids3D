@@ -67,7 +67,7 @@ public class CollisionSystem extends BulkSystem {
 
         }
     }
-    class AABB {
+    static class AABB {
         public final float minX, minY, maxX, maxY;
 
         public AABB(float minX, float minY, float maxX, float maxY){
@@ -83,7 +83,7 @@ public class CollisionSystem extends BulkSystem {
         }
     }
 
-    class EntityBounds extends AABB {
+    static class EntityBounds extends AABB {
         public final BaseEntity entity;
         public final Vector2D pos;
         public final float radius;
@@ -96,7 +96,7 @@ public class CollisionSystem extends BulkSystem {
         }
     }
 
-    class QuadTree {
+    static class QuadTree {
         private final int QT_NODE_CAPACITY = 4;
         private final AABB boundary;
 

@@ -35,19 +35,7 @@ public class MouseCollisionSystem extends ResponseSystem {
                 isAbsolutePosition = true;
             }
 
-            double dx, dy;
-
-            if (isAbsolutePosition) {
-                // For absolute position entities: use screen coordinates directly
-                dx = mousePressedEvent.screenPosition.x - positionComponent.pos.x;
-                dy = mousePressedEvent.screenPosition.y - positionComponent.pos.y;
-            } else {
-                // For world entities: use converted world coordinates
-                dx = mousePressedEvent.worldPosition.x - positionComponent.pos.x;
-                dy = mousePressedEvent.worldPosition.y - positionComponent.pos.y;
-            }
-
-            double distance = Math.sqrt(dx * dx + dy * dy);
+            double distance = getDistance(mousePressedEvent, isAbsolutePosition, positionComponent);
 
             if (distance <= circleColliderComponent.radius){
                 world.getEventBus().publish(world, new ClickedEvent(entity));
@@ -55,5 +43,21 @@ public class MouseCollisionSystem extends ResponseSystem {
 
         }
 
+    }
+
+    private static double getDistance(MousePressedEvent mousePressedEvent, boolean isAbsolutePosition, PositionComponent positionComponent) {
+        double dx, dy;
+
+        if (isAbsolutePosition) {
+            // For absolute position entities: use screen coordinates directly
+            dx = mousePressedEvent.screenPosition.x - positionComponent.pos.x;
+            dy = mousePressedEvent.screenPosition.y - positionComponent.pos.y;
+        } else {
+            // For world entities: use converted world coordinates
+            dx = mousePressedEvent.worldPosition.x - positionComponent.pos.x;
+            dy = mousePressedEvent.worldPosition.y - positionComponent.pos.y;
+        }
+
+        return Math.sqrt(dx * dx + dy * dy);
     }
 }

@@ -1,6 +1,6 @@
 package io.asteroidsjaylib.common.util;
 
-import com.raylib.Raylib;
+import com.raylib.Raylib.*;
 
 public class Quaternion {
 
@@ -20,12 +20,12 @@ public class Quaternion {
         this.w = w;
     }
 
-    public Quaternion(Raylib.Vector4 vector4){
+    public Quaternion(Vector4 vector4){
         this(vector4.x(), vector4.y(), vector4.z(), vector4.w());
     }
 
-    public Raylib.Vector4 toVector4(){
-        return new Raylib.Vector4().x(x).y(y).z(z).w(w);
+    public Vector4 toVector4(Vector4 vector4){
+        return vector4.x(x).y(y).z(z).w(w);
     }
 
     public Quaternion copy(){
@@ -79,10 +79,6 @@ public class Quaternion {
             this.w /= mag;
         }
         return this;
-    }
-
-    public float getZAngleDegrees() {
-        return (float) Math.toDegrees(2.0 * Math.atan2(this.z, this.w));
     }
 
     public float getAngleDegrees() {

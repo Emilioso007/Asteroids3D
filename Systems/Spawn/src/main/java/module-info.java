@@ -11,6 +11,5 @@ module Spawn {
     requires CommonAsteroid;
     requires CommonEnemy;
     requires CommonPlayer;
-    requires CommonPhysics2D;
     provides BaseSystem with SpawnSystem, WaveDirectorSystem;
 }

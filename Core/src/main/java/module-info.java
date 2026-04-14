@@ -6,10 +6,8 @@ module Core {
     uses io.asteroidsjaylib.common.ecs.IGameStateProvider;
     requires Common;
     requires jaylib;
-    requires CommonButton;
-    requires CommonScore;
     requires CommonPlayer;
-    requires CommonPhysics2D;
     requires CommonPhysics3D;
     requires CommonEnemy;
+    requires CommonButton;
 }

@@ -11,15 +11,12 @@ module Player {
     requires Common;
     requires jaylib;
     requires CommonPlayer;
-    requires CommonPhysics2D;
     requires CommonRender;
     requires CommonSpawn;
     requires CommonCollision;
     requires CommonCoin;
     requires CommonOwnership;
-    requires CommonOutOfBounds;
     requires CommonBullet;
-    requires CommonSound;
     requires CommonPhysics3D;
 
     provides EntitySpi with PlayerEntityProvider;
