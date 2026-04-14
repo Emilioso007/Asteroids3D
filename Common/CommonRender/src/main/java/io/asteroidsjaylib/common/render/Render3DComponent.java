@@ -7,12 +7,10 @@ import java.util.*;
 
 public class Render3DComponent extends BaseComponent {
 
-    private final List<Base3DShape> shapes;
     private final Map<String, List<Base3DShape>> shapeLibrary;
     private String currentState = "";
 
     public Render3DComponent() {
-        this.shapes = new ArrayList<>();
         this.shapeLibrary = new HashMap<>();
     }
 

@@ -7,9 +7,11 @@ import io.asteroidsjaylib.common.ecs.IteratingSystem;
 import io.asteroidsjaylib.common.event.input.key.KeyPressedEvent;
 import io.asteroidsjaylib.common.event.input.key.KeyReleasedEvent;
 import io.asteroidsjaylib.common.physics3d.AccelerationComponent;
+import io.asteroidsjaylib.common.physics3d.PositionComponent;
 import io.asteroidsjaylib.common.physics3d.RotationComponent;
 import io.asteroidsjaylib.common.player.PlayerTag;
 import io.asteroidsjaylib.common.render.Render3DComponent;
+import io.asteroidsjaylib.common.render.ShaderManager;
 import io.asteroidsjaylib.common.util.Quaternion;
 import io.asteroidsjaylib.common.util.Vector3D;
 
@@ -19,6 +21,8 @@ import java.util.List;
 
 public class PlayerMovementSystem extends IteratingSystem {
 
+    public static final float[] ON_INTENSITY = {1.0f};
+    public static final float[] OFF_INTENSITY = {0.0f};
     private boolean accelerating = false;
     private boolean yawLeft = false, yawRight = false;
     private boolean pitchUp = false, pitchDown = false;
@@ -125,8 +129,14 @@ public class PlayerMovementSystem extends IteratingSystem {
             acceleration.add(heading.rotateVector(forceVector));
 
             player.getComponent(Render3DComponent.class).orElseThrow().setCurrentState("thrust");
+
+            Vector3 thrusterPos = player.getComponent(PositionComponent.class).orElseThrow().pos.copy().add(heading.copy().rotateVector(new Vector3D(1, 0, 0).mult(-10))).toVector3();
+
+            ShaderManager.setGlobalShaderValue("thrusterLightPos", thrusterPos, SHADER_UNIFORM_VEC3);
+            ShaderManager.setGlobalShaderValue("thrusterIntensity", ON_INTENSITY, SHADER_UNIFORM_FLOAT);
         } else {
             player.getComponent(Render3DComponent.class).orElseThrow().setCurrentState("normal");
+            ShaderManager.setGlobalShaderValue("thrusterIntensity", OFF_INTENSITY, SHADER_UNIFORM_FLOAT);
         }
     }
 
