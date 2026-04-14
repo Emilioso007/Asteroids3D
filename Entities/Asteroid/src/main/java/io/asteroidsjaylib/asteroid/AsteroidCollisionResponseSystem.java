@@ -43,12 +43,12 @@ public class AsteroidCollisionResponseSystem extends ResponseSystem {
         Random random = new Random();
         AsteroidSPI asteroidSPI = ServiceLoader.load(AsteroidSPI.class).findFirst().orElseThrow();
 
-        AsteroidSize asteroidSize = asteroid.getComponent(AsteroidSizeComponent.class).map(c -> c.size).orElseThrow();
+        AsteroidSize asteroidSize = asteroid.getComponent(AsteroidSizeComponent.class).size;
         if (asteroidSize.ordinal() > AsteroidSize.SMALL.ordinal()){
             for(int i = 0; i < 2; i++){
                 world.getEventBus().publish(world,
                         new SpawnEvent(asteroidSPI.createAsteroid(
-                                asteroid.getComponent(PositionComponent.class).orElseThrow().pos.copy(),
+                                asteroid.getComponent(PositionComponent.class).pos.copy(),
                                 new Vector3D(-50+random.nextFloat()*100, -50+random.nextFloat()*100, -50+random.nextFloat()*100),
                                 AsteroidSize.values()[asteroidSize.ordinal() - 1])));
             }

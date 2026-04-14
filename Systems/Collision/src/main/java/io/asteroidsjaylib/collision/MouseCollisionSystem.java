@@ -25,13 +25,13 @@ public class MouseCollisionSystem extends ResponseSystem {
 
         for (BaseEntity entity : entities){
 
-            PositionComponent positionComponent = entity.getComponent(PositionComponent.class).orElseThrow();
-            CircleColliderComponent circleColliderComponent = entity.getComponent(CircleColliderComponent.class).orElseThrow();
+            PositionComponent positionComponent = entity.getComponent(PositionComponent.class);
+            CircleColliderComponent circleColliderComponent = entity.getComponent(CircleColliderComponent.class);
 
             // Check if entity uses absolute screen position
             boolean isAbsolutePosition = false;
             var renderTag = entity.getComponent(RenderTag.class);
-            if (renderTag.isPresent() && renderTag.get().isAbsolutePosition()) {
+            if (renderTag.isAbsolutePosition()) {
                 isAbsolutePosition = true;
             }
 
@@ -39,12 +39,12 @@ public class MouseCollisionSystem extends ResponseSystem {
 
             if (isAbsolutePosition) {
                 // For absolute position entities: use screen coordinates directly
-                dx = mousePressedEvent.screenPosition.x() - positionComponent.pos.x();
-                dy = mousePressedEvent.screenPosition.y() - positionComponent.pos.y();
+                dx = mousePressedEvent.screenPosition.x - positionComponent.pos.x;
+                dy = mousePressedEvent.screenPosition.y - positionComponent.pos.y;
             } else {
                 // For world entities: use converted world coordinates
-                dx = mousePressedEvent.worldPosition.x() - positionComponent.pos.x();
-                dy = mousePressedEvent.worldPosition.y() - positionComponent.pos.y();
+                dx = mousePressedEvent.worldPosition.x - positionComponent.pos.x;
+                dy = mousePressedEvent.worldPosition.y - positionComponent.pos.y;
             }
 
             double distance = Math.sqrt(dx * dx + dy * dy);

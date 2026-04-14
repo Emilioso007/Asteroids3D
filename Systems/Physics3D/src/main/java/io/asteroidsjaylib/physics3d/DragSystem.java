@@ -19,8 +19,8 @@ public class DragSystem extends IteratingSystem {
 
     @Override
     public void processEntity(IWorld world, BaseEntity entity, float deltaTime) {
-        Vector3D velocity = entity.getComponent(VelocityComponent.class).orElseThrow().vel;
-        float drag = entity.getComponent(DragComponent.class).orElseThrow().drag;
+        Vector3D velocity = entity.getComponent(VelocityComponent.class).vel;
+        float drag = entity.getComponent(DragComponent.class).drag;
 
         if (drag == 0) {
             velocity.mult(0);

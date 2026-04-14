@@ -15,13 +15,14 @@ public class AccelerationSystem extends IteratingSystem {
     @Override
     public void start(IWorld world) {
         this.setPriority(20);
+        this.running = false;
     }
 
     @Override
     public void processEntity(IWorld world, BaseEntity entity, float deltaTime) {
-        Vector2D velocity = entity.getComponent(VelocityComponent.class).orElseThrow().vel;
-        Vector2D acceleration = entity.getComponent(AccelerationComponent.class).orElseThrow().acc;
-        velocity.add(acceleration.x()*deltaTime, acceleration.y()*deltaTime);
+        Vector2D velocity = entity.getComponent(VelocityComponent.class).vel;
+        Vector2D acceleration = entity.getComponent(AccelerationComponent.class).acc;
+        velocity.add(acceleration.x*deltaTime, acceleration.y*deltaTime);
         acceleration.mult(0);
     }
 

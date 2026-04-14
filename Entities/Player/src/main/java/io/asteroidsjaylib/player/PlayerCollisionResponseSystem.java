@@ -27,7 +27,7 @@ public class PlayerCollisionResponseSystem extends ResponseSystem {
 
         // If collider owner is player, do nothing
         var ownership = collider.getComponent(OwnershipComponent.class);
-        if (ownership.isPresent() && ownership.get().owner.hasComponents(PlayerTag.class)) {
+        if (ownership != null && ownership.owner.hasComponents(PlayerTag.class)) {
             return;
         }
 

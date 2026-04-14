@@ -48,9 +48,9 @@ public class PlayerShootingSystem extends ResponseSystem {
 
     private void shoot(IWorld world, BaseEntity player) {
 
-        Vector3D playerPos = player.getComponent(PositionComponent.class).orElseThrow().pos;
-        Vector3D playerVel = player.getComponent(VelocityComponent.class).orElseThrow().vel;
-        Quaternion playerRot = player.getComponent(RotationComponent.class).orElseThrow().quaternion;
+        Vector3D playerPos = player.getComponent(PositionComponent.class).pos;
+        Vector3D playerVel = player.getComponent(VelocityComponent.class).vel;
+        Quaternion playerRot = player.getComponent(RotationComponent.class).quaternion;
 
         Vector3D forwardVector = playerRot.rotateVector(new Vector3D(1, 0, 0));
 
@@ -60,6 +60,5 @@ public class PlayerShootingSystem extends ResponseSystem {
 
         BulletSPI bulletSPI = ServiceLoader.load(BulletSPI.class).findFirst().orElseThrow();
         world.getEventBus().publish(world, new SpawnEvent(bulletSPI.CreateBullet(player, nosePosition, bulletVelocity, playerRot)));
-
     }
 }

@@ -14,7 +14,7 @@ public class SoundSystem extends IteratingSystem {
 
     @Override
     public void processEntity(IWorld world, BaseEntity entity, float deltaTime) {
-        SoundComponent soundComponent = entity.getComponent(SoundComponent.class).orElseThrow();
+        SoundComponent soundComponent = entity.getComponent(SoundComponent.class);
 
         if (entity.isToBeRemoved()){
             StopSound(soundComponent.sound);

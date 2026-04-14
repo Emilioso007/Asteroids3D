@@ -60,11 +60,11 @@ public class Game {
             DrawFPS(50, 50);
 
             if(world.hasEntitiesWith(PlayerTag.class))
-                DrawText(world.getEntitiesWith(PlayerTag.class).getFirst().getComponent(PositionComponent.class).orElseThrow().pos.toString(),
+                DrawText(world.getEntitiesWith(PlayerTag.class).getFirst().getComponent(PositionComponent.class).pos.toString(),
                 100, 100, 24, WHITE);
 
             if(world.hasEntitiesWith(EnemyTag.class))
-                DrawText(world.getEntitiesWith(EnemyTag.class).getFirst().getComponent(PositionComponent.class).orElseThrow().pos.toString(),
+                DrawText(world.getEntitiesWith(EnemyTag.class).getFirst().getComponent(PositionComponent.class).pos.toString(),
                         100, 200, 24, WHITE);
 
 

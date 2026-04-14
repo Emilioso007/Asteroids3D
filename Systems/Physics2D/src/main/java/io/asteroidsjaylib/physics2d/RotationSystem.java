@@ -14,6 +14,7 @@ public class RotationSystem extends IteratingSystem {
     @Override
     public void start(IWorld world) {
         this.setPriority(30);
+        this.running = false;
     }
 
     @Override
@@ -23,8 +24,8 @@ public class RotationSystem extends IteratingSystem {
 
     @Override
     public void processEntity(IWorld world, BaseEntity entity, float deltaTime) {
-        AngleComponent angleComponent = entity.getComponent(AngleComponent.class).orElseThrow();
-        RotationComponent rotationComponent = entity.getComponent(RotationComponent.class).orElseThrow();
+        AngleComponent angleComponent = entity.getComponent(AngleComponent.class);
+        RotationComponent rotationComponent = entity.getComponent(RotationComponent.class);
 
         angleComponent.angle += rotationComponent.dAngle * deltaTime;
     }

@@ -4,7 +4,7 @@ import io.asteroidsjaylib.common.IWorld;
 
 import java.util.List;
 
-public abstract class ResponseSystem extends BaseSystem {
+public abstract non-sealed class ResponseSystem extends BaseSystem {
 
     @Override
     public final List<Class<? extends BaseComponent>> getSignature() {

@@ -26,7 +26,7 @@ public class BulletCollisionResponseSystem extends ResponseSystem {
         if (collider.hasComponents(CoinTag.class)) return;
 
         // If collider is also bullet owner, do nothing
-        if (bullet.getComponent(OwnershipComponent.class).orElseThrow().owner == collider) return;
+        if (bullet.getComponent(OwnershipComponent.class).owner == collider) return;
 
         // Mark bullet to be removed
         bullet.setToBeRemoved(true);

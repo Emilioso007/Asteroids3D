@@ -19,9 +19,9 @@ public class VelocitySystem extends IteratingSystem {
 
     @Override
     public void processEntity(IWorld world, BaseEntity entity, float deltaTime) {
-        Vector3D position = entity.getComponent(PositionComponent.class).orElseThrow().pos;
-        Vector3D velocity = entity.getComponent(VelocityComponent.class).orElseThrow().vel;
-        position.add(velocity.copy().mult(deltaTime));
+        Vector3D position = entity.getComponent(PositionComponent.class).pos;
+        Vector3D velocity = entity.getComponent(VelocityComponent.class).vel;
+        position.add(velocity.x * deltaTime, velocity.y * deltaTime, velocity.z * deltaTime);
     }
 
     @Override

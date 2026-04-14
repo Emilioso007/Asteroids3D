@@ -4,7 +4,7 @@ import io.asteroidsjaylib.common.IWorld;
 
 import java.util.List;
 
-public abstract class IntervalIteratingSystem extends BaseSystem {
+public abstract non-sealed class IntervalIteratingSystem extends BaseSystem {
     public double interval;
     public double accumulator;
 

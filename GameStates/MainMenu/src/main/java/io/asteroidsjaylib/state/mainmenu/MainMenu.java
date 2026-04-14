@@ -40,7 +40,7 @@ public class MainMenu implements IGameStateProvider {
     private void clicked(IWorld world, ClickedEvent clickedEvent) {
         if (!clickedEvent.clickedEntity.hasComponents(ButtonTag.class)) return;
 
-        ButtonTag buttonTag = clickedEvent.clickedEntity.getComponent(ButtonTag.class).orElseThrow();
+        ButtonTag buttonTag = clickedEvent.clickedEntity.getComponent(ButtonTag.class);
 
         switch(buttonTag.id){
             case "START_GAME_BUTTON":

@@ -90,7 +90,7 @@ public final class World implements IWorld {
             }
         }
 
-        cameraShake = new Vector3D();
+        cameraShake.mult(0);
     }
 
     @Override

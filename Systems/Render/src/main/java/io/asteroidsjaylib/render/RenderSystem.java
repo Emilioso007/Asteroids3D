@@ -47,8 +47,8 @@ public class RenderSystem extends BulkSystem {
 
         if(!world.getEntitiesWith(PlayerTag.class).isEmpty()){
             BaseEntity player = world.getEntitiesWith(PlayerTag.class).getFirst();
-            Vector3D playerPos = player.getComponent(PositionComponent.class).orElseThrow().pos;
-            Quaternion playerRot = player.getComponent(RotationComponent.class).orElseThrow().quaternion;
+            Vector3D playerPos = player.getComponent(PositionComponent.class).pos;
+            Quaternion playerRot = player.getComponent(RotationComponent.class).quaternion;
 
             Vector3D forwardVector = playerRot.rotateVector(new Vector3D(1, 0, 0));
             Vector3D localUp = playerRot.rotateVector(new Vector3D(0, 0, 1));
@@ -90,9 +90,9 @@ public class RenderSystem extends BulkSystem {
 
         for(BaseEntity entity : entities){
 
-            Vector3D pos = entity.getComponent(PositionComponent.class).map(c -> c.pos).orElseThrow();
+            Vector3D pos = entity.getComponent(PositionComponent.class).pos;
 
-            RotationComponent rotComp = entity.getComponent(RotationComponent.class).orElse(null);
+            RotationComponent rotComp = entity.getComponent(RotationComponent.class);
             float angle = 0.0f;
             Vector3D axis = new Vector3D(0, 0, 1);
 
@@ -101,7 +101,7 @@ public class RenderSystem extends BulkSystem {
                 axis = rotComp.quaternion.getAxis();
             }
 
-            Render3DComponent render3DComponent = entity.getComponent(Render3DComponent.class).orElseThrow();
+            Render3DComponent render3DComponent = entity.getComponent(Render3DComponent.class);
 
             for (Base3DShape shape : render3DComponent.getActiveShapes()){
                 drawShape(shape, pos, angle, axis);

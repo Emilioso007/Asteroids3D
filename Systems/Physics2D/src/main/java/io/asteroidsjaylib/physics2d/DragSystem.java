@@ -15,12 +15,13 @@ public class DragSystem extends IteratingSystem {
     @Override
     public void start(IWorld world) {
         this.setPriority(21);
+        this.running = false;
     }
 
     @Override
     public void processEntity(IWorld world, BaseEntity entity, float deltaTime) {
-        Vector2D velocity = entity.getComponent(VelocityComponent.class).orElseThrow().vel;
-        float drag = entity.getComponent(DragComponent.class).orElseThrow().drag;
+        Vector2D velocity = entity.getComponent(VelocityComponent.class).vel;
+        float drag = entity.getComponent(DragComponent.class).drag;
 
         if (drag == 0) {
             velocity.mult(0);

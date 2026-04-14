@@ -4,7 +4,7 @@ import io.asteroidsjaylib.common.IWorld;
 
 import java.util.List;
 
-public abstract class IteratingSystem extends BaseSystem {
+public abstract non-sealed class IteratingSystem extends BaseSystem {
     @Override
     public void update(IWorld world, List<BaseEntity> entities, float deltaTime){
         for(BaseEntity entity : entities){

@@ -97,7 +97,7 @@ public class PlayerMovementSystem extends IteratingSystem {
     @Override
     public void processEntity(IWorld world, BaseEntity player, float deltaTime) {
 
-        RotationComponent rotComp = player.getComponent(RotationComponent.class).orElseThrow();
+        RotationComponent rotComp = player.getComponent(RotationComponent.class);
 
         currentYawSpeed = updateSpeed(currentYawSpeed, yawLeft, yawRight, deltaTime);
         currentPitchSpeed = updateSpeed(currentPitchSpeed, pitchDown, pitchUp, deltaTime);
@@ -121,14 +121,14 @@ public class PlayerMovementSystem extends IteratingSystem {
         }
 
         if(accelerating) {
-            Vector3D acceleration = player.getComponent(AccelerationComponent.class).orElseThrow().acc;
-            Quaternion heading = player.getComponent(RotationComponent.class).orElseThrow().quaternion;
+            Vector3D acceleration = player.getComponent(AccelerationComponent.class).acc;
+            Quaternion heading = player.getComponent(RotationComponent.class).quaternion;
             Vector3D forceVector = new Vector3D(2500, 0, 0);
             acceleration.add(heading.rotateVector(forceVector));
 
-            player.getComponent(Render3DComponent.class).orElseThrow().setCurrentState("thrust");
+            player.getComponent(Render3DComponent.class).setCurrentState("thrust");
 
-            Vector3D pos = player.getComponent(PositionComponent.class).orElseThrow().pos.copy().add(heading.copy().rotateVector(new Vector3D(1, 0, 0).mult(-20)));
+            Vector3D pos = player.getComponent(PositionComponent.class).pos.copy().add(heading.copy().rotateVector(new Vector3D(1, 0, 0).mult(-20)));
 
             float pulse = (float) (Math.sin(GetTime() * 30) * 0.2 + 1.0);
             float red = 1.0f * pulse * 5.0f;
@@ -138,7 +138,7 @@ public class PlayerMovementSystem extends IteratingSystem {
             LightManager.addLightSource(pos.x, pos.y, pos.z, red, green, blue);
 
         } else {
-            player.getComponent(Render3DComponent.class).orElseThrow().setCurrentState("normal");
+            player.getComponent(Render3DComponent.class).setCurrentState("normal");
         }
     }
 
@@ -159,7 +159,7 @@ public class PlayerMovementSystem extends IteratingSystem {
 
     @Override
     public List<Class<? extends BaseComponent>> getSignature() {
-        return List.of(PlayerTag.class);
+        return List.of(PlayerTag.class, PositionComponent.class, AccelerationComponent.class, RotationComponent.class, Render3DComponent.class);
     }
 
 }

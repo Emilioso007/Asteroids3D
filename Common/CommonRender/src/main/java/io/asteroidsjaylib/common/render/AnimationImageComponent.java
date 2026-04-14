@@ -1,7 +1,6 @@
 package io.asteroidsjaylib.common.render;
 
 import com.raylib.Raylib;
-import io.asteroidsjaylib.common.util.Vector2D;
 
 import java.io.IOException;
 
@@ -83,7 +82,8 @@ public class AnimationImageComponent extends RenderComponent{
         rlTranslatef(position.x(), position.y(), 0);
         rlRotatef(angle, 0 ,0, 1);
 
-        DrawTextureRec(texture, rec, new Vector2D(Math.round(xOffset), Math.round(yOffset)), WHITE);
+        Vector2 offset = new Vector2().x(Math.round(xOffset)).y(Math.round(yOffset));
+        DrawTextureRec(texture, rec, offset, WHITE);
 
         rlPopMatrix();
     }

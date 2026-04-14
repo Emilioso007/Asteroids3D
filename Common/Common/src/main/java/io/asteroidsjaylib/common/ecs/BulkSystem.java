@@ -1,4 +1,4 @@
 package io.asteroidsjaylib.common.ecs;
 
-public abstract class BulkSystem extends BaseSystem{
+public non-sealed abstract class BulkSystem extends BaseSystem{
 }

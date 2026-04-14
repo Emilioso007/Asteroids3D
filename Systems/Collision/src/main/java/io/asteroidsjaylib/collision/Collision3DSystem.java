@@ -28,14 +28,14 @@ public class Collision3DSystem extends BulkSystem {
         for (int i = 0; i < entities.size(); i++){
 
             BaseEntity entityA = entities.get(i);
-            Vector3D posA = entityA.getComponent(PositionComponent.class).orElseThrow().pos;
-            float radiusA = entityA.getComponent(SphereColliderComponent.class).orElseThrow().radius;
+            Vector3D posA = entityA.getComponent(PositionComponent.class).pos;
+            float radiusA = entityA.getComponent(SphereColliderComponent.class).radius;
 
             for(int j = i+1; j < entities.size(); j++){
 
                 BaseEntity entityB = entities.get(j);
-                Vector3D posB = entityB.getComponent(PositionComponent.class).orElseThrow().pos;
-                float radiusB = entityB.getComponent(SphereColliderComponent.class).orElseThrow().radius;
+                Vector3D posB = entityB.getComponent(PositionComponent.class).pos;
+                float radiusB = entityB.getComponent(SphereColliderComponent.class).radius;
 
                 float distance = posA.dist(posB);
 

@@ -16,6 +16,7 @@ public class CollisionSystem extends BulkSystem {
     @Override
     public void start(IWorld world) {
         this.setPriority(70);
+        this.running = false;
     }
 
     @Override
@@ -30,8 +31,8 @@ public class CollisionSystem extends BulkSystem {
         QuadTree quadTree = new QuadTree(boundary);
 
         for (BaseEntity entity : entities){
-            Vector2D pos = entity.getComponent(PositionComponent.class).orElseThrow().pos;
-            float radius = entity.getComponent(CircleColliderComponent.class).orElseThrow().radius;
+            Vector2D pos = entity.getComponent(PositionComponent.class).pos;
+            float radius = entity.getComponent(CircleColliderComponent.class).radius;
             quadTree.insert(new EntityBounds(entity, pos, radius));
         }
 
@@ -40,8 +41,8 @@ public class CollisionSystem extends BulkSystem {
         for (BaseEntity collider : entities){
             if (collider.isToBeRemoved()) continue;
 
-            Vector2D colliderPos = collider.getComponent(PositionComponent.class).orElseThrow().pos;
-            float colliderRadius = collider.getComponent(CircleColliderComponent.class).orElseThrow().radius;
+            Vector2D colliderPos = collider.getComponent(PositionComponent.class).pos;
+            float colliderRadius = collider.getComponent(CircleColliderComponent.class).radius;
             EntityBounds colliderBounds = new EntityBounds(collider, colliderPos, colliderRadius);
 
             queryResults.clear();
@@ -88,7 +89,7 @@ public class CollisionSystem extends BulkSystem {
         public final float radius;
 
         public EntityBounds(BaseEntity entity, Vector2D pos, float radius) {
-            super(pos.x()-radius, pos.y()-radius, pos.x()+radius, pos.y()+radius);
+            super(pos.x-radius, pos.y-radius, pos.x+radius, pos.y+radius);
             this.entity = entity;
             this.pos = pos;
             this.radius = radius;

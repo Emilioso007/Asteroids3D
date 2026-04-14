@@ -3,8 +3,10 @@ package io.asteroidsjaylib.common.util;
 import com.raylib.Raylib.Vector2;
 
 /// A classic 2D vector with x and y components.
-public class Vector2D extends Vector2 {
+public class Vector2D {
     public static final Vector2D ZERO = new Vector2D(0, 0);
+
+    public float x, y;
 
     /// A constructor that creates a Vector with values x=0, y=0.
     public Vector2D(){
@@ -15,8 +17,8 @@ public class Vector2D extends Vector2 {
     /// @param x the x component of the Vector.
     /// @param y the y component of the Vector.
     public Vector2D(float x, float y){
-        x(x);
-        y(y);
+        this.x = x;
+        this.y = y;
     }
 
     public Vector2D(Vector2 vector2){
@@ -35,8 +37,8 @@ public class Vector2D extends Vector2 {
     /// @param y the new y-component value.
     /// @return the modified Vector.
     public Vector2D set(float x, float y){
-        x(x);
-        y(y);
+        this.x = x;
+        this.y = y;
         return this;
     }
 
@@ -44,27 +46,27 @@ public class Vector2D extends Vector2 {
     /// Useful to prevent modifying the original vector.
     /// @return the copy of the Vector.
     public Vector2D copy(){
-        return new Vector2D(x(), y());
+        return new Vector2D(this.x, this.y);
     }
 
     /// Get the magnitude of the Vector.
     /// Consider using [Vector2D#magSq()] to prevent expensive sqrt calculation.
     /// @return the magnitude of the Vector.
     public float mag(){
-        return (float) Math.sqrt( (x()*x()) + (y()*y()) );
+        return (float) Math.sqrt( (this.x*this.x) + (this.y*this.y) );
     }
 
     /// Get the squared magnitude of the Vector.
     /// @return the square magnitude of the Vector.
     public float magSq(){
-        return (x()*x()) + (y()*y());
+        return (this.x*this.x) + (this.y*this.y);
     }
 
     /// Adds another Vector to the Vector.
     /// @param other the Vector to add.
     /// @return the Vector after the addition.
     public Vector2D add(Vector2D other){
-        this.add(other.x(), other.y());
+        this.add(other.x, other.y);
         return this;
     }
 
@@ -73,8 +75,8 @@ public class Vector2D extends Vector2 {
     /// @param y the y-component to add.
     /// @return the Vector after the addition.
     public Vector2D add(float x, float y){
-        x(x()+x);
-        y(y()+y);
+        this.x += x;
+        this.y += y;
         return this;
     }
 
@@ -83,14 +85,14 @@ public class Vector2D extends Vector2 {
     /// @param v2 the second Vector to add.
     /// @return a new Vector equaling sum of the given Vectors.
     public static Vector2D add(Vector2D v1, Vector2D v2){
-        return new Vector2D(v1.x() + v2.x(), v1.y() + v2.y());
+        return new Vector2D(v1.x + v2.x, v1.y + v2.y);
     }
 
     /// Subtracts another Vector from the Vector.
     /// @param other the Vector to subtract.
     /// @return the Vector after the subtraction.
     public Vector2D sub(Vector2D other){
-        this.sub(other.x(), other.y());
+        this.sub(other.x, other.y);
         return this;
     }
 
@@ -107,15 +109,15 @@ public class Vector2D extends Vector2 {
     /// @param v2 the subtrahend Vector, e.g. the one being subtracted.
     /// @return a new Vector equaling the result of the subtraction.
     public static Vector2D sub(Vector2D v1, Vector2D v2){
-        return new Vector2D(v1.x() - v2.x(), v1.y() - v2.y());
+        return new Vector2D(v1.x - v2.x, v1.y - v2.y);
     }
 
     /// Multiplies both components of a Vector by the multiplier value.
     /// @param n the multiplier value.
     /// @return the Vector after the multiplication.
     public Vector2D mult(float n){
-        x(x()*n);
-        y(y()*n);
+        this.x *= n;
+        this.y *= n;
         return this;
     }
 
@@ -148,8 +150,8 @@ public class Vector2D extends Vector2 {
     /// @param v the other Vector.
     /// @return the distance between the Vectors.
     public float dist(Vector2D v){
-        double dx = x() - v.x();
-        double dy = y() - v.y();
+        double dx = this.x - v.x;
+        double dy = this.y - v.y;
         return (float) Math.sqrt(dx*dx + dy*dy);
     }
 
@@ -159,8 +161,8 @@ public class Vector2D extends Vector2 {
     /// @param v2 the second Vector.
     /// @return the distance between the Vectors.
     public static float dist(Vector2D v1, Vector2D v2) {
-        float dx = v1.x() - v2.x();
-        float dy = v1.y() - v2.y();
+        float dx = v1.x - v2.x;
+        float dy = v1.y - v2.y;
         return (float) Math.sqrt(dx*dx + dy*dy);
     }
 
@@ -169,8 +171,8 @@ public class Vector2D extends Vector2 {
     /// @param v2 the second Vector.
     /// @return the squared distance between the Vectors.
     public static float distSq(Vector2D v1, Vector2D v2) {
-        float dx = v1.x() - v2.x();
-        float dy = v1.y() - v2.y();
+        float dx = v1.x - v2.x;
+        float dy = v1.y - v2.y;
         return dx*dx + dy*dy;
     }
 
@@ -178,7 +180,7 @@ public class Vector2D extends Vector2 {
     /// @param v the other Vector.
     /// @return the dot-product.
     public float dot(Vector2D v) {
-        return x()*v.x() + y()*v.y();
+        return this.x*v.x + this.y*v.y;
     }
 
     /// Calculates the dot-product between a Vector and the components.
@@ -186,7 +188,7 @@ public class Vector2D extends Vector2 {
     /// @param y the y-component.
     /// @return the dot-product.
     public float dot(float x, float y) {
-        return x()*x + y()*y;
+        return this.x*x + this.y*y;
     }
 
     /// Calculates the dot-product between a Vector and another Vector.
@@ -194,7 +196,7 @@ public class Vector2D extends Vector2 {
     /// @param v2 the second Vector.
     /// @return the dot-product.
     public static double dot(Vector2D v1, Vector2D v2) {
-        return v1.x()*v2.x() + v1.y()*v2.y();
+        return v1.x*v2.x + v1.y*v2.y;
     }
 
     /// Normalizes the vector, meaning the magnitude is now equal to 1.
@@ -230,7 +232,7 @@ public class Vector2D extends Vector2 {
     /// Calculates the heading (in degrees) of a Vector.
     /// @return the heading (in degrees).
     public float heading() {
-        return (float) Math.toDegrees(Math.atan2(y(), x()));
+        return (float) Math.toDegrees(Math.atan2(this.y, this.x));
     }
 
     /// Sets the heading (in degrees) of a Vector.
@@ -238,8 +240,8 @@ public class Vector2D extends Vector2 {
     /// @return the Vector after the new heading is applied.
     public Vector2D setHeading(float angle) {
         float m = mag();
-        x((float) (m * Math.cos(Math.toRadians(angle))));
-        y((float) (m * Math.sin(Math.toRadians(angle))));
+        x = (float) (m * Math.cos(Math.toRadians(angle)));
+        y = (float) (m * Math.sin(Math.toRadians(angle)));
         return this;
     }
 
@@ -247,9 +249,9 @@ public class Vector2D extends Vector2 {
     /// @param theta the angle (in degrees) to rotate the heading.
     /// @return the Vector after the rotation.
     public Vector2D rotate(double theta) {
-        float temp = x();
-        x((float) (x()*Math.cos(Math.toRadians(theta)) - y()*Math.sin(Math.toRadians(theta))));
-        y((float) (temp*Math.sin(Math.toRadians(theta)) + y()*Math.cos(Math.toRadians(theta))));
+        float temp = this.x;
+        this.x = (float) (this.x*Math.cos(Math.toRadians(theta)) - this.y*Math.sin(Math.toRadians(theta)));
+        this.y = (float) (temp*Math.sin(Math.toRadians(theta)) + this.y*Math.cos(Math.toRadians(theta)));
         return this;
     }
 
@@ -257,7 +259,7 @@ public class Vector2D extends Vector2 {
     /// @return a string in the format \[x, y].
     @Override
     public String toString() {
-        return "[ " + x() + ", " + y() + " ]";
+        return "[ " + this.x + ", " + this.y + " ]";
     }
 
     /// Tests equality based on x and y components.
@@ -268,7 +270,7 @@ public class Vector2D extends Vector2 {
         if (!(obj instanceof Vector2D v)) {
             return false;
         }
-        return x() == v.x() && y() == v.y();
+        return this.x == v.x && this.y == v.y;
     }
 
     /// Creates a Vector with a magnitude with a random heading.
