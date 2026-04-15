@@ -2,7 +2,7 @@ package io.asteroidsjaylib.spawn;
 
 import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.asteroid.AsteroidSPI;
-import io.asteroidsjaylib.common.asteroid.AsteroidSize;
+import io.asteroidsjaylib.common.asteroid.AsteroidType;
 import io.asteroidsjaylib.common.asteroid.AsteroidTag;
 import io.asteroidsjaylib.common.ecs.BaseComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
@@ -51,7 +51,7 @@ public class WaveDirectorSystem extends BulkSystem {
                     new SpawnEvent(asteroidSPI.createAsteroid(
                                     new Vector3D(),
                                     new Vector3D(-50+random.nextFloat()*100, -50+random.nextFloat()*100, -50+random.nextFloat()*100),
-                                    AsteroidSize.LARGE)));
+                                    AsteroidType.Full)));
         }
 
         for (int i = 0; i < 1; i++){

@@ -13,6 +13,7 @@ module Asteroid {
     requires CommonCollision;
     requires CommonCoin;
     requires CommonPhysics3D;
+    requires CommonLifetime;
 
     provides AsteroidSPI with AsteroidProvider;
     provides EventSubscriberSPI with AsteroidCollisionResponseSystem;

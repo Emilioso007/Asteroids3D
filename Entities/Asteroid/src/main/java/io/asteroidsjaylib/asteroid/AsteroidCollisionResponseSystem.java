@@ -1,8 +1,8 @@
 package io.asteroidsjaylib.asteroid;
 
 import io.asteroidsjaylib.common.asteroid.AsteroidSPI;
-import io.asteroidsjaylib.common.asteroid.AsteroidSize;
-import io.asteroidsjaylib.common.asteroid.AsteroidSizeComponent;
+import io.asteroidsjaylib.common.asteroid.AsteroidType;
+import io.asteroidsjaylib.common.asteroid.AsteroidTypeComponent;
 import io.asteroidsjaylib.common.asteroid.AsteroidTag;
 import io.asteroidsjaylib.common.coin.CoinSPI;
 import io.asteroidsjaylib.common.coin.CoinTag;
@@ -13,11 +13,11 @@ import io.asteroidsjaylib.common.event.BaseEvent;
 import io.asteroidsjaylib.common.event.EventSubscriberSPI;
 import io.asteroidsjaylib.common.event.EventSubscription;
 import io.asteroidsjaylib.common.physics3d.PositionComponent;
+import io.asteroidsjaylib.common.physics3d.RotationComponent;
 import io.asteroidsjaylib.common.spawn.SpawnEvent;
 import io.asteroidsjaylib.common.util.Vector3D;
 
 import java.util.List;
-import java.util.Random;
 import java.util.ServiceLoader;
 
 public class AsteroidCollisionResponseSystem implements EventSubscriberSPI {
@@ -44,25 +44,32 @@ public class AsteroidCollisionResponseSystem implements EventSubscriberSPI {
         // Mark asteroid to be removed
         asteroid.setToBeRemoved(true);
 
-        // Optionally split asteroid
-        Random random = new Random();
+        // Split asteroid in two and reveal crystal inside
         AsteroidSPI asteroidSPI = ServiceLoader.load(AsteroidSPI.class).findFirst().orElseThrow();
 
-        AsteroidSize asteroidSize = asteroid.getComponent(AsteroidSizeComponent.class).size;
-        if (asteroidSize.ordinal() > AsteroidSize.SMALL.ordinal()){
-            for(int i = 0; i < 2; i++){
-                world.getEventBus().publish(world,
-                        new SpawnEvent(asteroidSPI.createAsteroid(
-                                asteroid.getComponent(PositionComponent.class).pos.copy(),
-                                new Vector3D(-50+random.nextFloat()*100, -50+random.nextFloat()*100, -50+random.nextFloat()*100),
-                                AsteroidSize.values()[asteroidSize.ordinal() - 1])));
-            }
+        AsteroidType type = asteroid.getComponent(AsteroidTypeComponent.class).type;
+
+        if (type == AsteroidType.Full){
+
+            world.getEventBus().publish(world,
+                    new SpawnEvent(asteroidSPI.createAsteroid(
+                            asteroid.getComponent(PositionComponent.class).pos.copy(),
+                            asteroid.getComponent(RotationComponent.class).quaternion.getAxis().copy().mult(10),
+                            AsteroidType.Top
+                    )));
+
+            world.getEventBus().publish(world,
+                    new SpawnEvent(asteroidSPI.createAsteroid(
+                            asteroid.getComponent(PositionComponent.class).pos.copy(),
+                            asteroid.getComponent(RotationComponent.class).quaternion.getAxis().copy().mult(-10),
+                            AsteroidType.Bottom
+                    )));
+
         }
 
-        // Publish event
         CoinSPI coinSPI = ServiceLoader.load(CoinSPI.class).findFirst().orElseThrow();
         Vector3D pos = asteroid.getComponent(PositionComponent.class).pos.copy();
-        world.getEventBus().publish(world, new SpawnEvent(coinSPI.createCoin(pos, asteroidSize.ordinal()+1)));
+        world.getEventBus().publish(world, new SpawnEvent(coinSPI.createCoin(pos, type.ordinal()+1)));
 
     }
 
