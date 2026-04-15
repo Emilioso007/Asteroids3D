@@ -13,7 +13,7 @@ module Bullet {
     requires CommonCollision;
     requires CommonBullet;
     requires CommonOwnership;
-    requires CommonCoin;
+    requires CommonCrystal;
     requires CommonLifetime;
     requires CommonPhysics3D;
 

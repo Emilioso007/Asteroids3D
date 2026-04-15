@@ -32,8 +32,8 @@
             <artifactId>CommonBullet</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.asteroidsjaylib.common.coin</groupId>
-            <artifactId>CommonCoin</artifactId>
+            <groupId>io.asteroidsjaylib.common.crystal</groupId>
+            <artifactId>CommonCrystal</artifactId>
         </dependency>
         <dependency>
             <groupId>io.asteroidsjaylib.common.ownership</groupId>

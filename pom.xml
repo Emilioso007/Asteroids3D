@@ -24,7 +24,7 @@
         <module>Common/CommonPlayer</module>
         <module>Common/CommonRender</module>
         <module>Common/CommonSpawn</module>
-        <module>Common/CommonCoin</module>
+        <module>Common/CommonCrystal</module>
         <module>Common/CommonScore</module>
         <module>Common/CommonButton</module>
         <module>Common/CommonSound</module>
@@ -40,7 +40,7 @@
 
         <module>Entities/Asteroid</module>
         <module>Entities/Bullet</module>
-        <module>Entities/Coin</module>
+        <module>Entities/Crystal</module>
         <module>Entities/Enemy</module>
         <module>Entities/Player</module>
         <module>Entities/Score</module>
@@ -124,8 +124,8 @@
                 <version>1.0-SNAPSHOT</version>
             </dependency>
             <dependency>
-                <groupId>io.asteroidsjaylib.common.coin</groupId>
-                <artifactId>CommonCoin</artifactId>
+                <groupId>io.asteroidsjaylib.common.crystal</groupId>
+                <artifactId>CommonCrystal</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
             <dependency>

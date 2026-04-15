@@ -15,7 +15,7 @@ module Player {
     requires CommonRender;
     requires CommonSpawn;
     requires CommonCollision;
-    requires CommonCoin;
+    requires CommonCrystal;
     requires CommonOwnership;
     requires CommonBullet;
     requires CommonPhysics3D;

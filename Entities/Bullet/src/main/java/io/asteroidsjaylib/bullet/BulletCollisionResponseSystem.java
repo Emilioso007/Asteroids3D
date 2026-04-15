@@ -1,7 +1,7 @@
 package io.asteroidsjaylib.bullet;
 
 import io.asteroidsjaylib.common.bullet.BulletTag;
-import io.asteroidsjaylib.common.coin.CoinTag;
+import io.asteroidsjaylib.common.crystal.CrystalTag;
 import io.asteroidsjaylib.common.collision.CollisionEvent;
 import io.asteroidsjaylib.common.event.BaseEvent;
 import io.asteroidsjaylib.common.event.EventSubscriberSPI;
@@ -27,7 +27,7 @@ public class BulletCollisionResponseSystem implements EventSubscriberSPI {
 
         // If collider is also bullet, do nothing
         if (collider.hasComponents(BulletTag.class)) return;
-        if (collider.hasComponents(CoinTag.class)) return;
+        if (collider.hasComponents(CrystalTag.class)) return;
 
         // If collider is also bullet owner, do nothing
         if (bullet.getComponent(OwnershipComponent.class).owner == collider) return;

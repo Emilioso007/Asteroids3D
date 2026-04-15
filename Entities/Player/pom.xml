@@ -32,10 +32,6 @@
             <artifactId>CommonPlayer</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.asteroidsjaylib.common.coin</groupId>
-            <artifactId>CommonCoin</artifactId>
-        </dependency>
-        <dependency>
             <groupId>io.asteroidsjaylib.common.ownership</groupId>
             <artifactId>CommonOwnership</artifactId>
         </dependency>
@@ -62,8 +58,10 @@
         <dependency>
             <groupId>io.asteroidsjaylib.common.physics3d</groupId>
             <artifactId>CommonPhysics3D</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.asteroidsjaylib.common.crystal</groupId>
+            <artifactId>CommonCrystal</artifactId>
         </dependency>
     </dependencies>
 

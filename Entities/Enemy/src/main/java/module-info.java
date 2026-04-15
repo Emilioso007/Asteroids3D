@@ -17,7 +17,7 @@ module Enemy {
     requires CommonEnemy;
     requires CommonCollision;
     requires CommonOwnership;
-    requires CommonCoin;
+    requires CommonCrystal;
     requires CommonPhysics2D;
     requires CommonPhysics3D;
 

@@ -4,8 +4,8 @@ import io.asteroidsjaylib.common.asteroid.AsteroidSPI;
 import io.asteroidsjaylib.common.asteroid.AsteroidType;
 import io.asteroidsjaylib.common.asteroid.AsteroidTypeComponent;
 import io.asteroidsjaylib.common.asteroid.AsteroidTag;
-import io.asteroidsjaylib.common.coin.CoinSPI;
-import io.asteroidsjaylib.common.coin.CoinTag;
+import io.asteroidsjaylib.common.crystal.CrystalSPI;
+import io.asteroidsjaylib.common.crystal.CrystalTag;
 import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.collision.CollisionEvent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
@@ -36,7 +36,7 @@ public class AsteroidCollisionResponseSystem implements EventSubscriberSPI {
 
         // If collider is also asteroid, do nothing
         if (collider.hasComponents(AsteroidTag.class)) return;
-        if (collider.hasComponents(CoinTag.class)) return;
+        if (collider.hasComponents(CrystalTag.class)) return;
 
         if (collider.isToBeRemoved()) return;
 
@@ -67,9 +67,9 @@ public class AsteroidCollisionResponseSystem implements EventSubscriberSPI {
 
         }
 
-        CoinSPI coinSPI = ServiceLoader.load(CoinSPI.class).findFirst().orElseThrow();
+        CrystalSPI crystalSPI = ServiceLoader.load(CrystalSPI.class).findFirst().orElseThrow();
         Vector3D pos = asteroid.getComponent(PositionComponent.class).pos.copy();
-        world.getEventBus().publish(world, new SpawnEvent(coinSPI.createCoin(pos, type.ordinal()+1)));
+        world.getEventBus().publish(world, new SpawnEvent(crystalSPI.createCrystal(pos, type.ordinal()+1)));
 
     }
 

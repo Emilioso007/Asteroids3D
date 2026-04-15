@@ -1,17 +1,18 @@
 import io.asteroidsjaylib.asteroid.AsteroidCollisionResponseSystem;
 import io.asteroidsjaylib.asteroid.AsteroidProvider;
 import io.asteroidsjaylib.common.asteroid.AsteroidSPI;
+import io.asteroidsjaylib.common.crystal.CrystalSPI;
 import io.asteroidsjaylib.common.event.EventSubscriberSPI;
 
 module Asteroid {
-    uses io.asteroidsjaylib.common.coin.CoinSPI;
+    uses CrystalSPI;
     uses io.asteroidsjaylib.common.asteroid.AsteroidSPI;
     requires Common;
     requires CommonAsteroid;
     requires CommonSpawn;
     requires CommonRender;
     requires CommonCollision;
-    requires CommonCoin;
+    requires CommonCrystal;
     requires CommonPhysics3D;
     requires CommonLifetime;
 

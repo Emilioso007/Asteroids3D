@@ -1,6 +1,6 @@
 package io.asteroidsjaylib.player;
 
-import io.asteroidsjaylib.common.coin.CoinTag;
+import io.asteroidsjaylib.common.crystal.CrystalTag;
 import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.collision.CollisionEvent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
@@ -27,7 +27,7 @@ public class PlayerCollisionResponseSystem implements EventSubscriberSPI {
 
         // If collider is also player, do nothing
         if (collider.hasComponents(PlayerTag.class)) return;
-        if (collider.hasComponents(CoinTag.class)) return;
+        if (collider.hasComponents(CrystalTag.class)) return;
 
         // If collider owner is player, do nothing
         var ownership = collider.getComponent(OwnershipComponent.class);
