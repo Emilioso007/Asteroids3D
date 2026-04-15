@@ -1,8 +1,8 @@
 package io.asteroidsjaylib.common.coin;
 
 import io.asteroidsjaylib.common.ecs.BaseEntity;
-import io.asteroidsjaylib.common.util.Vector2D;
+import io.asteroidsjaylib.common.util.Vector3D;
 
 public interface CoinSPI{
-    BaseEntity createCoin(Vector2D startPosition, Vector2D startVelocity, int value);
+    BaseEntity createCoin(Vector3D startPosition, int value);
 }

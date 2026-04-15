@@ -15,13 +15,14 @@ uniform vec3 lightDirection;
 uniform vec3 viewPos;
 
 // ==========================================
-// THE DYNAMIC LIGHT SYSTEM
+// THE DYNAMIC LIGHT SYSTEM (AREA LIGHTS)
 // ==========================================
-#define MAX_LIGHTS 4
+#define MAX_LIGHTS 400
 
-uniform int activeLightCount; // How many lights are actually ON right now?
+uniform int activeLightCount;
 uniform vec3 lightPositions[MAX_LIGHTS];
 uniform vec3 lightColors[MAX_LIGHTS];
+uniform float lightRadii[MAX_LIGHTS];
 
 void main()
 {
@@ -31,34 +32,68 @@ void main()
     vec3 normal = normalize(fragNormal);
     vec3 viewDir = normalize(viewPos - fragPosition);
 
-    // 1. The Sun Math (Same as before)
+    // ==========================================
+    // 1. The Sun Math
+    // ==========================================
     vec3 sunLightDir = normalize(lightDirection);
-    float ambient = 0.2;
+    float ambient = 0.3;
     float sunDiff = max(dot(normal, sunLightDir), 0.0);
-    vec3 reflectDir = reflect(-sunLightDir, normal);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 8.0);
-    float sunSpecular = 0.3 * spec;
+
+    vec3 sunReflectDir = reflect(-sunLightDir, normal);
+    float sunSpec = pow(max(dot(viewDir, sunReflectDir), 0.0), 8.0);
+    float sunSpecular = 0.3 * sunSpec;
+
     vec3 sunLighting = (ambient + sunDiff + sunSpecular) * texelColor.rgb;
 
-    // 2. The Dynamic Points Lights
+    // ==========================================
+    // 2. The Spherical Area Lights
+    // ==========================================
     vec3 totalPointLighting = vec3(0.0);
+    vec3 viewReflectDir = reflect(-viewDir, normal);
 
-    // Loop through however many lights Java told us are active!
     for (int i = 0; i < activeLightCount; i++)
     {
-        vec3 pointLightDir = lightPositions[i] - fragPosition;
-        float distance = length(pointLightDir);
-        pointLightDir = normalize(pointLightDir);
+        vec3 lightCenterVector = lightPositions[i] - fragPosition;
+        float centerDist = length(lightCenterVector);
 
-        // Calculate falloff
-        float attenuation = 1.0 / (1.0 + 0.05 * distance + 0.01 * (distance * distance));
+        // --- 1. SURFACE ATTENUATION ---
+        // Calculate falloff from the surface of the sphere, not the center!
+        // If we are inside the sphere, surfaceDist is 0.0 (Max brightness).
+        float surfaceDist = max(centerDist - lightRadii[i], 0.0);
+        float attenuation = 1.0 / (1.0 + 0.05 * surfaceDist + 0.01 * (surfaceDist * surfaceDist));
 
-        float pointDiff = max(dot(normal, pointLightDir), 0.0);
+        // --- 2. VOLUME-AWARE DIFFUSE ---
+        // Shift the effective light position outward along the normal by the radius.
+        // This ensures that if the center is buried, the top of the sphere still illuminates the surface.
+        vec3 diffusePos = lightPositions[i] + normal * lightRadii[i];
+        vec3 diffuseVec = diffusePos - fragPosition;
+        float diffDist = length(diffuseVec);
 
-        // Add this light's contribution to the total!
-        totalPointLighting += (pointDiff * lightColors[i] * attenuation * texelColor.rgb);
+        // Prevent div-by-zero if perfectly overlapped
+        vec3 diffuseDir = diffDist < 0.001 ? normal : diffuseVec / diffDist;
+        float pointDiff = max(dot(normal, diffuseDir), 0.0);
+
+        // --- 3. AREA LIGHT SPECULAR ---
+        // Prevent div-by-zero on the center vector
+        vec3 safeCenterVector = centerDist < 0.001 ? normal : lightCenterVector;
+
+        vec3 centerToRay = (dot(safeCenterVector, viewReflectDir) * viewReflectDir) - safeCenterVector;
+        float rayDist = length(centerToRay);
+
+        vec3 closestPoint = safeCenterVector + centerToRay * clamp(lightRadii[i] / max(rayDist, 0.001), 0.0, 1.0);
+        float specDist = length(closestPoint);
+
+        vec3 specLightDir = specDist < 0.001 ? normal : closestPoint / specDist;
+
+        float pointSpec = pow(max(dot(viewReflectDir, specLightDir), 0.0), 8.0);
+        float pointSpecular = 0.3 * pointSpec;
+
+        // If the surface is facing completely away from the sphere's volume, cull reflection
+        if (pointDiff <= 0.0) pointSpecular = 0.0;
+
+        vec3 lightContribution = (pointDiff + pointSpecular) * lightColors[i] * attenuation;
+        totalPointLighting += (lightContribution * texelColor.rgb);
     }
 
-    // Combine sun and all point lights!
     finalColor = vec4(sunLighting + totalPointLighting, 1.0);
 }

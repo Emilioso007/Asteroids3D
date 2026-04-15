@@ -4,6 +4,7 @@ import io.asteroidsjaylib.common.asteroid.AsteroidSPI;
 import io.asteroidsjaylib.common.asteroid.AsteroidSize;
 import io.asteroidsjaylib.common.asteroid.AsteroidSizeComponent;
 import io.asteroidsjaylib.common.asteroid.AsteroidTag;
+import io.asteroidsjaylib.common.coin.CoinSPI;
 import io.asteroidsjaylib.common.coin.CoinTag;
 import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.collision.CollisionEvent;
@@ -58,13 +59,11 @@ public class AsteroidCollisionResponseSystem implements EventSubscriberSPI {
             }
         }
 
-        /*
         // Publish event
         CoinSPI coinSPI = ServiceLoader.load(CoinSPI.class).findFirst().orElseThrow();
-        Vector2D pos = asteroid.getComponent(PositionComponent.class).orElseThrow().pos.copy();
-        Vector2D vel = Vector2D.randomVector(25);
-        world.getEventBus().publish(world, new SpawnEvent(coinSPI.createCoin(pos, vel, asteroidSize.ordinal()+1)));
-        */
+        Vector3D pos = asteroid.getComponent(PositionComponent.class).pos.copy();
+        world.getEventBus().publish(world, new SpawnEvent(coinSPI.createCoin(pos, asteroidSize.ordinal()+1)));
+
     }
 
 }

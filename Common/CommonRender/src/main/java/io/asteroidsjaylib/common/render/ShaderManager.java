@@ -96,6 +96,26 @@ public class ShaderManager {
 
     }
 
+    public static void setGlobalShaderValue(String uniformName, float value, int uniformType) {
+
+        try (FloatPointer nativePointer = new FloatPointer(1).put(value)){
+
+            for (var shader : shaderMap.values()){
+
+                int loc = Raylib.GetShaderLocation(shader, uniformName);
+
+                if (loc != -1){
+                    Raylib.SetShaderValue(shader, loc, nativePointer, uniformType);
+                }
+
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
     public static void setGlobalShaderValue(String uniformName, int value, int uniformType) {
 
         try (IntPointer nativePointer = new IntPointer(1).put(value)){

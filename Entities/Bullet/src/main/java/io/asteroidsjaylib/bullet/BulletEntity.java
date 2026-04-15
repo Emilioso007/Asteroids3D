@@ -9,11 +9,10 @@ import io.asteroidsjaylib.common.physics3d.PositionComponent;
 import io.asteroidsjaylib.common.physics3d.RotationComponent;
 import io.asteroidsjaylib.common.physics3d.VelocityComponent;
 import io.asteroidsjaylib.common.render.Render3DComponent;
-import io.asteroidsjaylib.common.render.shapes3d.Cube3D;
+import io.asteroidsjaylib.common.render.ShaderManager;
+import io.asteroidsjaylib.common.render.shapes3d.Model3D;
 import io.asteroidsjaylib.common.util.Quaternion;
 import io.asteroidsjaylib.common.util.Vector3D;
-
-import static com.raylib.Colors.*;
 
 import java.time.Duration;
 
@@ -41,7 +40,8 @@ public class BulletEntity extends BaseEntity{
         this.addComponent(lifetimeComponent);
 
         Render3DComponent render3DComponent = new Render3DComponent();
-        Cube3D laser = new Cube3D(80, 5, 5, YELLOW, ORANGE);
+        Model3D laser = new Model3D("/LegoBullet.glb", 1, 90, -90, 0);
+        laser.applyShader(ShaderManager.getShader("solid"));
         render3DComponent.addShape(laser);
         this.addComponent(render3DComponent);
 

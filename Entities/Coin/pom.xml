@@ -55,6 +55,10 @@
             <groupId>io.asteroidsjaylib.common.score</groupId>
             <artifactId>CommonScore</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.asteroidsjaylib.common.physics3d</groupId>
+            <artifactId>CommonPhysics3D</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

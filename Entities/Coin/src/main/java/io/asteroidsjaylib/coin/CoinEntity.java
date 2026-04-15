@@ -1,47 +1,26 @@
 package io.asteroidsjaylib.coin;
 
 import io.asteroidsjaylib.common.coin.CoinTag;
-import io.asteroidsjaylib.common.collision.CircleColliderComponent;
+import io.asteroidsjaylib.common.collision.SphereColliderComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
-import io.asteroidsjaylib.common.outofbounds.BoundsAction;
-import io.asteroidsjaylib.common.outofbounds.OutOfBoundsComponent;
-import io.asteroidsjaylib.common.physics2d.PositionComponent;
-import io.asteroidsjaylib.common.physics2d.VelocityComponent;
-import io.asteroidsjaylib.common.util.Vector2D;
-import io.asteroidsjaylib.common.render.RenderAlign;
-import io.asteroidsjaylib.common.render.RenderTag;
-import io.asteroidsjaylib.common.render.ShapeComponent;
-import io.asteroidsjaylib.common.render.TextComponent;
-import io.asteroidsjaylib.common.render.shapes.Ellipse;
-
-import static com.raylib.Colors.*;
+import io.asteroidsjaylib.common.physics3d.PositionComponent;
+import io.asteroidsjaylib.common.physics3d.RotationComponent;
+import io.asteroidsjaylib.common.render.*;
+import io.asteroidsjaylib.common.render.shapes3d.Model3D;
+import io.asteroidsjaylib.common.util.Vector3D;
 
 public class CoinEntity extends BaseEntity {
 
-    public CoinEntity(Vector2D startPosition, Vector2D startVelocity, int value) {
-        this.addComponent(new PositionComponent(startPosition));
-        this.addComponent(new VelocityComponent(startVelocity));
+    public CoinEntity(Vector3D startPosition, int value) {
         this.addComponent(new CoinTag(value));
+        this.addComponent(new PositionComponent(startPosition));
+        this.addComponent(new RotationComponent());
+        Render3DComponent render3DComponent = new Render3DComponent();
+        Model3D coin = new Model3D("/LegoCoin.glb", 1, 90, -90, 0);
+        coin.applyShader(ShaderManager.getShader("glass"));
+        render3DComponent.addShape(coin);
+        this.addComponent(render3DComponent);
 
-        RenderTag renderTag = new RenderTag(10);
-        ShapeComponent shapeComponent = new ShapeComponent(new Ellipse(16, 16, YELLOW));
-        renderTag.addRenderComponent(shapeComponent, 0);
-
-        String text = value+"";
-        TextComponent textComponent = new TextComponent(text, 12, BLACK);
-        textComponent.horizontalAlign = RenderAlign.CENTER;
-        textComponent.verticalAlign = RenderAlign.CENTER;
-        renderTag.addRenderComponent(textComponent, 1);
-
-        this.addComponent(renderTag);
-
-        CircleColliderComponent circleColliderComponent = new CircleColliderComponent();
-        circleColliderComponent.radius = 8;
-        this.addComponent(circleColliderComponent);
-
-        OutOfBoundsComponent outOfBoundsComponent = new OutOfBoundsComponent();
-        outOfBoundsComponent.boundsAction = BoundsAction.WRAP;
-        this.addComponent(outOfBoundsComponent);
-
+        this.addComponent(new SphereColliderComponent(10));
     }
 }
