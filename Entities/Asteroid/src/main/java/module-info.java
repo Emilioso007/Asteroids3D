@@ -15,6 +15,7 @@ module Asteroid {
     requires CommonCrystal;
     requires CommonPhysics3D;
     requires CommonLifetime;
+    requires CommonEnemy;
 
     provides AsteroidSPI with AsteroidProvider;
     provides EventSubscriberSPI with AsteroidCollisionResponseSystem;

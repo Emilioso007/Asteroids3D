@@ -20,6 +20,8 @@ module Enemy {
     requires CommonCrystal;
     requires CommonPhysics2D;
     requires CommonPhysics3D;
+    requires CommonSpawn;
+    requires CommonAsteroid;
 
     provides EnemySPI with EnemyProvider;
     provides BaseSystem with EnemySystem;

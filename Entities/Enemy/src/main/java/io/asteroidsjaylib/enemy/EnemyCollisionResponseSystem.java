@@ -1,6 +1,7 @@
 package io.asteroidsjaylib.enemy;
 
 import io.asteroidsjaylib.common.IWorld;
+import io.asteroidsjaylib.common.asteroid.AsteroidTag;
 import io.asteroidsjaylib.common.crystal.CrystalTag;
 import io.asteroidsjaylib.common.collision.CollisionEvent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
@@ -28,6 +29,7 @@ public class EnemyCollisionResponseSystem implements EventSubscriberSPI {
 
         // If collider is also enemy, do nothing
         if (collider.hasComponents(EnemyTag.class)) return;
+        if (collider.hasComponents(AsteroidTag.class)) return;
         if (collider.hasComponents(CrystalTag.class)) return;
 
         // If collider owner is enemy, do nothing

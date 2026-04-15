@@ -1,5 +1,6 @@
 package io.asteroidsjaylib.enemy;
 
+import io.asteroidsjaylib.common.collision.SphereColliderComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.enemy.EnemyTag;
 import io.asteroidsjaylib.common.physics3d.PositionComponent;
@@ -38,7 +39,7 @@ public class EnemyEntity extends BaseEntity {
 
         this.addComponent(render3DComponent);
 
-        //this.addComponent(new SphereColliderComponent(80));
+        this.addComponent(new SphereColliderComponent(80));
 
     }
 

@@ -96,4 +96,26 @@ public class Quaternion {
 
     }
 
+    public static Quaternion fromToRotation(Vector3D fromDirection, Vector3D toDirection) {
+        Vector3D from = fromDirection.copy().normalize();
+        Vector3D to = toDirection.copy().normalize();
+
+        float dot = (from.x * to.x) + (from.y * to.y) + (from.z * to.z);
+
+        if (dot > 0.9999f) return new Quaternion(0, 0, 0, 1);
+
+        if (dot < -0.9999f) {
+            return Quaternion.fromAxisAngle(new Vector3D(0, 1, 0), (float) Math.PI);
+        }
+
+        Vector3D axis = new Vector3D(
+                (from.y * to.z) - (from.z * to.y),
+                (from.z * to.x) - (from.x * to.z),
+                (from.x * to.y) - (from.y * to.x)
+        );
+
+        float angle = (float) Math.acos(dot);
+        return Quaternion.fromAxisAngle(axis, angle);
+    }
+
 }

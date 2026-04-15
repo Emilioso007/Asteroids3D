@@ -17,21 +17,15 @@ public class PlayerEntity extends BaseEntity {
 
         this.addComponent(new PlayerTag());
 
-        PositionComponent positionComponent = new PositionComponent(startPosition);
-        this.addComponent(positionComponent);
+        this.addComponent(new PositionComponent(startPosition));
 
-        VelocityComponent velocityComponent = new VelocityComponent();
-        this.addComponent(velocityComponent);
+        this.addComponent(new VelocityComponent());
 
-        AccelerationComponent accelerationComponent = new AccelerationComponent();
-        this.addComponent(accelerationComponent);
+        this.addComponent(new AccelerationComponent());
 
-        RotationComponent rotationComponent = new RotationComponent();
-        this.addComponent(rotationComponent);
+        this.addComponent(new RotationComponent());
 
-        DragComponent dragComponent = new DragComponent();
-        dragComponent.drag = 0.25F;
-        this.addComponent(dragComponent);
+        this.addComponent(new DragComponent(0.25f));
 
         Render3DComponent render3DComponent = new Render3DComponent();
         /*
@@ -52,8 +46,7 @@ public class PlayerEntity extends BaseEntity {
         render3DComponent.setCurrentState("normal");
         this.addComponent(render3DComponent);
 
-        SphereColliderComponent sphereColliderComponent = new SphereColliderComponent(40);
-        this.addComponent(sphereColliderComponent);
+        this.addComponent(new SphereColliderComponent(40));
 
     }
 

@@ -67,6 +67,10 @@
             <groupId>io.asteroidsjaylib.common.physics3d</groupId>
             <artifactId>CommonPhysics3D</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.asteroidsjaylib.common.asteroid</groupId>
+            <artifactId>CommonAsteroid</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

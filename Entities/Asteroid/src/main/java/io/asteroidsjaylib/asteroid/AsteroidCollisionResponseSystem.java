@@ -9,6 +9,7 @@ import io.asteroidsjaylib.common.crystal.CrystalTag;
 import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.collision.CollisionEvent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
+import io.asteroidsjaylib.common.enemy.EnemyTag;
 import io.asteroidsjaylib.common.event.BaseEvent;
 import io.asteroidsjaylib.common.event.EventSubscriberSPI;
 import io.asteroidsjaylib.common.event.EventSubscription;
@@ -36,6 +37,7 @@ public class AsteroidCollisionResponseSystem implements EventSubscriberSPI {
 
         // If collider is also asteroid, do nothing
         if (collider.hasComponents(AsteroidTag.class)) return;
+        if (collider.hasComponents(EnemyTag.class)) return;
         if (collider.hasComponents(CrystalTag.class)) return;
 
         if (collider.isToBeRemoved()) return;

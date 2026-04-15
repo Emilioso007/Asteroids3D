@@ -20,24 +20,17 @@ public class BulletEntity extends BaseEntity{
 
     public BulletEntity(BaseEntity owner, Vector3D startPosition, Vector3D velocity, Quaternion rotation) {
 
-        OwnershipComponent ownershipComponent = new OwnershipComponent();
-        ownershipComponent.owner = owner;
-        this.addComponent(ownershipComponent);
+        this.addComponent(new OwnershipComponent(owner));
 
         this.addComponent(new BulletTag());
 
-        PositionComponent positionComponent = new PositionComponent(startPosition);
-        this.addComponent(positionComponent);
+        this.addComponent(new PositionComponent(startPosition));
 
-        VelocityComponent velocityComponent = new VelocityComponent();
-        velocityComponent.vel = velocity;
-        this.addComponent(velocityComponent);
+        this.addComponent(new VelocityComponent(velocity));
 
-        RotationComponent rotationComponent = new RotationComponent(rotation);
-        this.addComponent(rotationComponent);
+        this.addComponent(new RotationComponent(rotation));
 
-        LifetimeComponent lifetimeComponent = new LifetimeComponent(Duration.ofSeconds(2));
-        this.addComponent(lifetimeComponent);
+        this.addComponent(new LifetimeComponent(Duration.ofSeconds(2)));
 
         Render3DComponent render3DComponent = new Render3DComponent();
         Model3D laser = new Model3D("/LegoBullet.glb", 1, 90, -90, 0);
@@ -45,8 +38,7 @@ public class BulletEntity extends BaseEntity{
         render3DComponent.addShape(laser);
         this.addComponent(render3DComponent);
 
-        SphereColliderComponent sphereColliderComponent = new SphereColliderComponent(10);
-        this.addComponent(sphereColliderComponent);
+        this.addComponent(new SphereColliderComponent(10));
 
     }
 }
