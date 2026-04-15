@@ -28,8 +28,8 @@
             <artifactId>CommonPhysics2D</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.asteroidsjaylib.common.outofbounds</groupId>
-            <artifactId>CommonOutOfBounds</artifactId>
+            <groupId>io.asteroidsjaylib.common.physics3d</groupId>
+            <artifactId>CommonPhysics3D</artifactId>
         </dependency>
     </dependencies>
 

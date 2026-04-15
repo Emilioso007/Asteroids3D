@@ -30,6 +30,12 @@ public final class World implements IWorld {
     private float deltaTime;
 
     private final Map<BaseSystem, List<BaseEntity>> systemEntityCache = new HashMap<>();
+    private final float worldSize;
+
+    @Override
+    public float getWorldSize() {
+        return this.worldSize;
+    }
 
     public World(){
         this.camera = new Camera3D();
@@ -48,6 +54,7 @@ public final class World implements IWorld {
                 Comparator.comparing(BaseSystem::getPriority)
                 .thenComparing(system -> system.getClass().getName());
         this.systems = new TreeSet<>(systemComparator);
+        worldSize = 20000;
     }
 
     @Override

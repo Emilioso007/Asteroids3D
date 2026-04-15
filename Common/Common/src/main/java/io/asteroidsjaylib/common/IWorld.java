@@ -55,4 +55,5 @@ public interface IWorld {
 
     Vector3D getCameraShake();
 
+    float getWorldSize();
 }

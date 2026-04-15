@@ -19,7 +19,6 @@
         <module>Common/CommonCollision</module>
         <module>Common/CommonEnemy</module>
         <module>Common/CommonLifetime</module>
-        <module>Common/CommonOutOfBounds</module>
         <module>Common/CommonPhysics2D</module>
         <module>Common/CommonPhysics3D</module>
         <module>Common/CommonPlayer</module>
@@ -142,11 +141,6 @@
             <dependency>
                 <groupId>io.asteroidsjaylib.common.lifetime</groupId>
                 <artifactId>CommonLifetime</artifactId>
-                <version>1.0-SNAPSHOT</version>
-            </dependency>
-            <dependency>
-                <groupId>io.asteroidsjaylib.common.outofbounds</groupId>
-                <artifactId>CommonOutOfBounds</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
             <dependency>

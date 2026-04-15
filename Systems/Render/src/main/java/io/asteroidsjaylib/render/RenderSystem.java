@@ -25,6 +25,7 @@ import static com.raylib.Raylib.*;
 public class RenderSystem extends BulkSystem {
 
     private static final Vector3 RL_VEC_SCRATCHPAD = new Vector3();
+    private static final Vector3D GHOST_POS_SCRATCHPAD = new Vector3D();
     private Vector3D smoothedCameraPos = null;
     private Vector3D smoothedCameraTarget = null;
     private Vector3D smoothedCameraUp = null;
@@ -34,10 +35,19 @@ public class RenderSystem extends BulkSystem {
     private final float upLerpSpeed = 2.0f;
 
     private Model skyboxModel;
+    private float MAP_SIZE;
+    private float MAP_BOUNDS;
+    private float BORDER_DIST;
+
+    private static final float[] timeArr = new float[1];
 
     @Override
     public void start(IWorld world) {
         this.setPriority(100);
+
+        MAP_SIZE = world.getWorldSize();
+        MAP_BOUNDS = MAP_SIZE / 2.0f;
+        BORDER_DIST = 5000;
 
         String texPath = ResourceLoader.getAsAbsolutePath("/stars.png");
         Texture starsTexture = Raylib.LoadTexture(texPath);
@@ -76,6 +86,37 @@ public class RenderSystem extends BulkSystem {
                 smoothedCameraTarget = desiredCameraTarget.copy();
                 smoothedCameraUp = desiredCameraUp.copy();
             } else {
+
+                // X Axis Check
+                float dx = desiredCameraPos.x - smoothedCameraPos.x;
+                if (dx > MAP_BOUNDS) {
+                    smoothedCameraPos.x += MAP_SIZE;
+                    smoothedCameraTarget.x += MAP_SIZE;
+                } else if (dx < -MAP_BOUNDS) {
+                    smoothedCameraPos.x -= MAP_SIZE;
+                    smoothedCameraTarget.x -= MAP_SIZE;
+                }
+
+                // Y Axis Check
+                float dy = desiredCameraPos.y - smoothedCameraPos.y;
+                if (dy > MAP_BOUNDS) {
+                    smoothedCameraPos.y += MAP_SIZE;
+                    smoothedCameraTarget.y += MAP_SIZE;
+                } else if (dy < -MAP_BOUNDS) {
+                    smoothedCameraPos.y -= MAP_SIZE;
+                    smoothedCameraTarget.y -= MAP_SIZE;
+                }
+
+                // Z Axis Check
+                float dz = desiredCameraPos.z - smoothedCameraPos.z;
+                if (dz > MAP_BOUNDS) {
+                    smoothedCameraPos.z += MAP_SIZE;
+                    smoothedCameraTarget.z += MAP_SIZE;
+                } else if (dz < -MAP_BOUNDS) {
+                    smoothedCameraPos.z -= MAP_SIZE;
+                    smoothedCameraTarget.z -= MAP_SIZE;
+                }
+
                 // Smoothly interpolate (Lerp) from current position to the desired position
                 // Formula: current = current + (desired - current) * lerpSpeed * deltaTime
                 smoothedCameraPos.add(desiredCameraPos.copy().sub(smoothedCameraPos).mult(posLerpSpeed * deltaTime));
@@ -95,8 +136,8 @@ public class RenderSystem extends BulkSystem {
             ShaderManager.setGlobalShaderValue("lightDirection", sunDirection, SHADER_UNIFORM_VEC3);
         }
 
-        float currentTime = (float) GetTime();
-        ShaderManager.setGlobalShaderValue("time", new float[]{currentTime}, SHADER_UNIFORM_FLOAT);
+        timeArr[0] = (float) GetTime();
+        ShaderManager.setGlobalShaderValue("time", timeArr, SHADER_UNIFORM_FLOAT);
 
         rlSetClipPlanes(1.0, 5000);
         BeginMode3D(camera);
@@ -118,9 +159,40 @@ public class RenderSystem extends BulkSystem {
 
             Render3DComponent render3DComponent = entity.getComponent(Render3DComponent.class);
 
-            for (Base3DShape shape : render3DComponent.getActiveShapes()){
-                drawShape(shape, pos, angle, axis);
+            // --- GHOST RENDERING MATH ---
+
+            // 1. Calculate primitive offsets (0f if not near a border)
+            float ghostX = (pos.x > MAP_BOUNDS - BORDER_DIST) ? -MAP_SIZE : (pos.x < -MAP_BOUNDS + BORDER_DIST) ? MAP_SIZE : 0f;
+            float ghostY = (pos.y > MAP_BOUNDS - BORDER_DIST) ? -MAP_SIZE : (pos.y < -MAP_BOUNDS + BORDER_DIST) ? MAP_SIZE : 0f;
+            float ghostZ = (pos.z > MAP_BOUNDS - BORDER_DIST) ? -MAP_SIZE : (pos.z < -MAP_BOUNDS + BORDER_DIST) ? MAP_SIZE : 0f;
+
+            // 2. Loop 1 or 2 times per axis
+            int xCount = (ghostX != 0f) ? 2 : 1;
+            int yCount = (ghostY != 0f) ? 2 : 1;
+            int zCount = (ghostZ != 0f) ? 2 : 1;
+
+            for (int ix = 0; ix < xCount; ix++) {
+                float ox = (ix == 0) ? 0f : ghostX;
+
+                for (int iy = 0; iy < yCount; iy++) {
+                    float oy = (iy == 0) ? 0f : ghostY;
+
+                    for (int iz = 0; iz < zCount; iz++) {
+                        float oz = (iz == 0) ? 0f : ghostZ;
+
+                        // Mutate our scratchpad to the new ghost coordinates
+                        GHOST_POS_SCRATCHPAD.x = pos.x + ox;
+                        GHOST_POS_SCRATCHPAD.y = pos.y + oy;
+                        GHOST_POS_SCRATCHPAD.z = pos.z + oz;
+
+                        // Draw the shapes at the calculated position!
+                        for (Base3DShape shape : render3DComponent.getActiveShapes()){
+                            drawShape(shape, GHOST_POS_SCRATCHPAD, angle, axis);
+                        }
+                    }
+                }
             }
+            // --- GHOST RENDERING END ---
 
         }
 

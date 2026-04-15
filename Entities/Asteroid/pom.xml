@@ -48,10 +48,6 @@
             <artifactId>CommonRender</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.asteroidsjaylib.common.outofbounds</groupId>
-            <artifactId>CommonOutOfBounds</artifactId>
-        </dependency>
-        <dependency>
             <groupId>io.asteroidsjaylib.common.physics3d</groupId>
             <artifactId>CommonPhysics3D</artifactId>
             <version>1.0-SNAPSHOT</version>
