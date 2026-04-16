@@ -46,8 +46,6 @@ public class Game {
 
         while(!WindowShouldClose() && running) {
 
-            //UpdateCamera(world.getCamera(), CAMERA_FIRST_PERSON);
-
             processInput();
 
             BeginDrawing();
@@ -89,7 +87,7 @@ public class Game {
                 world.getEventBus().publish(world, new KeyReleasedEvent(i));
             }
         }
-        /*
+        /* TODO: fix mouse clicks
         Vector2D screenPosition = new Vector2D(GetMouseX(), GetMouseY());
         Vector2D worldPosition = new Vector2D(GetScreenToWorld2D(screenPosition, world.getCamera()));
 

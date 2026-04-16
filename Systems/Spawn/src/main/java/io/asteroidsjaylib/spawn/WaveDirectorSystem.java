@@ -11,6 +11,7 @@ import io.asteroidsjaylib.common.enemy.EnemySPI;
 import io.asteroidsjaylib.common.enemy.EnemyTag;
 import io.asteroidsjaylib.common.player.PlayerTag;
 import io.asteroidsjaylib.common.spawn.SpawnEvent;
+import io.asteroidsjaylib.common.util.Quaternion;
 import io.asteroidsjaylib.common.util.Vector3D;
 
 import java.util.List;
@@ -51,6 +52,7 @@ public class WaveDirectorSystem extends BulkSystem {
                     new SpawnEvent(asteroidSPI.createAsteroid(
                                     new Vector3D(1000, 1000, 0),
                                     new Vector3D(-50+random.nextFloat()*100, -50+random.nextFloat()*100, -50+random.nextFloat()*100),
+                                    Quaternion.randomQuaternion(),
                                     AsteroidType.Full)));
         }
 

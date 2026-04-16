@@ -28,15 +28,6 @@ public class PlayerEntity extends BaseEntity {
         this.addComponent(new DragComponent(0.25f));
 
         Render3DComponent render3DComponent = new Render3DComponent();
-        /*
-        Cube3D cube3D = new Cube3D(100, 40, 40, RED, WHITE);
-        render3DComponent.shapes.add(cube3D);
-        */
-        /*
-        Sphere3D sphere3D = new Sphere3D(40, BLANK, WHITE);
-        render3DComponent.shapes.add(sphere3D);
-        */
-
         Model3D normal = new Model3D("/LegoSpaceship.glb", 1, 90,-90,0);
         normal.applyShader(ShaderManager.getShader("solid"));
         render3DComponent.addShape(normal, List.of("normal", "thrust"));

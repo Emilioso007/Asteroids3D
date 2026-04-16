@@ -2,6 +2,8 @@ package io.asteroidsjaylib.common.util;
 
 import com.raylib.Raylib.*;
 
+import java.util.Random;
+
 public class Quaternion {
 
     public float x, y, z, w;
@@ -116,6 +118,11 @@ public class Quaternion {
 
         float angle = (float) Math.acos(dot);
         return Quaternion.fromAxisAngle(axis, angle);
+    }
+
+    public static Quaternion randomQuaternion(){
+        Random random = new Random();
+        return new Quaternion(random.nextFloat(-1, 1),random.nextFloat(-1, 1),random.nextFloat(-1, 1),random.nextFloat(-1, 1));
     }
 
 }

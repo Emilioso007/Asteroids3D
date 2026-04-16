@@ -30,9 +30,12 @@ public class PlayerThreadmillSystem extends BulkSystem {
 
         for (BaseEntity entity : entities){
 
+            if (entity.hasComponents(PlayerTag.class)) continue;
             entity.getComponent(PositionComponent.class).pos.sub(playerPos);
 
         }
+
+        playerPos.mult(0);
 
     }
 }

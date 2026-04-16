@@ -20,24 +20,17 @@ import java.util.Random;
 
 public class AsteroidEntity extends BaseEntity {
 
-    public AsteroidEntity(Vector3D startPosition, Vector3D startVelocity, AsteroidType type){
+    public AsteroidEntity(Vector3D startPosition, Vector3D startVelocity, Quaternion rotation, AsteroidType type){
 
         this.addComponent(new AsteroidTag());
 
         this.addComponent(new AsteroidTypeComponent(type));
 
-        Random random = new Random();
-
         this.addComponent(new PositionComponent(startPosition));
 
         this.addComponent(new VelocityComponent(startVelocity));
 
-        float x = random.nextFloat(-1, 1);
-        float y = random.nextFloat(-1, 1);
-        float z = random.nextFloat(-1, 1);
-        float w = 1;
-
-        this.addComponent(new RotationComponent(new Quaternion(x, y, z, w)));
+        this.addComponent(new RotationComponent(rotation));
 
         Render3DComponent render3DComponent = new Render3DComponent();
 

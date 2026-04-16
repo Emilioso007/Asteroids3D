@@ -56,14 +56,16 @@ public class AsteroidCollisionResponseSystem implements EventSubscriberSPI {
             world.getEventBus().publish(world,
                     new SpawnEvent(asteroidSPI.createAsteroid(
                             asteroid.getComponent(PositionComponent.class).pos.copy(),
-                            asteroid.getComponent(RotationComponent.class).quaternion.getAxis().copy().mult(10),
+                            asteroid.getComponent(RotationComponent.class).quaternion.rotateVector(new Vector3D(0, 0, 1)).mult(10),
+                            asteroid.getComponent(RotationComponent.class).quaternion.copy(),
                             AsteroidType.Top
                     )));
 
             world.getEventBus().publish(world,
                     new SpawnEvent(asteroidSPI.createAsteroid(
                             asteroid.getComponent(PositionComponent.class).pos.copy(),
-                            asteroid.getComponent(RotationComponent.class).quaternion.getAxis().copy().mult(-10),
+                            asteroid.getComponent(RotationComponent.class).quaternion.rotateVector(new Vector3D(0, 0, 1)).mult(-10),
+                            asteroid.getComponent(RotationComponent.class).quaternion.copy(),
                             AsteroidType.Bottom
                     )));
 
@@ -71,7 +73,7 @@ public class AsteroidCollisionResponseSystem implements EventSubscriberSPI {
 
         CrystalSPI crystalSPI = ServiceLoader.load(CrystalSPI.class).findFirst().orElseThrow();
         Vector3D pos = asteroid.getComponent(PositionComponent.class).pos.copy();
-        world.getEventBus().publish(world, new SpawnEvent(crystalSPI.createCrystal(pos, type.ordinal()+1)));
+        world.getEventBus().publish(world, new SpawnEvent(crystalSPI.createCrystal(pos, asteroid.getComponent(RotationComponent.class).quaternion, type.ordinal()+1)));
 
     }
 
