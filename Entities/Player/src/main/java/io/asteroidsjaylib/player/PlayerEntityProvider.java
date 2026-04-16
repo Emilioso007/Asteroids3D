@@ -7,6 +7,6 @@ import io.asteroidsjaylib.common.util.Vector3D;
 public class PlayerEntityProvider implements EntitySpi {
     @Override
     public void start(IWorld world) {
-        world.addEntity(new PlayerEntity(new Vector3D(-2500, 0, 0)));
+        world.addEntity(new PlayerEntity(new Vector3D(0, 0, 0)));
     }
 }

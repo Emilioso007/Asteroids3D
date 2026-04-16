@@ -2,10 +2,7 @@ import io.asteroidsjaylib.common.bullet.BulletSPI;
 import io.asteroidsjaylib.common.ecs.BaseSystem;
 import io.asteroidsjaylib.common.ecs.EntitySpi;
 import io.asteroidsjaylib.common.event.EventSubscriberSPI;
-import io.asteroidsjaylib.player.PlayerCollisionResponseSystem;
-import io.asteroidsjaylib.player.PlayerEntityProvider;
-import io.asteroidsjaylib.player.PlayerMovementSystem;
-import io.asteroidsjaylib.player.PlayerShootingSystem;
+import io.asteroidsjaylib.player.*;
 
 module Player {
     uses BulletSPI;
@@ -21,6 +18,6 @@ module Player {
     requires CommonPhysics3D;
 
     provides EntitySpi with PlayerEntityProvider;
-    provides BaseSystem with PlayerMovementSystem, PlayerShootingSystem;
+    provides BaseSystem with PlayerMovementSystem, PlayerShootingSystem, PlayerThreadmillSystem;
     provides EventSubscriberSPI with PlayerCollisionResponseSystem;
 }

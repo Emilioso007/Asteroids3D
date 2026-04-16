@@ -49,14 +49,14 @@ public class WaveDirectorSystem extends BulkSystem {
         for(int i = 0; i < 5; i++){
             world.getEventBus().publish(world,
                     new SpawnEvent(asteroidSPI.createAsteroid(
-                                    new Vector3D(),
+                                    new Vector3D(1000, 1000, 0),
                                     new Vector3D(-50+random.nextFloat()*100, -50+random.nextFloat()*100, -50+random.nextFloat()*100),
                                     AsteroidType.Full)));
         }
 
         for (int i = 0; i < 1; i++){
             world.getEventBus().publish(world,
-                    new SpawnEvent(enemySPI.createEnemy(new Vector3D(100, 0, 0))));
+                    new SpawnEvent(enemySPI.createEnemy(new Vector3D(1000, 0, 0))));
         }
 
     }

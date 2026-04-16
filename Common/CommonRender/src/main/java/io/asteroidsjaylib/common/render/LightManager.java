@@ -16,10 +16,6 @@ public class LightManager {
 
     private static int activeCount = 0;
 
-    private static final float MAP_BOUNDS = 10000f;
-    private static final float MAP_SIZE = 20000f;
-    private static final float BORDER_DIST = 5000f;
-
     static {
         for (int i = 0; i < MAX_LIGHTS; i++) {
             lightPositions[i] = new Vector3();
@@ -33,36 +29,15 @@ public class LightManager {
 
     public static void addLightSphere(float px, float py, float pz, float radius, float r, float g, float b){
 
-        // Calculate the optional ghost offset for each axis (0f if not near a border)
-        float ghostX = (px > MAP_BOUNDS - BORDER_DIST) ? -MAP_SIZE : (px < -MAP_BOUNDS + BORDER_DIST) ? MAP_SIZE : 0f;
-        float ghostY = (py > MAP_BOUNDS - BORDER_DIST) ? -MAP_SIZE : (py < -MAP_BOUNDS + BORDER_DIST) ? MAP_SIZE : 0f;
-        float ghostZ = (pz > MAP_BOUNDS - BORDER_DIST) ? -MAP_SIZE : (pz < -MAP_BOUNDS + BORDER_DIST) ? MAP_SIZE : 0f;
+        if (activeCount >= MAX_LIGHTS) return;
 
-        // Loop 1 or 2 times per axis based on whether a ghost offset exists
-        int xCount = (ghostX != 0f) ? 2 : 1;
-        int yCount = (ghostY != 0f) ? 2 : 1;
-        int zCount = (ghostZ != 0f) ? 2 : 1;
+        // Apply the offsets safely
+        lightPositions[activeCount].x(px).y(py).z(pz);
+        lightColors[activeCount].x(r).y(g).z(b);
+        lightRadii[activeCount] = radius;
 
-        for (int ix = 0; ix < xCount; ix++) {
-            float ox = (ix == 0) ? 0f : ghostX; // 1st pass: no offset. 2nd pass: apply ghost offset.
+        activeCount++;
 
-            for (int iy = 0; iy < yCount; iy++) {
-                float oy = (iy == 0) ? 0f : ghostY;
-
-                for (int iz = 0; iz < zCount; iz++) {
-                    float oz = (iz == 0) ? 0f : ghostZ;
-
-                    if (activeCount >= MAX_LIGHTS) return;
-
-                    // Apply the offsets safely
-                    lightPositions[activeCount].x(px + ox).y(py + oy).z(pz + oz);
-                    lightColors[activeCount].x(r).y(g).z(b);
-                    lightRadii[activeCount] = radius;
-
-                    activeCount++;
-                }
-            }
-        }
     }
 
     public static void addLightSource(float px, float py, float pz, float r, float g, float b) {
