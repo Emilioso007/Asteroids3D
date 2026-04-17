@@ -22,6 +22,13 @@ public class Vector3D {
         this(vector3.x(), vector3.y(), vector3.z());
     }
 
+    public Vector3D set(float x, float y, float z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        return this;
+    }
+
     public Vector3 toVector3(Vector3 outNativeVector){
         return outNativeVector.x(x).y(y).z(z);
     }

@@ -30,7 +30,7 @@ public class PlayerShootingSystem extends IteratingSystem {
     @Override
     public void start(IWorld world) {
         this.setPriority(12);
-        bulletSPI = ServiceLoader.load(BulletSPI.class).findFirst().orElseThrow();
+        bulletSPI = ServiceLoader.load(BulletSPI.class).findFirst().orElse(null);
         world.getEventBus().subscribe(KeyPressedEvent.class, this::keyPressed);
         world.getEventBus().subscribe(KeyReleasedEvent.class, this::keyReleased);
     }
@@ -56,6 +56,8 @@ public class PlayerShootingSystem extends IteratingSystem {
     }
 
     private void shoot(IWorld world, BaseEntity player) {
+
+        if(bulletSPI == null) return;
 
         Vector3D playerPos = player.getComponent(PositionComponent.class).pos;
         Vector3D playerVel = player.getComponent(VelocityComponent.class).vel;

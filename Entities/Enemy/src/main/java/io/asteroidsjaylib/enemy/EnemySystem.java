@@ -17,14 +17,20 @@ import java.util.ServiceLoader;
 
 public class EnemySystem extends IntervalIteratingSystem {
 
+    private final Vector3D VECTOR3D_SCRATCHPAD = new Vector3D();
+    private BulletSPI bulletSPI;
+
     @Override
     public void start(IWorld world) {
         this.setPriority(30);
         this.interval = 2.0;
+        bulletSPI = ServiceLoader.load(BulletSPI.class).findFirst().orElse(null);
     }
 
     @Override
     public void updateInterval(IWorld world, BaseEntity enemy, double deltaTime) {
+
+        if (bulletSPI == null) return;
         if(!world.hasEntitiesWith(PlayerTag.class)) return;
 
         BaseEntity player = world.getEntitiesWith(PlayerTag.class).getFirst();
@@ -38,10 +44,9 @@ public class EnemySystem extends IntervalIteratingSystem {
         Vector3D direction = playerPosition.pos.copy().sub(enemyPosition.pos).normalize();
         Vector3D bulletVelocity = direction.copy().setMag(1250);
 
-        Vector3D defaultForward = new Vector3D(1, 0, 0);
+        Vector3D defaultForward = VECTOR3D_SCRATCHPAD.set(1, 0, 0);
         Quaternion aimRotation = Quaternion.fromToRotation(defaultForward, direction);
 
-        BulletSPI bulletSPI = ServiceLoader.load(BulletSPI.class).findFirst().orElseThrow();
         world.getEventBus().publish(world, new SpawnEvent(bulletSPI.CreateBullet(enemy, bulletStart, bulletVelocity, aimRotation)));
 
     }

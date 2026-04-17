@@ -31,8 +31,10 @@ public class MainMenu implements IGameStateProvider {
             world.addSystem(system);
         }
 
-        world.addEntity(ServiceLoader.load(ButtonSPI.class).findFirst().orElseThrow().createButton("START_GAME_BUTTON", new Vector2D((float) world.getScreenWidth() /2, (float) world.getScreenHeight() /2 - 50), "Start game!"));
-        world.addEntity(ServiceLoader.load(ButtonSPI.class).findFirst().orElseThrow().createButton("QUIT_GAME_BUTTON", new Vector2D((float) world.getScreenWidth() /2, (float) world.getScreenHeight() /2 + 50), "Quit game!"));
+        ButtonSPI buttonSPI = ServiceLoader.load(ButtonSPI.class).findFirst().orElse(null);
+        if (buttonSPI == null) return;
+        world.addEntity(buttonSPI.createButton("START_GAME_BUTTON", new Vector2D((float) world.getScreenWidth() /2, (float) world.getScreenHeight() /2 - 50), "Start game!"));
+        world.addEntity(buttonSPI.createButton("QUIT_GAME_BUTTON", new Vector2D((float) world.getScreenWidth() /2, (float) world.getScreenHeight() /2 + 50), "Quit game!"));
 
         world.getEventBus().subscribe(ClickedEvent.class, this::clicked);
     }
