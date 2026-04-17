@@ -23,6 +23,11 @@ public class AccelerationSystem extends IteratingSystem {
         Vector3D acceleration = entity.getComponent(AccelerationComponent.class).acc;
         velocity.add(acceleration.x * deltaTime, acceleration.y * deltaTime, acceleration.z * deltaTime);
         acceleration.mult(0);
+
+        float terminalVelocity = entity.getComponent(VelocityComponent.class).terminalVelocity;
+        if(terminalVelocity > 0){
+            velocity.limit(terminalVelocity);
+        }
     }
 
     @Override

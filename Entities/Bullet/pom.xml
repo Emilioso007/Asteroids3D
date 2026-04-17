@@ -51,6 +51,18 @@
             <groupId>io.asteroidsjaylib.common.physics3d</groupId>
             <artifactId>CommonPhysics3D</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.asteroidsjaylib.common.player</groupId>
+            <artifactId>CommonPlayer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.asteroidsjaylib.common.asteroid</groupId>
+            <artifactId>CommonAsteroid</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.asteroidsjaylib.common.enemy</groupId>
+            <artifactId>CommonEnemy</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

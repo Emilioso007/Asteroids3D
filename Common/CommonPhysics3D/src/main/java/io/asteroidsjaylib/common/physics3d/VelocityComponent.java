@@ -5,6 +5,7 @@ import io.asteroidsjaylib.common.util.Vector3D;
 
 public class VelocityComponent extends BaseComponent {
     public Vector3D vel;
+    public float terminalVelocity = 0;
 
     public VelocityComponent(){
         this.vel = new Vector3D();

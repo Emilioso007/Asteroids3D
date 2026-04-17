@@ -5,6 +5,7 @@ import io.asteroidsjaylib.common.collision.SphereColliderComponent;
 import io.asteroidsjaylib.common.lifetime.LifetimeComponent;
 import io.asteroidsjaylib.common.ownership.OwnershipComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
+import io.asteroidsjaylib.common.physics3d.AccelerationComponent;
 import io.asteroidsjaylib.common.physics3d.PositionComponent;
 import io.asteroidsjaylib.common.physics3d.RotationComponent;
 import io.asteroidsjaylib.common.physics3d.VelocityComponent;
@@ -26,7 +27,11 @@ public class BulletEntity extends BaseEntity{
 
         this.addComponent(new PositionComponent(startPosition));
 
-        this.addComponent(new VelocityComponent(velocity));
+        VelocityComponent velocityComponent = new VelocityComponent(velocity);
+        velocityComponent.terminalVelocity = 2500;
+        this.addComponent(velocityComponent);
+
+        this.addComponent(new AccelerationComponent());
 
         this.addComponent(new RotationComponent(rotation));
 
