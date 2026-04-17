@@ -2,8 +2,11 @@ package io.asteroidsjaylib.common.util;
 
 import com.raylib.Raylib.Vector3;
 
+import java.util.Random;
+
 public class Vector3D {
 
+    private static final Random random = new Random();
     public float x, y, z;
 
     public Vector3D(){
@@ -20,6 +23,18 @@ public class Vector3D {
 
     public Vector3D(Vector3 vector3){
         this(vector3.x(), vector3.y(), vector3.z());
+    }
+
+    public static Vector3D random() {
+        float theta = random.nextFloat(0, (float) (2 * Math.PI));
+        float z = random.nextFloat(-1, 1);
+
+        float r = (float) Math.sqrt(1 - z * z);
+
+        float x = r * (float) Math.cos(theta);
+        float y = r * (float) Math.sin(theta);
+
+        return new Vector3D(x, y, z);
     }
 
     public Vector3D set(float x, float y, float z) {

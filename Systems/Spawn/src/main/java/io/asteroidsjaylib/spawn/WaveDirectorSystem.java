@@ -43,9 +43,12 @@ public class WaveDirectorSystem extends BulkSystem {
 
         if (asteroidSPI != null) {
             for (int i = 0; i < 5; i++) {
+
+                Vector3D position = Vector3D.random().mult(world.getWorldSize()/2);
+
                 world.getEventBus().publish(world,
                         new SpawnEvent(asteroidSPI.createAsteroid(
-                                new Vector3D(1000, 1000, 0),
+                                position,
                                 new Vector3D(-50 + random.nextFloat() * 100, -50 + random.nextFloat() * 100, -50 + random.nextFloat() * 100),
                                 Quaternion.randomQuaternion(),
                                 AsteroidType.Full)));
@@ -54,8 +57,10 @@ public class WaveDirectorSystem extends BulkSystem {
 
         if (enemySPI != null) {
             for (int i = 0; i < 1; i++) {
-                world.getEventBus().publish(world,
-                        new SpawnEvent(enemySPI.createEnemy(new Vector3D(1000, 0, 0))));
+
+                Vector3D position = Vector3D.random().mult(world.getWorldSize()/2);
+
+                world.getEventBus().publish(world, new SpawnEvent(enemySPI.createEnemy(position)));
             }
         }
 
