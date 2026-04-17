@@ -27,7 +27,6 @@ public class CrystalCollisionResponseSystem implements EventSubscriberSPI {
         if(!other.hasComponents(PlayerTag.class)) return;
 
         crystal.setToBeRemoved(true);
-        world.getEventBus().publish(world, new IncrementScoreEvent(crystal.getComponent(CrystalTag.class).value));
-
+        world.getEventBus().publish(world, new IncrementScoreEvent(1));
     }
 }

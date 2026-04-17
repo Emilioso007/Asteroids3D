@@ -23,58 +23,65 @@ import java.util.ServiceLoader;
 
 public class AsteroidCollisionResponseSystem implements EventSubscriberSPI {
 
+    private final AsteroidSPI asteroidSPI;
+    private final CrystalSPI crystalSPI;
+
+    public AsteroidCollisionResponseSystem() {
+        this.asteroidSPI = ServiceLoader.load(AsteroidSPI.class).findFirst().orElse(null);
+        this.crystalSPI = ServiceLoader.load(CrystalSPI.class).findFirst().orElse(null);
+    }
+
     @Override
     public List<EventSubscription<? extends BaseEvent>> getEventSubscriptions() {
         return List.of(new EventSubscription<>(CollisionEvent.class, this::handleCollision));
     }
 
     private void handleCollision(IWorld world, CollisionEvent event) {
-        // If no asteroid in collision, do nothing
+
+        // Check if collision is valid/our concern.
         if(!event.hasEntityWith(AsteroidTag.class)) return;
 
         BaseEntity asteroid = event.getEntityWith(AsteroidTag.class);
         BaseEntity collider = event.getOther(asteroid);
 
-        // If collider is also asteroid, do nothing
         if (collider.hasComponents(AsteroidTag.class)) return;
         if (collider.hasComponents(EnemyTag.class)) return;
         if (collider.hasComponents(CrystalTag.class)) return;
-
         if (collider.isToBeRemoved()) return;
 
-
-        // Mark asteroid to be removed
+        // Base Logic: Always destroy asteroid on valid hit
         asteroid.setToBeRemoved(true);
 
-        // Split asteroid in two and reveal crystal inside
-        AsteroidSPI asteroidSPI = ServiceLoader.load(AsteroidSPI.class).findFirst().orElseThrow();
+        // Extended logic: Split asteroid into two shells. Only possible if asteroidSPI is not null.
+        if (asteroidSPI != null) {
 
-        AsteroidType type = asteroid.getComponent(AsteroidTypeComponent.class).type;
+            AsteroidType type = asteroid.getComponent(AsteroidTypeComponent.class).type;
+            if (type == AsteroidType.Full) {
 
-        if (type == AsteroidType.Full){
+                world.getEventBus().publish(world,
+                        new SpawnEvent(asteroidSPI.createAsteroid(
+                                asteroid.getComponent(PositionComponent.class).pos.copy(),
+                                asteroid.getComponent(RotationComponent.class).quaternion.rotateVector(new Vector3D(0, 0, 1)).mult(10),
+                                asteroid.getComponent(RotationComponent.class).quaternion.copy(),
+                                AsteroidType.Top
+                        )));
 
-            world.getEventBus().publish(world,
-                    new SpawnEvent(asteroidSPI.createAsteroid(
-                            asteroid.getComponent(PositionComponent.class).pos.copy(),
-                            asteroid.getComponent(RotationComponent.class).quaternion.rotateVector(new Vector3D(0, 0, 1)).mult(10),
-                            asteroid.getComponent(RotationComponent.class).quaternion.copy(),
-                            AsteroidType.Top
-                    )));
+                world.getEventBus().publish(world,
+                        new SpawnEvent(asteroidSPI.createAsteroid(
+                                asteroid.getComponent(PositionComponent.class).pos.copy(),
+                                asteroid.getComponent(RotationComponent.class).quaternion.rotateVector(new Vector3D(0, 0, 1)).mult(-10),
+                                asteroid.getComponent(RotationComponent.class).quaternion.copy(),
+                                AsteroidType.Bottom
+                        )));
 
-            world.getEventBus().publish(world,
-                    new SpawnEvent(asteroidSPI.createAsteroid(
-                            asteroid.getComponent(PositionComponent.class).pos.copy(),
-                            asteroid.getComponent(RotationComponent.class).quaternion.rotateVector(new Vector3D(0, 0, 1)).mult(-10),
-                            asteroid.getComponent(RotationComponent.class).quaternion.copy(),
-                            AsteroidType.Bottom
-                    )));
-
+            }
         }
 
-        CrystalSPI crystalSPI = ServiceLoader.load(CrystalSPI.class).findFirst().orElseThrow();
-        Vector3D pos = asteroid.getComponent(PositionComponent.class).pos.copy();
-        world.getEventBus().publish(world, new SpawnEvent(crystalSPI.createCrystal(pos, asteroid.getComponent(RotationComponent.class).quaternion, type.ordinal()+1)));
-
+        // Extended logic: Spawn crystal as the destroyed asteroids position. Only possible if crystalSPI is not null.
+        if (crystalSPI != null) {
+            Vector3D pos = asteroid.getComponent(PositionComponent.class).pos.copy();
+            world.getEventBus().publish(world, new SpawnEvent(crystalSPI.createCrystal(pos, asteroid.getComponent(RotationComponent.class).quaternion)));
+        }
     }
 
 }

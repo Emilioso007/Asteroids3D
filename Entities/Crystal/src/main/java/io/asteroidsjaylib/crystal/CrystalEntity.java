@@ -12,8 +12,8 @@ import io.asteroidsjaylib.common.util.Vector3D;
 
 public class CrystalEntity extends BaseEntity {
 
-    public CrystalEntity(Vector3D startPosition, Quaternion rotation, int value) {
-        this.addComponent(new CrystalTag(value));
+    public CrystalEntity(Vector3D startPosition, Quaternion rotation) {
+        this.addComponent(new CrystalTag());
         this.addComponent(new PositionComponent(startPosition));
         this.addComponent(new RotationComponent(rotation));
         Render3DComponent render3DComponent = new Render3DComponent();

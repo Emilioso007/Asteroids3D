@@ -7,7 +7,7 @@ import io.asteroidsjaylib.common.util.Vector3D;
 
 public class CrystalProvider implements CrystalSPI {
     @Override
-    public BaseEntity createCrystal(Vector3D startPosition, Quaternion rotation, int value) {
-        return new CrystalEntity(startPosition, rotation, value);
+    public BaseEntity createCrystal(Vector3D startPosition, Quaternion rotation) {
+        return new CrystalEntity(startPosition, rotation);
     }
 }
