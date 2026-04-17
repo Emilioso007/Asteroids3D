@@ -1,10 +1,11 @@
-import io.asteroidsfx.common.ecs.BaseSystem;
-import io.asteroidsfx.common.ecs.EntitySpi;
 
 module Core {
-    uses EntitySpi;
-    uses BaseSystem;
-    requires javafx.graphics;
+    uses io.asteroidsjaylib.common.ecs.BaseSystem;
+    uses io.asteroidsjaylib.common.ecs.EntitySpi;
+    uses io.asteroidsjaylib.common.event.EventSubscriberSPI;
     requires Common;
-    exports io.asteroidsfx;
+    requires jaylib;
+    requires CommonPlayer;
+    requires CommonPhysics3D;
+    requires CommonEnemy;
 }
