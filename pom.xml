@@ -19,35 +19,25 @@
         <module>Common/CommonCollision</module>
         <module>Common/CommonEnemy</module>
         <module>Common/CommonLifetime</module>
-        <module>Common/CommonPhysics2D</module>
         <module>Common/CommonPhysics3D</module>
         <module>Common/CommonPlayer</module>
         <module>Common/CommonRender</module>
         <module>Common/CommonSpawn</module>
         <module>Common/CommonCrystal</module>
-        <module>Common/CommonScore</module>
-        <module>Common/CommonButton</module>
-        <module>Common/CommonSound</module>
 
-        <module>Systems/Physics2D</module>
         <module>Systems/Physics3D</module>
         <module>Systems/Collision</module>
         <module>Systems/OutOfBounds</module>
         <module>Systems/Spawn</module>
         <module>Systems/Lifetime</module>
         <module>Systems/Render</module>
-        <module>Systems/Sound</module>
 
         <module>Entities/Asteroid</module>
         <module>Entities/Bullet</module>
         <module>Entities/Crystal</module>
         <module>Entities/Enemy</module>
         <module>Entities/Player</module>
-        <module>Entities/Score</module>
-        <module>Entities/Button</module>
 
-        <module>GameStates/MainMenu</module>
-        <module>GameStates/Playing</module>
     </modules>
 
     <properties>
@@ -149,11 +139,6 @@
                 <version>1.0-SNAPSHOT</version>
             </dependency>
             <dependency>
-                <groupId>io.asteroidsjaylib.common.physics2d</groupId>
-                <artifactId>CommonPhysics2D</artifactId>
-                <version>1.0-SNAPSHOT</version>
-            </dependency>
-            <dependency>
                 <groupId>io.asteroidsjaylib.common.physics3d</groupId>
                 <artifactId>CommonPhysics3D</artifactId>
                 <version>1.0-SNAPSHOT</version>
@@ -169,23 +154,8 @@
                 <version>1.0-SNAPSHOT</version>
             </dependency>
             <dependency>
-                <groupId>io.asteroidsjaylib.common.score</groupId>
-                <artifactId>CommonScore</artifactId>
-                <version>1.0-SNAPSHOT</version>
-            </dependency>
-            <dependency>
                 <groupId>io.asteroidsjaylib.common.spawn</groupId>
                 <artifactId>CommonSpawn</artifactId>
-                <version>1.0-SNAPSHOT</version>
-            </dependency>
-            <dependency>
-                <groupId>io.asteroidsjaylib.common.sound</groupId>
-                <artifactId>CommonSound</artifactId>
-                <version>1.0-SNAPSHOT</version>
-            </dependency>
-            <dependency>
-                <groupId>io.asteroidsjaylib.common.button</groupId>
-                <artifactId>CommonButton</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
 

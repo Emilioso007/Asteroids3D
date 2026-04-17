@@ -6,7 +6,7 @@ import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.physics3d.PositionComponent;
 import io.asteroidsjaylib.common.physics3d.RotationComponent;
 import io.asteroidsjaylib.common.render.*;
-import io.asteroidsjaylib.common.render.shapes3d.Model3D;
+import io.asteroidsjaylib.common.render.Model3D;
 import io.asteroidsjaylib.common.util.Quaternion;
 import io.asteroidsjaylib.common.util.Vector3D;
 

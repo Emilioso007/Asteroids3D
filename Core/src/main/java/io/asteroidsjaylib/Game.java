@@ -1,9 +1,9 @@
 package io.asteroidsjaylib;
 
 import io.asteroidsjaylib.common.IWorld;
-import io.asteroidsjaylib.common.ecs.IGameStateProvider;
+import io.asteroidsjaylib.common.ecs.BaseSystem;
+import io.asteroidsjaylib.common.ecs.EntitySpi;
 import io.asteroidsjaylib.common.enemy.EnemyTag;
-import io.asteroidsjaylib.common.event.StateChangedEvent;
 import io.asteroidsjaylib.common.event.input.key.KeyPressedEvent;
 import io.asteroidsjaylib.common.event.input.key.KeyReleasedEvent;
 import io.asteroidsjaylib.common.physics3d.PositionComponent;
@@ -16,7 +16,7 @@ import java.util.ServiceLoader;
 
 public class Game {
 
-    private boolean running = true;
+    private final boolean running = true;
 
     public World world;
 
@@ -24,25 +24,18 @@ public class Game {
 
         int screenWidth = 800;
         int screenHeight = 800;
-        int worldWidth = 1600;
-        int worldHeight = 1600;
 
         InitWindow(screenWidth, screenHeight, "AsteroidsJaylib");
         InitAudioDevice();
         SetTargetFPS(60);
-        SetExitKey(KEY_NULL);
 
         world = new World();
 
-        world.setWidth(worldWidth);
-        world.setHeight(worldHeight);
         world.setScreenWidth(screenWidth);
         world.setScreenHeight(screenHeight);
 
-        world.getEventBus().subscribe(StateChangedEvent.class, this::onStateChanged);
-        world.getEventBus().subscribe(KeyPressedEvent.class, this::keyPressed);
-
-        world.getEventBus().publish(world, new StateChangedEvent("PLAYING"));
+        addSystems(world);
+        addEntities(world);
 
         while(!WindowShouldClose() && running) {
 
@@ -70,14 +63,6 @@ public class Game {
         CloseWindow();
     }
 
-    private void keyPressed(IWorld world, KeyPressedEvent keyPressedEvent) {
-        switch (keyPressedEvent.keyCode){
-            case KEY_ESCAPE:
-                world.getEventBus().publish(world, new StateChangedEvent("MAIN_MENU"));
-                break;
-        }
-    }
-
     public void processInput() {
         for (int i = 1; i <= 348; i++) {
             if (IsKeyPressed(i)) {
@@ -87,54 +72,21 @@ public class Game {
                 world.getEventBus().publish(world, new KeyReleasedEvent(i));
             }
         }
-        /* TODO: fix mouse clicks
-        Vector2D screenPosition = new Vector2D(GetMouseX(), GetMouseY());
-        Vector2D worldPosition = new Vector2D(GetScreenToWorld2D(screenPosition, world.getCamera()));
-
-        for(int i = 0; i <= 6; i++){
-            if(IsMouseButtonPressed(i)){
-                world.getEventBus().publish(world, new MousePressedEvent(i, screenPosition, worldPosition));
-            }
-            if(IsMouseButtonReleased(i)){
-                world.getEventBus().publish(world, new MouseReleasedEvent(i, screenPosition, worldPosition));
-            }
-            if(IsMouseButtonDown(i)){
-                world.getEventBus().publish(world, new MouseDownEvent(i, screenPosition, worldPosition));
-            }
-            if(IsMouseButtonUp(i)){
-                world.getEventBus().publish(world, new MouseUpEvent(i, screenPosition, worldPosition));
-            }
-        }
-
-        world.getEventBus().publish(world, new MousePositionEvent(screenPosition, worldPosition));
-
-         */
     }
 
-    private void onStateChanged(IWorld world, StateChangedEvent event){
-
-        if (event.newState.equalsIgnoreCase("QUIT")){
-            running = false;
-            return;
+    private void addSystems(IWorld world) {
+        ServiceLoader<BaseSystem> systems = ServiceLoader.load(BaseSystem.class);
+        for (BaseSystem system : systems){
+            system.start(world);
+            world.addSystem(system);
         }
+    }
 
-        world.clearEntities();
-        world.clearSystems();
-        world.getEventBus().clear();
-        world.getEventBus().findSubscribers();
-        world.getEventBus().subscribe(StateChangedEvent.class, this::onStateChanged);
-        world.getEventBus().subscribe(KeyPressedEvent.class, this::keyPressed);
-
-
-        ServiceLoader<IGameStateProvider> providers = ServiceLoader.load(IGameStateProvider.class);
-        for (IGameStateProvider provider : providers){
-            if (provider.getStateName().equalsIgnoreCase(event.newState)){
-                provider.onEnter(world);
-
-                return;
-            }
+    private void addEntities(IWorld world) {
+        ServiceLoader<EntitySpi> entitySpis = ServiceLoader.load(EntitySpi.class);
+        for (EntitySpi entitySpi : entitySpis){
+            entitySpi.start(world);
         }
-
     }
 
 }

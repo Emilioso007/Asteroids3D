@@ -10,10 +10,8 @@ module Crystal {
     requires Common;
     requires CommonCollision;
     requires CommonPlayer;
-    requires CommonScore;
     requires CommonCrystal;
     requires CommonRender;
-    requires CommonPhysics2D;
     requires jaylib;
     requires CommonPhysics3D;
     provides CrystalSPI with CrystalProvider;

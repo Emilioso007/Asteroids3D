@@ -1,4 +1,4 @@
-package io.asteroidsjaylib.common.render.shapes3d;
+package io.asteroidsjaylib.common.render;
 
 import io.asteroidsjaylib.common.util.Vector3D;
 

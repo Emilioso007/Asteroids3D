@@ -1,7 +1,6 @@
 package io.asteroidsjaylib.common.render;
 
 import io.asteroidsjaylib.common.ecs.BaseComponent;
-import io.asteroidsjaylib.common.render.shapes3d.Base3DShape;
 
 import java.util.*;
 

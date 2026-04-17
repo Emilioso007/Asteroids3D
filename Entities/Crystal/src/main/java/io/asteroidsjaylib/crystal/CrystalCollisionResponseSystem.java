@@ -8,7 +8,6 @@ import io.asteroidsjaylib.common.event.BaseEvent;
 import io.asteroidsjaylib.common.event.EventSubscriberSPI;
 import io.asteroidsjaylib.common.event.EventSubscription;
 import io.asteroidsjaylib.common.player.PlayerTag;
-import io.asteroidsjaylib.common.score.IncrementScoreEvent;
 
 import java.util.List;
 
@@ -27,6 +26,5 @@ public class CrystalCollisionResponseSystem implements EventSubscriberSPI {
         if(!other.hasComponents(PlayerTag.class)) return;
 
         crystal.setToBeRemoved(true);
-        world.getEventBus().publish(world, new IncrementScoreEvent(1));
     }
 }

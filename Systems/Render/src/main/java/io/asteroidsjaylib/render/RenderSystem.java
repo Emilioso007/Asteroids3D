@@ -12,7 +12,7 @@ import io.asteroidsjaylib.common.player.PlayerTag;
 import io.asteroidsjaylib.common.render.LightManager;
 import io.asteroidsjaylib.common.render.Render3DComponent;
 import io.asteroidsjaylib.common.render.ShaderManager;
-import io.asteroidsjaylib.common.render.shapes3d.Base3DShape;
+import io.asteroidsjaylib.common.render.Base3DShape;
 import io.asteroidsjaylib.common.util.Quaternion;
 import io.asteroidsjaylib.common.util.ResourceLoader;
 import io.asteroidsjaylib.common.util.Vector3D;
@@ -25,7 +25,6 @@ import static com.raylib.Raylib.*;
 public class RenderSystem extends BulkSystem {
 
     private static final Vector3 RL_VEC_SCRATCHPAD = new Vector3();
-    private static final Vector3D GHOST_POS_SCRATCHPAD = new Vector3D();
     private Vector3D smoothedCameraPos = null;
     private Vector3D smoothedCameraTarget = null;
     private Vector3D smoothedCameraUp = null;

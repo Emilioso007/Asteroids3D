@@ -15,20 +15,14 @@ import static com.raylib.Raylib.CAMERA_PERSPECTIVE;
 public final class World implements IWorld {
 
     private static final Vector3 RL_VEC_SCRATCHPAD = new Vector3();
-    private int width;
-    private int height;
     private int screenWidth;
     private int screenHeight;
-    private Vector3D cameraShake = new Vector3D();
     private final List<BaseEntity> entities;
     private final List<BaseEntity> entitiesToAdd;
     private final Set<BaseSystem> systems;
     private final IEventBus eventBus;
-
     private final Camera3D camera;
-
     private float deltaTime;
-
     private final Map<BaseSystem, List<BaseEntity>> systemEntityCache = new HashMap<>();
     private final float worldSize;
 
@@ -54,7 +48,7 @@ public final class World implements IWorld {
                 Comparator.comparing(BaseSystem::getPriority)
                 .thenComparing(system -> system.getClass().getName());
         this.systems = new TreeSet<>(systemComparator);
-        worldSize = 20000;
+        worldSize = 10000;
     }
 
     @Override
@@ -66,8 +60,7 @@ public final class World implements IWorld {
     public void tick(float deltaTime){
         this.deltaTime = deltaTime;
 
-        boolean entitiesChanged = false;
-        if (entities.removeIf(BaseEntity::isToBeRemoved)) entitiesChanged = true;
+        boolean entitiesChanged = entities.removeIf(BaseEntity::isToBeRemoved);
         if (!entitiesToAdd.isEmpty()){
             entities.addAll(entitiesToAdd);
             entitiesToAdd.clear();
@@ -99,7 +92,6 @@ public final class World implements IWorld {
             }
         }
 
-        cameraShake.mult(0);
     }
 
     @Override
@@ -166,28 +158,8 @@ public final class World implements IWorld {
     }
 
     @Override
-    public int getWidth() {
-        return width;
-    }
-
-    @Override
-    public int getHeight() {
-        return height;
-    }
-
-    @Override
     public float getDeltaTime() {
         return deltaTime;
-    }
-
-    @Override
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    @Override
-    public void setHeight(int height) {
-        this.height = height;
     }
 
     @Override
@@ -209,16 +181,6 @@ public final class World implements IWorld {
     @Override
     public void setCameraLocation(Vector3D cameraLocation) {
         camera.target(cameraLocation.toVector3(RL_VEC_SCRATCHPAD));
-    }
-
-    @Override
-    public void shakeCamera(Vector3D shakeVector){
-        cameraShake.add(shakeVector);
-    }
-
-    @Override
-    public Vector3D getCameraShake(){
-        return cameraShake;
     }
 
     @Override

@@ -36,10 +36,6 @@
             <artifactId>CommonOwnership</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.asteroidsjaylib.common.physics2d</groupId>
-            <artifactId>CommonPhysics2D</artifactId>
-        </dependency>
-        <dependency>
             <groupId>io.asteroidsjaylib.common.render</groupId>
             <artifactId>CommonRender</artifactId>
         </dependency>
@@ -50,10 +46,6 @@
         <dependency>
             <groupId>io.asteroidsjaylib.common.spawn</groupId>
             <artifactId>CommonSpawn</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.asteroidsjaylib.common.sound</groupId>
-            <artifactId>CommonSound</artifactId>
         </dependency>
         <dependency>
             <groupId>io.asteroidsjaylib.common.physics3d</groupId>

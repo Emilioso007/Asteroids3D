@@ -12,13 +12,11 @@ module Enemy {
 
     requires CommonRender;
     requires CommonPlayer;
-    requires CommonScore;
     requires CommonBullet;
     requires CommonEnemy;
     requires CommonCollision;
     requires CommonOwnership;
     requires CommonCrystal;
-    requires CommonPhysics2D;
     requires CommonPhysics3D;
     requires CommonSpawn;
     requires CommonAsteroid;

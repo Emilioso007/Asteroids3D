@@ -25,15 +25,7 @@ public interface IWorld {
 
     void queueAddEntity(BaseEntity entityToSpawn);
 
-    int getWidth();
-
-    int getHeight();
-
     float getDeltaTime();
-
-    void setWidth(int width);
-
-    void setHeight(int height);
 
     void clearEntities();
 
@@ -43,8 +35,6 @@ public interface IWorld {
 
     void setCameraLocation(Vector3D cameraLocation);
 
-    void shakeCamera(Vector3D shakeVector);
-
     int getScreenWidth();
 
     void setScreenWidth(int screenWidth);
@@ -52,8 +42,6 @@ public interface IWorld {
     int getScreenHeight();
 
     void setScreenHeight(int screenHeight);
-
-    Vector3D getCameraShake();
 
     float getWorldSize();
 }

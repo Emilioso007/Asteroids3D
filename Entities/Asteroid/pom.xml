@@ -40,10 +40,6 @@
             <artifactId>CommonCollision</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.asteroidsjaylib.common.physics2d</groupId>
-            <artifactId>CommonPhysics2D</artifactId>
-        </dependency>
-        <dependency>
             <groupId>io.asteroidsjaylib.common.render</groupId>
             <artifactId>CommonRender</artifactId>
         </dependency>

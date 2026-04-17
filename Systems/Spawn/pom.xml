@@ -39,10 +39,6 @@
             <groupId>io.asteroidsjaylib.common.player</groupId>
             <artifactId>CommonPlayer</artifactId>
         </dependency>
-        <dependency>
-            <groupId>io.asteroidsjaylib.common.physics2d</groupId>
-            <artifactId>CommonPhysics2D</artifactId>
-        </dependency>
     </dependencies>
 
 </project>

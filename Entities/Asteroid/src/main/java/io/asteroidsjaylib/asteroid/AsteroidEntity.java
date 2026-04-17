@@ -11,12 +11,11 @@ import io.asteroidsjaylib.common.physics3d.RotationComponent;
 import io.asteroidsjaylib.common.physics3d.VelocityComponent;
 import io.asteroidsjaylib.common.render.Render3DComponent;
 import io.asteroidsjaylib.common.render.ShaderManager;
-import io.asteroidsjaylib.common.render.shapes3d.Model3D;
+import io.asteroidsjaylib.common.render.Model3D;
 import io.asteroidsjaylib.common.util.Quaternion;
 import io.asteroidsjaylib.common.util.Vector3D;
 
 import java.time.Duration;
-import java.util.Random;
 
 public class AsteroidEntity extends BaseEntity {
 

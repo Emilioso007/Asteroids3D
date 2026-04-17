@@ -8,7 +8,6 @@ import io.asteroidsjaylib.common.event.EventSubscriberSPI;
 module Bullet {
     requires Common;
 
-    requires jaylib;
     requires CommonRender;
     requires CommonCollision;
     requires CommonBullet;

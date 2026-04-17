@@ -10,7 +10,6 @@ import io.asteroidsjaylib.common.event.BaseEvent;
 import io.asteroidsjaylib.common.event.EventSubscriberSPI;
 import io.asteroidsjaylib.common.event.EventSubscription;
 import io.asteroidsjaylib.common.ownership.OwnershipComponent;
-import io.asteroidsjaylib.common.score.IncrementScoreEvent;
 
 import java.util.List;
 
@@ -40,7 +39,5 @@ public class EnemyCollisionResponseSystem implements EventSubscriberSPI {
 
         // Mark enemy to be removed
         enemy.setToBeRemoved(true);
-
-        world.getEventBus().publish(world, new IncrementScoreEvent(5));
     }
 }

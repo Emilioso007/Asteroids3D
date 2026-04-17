@@ -36,20 +36,12 @@
             <artifactId>CommonRender</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.asteroidsjaylib.common.physics2d</groupId>
-            <artifactId>CommonPhysics2D</artifactId>
-        </dependency>
-        <dependency>
             <groupId>io.asteroidsjaylib.common.collision</groupId>
             <artifactId>CommonCollision</artifactId>
         </dependency>
         <dependency>
             <groupId>io.asteroidsjaylib.common.player</groupId>
             <artifactId>CommonPlayer</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.asteroidsjaylib.common.score</groupId>
-            <artifactId>CommonScore</artifactId>
         </dependency>
         <dependency>
             <groupId>io.asteroidsjaylib.common.physics3d</groupId>

@@ -6,7 +6,7 @@ import io.asteroidsjaylib.common.physics3d.*;
 import io.asteroidsjaylib.common.render.Render3DComponent;
 import io.asteroidsjaylib.common.player.PlayerTag;
 import io.asteroidsjaylib.common.render.ShaderManager;
-import io.asteroidsjaylib.common.render.shapes3d.Model3D;
+import io.asteroidsjaylib.common.render.Model3D;
 import io.asteroidsjaylib.common.util.Vector3D;
 
 import java.util.List;

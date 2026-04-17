@@ -26,9 +26,9 @@ public class PlayerMovementSystem extends IteratingSystem {
     private boolean pitchUp = false, pitchDown = false;
     private boolean rollLeft = false, rollRight = false;
 
-    private float maxTurnSpeed = (float) Math.toRadians(90);
-    private float angularAcceleration = (float) Math.toRadians(270);
-    private float angularDrag = (float) Math.toRadians(180);
+    private final float maxTurnSpeed = (float) Math.toRadians(90);
+    private final float angularAcceleration = (float) Math.toRadians(270);
+    private final float angularDrag = (float) Math.toRadians(180);
 
     private float currentYawSpeed = 0f;
     private float currentPitchSpeed = 0f;
