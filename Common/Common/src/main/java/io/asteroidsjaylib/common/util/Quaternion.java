@@ -122,7 +122,7 @@ public class Quaternion {
 
     public static Quaternion randomQuaternion(){
         Random random = new Random();
-        return new Quaternion(random.nextFloat(-1, 1),random.nextFloat(-1, 1),random.nextFloat(-1, 1),random.nextFloat(-1, 1));
+        return new Quaternion(random.nextFloat(-1, 1),random.nextFloat(-1, 1),random.nextFloat(-1, 1),random.nextFloat(-1, 1)).normalize();
     }
 
 }
