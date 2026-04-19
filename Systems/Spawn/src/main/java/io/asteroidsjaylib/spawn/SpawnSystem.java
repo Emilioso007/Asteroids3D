@@ -1,23 +1,23 @@
 package io.asteroidsjaylib.spawn;
 
 import io.asteroidsjaylib.common.IWorld;
-import io.asteroidsjaylib.common.event.BaseEvent;
-import io.asteroidsjaylib.common.event.EventSubscriberSPI;
-import io.asteroidsjaylib.common.event.EventSubscription;
+import io.asteroidsjaylib.common.ecs.ResponseSystem;
 import io.asteroidsjaylib.common.spawn.SpawnEvent;
+import org.springframework.context.event.EventListener;
 
-import java.util.List;
+public class SpawnSystem extends ResponseSystem {
 
-public class SpawnSystem implements EventSubscriberSPI {
+    private IWorld world;
 
     @Override
-    public List<EventSubscription<? extends BaseEvent>> getEventSubscriptions() {
-        return List.of(new EventSubscription<>(SpawnEvent.class, this::handleSpawnEvent));
+    public void start(IWorld world){
+        this.world = world;
     }
 
-    private void handleSpawnEvent(IWorld world, SpawnEvent event) {
+    @EventListener
+    private void handleSpawnEvent(SpawnEvent event) {
         System.out.println(event.entityToSpawn.getClass().getName());
-        world.queueAddEntity(event.entityToSpawn);
+        this.world.queueAddEntity(event.entityToSpawn);
     }
 
 }

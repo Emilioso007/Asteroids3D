@@ -9,6 +9,7 @@ import io.asteroidsjaylib.common.event.input.key.KeyReleasedEvent;
 import io.asteroidsjaylib.common.physics3d.PositionComponent;
 import io.asteroidsjaylib.common.player.PlayerTag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
 import static com.raylib.Raylib.*;
@@ -18,6 +19,9 @@ import java.util.List;
 
 @Component
 public class Game {
+
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
 
     public World world;
 
@@ -76,10 +80,10 @@ public class Game {
     public void processInput() {
         for (int i = 1; i <= 348; i++) {
             if (IsKeyPressed(i)) {
-                world.getEventBus().publish(world, new KeyPressedEvent(i));
+                eventPublisher.publishEvent(new KeyPressedEvent(i));
             }
             if (IsKeyReleased(i)) {
-                world.getEventBus().publish(world, new KeyReleasedEvent(i));
+               eventPublisher.publishEvent(new KeyReleasedEvent(i));
             }
         }
     }

@@ -1,5 +1,4 @@
 import io.asteroidsjaylib.common.ecs.BaseSystem;
-import io.asteroidsjaylib.common.event.EventSubscriberSPI;
 import io.asteroidsjaylib.spawn.SpawnSystem;
 import io.asteroidsjaylib.spawn.WaveDirectorSystem;
 
@@ -10,6 +9,10 @@ module Spawn {
     requires CommonSpawn;
     requires CommonAsteroid;
     requires CommonEnemy;
-    provides BaseSystem with WaveDirectorSystem;
-    provides EventSubscriberSPI with SpawnSystem;
+    requires spring.context;
+    requires spring.beans;
+
+    opens io.asteroidsjaylib.spawn to spring.core, spring.context, spring.beans;
+
+    provides BaseSystem with WaveDirectorSystem, SpawnSystem;
 }

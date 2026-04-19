@@ -4,13 +4,11 @@ import com.raylib.Raylib;
 import io.asteroidsjaylib.common.ecs.BaseComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.ecs.BaseSystem;
-import io.asteroidsjaylib.common.event.IEventBus;
 import io.asteroidsjaylib.common.util.Vector3D;
 
 import java.util.List;
 
 public interface IWorld {
-    IEventBus getEventBus();
 
     void tick(float deltaTime);
 

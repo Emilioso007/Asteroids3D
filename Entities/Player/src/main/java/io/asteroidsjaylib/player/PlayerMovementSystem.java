@@ -14,6 +14,7 @@ import io.asteroidsjaylib.common.render.LightManager;
 import io.asteroidsjaylib.common.render.Render3DComponent;
 import io.asteroidsjaylib.common.util.Quaternion;
 import io.asteroidsjaylib.common.util.Vector3D;
+import org.springframework.context.event.EventListener;
 
 import static com.raylib.Raylib.*;
 
@@ -37,12 +38,10 @@ public class PlayerMovementSystem extends IteratingSystem {
     @Override
     public void start(IWorld world) {
         this.setPriority(5);
-        world.getEventBus().subscribe(KeyPressedEvent.class, this::keyPressed);
-        world.getEventBus().subscribe(KeyReleasedEvent.class, this::keyReleased);
-
     }
 
-    private void keyPressed(IWorld world, KeyPressedEvent event) {
+    @EventListener
+    private void keyPressed(KeyPressedEvent event) {
         switch (event.keyCode){
             case KEY_W:
                 pitchDown = true;
@@ -68,7 +67,8 @@ public class PlayerMovementSystem extends IteratingSystem {
         }
     }
 
-    private void keyReleased(IWorld world, KeyReleasedEvent event) {
+    @EventListener
+    private void keyReleased(KeyReleasedEvent event) {
         switch (event.keyCode){
             case KEY_W:
                 pitchDown = false;
