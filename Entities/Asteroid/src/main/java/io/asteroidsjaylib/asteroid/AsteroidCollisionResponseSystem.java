@@ -6,22 +6,25 @@ import io.asteroidsjaylib.common.asteroid.AsteroidTypeComponent;
 import io.asteroidsjaylib.common.asteroid.AsteroidTag;
 import io.asteroidsjaylib.common.crystal.CrystalSPI;
 import io.asteroidsjaylib.common.crystal.CrystalTag;
-import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.collision.CollisionEvent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
+import io.asteroidsjaylib.common.ecs.ResponseSystem;
 import io.asteroidsjaylib.common.enemy.EnemyTag;
-import io.asteroidsjaylib.common.event.BaseEvent;
-import io.asteroidsjaylib.common.event.EventSubscriberSPI;
-import io.asteroidsjaylib.common.event.EventSubscription;
 import io.asteroidsjaylib.common.physics3d.PositionComponent;
 import io.asteroidsjaylib.common.physics3d.RotationComponent;
 import io.asteroidsjaylib.common.spawn.SpawnEvent;
 import io.asteroidsjaylib.common.util.Vector3D;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.event.EventListener;
 
-import java.util.List;
 import java.util.ServiceLoader;
 
-public class AsteroidCollisionResponseSystem implements EventSubscriberSPI {
+public class AsteroidCollisionResponseSystem extends ResponseSystem {
+
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
 
     private final AsteroidSPI asteroidSPI;
     private final CrystalSPI crystalSPI;
@@ -31,12 +34,8 @@ public class AsteroidCollisionResponseSystem implements EventSubscriberSPI {
         this.crystalSPI = ServiceLoader.load(CrystalSPI.class).findFirst().orElse(null);
     }
 
-    @Override
-    public List<EventSubscription<? extends BaseEvent>> getEventSubscriptions() {
-        return List.of(new EventSubscription<>(CollisionEvent.class, this::handleCollision));
-    }
-
-    private void handleCollision(IWorld world, CollisionEvent event) {
+    @EventListener
+    private void handleCollision(CollisionEvent event) {
 
         // Check if collision is valid/our concern.
         if(!event.hasEntityWith(AsteroidTag.class)) return;
@@ -58,16 +57,14 @@ public class AsteroidCollisionResponseSystem implements EventSubscriberSPI {
             AsteroidType type = asteroid.getComponent(AsteroidTypeComponent.class).type;
             if (type == AsteroidType.Full) {
 
-                world.getEventBus().publish(world,
-                        new SpawnEvent(asteroidSPI.createAsteroid(
+                eventPublisher.publishEvent(new SpawnEvent(asteroidSPI.createAsteroid(
                                 asteroid.getComponent(PositionComponent.class).pos.copy(),
                                 asteroid.getComponent(RotationComponent.class).quaternion.rotateVector(new Vector3D(0, 0, 1)).mult(10),
                                 asteroid.getComponent(RotationComponent.class).quaternion.copy(),
                                 AsteroidType.Top
                         )));
 
-                world.getEventBus().publish(world,
-                        new SpawnEvent(asteroidSPI.createAsteroid(
+                eventPublisher.publishEvent(new SpawnEvent(asteroidSPI.createAsteroid(
                                 asteroid.getComponent(PositionComponent.class).pos.copy(),
                                 asteroid.getComponent(RotationComponent.class).quaternion.rotateVector(new Vector3D(0, 0, 1)).mult(-10),
                                 asteroid.getComponent(RotationComponent.class).quaternion.copy(),
@@ -80,7 +77,7 @@ public class AsteroidCollisionResponseSystem implements EventSubscriberSPI {
         // Extended logic: Spawn crystal as the destroyed asteroids position. Only possible if crystalSPI is not null.
         if (crystalSPI != null) {
             Vector3D pos = asteroid.getComponent(PositionComponent.class).pos.copy();
-            world.getEventBus().publish(world, new SpawnEvent(crystalSPI.createCrystal(pos, asteroid.getComponent(RotationComponent.class).quaternion)));
+            eventPublisher.publishEvent(new SpawnEvent(crystalSPI.createCrystal(pos, asteroid.getComponent(RotationComponent.class).quaternion)));
         }
     }
 

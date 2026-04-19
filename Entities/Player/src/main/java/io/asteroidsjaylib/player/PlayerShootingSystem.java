@@ -14,6 +14,9 @@ import io.asteroidsjaylib.common.util.Quaternion;
 import io.asteroidsjaylib.common.player.PlayerTag;
 import io.asteroidsjaylib.common.spawn.SpawnEvent;
 import io.asteroidsjaylib.common.util.Vector3D;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.event.EventListener;
 
 import java.util.List;
 import java.util.ServiceLoader;
@@ -21,6 +24,10 @@ import java.util.ServiceLoader;
 import static com.raylib.Raylib.KEY_F;
 
 public class PlayerShootingSystem extends IteratingSystem {
+
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
 
     private static final float SHOT_INTERVAL_SECONDS = 0.2f;
     private boolean firing = false;
@@ -31,15 +38,15 @@ public class PlayerShootingSystem extends IteratingSystem {
     public void start(IWorld world) {
         this.setPriority(12);
         bulletSPI = ServiceLoader.load(BulletSPI.class).findFirst().orElse(null);
-        world.getEventBus().subscribe(KeyPressedEvent.class, this::keyPressed);
-        world.getEventBus().subscribe(KeyReleasedEvent.class, this::keyReleased);
     }
 
-    private void keyPressed(IWorld world, KeyPressedEvent event) {
+    @EventListener
+    private void keyPressed(KeyPressedEvent event) {
         if (event.keyCode == KEY_F) firing = true;
     }
 
-    private void keyReleased(IWorld world, KeyReleasedEvent event) {
+    @EventListener
+    private void keyReleased(KeyReleasedEvent event) {
         if (event.keyCode == KEY_F) firing = false;
     }
 
@@ -51,11 +58,11 @@ public class PlayerShootingSystem extends IteratingSystem {
 
         if (!firing || cooldownSeconds > 0f) return;
 
-        shoot(world, player);
+        shoot(player);
         cooldownSeconds = SHOT_INTERVAL_SECONDS;
     }
 
-    private void shoot(IWorld world, BaseEntity player) {
+    private void shoot(BaseEntity player) {
 
         if(bulletSPI == null) return;
 
@@ -69,7 +76,7 @@ public class PlayerShootingSystem extends IteratingSystem {
 
         Vector3D bulletVelocity = playerVel.copy().add(forwardVector.copy().mult(2500));
 
-        world.getEventBus().publish(world, new SpawnEvent(bulletSPI.CreateBullet(player, nosePosition, bulletVelocity, playerRot)));
+        eventPublisher.publishEvent(new SpawnEvent(bulletSPI.CreateBullet(player, nosePosition, bulletVelocity, playerRot)));
     }
 
     @Override

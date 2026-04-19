@@ -8,10 +8,17 @@ import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.ecs.BulkSystem;
 import io.asteroidsjaylib.common.physics3d.PositionComponent;
 import io.asteroidsjaylib.common.util.Vector3D;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 
 import java.util.List;
 
 public class Collision3DSystem extends BulkSystem {
+
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
+
     @Override
     public void start(IWorld world) {
         this.setPriority(70);
@@ -40,7 +47,7 @@ public class Collision3DSystem extends BulkSystem {
                 float distance = posA.dist(posB);
 
                 if (distance < (radiusA + radiusB)){
-                    world.getEventBus().publish(world, new CollisionEvent(entityA, entityB));
+                    eventPublisher.publishEvent(new CollisionEvent(entityA, entityB));
                 }
 
             }

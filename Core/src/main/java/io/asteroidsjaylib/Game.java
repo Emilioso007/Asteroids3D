@@ -8,17 +8,31 @@ import io.asteroidsjaylib.common.event.input.key.KeyPressedEvent;
 import io.asteroidsjaylib.common.event.input.key.KeyReleasedEvent;
 import io.asteroidsjaylib.common.physics3d.PositionComponent;
 import io.asteroidsjaylib.common.player.PlayerTag;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.stereotype.Component;
 
 import static com.raylib.Raylib.*;
 import static com.raylib.Colors.*;
 
-import java.util.ServiceLoader;
+import java.util.List;
 
+@Component
 public class Game {
 
-    private final boolean running = true;
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
 
     public World world;
+
+    private final List<BaseSystem> systems;
+    private final List<EntitySpi> entitySpis;
+
+    @Autowired
+    public Game(List<BaseSystem> systems, List<EntitySpi> entitySpis) {
+        this.systems = systems;
+        this.entitySpis = entitySpis;
+    }
 
     public void start() {
 
@@ -37,7 +51,7 @@ public class Game {
         addSystems(world);
         addEntities(world);
 
-        while(!WindowShouldClose() && running) {
+        while(!WindowShouldClose()) {
 
             processInput();
 
@@ -66,16 +80,15 @@ public class Game {
     public void processInput() {
         for (int i = 1; i <= 348; i++) {
             if (IsKeyPressed(i)) {
-                world.getEventBus().publish(world, new KeyPressedEvent(i));
+                eventPublisher.publishEvent(new KeyPressedEvent(i));
             }
             if (IsKeyReleased(i)) {
-                world.getEventBus().publish(world, new KeyReleasedEvent(i));
+               eventPublisher.publishEvent(new KeyReleasedEvent(i));
             }
         }
     }
 
     private void addSystems(IWorld world) {
-        ServiceLoader<BaseSystem> systems = ServiceLoader.load(BaseSystem.class);
         for (BaseSystem system : systems){
             system.start(world);
             world.addSystem(system);
@@ -83,7 +96,6 @@ public class Game {
     }
 
     private void addEntities(IWorld world) {
-        ServiceLoader<EntitySpi> entitySpis = ServiceLoader.load(EntitySpi.class);
         for (EntitySpi entitySpi : entitySpis){
             entitySpi.start(world);
         }

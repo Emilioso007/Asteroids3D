@@ -2,7 +2,7 @@ import io.asteroidsjaylib.asteroid.AsteroidCollisionResponseSystem;
 import io.asteroidsjaylib.asteroid.AsteroidProvider;
 import io.asteroidsjaylib.common.asteroid.AsteroidSPI;
 import io.asteroidsjaylib.common.crystal.CrystalSPI;
-import io.asteroidsjaylib.common.event.EventSubscriberSPI;
+import io.asteroidsjaylib.common.ecs.BaseSystem;
 
 module Asteroid {
     uses CrystalSPI;
@@ -16,7 +16,11 @@ module Asteroid {
     requires CommonPhysics3D;
     requires CommonLifetime;
     requires CommonEnemy;
+    requires spring.beans;
+    requires spring.context;
+
+    opens io.asteroidsjaylib.asteroid to spring.core, spring.context, spring.beans;
 
     provides AsteroidSPI with AsteroidProvider;
-    provides EventSubscriberSPI with AsteroidCollisionResponseSystem;
+    provides BaseSystem with AsteroidCollisionResponseSystem;
 }

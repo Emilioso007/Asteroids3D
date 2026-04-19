@@ -33,6 +33,12 @@
             <groupId>io.asteroidsjaylib.common.enemy</groupId>
             <artifactId>CommonEnemy</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -48,7 +54,6 @@
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
-                            <includeArtifactIds>jaylib</includeArtifactIds>
                             <outputDirectory>../mods-mvn</outputDirectory>
                         </configuration>
                     </execution>

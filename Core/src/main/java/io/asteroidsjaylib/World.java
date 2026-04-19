@@ -5,7 +5,6 @@ import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.ecs.BaseComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.ecs.BaseSystem;
-import io.asteroidsjaylib.common.event.IEventBus;
 import io.asteroidsjaylib.common.util.Vector3D;
 
 import java.util.*;
@@ -20,7 +19,6 @@ public final class World implements IWorld {
     private final List<BaseEntity> entities;
     private final List<BaseEntity> entitiesToAdd;
     private final Set<BaseSystem> systems;
-    private final IEventBus eventBus;
     private final Camera3D camera;
     private float deltaTime;
     private final Map<BaseSystem, List<BaseEntity>> systemEntityCache = new HashMap<>();
@@ -39,9 +37,6 @@ public final class World implements IWorld {
         this.camera.fovy(45f);
         this.camera.projection(CAMERA_PERSPECTIVE);
 
-        eventBus = new EventBus();
-        eventBus.findSubscribers();
-
         this.entities = new ArrayList<>();
         entitiesToAdd = new ArrayList<>();
         Comparator<BaseSystem> systemComparator =
@@ -49,11 +44,6 @@ public final class World implements IWorld {
                 .thenComparing(system -> system.getClass().getName());
         this.systems = new TreeSet<>(systemComparator);
         worldSize = 10000;
-    }
-
-    @Override
-    public IEventBus getEventBus(){
-        return eventBus;
     }
 
     @Override

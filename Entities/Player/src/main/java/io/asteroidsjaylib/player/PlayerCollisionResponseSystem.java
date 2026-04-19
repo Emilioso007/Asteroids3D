@@ -1,24 +1,17 @@
 package io.asteroidsjaylib.player;
 
 import io.asteroidsjaylib.common.crystal.CrystalTag;
-import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.collision.CollisionEvent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
-import io.asteroidsjaylib.common.event.BaseEvent;
-import io.asteroidsjaylib.common.event.EventSubscriberSPI;
-import io.asteroidsjaylib.common.event.EventSubscription;
+import io.asteroidsjaylib.common.ecs.ResponseSystem;
 import io.asteroidsjaylib.common.ownership.OwnershipComponent;
 import io.asteroidsjaylib.common.player.PlayerTag;
+import org.springframework.context.event.EventListener;
 
-import java.util.List;
+public class PlayerCollisionResponseSystem extends ResponseSystem {
 
-public class PlayerCollisionResponseSystem implements EventSubscriberSPI {
-    @Override
-    public List<EventSubscription<? extends BaseEvent>> getEventSubscriptions() {
-        return List.of(new EventSubscription<>(CollisionEvent.class, this::handleCollision));
-    }
-
-    private void handleCollision(IWorld world, CollisionEvent event) {
+    @EventListener
+    private void handleCollision(CollisionEvent event) {
         // If no player in collision, do nothing
         if(!event.hasEntityWith(PlayerTag.class)) return;
 

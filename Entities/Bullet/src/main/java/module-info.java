@@ -4,7 +4,6 @@ import io.asteroidsjaylib.bullet.BulletProvider;
 import io.asteroidsjaylib.bullet.BulletSeekingSystem;
 import io.asteroidsjaylib.common.bullet.BulletSPI;
 import io.asteroidsjaylib.common.ecs.BaseSystem;
-import io.asteroidsjaylib.common.event.EventSubscriberSPI;
 
 module Bullet {
     requires Common;
@@ -19,8 +18,10 @@ module Bullet {
     requires CommonPlayer;
     requires CommonAsteroid;
     requires CommonEnemy;
+    requires spring.context;
+
+    opens io.asteroidsjaylib.bullet to spring.core, spring.context, spring.beans;
 
     provides BulletSPI with BulletProvider;
-    provides EventSubscriberSPI with BulletCollisionResponseSystem;
-    provides BaseSystem with BulletGlowSystem, BulletSeekingSystem;
+    provides BaseSystem with BulletGlowSystem, BulletSeekingSystem, BulletCollisionResponseSystem;
 }
