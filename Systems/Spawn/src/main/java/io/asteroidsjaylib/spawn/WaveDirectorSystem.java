@@ -10,6 +10,7 @@ import io.asteroidsjaylib.common.ecs.BulkSystem;
 import io.asteroidsjaylib.common.enemy.EnemySPI;
 import io.asteroidsjaylib.common.enemy.EnemyTag;
 import io.asteroidsjaylib.common.spawn.SpawnEvent;
+import io.asteroidsjaylib.common.util.ITimeProvider;
 import io.asteroidsjaylib.common.util.Quaternion;
 import io.asteroidsjaylib.common.util.Vector3D;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,10 @@ public class WaveDirectorSystem extends BulkSystem {
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private ApplicationEventPublisher eventPublisher;
+
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+    @Autowired
+    private ITimeProvider timeProvider;
 
     private AsteroidSPI asteroidSPI;
     private EnemySPI enemySPI;
@@ -56,7 +61,8 @@ public class WaveDirectorSystem extends BulkSystem {
                                 position,
                                 new Vector3D(-50 + random.nextFloat() * 100, -50 + random.nextFloat() * 100, -50 + random.nextFloat() * 100),
                                 Quaternion.randomQuaternion(),
-                                AsteroidType.Full)));
+                                AsteroidType.Full,
+                                timeProvider.getTime())));
             }
         }
 

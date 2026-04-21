@@ -13,6 +13,7 @@ import io.asteroidsjaylib.common.enemy.EnemyTag;
 import io.asteroidsjaylib.common.physics3d.PositionComponent;
 import io.asteroidsjaylib.common.physics3d.RotationComponent;
 import io.asteroidsjaylib.common.spawn.SpawnEvent;
+import io.asteroidsjaylib.common.util.ITimeProvider;
 import io.asteroidsjaylib.common.util.Vector3D;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -25,6 +26,10 @@ public class AsteroidCollisionResponseSystem extends ResponseSystem {
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private ApplicationEventPublisher eventPublisher;
+
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+    @Autowired
+    private ITimeProvider timeProvider;
 
     private final AsteroidSPI asteroidSPI;
     private final CrystalSPI crystalSPI;
@@ -61,14 +66,16 @@ public class AsteroidCollisionResponseSystem extends ResponseSystem {
                                 asteroid.getComponent(PositionComponent.class).pos.copy(),
                                 asteroid.getComponent(RotationComponent.class).quaternion.rotateVector(new Vector3D(0, 0, 1)).mult(10),
                                 asteroid.getComponent(RotationComponent.class).quaternion.copy(),
-                                AsteroidType.Top
+                                AsteroidType.Top,
+                                timeProvider.getTime()
                         )));
 
                 eventPublisher.publishEvent(new SpawnEvent(asteroidSPI.createAsteroid(
                                 asteroid.getComponent(PositionComponent.class).pos.copy(),
                                 asteroid.getComponent(RotationComponent.class).quaternion.rotateVector(new Vector3D(0, 0, 1)).mult(-10),
                                 asteroid.getComponent(RotationComponent.class).quaternion.copy(),
-                                AsteroidType.Bottom
+                                AsteroidType.Bottom,
+                                timeProvider.getTime()
                         )));
 
             }

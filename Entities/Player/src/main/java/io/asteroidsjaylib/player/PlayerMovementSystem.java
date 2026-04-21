@@ -41,7 +41,7 @@ public class PlayerMovementSystem extends IteratingSystem {
     }
 
     @EventListener
-    private void keyPressed(KeyPressedEvent event) {
+    void keyPressed(KeyPressedEvent event) {
         switch (event.keyCode){
             case KEY_W:
                 pitchDown = true;

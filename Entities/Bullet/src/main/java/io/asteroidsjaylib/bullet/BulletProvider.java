@@ -8,7 +8,7 @@ import io.asteroidsjaylib.common.util.Vector3D;
 public class BulletProvider implements BulletSPI {
 
     @Override
-    public BaseEntity CreateBullet(BaseEntity owner, Vector3D startPosition, Vector3D velocity, Quaternion rotation) {
-        return new BulletEntity(owner, startPosition, velocity, rotation);
+    public BaseEntity CreateBullet(BaseEntity owner, Vector3D startPosition, Vector3D velocity, Quaternion rotation, float startTime) {
+        return new BulletEntity(owner, startPosition, velocity, rotation, startTime);
     }
 }

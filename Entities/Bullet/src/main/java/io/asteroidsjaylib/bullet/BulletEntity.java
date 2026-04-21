@@ -15,11 +15,9 @@ import io.asteroidsjaylib.common.render.Model3D;
 import io.asteroidsjaylib.common.util.Quaternion;
 import io.asteroidsjaylib.common.util.Vector3D;
 
-import java.time.Duration;
-
 public class BulletEntity extends BaseEntity{
 
-    public BulletEntity(BaseEntity owner, Vector3D startPosition, Vector3D velocity, Quaternion rotation) {
+    public BulletEntity(BaseEntity owner, Vector3D startPosition, Vector3D velocity, Quaternion rotation, float startTime) {
 
         this.addComponent(new OwnershipComponent(owner));
 
@@ -35,7 +33,7 @@ public class BulletEntity extends BaseEntity{
 
         this.addComponent(new RotationComponent(rotation));
 
-        this.addComponent(new LifetimeComponent(Duration.ofSeconds(2)));
+        this.addComponent(new LifetimeComponent(startTime, 2));
 
         Render3DComponent render3DComponent = new Render3DComponent();
         Model3D laser = new Model3D("/LegoBullet.glb", 1, 90, -90, 0);

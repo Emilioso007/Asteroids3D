@@ -19,6 +19,7 @@ module Bullet {
     requires CommonAsteroid;
     requires CommonEnemy;
     requires spring.context;
+    requires spring.beans;
 
     opens io.asteroidsjaylib.bullet to spring.core, spring.context, spring.beans;
 

@@ -9,6 +9,7 @@ import io.asteroidsjaylib.common.enemy.EnemyTag;
 import io.asteroidsjaylib.common.physics3d.PositionComponent;
 import io.asteroidsjaylib.common.player.PlayerTag;
 import io.asteroidsjaylib.common.spawn.SpawnEvent;
+import io.asteroidsjaylib.common.util.ITimeProvider;
 import io.asteroidsjaylib.common.util.Quaternion;
 import io.asteroidsjaylib.common.util.Vector3D;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,10 @@ public class EnemySystem extends IntervalIteratingSystem {
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private ApplicationEventPublisher eventPublisher;
+
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+    @Autowired
+    private ITimeProvider timeProvider;
 
     private final Vector3D VECTOR3D_SCRATCHPAD = new Vector3D();
     private BulletSPI bulletSPI;
@@ -53,7 +58,7 @@ public class EnemySystem extends IntervalIteratingSystem {
         Vector3D defaultForward = VECTOR3D_SCRATCHPAD.set(1, 0, 0);
         Quaternion aimRotation = Quaternion.fromToRotation(defaultForward, direction);
 
-        eventPublisher.publishEvent(new SpawnEvent(bulletSPI.CreateBullet(enemy, bulletStart, bulletVelocity, aimRotation)));
+        eventPublisher.publishEvent(new SpawnEvent(bulletSPI.CreateBullet(enemy, bulletStart, bulletVelocity, aimRotation, timeProvider.getTime())));
 
     }
 

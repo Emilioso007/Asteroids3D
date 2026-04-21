@@ -8,7 +8,7 @@ import io.asteroidsjaylib.common.util.Vector3D;
 
 public class AsteroidProvider implements AsteroidSPI {
     @Override
-    public BaseEntity createAsteroid(Vector3D startPosition, Vector3D startVelocity, Quaternion rotation, AsteroidType type) {
-        return new AsteroidEntity(startPosition, startVelocity, rotation, type);
+    public BaseEntity createAsteroid(Vector3D startPosition, Vector3D startVelocity, Quaternion rotation, AsteroidType type, float startTime) {
+        return new AsteroidEntity(startPosition, startVelocity, rotation, type, startTime);
     }
 }

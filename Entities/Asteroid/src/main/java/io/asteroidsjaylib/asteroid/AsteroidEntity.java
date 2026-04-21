@@ -15,11 +15,9 @@ import io.asteroidsjaylib.common.render.Model3D;
 import io.asteroidsjaylib.common.util.Quaternion;
 import io.asteroidsjaylib.common.util.Vector3D;
 
-import java.time.Duration;
-
 public class AsteroidEntity extends BaseEntity {
 
-    public AsteroidEntity(Vector3D startPosition, Vector3D startVelocity, Quaternion rotation, AsteroidType type){
+    public AsteroidEntity(Vector3D startPosition, Vector3D startVelocity, Quaternion rotation, AsteroidType type, float startTime){
 
         this.addComponent(new AsteroidTag());
 
@@ -48,7 +46,7 @@ public class AsteroidEntity extends BaseEntity {
         if (type == AsteroidType.Full){
             this.addComponent(new SphereColliderComponent(40));
         } else {
-            this.addComponent(new LifetimeComponent(Duration.ofSeconds(5)));
+            this.addComponent(new LifetimeComponent(startTime, 5));
         }
 
     }

@@ -5,5 +5,5 @@ import io.asteroidsjaylib.common.util.Quaternion;
 import io.asteroidsjaylib.common.util.Vector3D;
 
 public interface AsteroidSPI {
-    BaseEntity createAsteroid(Vector3D startPosition, Vector3D startVelocity, Quaternion rotation, AsteroidType size);
+    BaseEntity createAsteroid(Vector3D startPosition, Vector3D startVelocity, Quaternion rotation, AsteroidType size, float startTime);
 }

@@ -98,6 +98,25 @@
             </dependency>
 
             <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter</artifactId>
+                <version>5.10.2</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>5.23.0</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-junit-jupiter</artifactId>
+                <version>5.23.0</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
                 <groupId>io.asteroidsjaylib.common</groupId>
                 <artifactId>Common</artifactId>
                 <version>1.0-SNAPSHOT</version>
@@ -173,6 +192,11 @@
                 <configuration>
                     <fork>false</fork>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
             </plugin>
             <!-- execute the resulting project -->
             <plugin>

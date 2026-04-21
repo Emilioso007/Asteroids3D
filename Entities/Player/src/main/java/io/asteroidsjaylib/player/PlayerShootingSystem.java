@@ -10,6 +10,7 @@ import io.asteroidsjaylib.common.event.input.key.KeyReleasedEvent;
 import io.asteroidsjaylib.common.physics3d.PositionComponent;
 import io.asteroidsjaylib.common.physics3d.RotationComponent;
 import io.asteroidsjaylib.common.physics3d.VelocityComponent;
+import io.asteroidsjaylib.common.util.ITimeProvider;
 import io.asteroidsjaylib.common.util.Quaternion;
 import io.asteroidsjaylib.common.player.PlayerTag;
 import io.asteroidsjaylib.common.spawn.SpawnEvent;
@@ -28,6 +29,10 @@ public class PlayerShootingSystem extends IteratingSystem {
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private ApplicationEventPublisher eventPublisher;
+
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+    @Autowired
+    private ITimeProvider timeProvider;
 
     private static final float SHOT_INTERVAL_SECONDS = 0.2f;
     private boolean firing = false;
@@ -76,7 +81,7 @@ public class PlayerShootingSystem extends IteratingSystem {
 
         Vector3D bulletVelocity = playerVel.copy().add(forwardVector.copy().mult(2500));
 
-        eventPublisher.publishEvent(new SpawnEvent(bulletSPI.CreateBullet(player, nosePosition, bulletVelocity, playerRot)));
+        eventPublisher.publishEvent(new SpawnEvent(bulletSPI.CreateBullet(player, nosePosition, bulletVelocity, playerRot, timeProvider.getTime())));
     }
 
     @Override

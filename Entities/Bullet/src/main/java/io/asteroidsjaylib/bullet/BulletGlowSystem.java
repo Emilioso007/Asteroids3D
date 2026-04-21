@@ -8,20 +8,25 @@ import io.asteroidsjaylib.common.ecs.IteratingSystem;
 import io.asteroidsjaylib.common.lifetime.LifetimeComponent;
 import io.asteroidsjaylib.common.physics3d.PositionComponent;
 import io.asteroidsjaylib.common.render.LightManager;
+import io.asteroidsjaylib.common.util.ITimeProvider;
 import io.asteroidsjaylib.common.util.Vector3D;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.Duration;
-import java.time.Instant;
 import java.util.List;
 
 public class BulletGlowSystem extends IteratingSystem {
+
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+    @Autowired
+    private ITimeProvider timeProvider;
+
     @Override
     public void processEntity(IWorld world, BaseEntity entity, float deltaTime) {
         Vector3D pos = entity.getComponent(PositionComponent.class).pos;
-        Instant startTime = entity.getComponent(LifetimeComponent.class).startTime;
-        Duration lifeTime = entity.getComponent(LifetimeComponent.class).lifetime;
+        float startTime = entity.getComponent(LifetimeComponent.class).startTime;
+        float lifeTime = entity.getComponent(LifetimeComponent.class).lifetime;
 
-        float decay = map(Instant.now().toEpochMilli() - startTime.toEpochMilli(), 0, lifeTime.toMillis(), 1, 0);
+        float decay = map(timeProvider.getTime() - startTime, 0, lifeTime, 1, 0);
 
         float red = 1.0f * decay * 10.0f;
         float green = 0.5f * decay * 1.0f;
