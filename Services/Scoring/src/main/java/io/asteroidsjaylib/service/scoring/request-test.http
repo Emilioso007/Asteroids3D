@@ -1,0 +1,6 @@
+### Test increment
+POST http://localhost:8080/score?
+    increment=1
+
+### Test get score
+GET http://localhost:8080/score

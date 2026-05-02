@@ -43,7 +43,7 @@ class LifetimeSystemTest {
     }
 
     @Test
-    void testProcessEntity_NotRunOut_DontRemove() {
+    void givenNotRunOut_WhenProcessEntity_ThenDontRemove() {
         // Arrange
         when(mockEntity.getComponent(LifetimeComponent.class)).thenReturn(lifetimeComponent);
 
@@ -60,7 +60,7 @@ class LifetimeSystemTest {
     }
 
     @Test
-    void testProcessEntity_HasRunOut_RemovesEntity() {
+    void givenHasRunOut_WhenProcessEntity_ThenRemovesEntity() {
         // Arrange
         when(mockEntity.getComponent(LifetimeComponent.class)).thenReturn(lifetimeComponent);
 

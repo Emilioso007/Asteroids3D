@@ -39,7 +39,7 @@ public class Game {
         int screenWidth = 800;
         int screenHeight = 800;
 
-        InitWindow(screenWidth, screenHeight, "AsteroidsJaylib");
+        InitWindow(screenWidth, screenHeight, "Asteroids3D");
         InitAudioDevice();
         SetTargetFPS(60);
 

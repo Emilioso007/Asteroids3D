@@ -10,8 +10,8 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <groupId>io.asteroidsjaylib.crystal</groupId>
-    <artifactId>Crystal</artifactId>
+    <groupId>io.asteroidsjaylib.systems.score</groupId>
+    <artifactId>Score</artifactId>
 
     <properties>
         <maven.compiler.source>25</maven.compiler.source>
@@ -20,36 +20,8 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>uk.co.electronstudio.jaylib</groupId>
-            <artifactId>jaylib</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.asteroidsjaylib.common.crystal</groupId>
-            <artifactId>CommonCrystal</artifactId>
-        </dependency>
-        <dependency>
             <groupId>io.asteroidsjaylib.common</groupId>
             <artifactId>Common</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.asteroidsjaylib.common.render</groupId>
-            <artifactId>CommonRender</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.asteroidsjaylib.common.collision</groupId>
-            <artifactId>CommonCollision</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.asteroidsjaylib.common.player</groupId>
-            <artifactId>CommonPlayer</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.asteroidsjaylib.common.physics3d</groupId>
-            <artifactId>CommonPhysics3D</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -60,6 +32,10 @@
             <artifactId>CommonScore</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
         </dependency>
     </dependencies>
 

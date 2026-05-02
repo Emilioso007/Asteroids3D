@@ -24,6 +24,7 @@
         <module>Common/CommonRender</module>
         <module>Common/CommonSpawn</module>
         <module>Common/CommonCrystal</module>
+        <module>Common/CommonScore</module>
 
         <module>Systems/Physics3D</module>
         <module>Systems/Collision</module>
@@ -31,12 +32,15 @@
         <module>Systems/Spawn</module>
         <module>Systems/Lifetime</module>
         <module>Systems/Render</module>
+        <module>Systems/Score</module>
 
         <module>Entities/Asteroid</module>
         <module>Entities/Bullet</module>
         <module>Entities/Crystal</module>
         <module>Entities/Enemy</module>
         <module>Entities/Player</module>
+
+        <module>Services/Scoring</module>
 
     </modules>
 
@@ -176,6 +180,12 @@
                 <artifactId>CommonSpawn</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
+            <dependency>
+                <groupId>io.asteroidsjaylib.common.score</groupId>
+                <artifactId>CommonScore</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+
 
         </dependencies>
     </dependencyManagement>
@@ -289,6 +299,17 @@
                                         </artifactItem>
                                     </artifactItems>
                                     <outputDirectory>${maven.multiModuleProjectDirectory}/mods-mvn</outputDirectory>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>copy-dependencies</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>copy-dependencies</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${maven.multiModuleProjectDirectory}/mods-mvn</outputDirectory>
+                                    <includeScope>runtime</includeScope>
                                 </configuration>
                             </execution>
                         </executions>
