@@ -13,7 +13,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
 import static com.raylib.Raylib.*;
-import static com.raylib.Colors.*;
 
 import java.util.List;
 
@@ -39,9 +38,8 @@ public class Game {
         int screenWidth = 800;
         int screenHeight = 800;
 
-        InitWindow(screenWidth, screenHeight, "Asteroids3D");
-        InitAudioDevice();
-        SetTargetFPS(60);
+        initWindow(screenWidth, screenHeight, "Asteroids3D");
+        setTargetFPS(60);
 
         world = new World();
 
@@ -51,38 +49,38 @@ public class Game {
         addSystems(world);
         addEntities(world);
 
-        while(!WindowShouldClose()) {
+        while(!windowShouldClose()) {
 
             processInput();
 
-            BeginDrawing();
-            ClearBackground(BLACK);
+            beginDrawing();
+            clearBackground(BLACK);
 
-            world.tick(GetFrameTime());
+            world.tick(getFrameTime());
 
-            DrawFPS(50, 50);
+            drawFPS(50, 50);
 
             if(world.hasEntitiesWith(PlayerTag.class))
-                DrawText(world.getEntitiesWith(PlayerTag.class).getFirst().getComponent(PositionComponent.class).pos.toString(),
+                drawText(world.getEntitiesWith(PlayerTag.class).getFirst().getComponent(PositionComponent.class).pos.toString(),
                 100, 100, 24, WHITE);
 
             if(world.hasEntitiesWith(EnemyTag.class))
-                DrawText(world.getEntitiesWith(EnemyTag.class).getFirst().getComponent(PositionComponent.class).pos.toString(),
+                drawText(world.getEntitiesWith(EnemyTag.class).getFirst().getComponent(PositionComponent.class).pos.toString(),
                         100, 200, 24, WHITE);
 
 
-            EndDrawing();
+            endDrawing();
         }
 
-        CloseWindow();
+        closeWindow();
     }
 
     public void processInput() {
         for (int i = 1; i <= 348; i++) {
-            if (IsKeyPressed(i)) {
+            if (isKeyPressed(i)) {
                 eventPublisher.publishEvent(new KeyPressedEvent(i));
             }
-            if (IsKeyReleased(i)) {
+            if (isKeyReleased(i)) {
                eventPublisher.publishEvent(new KeyReleasedEvent(i));
             }
         }

@@ -1,7 +1,7 @@
 package io.asteroidsjaylib.render;
 
 
-import com.raylib.Raylib;
+import com.raylib.*;
 import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.ecs.BaseComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
@@ -19,8 +19,10 @@ import io.asteroidsjaylib.common.util.Vector3D;
 
 import java.util.List;
 
-import static com.raylib.Colors.WHITE;
 import static com.raylib.Raylib.*;
+import static com.raylib.Raylib.MaterialMapIndex.MATERIAL_MAP_ALBEDO;
+import static com.raylib.Raylib.ShaderUniformDataType.SHADER_UNIFORM_FLOAT;
+import static com.raylib.Raylib.ShaderUniformDataType.SHADER_UNIFORM_VEC3;
 
 public class RenderSystem extends BulkSystem {
 
@@ -42,12 +44,12 @@ public class RenderSystem extends BulkSystem {
         this.setPriority(100);
 
         String texPath = ResourceLoader.getAsAbsolutePath("/stars.png");
-        Texture starsTexture = Raylib.LoadTexture(texPath);
+        Texture starsTexture = loadTexture(texPath);
 
-        Mesh skyMesh = GenMeshSphere(10f, 32, 32);
-        skyboxModel = LoadModelFromMesh(skyMesh);
+        Mesh skyMesh = genMeshSphere(10f, 32, 32);
+        skyboxModel = loadModelFromMesh(skyMesh);
 
-        skyboxModel.materials().position(0).maps().position(MATERIAL_MAP_ALBEDO).texture(starsTexture);
+        skyboxModel.materials().getArrayElement(0).maps().getArrayElement(MATERIAL_MAP_ALBEDO).texture(starsTexture);
     }
 
     @Override
@@ -86,25 +88,25 @@ public class RenderSystem extends BulkSystem {
                 smoothedCameraUp.add(desiredCameraUp.copy().sub(smoothedCameraUp).mult(upLerpSpeed * deltaTime)).normalize();
             }
 
-            camera._position(smoothedCameraPos.toVector3(RL_VEC_SCRATCHPAD));
+            camera.position(smoothedCameraPos.toVector3(RL_VEC_SCRATCHPAD));
             camera.target(smoothedCameraTarget.toVector3(RL_VEC_SCRATCHPAD));
             camera.up(smoothedCameraUp.toVector3(RL_VEC_SCRATCHPAD));
         }
 
-        ShaderManager.setGlobalShaderValue("viewPos", camera._position(), SHADER_UNIFORM_VEC3);
+        ShaderManager.setGlobalShaderValue("viewPos", camera.position(), SHADER_UNIFORM_VEC3);
         LightManager.applyLights();
 
-        try (Vector3 sunDirection = new Vector3().x(-1.0f).y(-1.0f).z(-1.0f)) {
-            ShaderManager.setGlobalShaderValue("lightDirection", sunDirection, SHADER_UNIFORM_VEC3);
-        }
+        Vector3 sunDirection = new Vector3(-1.0f, -1.0f,-1.0f);
+        ShaderManager.setGlobalShaderValue("lightDirection", sunDirection, SHADER_UNIFORM_VEC3);
 
-        timeArr[0] = (float) GetTime();
+
+        timeArr[0] = (float) getTime();
         ShaderManager.setGlobalShaderValue("time", timeArr, SHADER_UNIFORM_FLOAT);
 
         rlSetClipPlanes(1.0, 5000);
-        BeginMode3D(camera);
+        beginMode3D(camera);
 
-        DrawSkybox(camera);
+        drawSkybox(camera);
 
         for(BaseEntity entity : entities){
 
@@ -127,14 +129,14 @@ public class RenderSystem extends BulkSystem {
 
         }
 
-        EndMode3D();
+        endMode3D();
 
     }
 
-    private void DrawSkybox(Camera3D camera) {
+    private void drawSkybox(Camera3D camera) {
         rlDisableDepthMask();
         rlDisableBackfaceCulling();
-        DrawModel(skyboxModel, camera._position(), 1.0f, WHITE);
+        drawModel(skyboxModel, camera.position(), 1.0f, WHITE);
         rlEnableBackfaceCulling();
         rlEnableDepthMask();
     }

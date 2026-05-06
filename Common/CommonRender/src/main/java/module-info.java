@@ -1,5 +1,5 @@
 module CommonRender {
-    requires jaylib;
+    requires io.github.electronstudio.jaylib.ffm;
     requires Common;
     exports io.asteroidsjaylib.common.render;
 }

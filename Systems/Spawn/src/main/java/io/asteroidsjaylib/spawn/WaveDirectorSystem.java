@@ -53,7 +53,7 @@ public class WaveDirectorSystem extends BulkSystem {
         Random random = new Random();
 
         if (asteroidSPI != null) {
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 50; i++) {
 
                 Vector3D position = Vector3D.random().mult(world.getWorldSize()/2);
 
@@ -67,7 +67,7 @@ public class WaveDirectorSystem extends BulkSystem {
         }
 
         if (enemySPI != null) {
-            for (int i = 0; i < 1; i++) {
+            for (int i = 0; i < 10; i++) {
 
                 Vector3D position = Vector3D.random().mult(world.getWorldSize()/2);
 

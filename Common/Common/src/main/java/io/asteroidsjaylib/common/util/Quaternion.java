@@ -1,6 +1,6 @@
 package io.asteroidsjaylib.common.util;
 
-import com.raylib.Raylib.*;
+import com.raylib.Vector4;
 
 import java.util.Random;
 

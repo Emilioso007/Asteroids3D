@@ -22,7 +22,7 @@ import org.springframework.context.event.EventListener;
 import java.util.List;
 import java.util.ServiceLoader;
 
-import static com.raylib.Raylib.KEY_F;
+import static com.raylib.Raylib.KeyboardKey.KEY_F;
 
 public class PlayerShootingSystem extends IteratingSystem {
 
@@ -81,7 +81,7 @@ public class PlayerShootingSystem extends IteratingSystem {
 
         Vector3D bulletVelocity = playerVel.copy().add(forwardVector.copy().mult(2500));
 
-        eventPublisher.publishEvent(new SpawnEvent(bulletSPI.CreateBullet(player, nosePosition, bulletVelocity, playerRot, timeProvider.getTime())));
+        eventPublisher.publishEvent(new SpawnEvent(bulletSPI.CreateBullet(player, nosePosition, bulletVelocity, playerRot.copy(), timeProvider.getTime())));
     }
 
     @Override

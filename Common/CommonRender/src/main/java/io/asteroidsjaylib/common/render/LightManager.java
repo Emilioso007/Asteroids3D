@@ -1,6 +1,8 @@
 package io.asteroidsjaylib.common.render;
 
-import static com.raylib.Raylib.*;
+import com.raylib.Vector3;
+
+import static com.raylib.Raylib.ShaderUniformDataType.*;
 
 public class LightManager {
 

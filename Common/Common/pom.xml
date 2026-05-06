@@ -20,8 +20,8 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>uk.co.electronstudio.jaylib</groupId>
-            <artifactId>jaylib</artifactId>
+            <groupId>io.github.electronstudio</groupId>
+            <artifactId>jaylib-ffm</artifactId>
         </dependency>
     </dependencies>
 
