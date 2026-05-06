@@ -17,6 +17,7 @@ import io.asteroidsjaylib.common.util.Vector3D;
 import org.springframework.context.event.EventListener;
 
 import static com.raylib.Raylib.*;
+import static com.raylib.Raylib.KeyboardKey.*;
 
 import java.util.List;
 
@@ -130,7 +131,7 @@ public class PlayerMovementSystem extends IteratingSystem {
 
             Vector3D pos = player.getComponent(PositionComponent.class).pos.copy().add(heading.copy().rotateVector(new Vector3D(1, 0, 0).mult(-20)));
 
-            float pulse = (float) (Math.sin(GetTime() * 30) * 0.2 + 1.0);
+            float pulse = (float) (Math.sin(getTime() * 30) * 0.2 + 1.0);
             float red = 1.0f * pulse * 5.0f;
             float green = 0.5f * pulse * 5.0f;
             float blue = 0.0f;
@@ -154,7 +155,7 @@ public class PlayerMovementSystem extends IteratingSystem {
                 currentSpeed = Math.min(0, currentSpeed + angularDrag * deltaTime);
             }
         }
-        return Math.max(-maxTurnSpeed, Math.min(maxTurnSpeed, currentSpeed));
+        return Math.clamp(currentSpeed, -maxTurnSpeed, maxTurnSpeed);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package io.asteroidsjaylib;
 
-import com.raylib.Raylib.*;
+import com.raylib.Camera3D;
+import com.raylib.Vector3;
 import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.ecs.BaseComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
@@ -9,7 +10,7 @@ import io.asteroidsjaylib.common.util.Vector3D;
 
 import java.util.*;
 
-import static com.raylib.Raylib.CAMERA_PERSPECTIVE;
+import static com.raylib.Raylib.CameraProjection.CAMERA_PERSPECTIVE;
 
 public final class World implements IWorld {
 
@@ -31,7 +32,7 @@ public final class World implements IWorld {
 
     public World(){
         this.camera = new Camera3D();
-        this.camera._position(new Vector3D(0, 0, 2000).toVector3(RL_VEC_SCRATCHPAD));
+        this.camera.position(new Vector3D(0, 0, 2000).toVector3(RL_VEC_SCRATCHPAD));
         this.camera.target(new Vector3D(0, 0, 0).toVector3(RL_VEC_SCRATCHPAD));
         this.camera.up(new Vector3D(0, 0, 1).toVector3(RL_VEC_SCRATCHPAD));
         this.camera.fovy(45f);

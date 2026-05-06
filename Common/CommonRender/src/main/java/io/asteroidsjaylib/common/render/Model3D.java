@@ -1,8 +1,10 @@
 package io.asteroidsjaylib.common.render;
 
+import com.raylib.Model;
+import com.raylib.Shader;
+import com.raylib.Vector3;
 import io.asteroidsjaylib.common.util.ResourceLoader;
 
-import static com.raylib.Colors.WHITE;
 import static com.raylib.Raylib.*;
 
 import java.util.HashMap;
@@ -29,7 +31,7 @@ public class Model3D extends Base3DShape {
             return;
         }
 
-        this.model = LoadModel(ResourceLoader.getAsAbsolutePath(glbPath, StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE).getCallerClass()));
+        this.model = loadModel(ResourceLoader.getAsAbsolutePath(glbPath, StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE).getCallerClass()));
         modelCache.put(glbPath, this.model);
 
     }
@@ -43,7 +45,7 @@ public class Model3D extends Base3DShape {
         rlRotatef(pitchOffset, 1, 0, 0);
         rlRotatef(rollOffset, 0, 1, 0);
 
-        DrawModel(model, new Vector3(), scale, WHITE);
+        drawModel(model, new Vector3(), scale, WHITE);
 
         rlPopMatrix();
     }
@@ -52,10 +54,10 @@ public class Model3D extends Base3DShape {
         if (this.model != null){
 
             for(int i = 0; i < this.model.materialCount(); i++) {
-                this.model.materials().position(i).shader(shader);
+                this.model.materials().getArrayElement(i).shader(shader);
             }
 
-            this.model.materials().position(0);
+            this.model.materials().getArrayElement(0);
         }
     }
 }

@@ -6,7 +6,7 @@ import io.asteroidsjaylib.player.*;
 module Player {
     uses BulletSPI;
     requires Common;
-    requires jaylib;
+    requires io.github.electronstudio.jaylib.ffm;
     requires CommonPlayer;
     requires CommonRender;
     requires CommonSpawn;

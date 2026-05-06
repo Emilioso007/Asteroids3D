@@ -2,7 +2,7 @@ import io.asteroidsjaylib.common.ecs.BaseSystem;
 import io.asteroidsjaylib.render.RenderSystem;
 
 module Render {
-    requires jaylib;
+    requires io.github.electronstudio.jaylib.ffm;
     requires Common;
     requires CommonRender;
     requires CommonPhysics3D;

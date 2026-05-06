@@ -11,7 +11,7 @@ module Crystal {
     requires CommonPlayer;
     requires CommonCrystal;
     requires CommonRender;
-    requires jaylib;
+    requires io.github.electronstudio.jaylib.ffm;
     requires CommonPhysics3D;
     requires spring.context;
     requires spring.beans;

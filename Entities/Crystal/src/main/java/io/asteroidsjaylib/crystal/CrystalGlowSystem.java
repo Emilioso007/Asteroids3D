@@ -11,14 +11,14 @@ import io.asteroidsjaylib.common.util.Vector3D;
 
 import java.util.List;
 
-import static com.raylib.Raylib.GetTime;
+import static com.raylib.Raylib.getTime;
 
 public class CrystalGlowSystem extends IteratingSystem {
     @Override
     public void processEntity(IWorld world, BaseEntity crystal, float deltaTime) {
         Vector3D pos = crystal.getComponent(PositionComponent.class).pos;
 
-        float pulse = (float) (Math.sin(GetTime() * 10) * 0.2 + 1.0);
+        float pulse = (float) (Math.sin(getTime() * 10) * 0.2 + 1.0);
         float red = 0.0f;
         float green = 0.5f * pulse * 1.0f;
         float blue = 1.0f * pulse * 10.0f;

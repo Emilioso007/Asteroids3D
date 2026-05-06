@@ -1,18 +1,19 @@
 package io.asteroidsjaylib.common.render;
 
-import com.raylib.Raylib;
-import com.raylib.Raylib.*;
+import com.raylib.Shader;
+import com.raylib.Vector3;
 import io.asteroidsjaylib.common.util.ResourceLoader;
-import org.bytedeco.javacpp.FloatPointer;
-import org.bytedeco.javacpp.IntPointer;
 
+import java.lang.foreign.Arena;
+import java.lang.foreign.MemorySegment;
+import java.lang.foreign.ValueLayout;
 import java.lang.module.ModuleReader;
 import java.lang.module.ResolvedModule;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.raylib.Raylib.LoadShader;
+import static com.raylib.Raylib.*;
 
 public class ShaderManager {
     private static final Map<String, Shader> shaderMap = new HashMap<>();
@@ -50,7 +51,7 @@ public class ShaderManager {
                 for (String shaderPath : shaderFiles){
 
                     String keyName = new java.io.File(shaderPath).getName().replace(".fs", "");
-                    shaderMap.put(keyName, LoadShader(vsAbsolutePath, ResourceLoader.getAsAbsolutePath("/"+shaderPath)));
+                    shaderMap.put(keyName, loadShader(vsAbsolutePath, ResourceLoader.getAsAbsolutePath("/"+shaderPath)));
 
                 }
             }
@@ -67,10 +68,10 @@ public class ShaderManager {
     public static void setGlobalShaderValue(String uniformName, Vector3 vector3, int uniformType) {
         for (var shader : shaderMap.values()){
 
-            int loc = Raylib.GetShaderLocation(shader, uniformName);
+            int loc = getShaderLocation(shader, uniformName);
 
             if (loc != -1){
-                Raylib.SetShaderValue(shader, loc, vector3, uniformType);
+                setShaderValue(shader, loc, vector3.memorySegment, uniformType);
             }
 
         }
@@ -78,14 +79,16 @@ public class ShaderManager {
 
     public static void setGlobalShaderValue(String uniformName, float[] values, int uniformType) {
 
-        try (FloatPointer nativePointer = new FloatPointer(values)){
+        try (Arena arena = Arena.ofConfined()){
+
+            MemorySegment segment = arena.allocateFrom(ValueLayout.JAVA_FLOAT, values);
 
             for (var shader : shaderMap.values()){
 
-                int loc = Raylib.GetShaderLocation(shader, uniformName);
+                int loc = getShaderLocation(shader, uniformName);
 
                 if (loc != -1){
-                    Raylib.SetShaderValue(shader, loc, nativePointer, uniformType);
+                    setShaderValue(shader, loc, segment, uniformType);
                 }
 
             }
@@ -98,14 +101,16 @@ public class ShaderManager {
 
     public static void setGlobalShaderValue(String uniformName, float value, int uniformType) {
 
-        try (FloatPointer nativePointer = new FloatPointer(1).put(value)){
+        try (Arena arena = Arena.ofConfined()){
+
+            MemorySegment segment = arena.allocateFrom(ValueLayout.JAVA_FLOAT, value);
 
             for (var shader : shaderMap.values()){
 
-                int loc = Raylib.GetShaderLocation(shader, uniformName);
+                int loc = getShaderLocation(shader, uniformName);
 
                 if (loc != -1){
-                    Raylib.SetShaderValue(shader, loc, nativePointer, uniformType);
+                    setShaderValue(shader, loc, segment, uniformType);
                 }
 
             }
@@ -118,14 +123,17 @@ public class ShaderManager {
 
     public static void setGlobalShaderValue(String uniformName, int value, int uniformType) {
 
-        try (IntPointer nativePointer = new IntPointer(1).put(value)){
+        try (Arena arena = Arena.ofConfined()){
+
+            MemorySegment segment = arena.allocateFrom(ValueLayout.JAVA_INT, value);
 
             for (var shader : shaderMap.values()){
 
-                int loc = Raylib.GetShaderLocation(shader, uniformName);
+
+                int loc = getShaderLocation(shader, uniformName);
 
                 if (loc != -1){
-                    Raylib.SetShaderValue(shader, loc, nativePointer, uniformType);
+                    setShaderValue(shader, loc, segment, uniformType);
                 }
 
             }
