@@ -50,12 +50,35 @@ public final class World implements IWorld {
     public void tick(float deltaTime){
         this.deltaTime = deltaTime;
 
+        updateCacheIfNeeded();
+
+        // Run all systems in priority order
+        runAllSystems(deltaTime);
+
+    }
+
+    private void runAllSystems(float deltaTime) {
+        for (BaseSystem system : systems) {
+            if(!system.running) continue;
+            List<Class<? extends BaseComponent>> signature = system.getSignature();
+
+            if (signature == null || signature.isEmpty()){
+                system.update(this, entities, deltaTime);
+            } else {
+                system.update(this, systemEntityCache.get(system), deltaTime);
+            }
+        }
+    }
+
+    private void updateCacheIfNeeded() {
         boolean entitiesChanged = entities.removeIf(BaseEntity::isToBeRemoved);
         if (!entitiesToAdd.isEmpty()){
             entities.addAll(entitiesToAdd);
             entitiesToAdd.clear();
             entitiesChanged = true;
         }
+
+
 
         if (entitiesChanged || systemEntityCache.isEmpty()){
             for (BaseSystem system : systems){
@@ -69,19 +92,6 @@ public final class World implements IWorld {
                 systemEntityCache.put(system, matching);
             }
         }
-
-        // Run all systems in priority order
-        for (BaseSystem system : systems) {
-            if(!system.running) continue;
-            List<Class<? extends BaseComponent>> signature = system.getSignature();
-
-            if (signature == null || signature.isEmpty()){
-                system.update(this, entities, deltaTime);
-            } else {
-                system.update(this, systemEntityCache.get(system), deltaTime);
-            }
-        }
-
     }
 
     @Override

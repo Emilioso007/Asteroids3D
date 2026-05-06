@@ -14,6 +14,8 @@ module Crystal {
     requires jaylib;
     requires CommonPhysics3D;
     requires spring.context;
+    requires spring.beans;
+    requires CommonScore;
 
     opens io.asteroidsjaylib.crystal to spring.core, spring.context, spring.beans;
 
