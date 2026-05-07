@@ -126,7 +126,7 @@ public class PlayerMovementSystem extends IteratingSystem {
 
             Vector3D acceleration = player.getComponent(AccelerationComponent.class).acc;
             Quaternion heading = player.getComponent(RotationComponent.class).quaternion;
-            Vector3D forceVector = new Vector3D(2500, 0, 0);
+            Vector3D forceVector = new Vector3D(1500, 0, 0);
             acceleration.add(heading.rotateVector(forceVector));
 
             Vector3D playerPos = player.getComponent(PositionComponent.class).pos;
