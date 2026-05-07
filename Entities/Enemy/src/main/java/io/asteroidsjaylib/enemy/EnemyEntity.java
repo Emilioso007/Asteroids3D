@@ -9,6 +9,7 @@ import io.asteroidsjaylib.common.physics3d.VelocityComponent;
 import io.asteroidsjaylib.common.render.Render3DComponent;
 import io.asteroidsjaylib.common.render.ShaderManager;
 import io.asteroidsjaylib.common.render.Model3D;
+import io.asteroidsjaylib.common.util.Quaternion;
 import io.asteroidsjaylib.common.util.Vector3D;
 
 public class EnemyEntity extends BaseEntity {
@@ -19,23 +20,20 @@ public class EnemyEntity extends BaseEntity {
 
         this.addComponent(new PositionComponent(startPosition));
 
-        this.addComponent(new VelocityComponent(new Vector3D(5, 0, 0)));
+        RotationComponent rotationComponent = new RotationComponent(Quaternion.randomQuaternion());
+        this.addComponent(rotationComponent);
 
-        this.addComponent(new RotationComponent());
+        this.addComponent(new VelocityComponent(rotationComponent.quaternion.rotateVector(new Vector3D(500, 0, 0))));
 
         Render3DComponent render3DComponent = new Render3DComponent();
 
-        Model3D ufoBody = new Model3D("/LegoUfoBody.glb", 1, 90, -90, 0);
+        Model3D ufoBody = new Model3D("/LegoXWingBody.glb", 1, 90, -90, 0);
         ufoBody.applyShader(ShaderManager.getShader("solid"));
         render3DComponent.addShape(ufoBody);
 
-        Model3D ufoWindscreen = new Model3D("/LegoUfoWindscreen.glb", 1, 90, -90, 0);
+        Model3D ufoWindscreen = new Model3D("/LegoXWingWindshield.glb", 1, 90, -90, 0);
         ufoWindscreen.applyShader(ShaderManager.getShader("glass"));
         render3DComponent.addShape(ufoWindscreen);
-
-        Model3D ufoWeapon = new Model3D("/LegoUfoWeapon.glb", 1, 90, -90, 0);
-        ufoWeapon.applyShader(ShaderManager.getShader("glass"));
-        render3DComponent.addShape(ufoWeapon);
 
         this.addComponent(render3DComponent);
 
