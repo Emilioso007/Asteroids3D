@@ -39,10 +39,26 @@ public class PlayerShootingSystem extends IteratingSystem {
     private float cooldownSeconds = 0f;
     private BulletSPI bulletSPI;
 
+    private int currentBarrel = 0;
+    private Vector3D[] barrelOffsets;
+
     @Override
     public void start(IWorld world) {
         this.setPriority(12);
         bulletSPI = ServiceLoader.load(BulletSPI.class).findFirst().orElse(null);
+
+        float forwardBarrelOffset = 100f;
+        float leftBarrelOffset = 82.5f;
+        float rightBarrelOffset = -82.5f;
+        float topBarrelOffset = 20f;
+        float bottomBarrelOffset = -47.5f;
+
+        barrelOffsets = new Vector3D[]{
+                new Vector3D(forwardBarrelOffset, leftBarrelOffset, topBarrelOffset), // Top Left
+                new Vector3D(forwardBarrelOffset, rightBarrelOffset, bottomBarrelOffset), // Bottom Right
+                new Vector3D(forwardBarrelOffset, rightBarrelOffset, topBarrelOffset), // Top Right
+                new Vector3D(forwardBarrelOffset, leftBarrelOffset, bottomBarrelOffset)  // Bottom Left
+        };
     }
 
     @EventListener
@@ -68,20 +84,27 @@ public class PlayerShootingSystem extends IteratingSystem {
     }
 
     private void shoot(BaseEntity player) {
-
-        if(bulletSPI == null) return;
+        if (bulletSPI == null) return;
 
         Vector3D playerPos = player.getComponent(PositionComponent.class).pos;
         Vector3D playerVel = player.getComponent(VelocityComponent.class).vel;
         Quaternion playerRot = player.getComponent(RotationComponent.class).quaternion;
 
+        Vector3D rotatedOffset = playerRot.rotateVector(barrelOffsets[currentBarrel].copy());
+        Vector3D worldMuzzlePos = playerPos.copy().add(rotatedOffset);
+
         Vector3D forwardVector = playerRot.rotateVector(new Vector3D(1, 0, 0));
+        Vector3D bulletVelocity = playerVel.copy().add(forwardVector.copy().mult(2000));
 
-        Vector3D nosePosition = playerPos.copy().add(forwardVector.copy().mult(50));
+        eventPublisher.publishEvent(new SpawnEvent(bulletSPI.CreateBullet(
+                player,
+                worldMuzzlePos,
+                bulletVelocity,
+                playerRot.copy(),
+                timeProvider.getTime()
+        )));
 
-        Vector3D bulletVelocity = playerVel.copy().add(forwardVector.copy().mult(2500));
-
-        eventPublisher.publishEvent(new SpawnEvent(bulletSPI.CreateBullet(player, nosePosition, bulletVelocity, playerRot.copy(), timeProvider.getTime())));
+        currentBarrel = (currentBarrel + 1) % 4;
     }
 
     @Override
