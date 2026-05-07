@@ -40,18 +40,49 @@ public class ShaderManager {
 
             try (ModuleReader reader = resolvedModule.reference().open()){
 
-                String vsAbsolutePath = ResourceLoader.getAsAbsolutePath("/"+reader.list()
+                // 1. Gather all .vs files
+                List<String> vsFiles = reader.list()
                         .filter(path -> path.endsWith(".vs"))
-                        .findFirst().orElseThrow(() -> new RuntimeException("No .vs shader provided!")));
+                        .toList();
 
-                List<String> shaderFiles = reader.list()
+                // 2. Find and secure the default lighting.vs shader
+                String defaultVsPath = vsFiles.stream()
+                        .filter(path -> path.endsWith("lighting.vs"))
+                        .findFirst()
+                        .orElseThrow(() -> new RuntimeException("Default lighting.vs shader not found in resources!"));
+
+                String defaultVsAbsolutePath = ResourceLoader.getAsAbsolutePath("/" + defaultVsPath);
+
+                // 3. Gather all .fs files
+                List<String> fsFiles = reader.list()
                         .filter(path -> path.endsWith(".fs"))
                         .toList();
 
-                for (String shaderPath : shaderFiles){
+                // 4. Pair them up
+                for (String fsPath : fsFiles){
 
-                    String keyName = new java.io.File(shaderPath).getName().replace(".fs", "");
-                    shaderMap.put(keyName, loadShader(vsAbsolutePath, ResourceLoader.getAsAbsolutePath("/"+shaderPath)));
+                    String keyName = new java.io.File(fsPath).getName().replace(".fs", "");
+
+                    // Look for a custom .vs file with the exact same name (e.g., "thruster.vs")
+                    String matchingVsPath = vsFiles.stream()
+                            .filter(path -> path.endsWith(keyName + ".vs"))
+                            .findFirst()
+                            .orElse(null);
+
+                    // Determine which Vertex Shader to use
+                    String vsAbsolutePathToUse;
+                    if (matchingVsPath != null) {
+                        vsAbsolutePathToUse = ResourceLoader.getAsAbsolutePath("/" + matchingVsPath);
+                        System.out.println("Loaded custom pair: " + keyName + ".vs -> " + keyName + ".fs");
+                    } else {
+                        vsAbsolutePathToUse = defaultVsAbsolutePath;
+                        System.out.println("Loaded default pair: lighting.vs -> " + keyName + ".fs");
+                    }
+
+                    String fsAbsolutePath = ResourceLoader.getAsAbsolutePath("/" + fsPath);
+
+                    // Load into Raylib
+                    shaderMap.put(keyName, loadShader(vsAbsolutePathToUse, fsAbsolutePath));
 
                 }
             }

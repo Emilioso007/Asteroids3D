@@ -28,12 +28,19 @@ public class PlayerEntity extends BaseEntity {
         this.addComponent(new DragComponent(0.25f));
 
         Render3DComponent render3DComponent = new Render3DComponent();
-        Model3D normal = new Model3D("/LegoSpaceship.glb", 1, 90,-90,0);
-        normal.applyShader(ShaderManager.getShader("solid"));
-        render3DComponent.addShape(normal, List.of("normal", "thrust"));
-        Model3D thrustModel = new Model3D("/LegoFlame.glb", 1, 90,-90,0);
-        thrustModel.applyShader(ShaderManager.getShader("thruster"));
-        render3DComponent.addShape(thrustModel, "thrust");
+
+        Model3D body = new Model3D("/LegoXWingBody.glb", 1, 90,-90,0);
+        body.applyShader(ShaderManager.getShader("solid"));
+        render3DComponent.addShape(body, List.of("normal", "thrust"));
+
+        Model3D windshield = new Model3D("/LegoXWingWindshield.glb", 1, 90, -90, 0);
+        windshield.applyShader(ShaderManager.getShader("glass"));
+        render3DComponent.addShape(windshield, List.of("normal", "thrust"));
+
+        Model3D thruster = new Model3D("/LegoXWingThruster.glb", 1, 90,-90,0);
+        thruster.applyShader(ShaderManager.getShader("thruster"));
+        render3DComponent.addShape(thruster, "thrust");
+
         render3DComponent.setCurrentState("normal");
         this.addComponent(render3DComponent);
 

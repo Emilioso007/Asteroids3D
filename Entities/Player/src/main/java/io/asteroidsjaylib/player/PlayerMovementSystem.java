@@ -122,22 +122,26 @@ public class PlayerMovementSystem extends IteratingSystem {
         }
 
         if(accelerating) {
+            player.getComponent(Render3DComponent.class).setCurrentState("thrust");
+
             Vector3D acceleration = player.getComponent(AccelerationComponent.class).acc;
             Quaternion heading = player.getComponent(RotationComponent.class).quaternion;
             Vector3D forceVector = new Vector3D(2500, 0, 0);
             acceleration.add(heading.rotateVector(forceVector));
 
-            player.getComponent(Render3DComponent.class).setCurrentState("thrust");
+            Vector3D playerPos = player.getComponent(PositionComponent.class).pos;
 
-            Vector3D pos = player.getComponent(PositionComponent.class).pos.copy().add(heading.copy().rotateVector(new Vector3D(1, 0, 0).mult(-20)));
+            Vector3D centerBackLocal = new Vector3D(-50f, 0, 0);
+            Vector3D lightPos = playerPos.copy().add(heading.rotateVector(centerBackLocal));
 
-            float pulse = (float) (Math.sin(getTime() * 30) * 0.2 + 1.0);
-            float red = 1.0f * pulse * 5.0f;
-            float green = 0.5f * pulse * 5.0f;
-            float blue = 0.0f;
+            float pulse = (float) (Math.sin(getTime() * 45) * 0.2 + 1.0);
+            float intensity = 6.0f;
 
-            LightManager.addLightSource(pos.x, pos.y, pos.z, red, green, blue);
+            float red   = 0.99f * pulse * intensity;
+            float green = 0.56f * pulse * intensity;
+            float blue  = 0.81f * pulse * intensity;
 
+            LightManager.addLightSource(lightPos.x, lightPos.y, lightPos.z, red, green, blue);
         } else {
             player.getComponent(Render3DComponent.class).setCurrentState("normal");
         }
