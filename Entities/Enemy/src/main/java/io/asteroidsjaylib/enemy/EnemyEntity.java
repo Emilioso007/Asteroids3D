@@ -27,11 +27,11 @@ public class EnemyEntity extends BaseEntity {
 
         Render3DComponent render3DComponent = new Render3DComponent();
 
-        Model3D tieBody = new Model3D("/LegoTIEBody.glb", 1, 90, -90, 0);
+        Model3D tieBody = new Model3D("/LegoTIEBodyOptimized.glb", 1, 90, -90, 0);
         tieBody.applyShader(ShaderManager.getShader("solid"));
         render3DComponent.addShape(tieBody);
 
-        Model3D tieWindscreen = new Model3D("/LegoTIEWindshield.glb", 1, 90, -90, 0);
+        Model3D tieWindscreen = new Model3D("/LegoTIEWindshieldOptimized.glb", 1, 90, -90, 0);
         tieWindscreen.applyShader(ShaderManager.getShader("glass"));
         render3DComponent.addShape(tieWindscreen);
 
