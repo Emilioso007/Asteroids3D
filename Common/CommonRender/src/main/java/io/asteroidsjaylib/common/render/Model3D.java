@@ -1,8 +1,6 @@
 package io.asteroidsjaylib.common.render;
 
-import com.raylib.Model;
-import com.raylib.Shader;
-import com.raylib.Vector3;
+import com.raylib.*;
 import io.asteroidsjaylib.common.util.ResourceLoader;
 
 import static com.raylib.Raylib.*;
@@ -19,6 +17,8 @@ public class Model3D extends Base3DShape {
     public float pitchOffset, yawOffset, rollOffset;
 
     public boolean active = true;
+    public int lodCount = -1;
+    public int currentLodLevel = 0;
 
     public Model3D(String glbPath, float scale, float pitchOffset, float yawOffset, float rollOffset){
         this.scale = scale;
@@ -34,10 +34,11 @@ public class Model3D extends Base3DShape {
         this.model = loadModel(ResourceLoader.getAsAbsolutePath(glbPath, StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE).getCallerClass()));
         modelCache.put(glbPath, this.model);
 
+        System.out.println("Actual Meshes Loaded: " + model.meshCount());
     }
 
     @Override
-    public void draw() {
+    public void draw(float distanceToCameraSquared) {
         if (!active) return;
 
         rlPushMatrix();
@@ -45,8 +46,30 @@ public class Model3D extends Base3DShape {
         rlRotatef(pitchOffset, 1, 0, 0);
         rlRotatef(rollOffset, 0, 1, 0);
 
-        drawModel(model, new Vector3(), scale, WHITE);
+        if (lodCount == -1){
+            // Old school method. zzz
+            drawModel(model, new Vector3(), scale, WHITE);
+        } else {
+            // New and exciting LOD method!!!
 
+            if (distanceToCameraSquared <= 500*500){
+                currentLodLevel = 0;
+            } else if (distanceToCameraSquared <= 2500*2500) {
+                currentLodLevel = 1;
+            } else {
+                currentLodLevel = 2;
+            }
+
+            int meshCountPerLod = model.getMeshCount()/lodCount;
+            for(int i = currentLodLevel * meshCountPerLod; i < (currentLodLevel + 1) * meshCountPerLod; i++) {
+
+                Mesh activeMesh = model.meshes().getArrayElement(i);
+
+                Material activeMaterial = model.materials().getArrayElement(model.getMeshMaterial().get(i));
+
+                drawMesh(activeMesh, activeMaterial, matrixIdentity());
+            }
+        }
         rlPopMatrix();
     }
 

@@ -110,11 +110,13 @@ public class RenderSystem extends BulkSystem {
 
         for(BaseEntity entity : entities){
 
+            long start = System.nanoTime();
+
             Vector3D pos = entity.getComponent(PositionComponent.class).pos;
 
             RotationComponent rotComp = entity.getComponent(RotationComponent.class);
             float angle = 0.0f;
-            Vector3D axis = new Vector3D(0, 0, 1);
+            Vector3D axis = null;
 
             if(rotComp != null){
                 angle = rotComp.quaternion.getAngleDegrees();
@@ -125,6 +127,12 @@ public class RenderSystem extends BulkSystem {
 
             for (Base3DShape shape : render3DComponent.getActiveShapes()){
                 drawShape(shape, pos, angle, axis);
+            }
+
+
+            long ms = (System.nanoTime() - start) / 1000000;
+            if (ms > 1) {
+                System.out.println(entity.getClass().getSimpleName() + " took " + ms + "ms");
             }
 
         }
@@ -150,9 +158,11 @@ public class RenderSystem extends BulkSystem {
             rlTranslatef(shape.offset.x, shape.offset.y, shape.offset.z);
         }
 
-        rlRotatef(angle, axis.x, axis.y, axis.z);
+        if (axis != null) {
+            rlRotatef(angle, axis.x, axis.y, axis.z);
+        }
 
-        shape.draw();
+        shape.draw(pos.magSq());
 
         rlPopMatrix();
     }

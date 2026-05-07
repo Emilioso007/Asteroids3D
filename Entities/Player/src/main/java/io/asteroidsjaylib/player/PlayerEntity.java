@@ -29,7 +29,7 @@ public class PlayerEntity extends BaseEntity {
 
         Render3DComponent render3DComponent = new Render3DComponent();
 
-        Model3D body = new Model3D("/LegoXWingBody.glb", 1, 90,-90,0);
+        Model3D body = new Model3D("/LegoXWingBodyOptimized.glb", 1, 90,-90,0);
         body.applyShader(ShaderManager.getShader("solid"));
         render3DComponent.addShape(body, List.of("normal", "thrust"));
 

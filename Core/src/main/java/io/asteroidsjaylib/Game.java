@@ -70,6 +70,10 @@ public class Game {
 
 
             endDrawing();
+
+            if (isKeyPressed(KeyboardKey.KEY_C)){
+                takeScreenshot("screenshot_" + getTime() + ".png");
+            }
         }
 
         closeWindow();

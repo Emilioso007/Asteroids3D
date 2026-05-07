@@ -27,7 +27,8 @@ public class EnemyEntity extends BaseEntity {
 
         Render3DComponent render3DComponent = new Render3DComponent();
 
-        Model3D tieBody = new Model3D("/LegoTIEBodyOptimized.glb", 1, 90, -90, 0);
+        Model3D tieBody = new Model3D("/LegoTIEBodyOptimizedLOD.glb", 1, 90, -90, 0);
+        tieBody.lodCount = 3;
         tieBody.applyShader(ShaderManager.getShader("solid"));
         render3DComponent.addShape(tieBody);
 

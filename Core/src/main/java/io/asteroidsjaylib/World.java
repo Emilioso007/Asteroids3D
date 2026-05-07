@@ -61,6 +61,9 @@ public final class World implements IWorld {
     private void runAllSystems(float deltaTime) {
         for (BaseSystem system : systems) {
             if(!system.running) continue;
+
+            long start = System.nanoTime();
+
             List<Class<? extends BaseComponent>> signature = system.getSignature();
 
             if (signature == null || signature.isEmpty()){
@@ -68,6 +71,12 @@ public final class World implements IWorld {
             } else {
                 system.update(this, systemEntityCache.get(system), deltaTime);
             }
+
+            long ms = (System.nanoTime() - start) / 1000000;
+            if (ms > 8) {
+                //System.out.println(system.getClass().getSimpleName() + " took " + ms + "ms");
+            }
+
         }
     }
 
