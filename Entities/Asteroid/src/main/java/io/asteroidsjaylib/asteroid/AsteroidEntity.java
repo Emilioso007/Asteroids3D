@@ -32,7 +32,7 @@ public class AsteroidEntity extends BaseEntity {
 
 
         String path = switch (type){
-            case Full -> "/LegoAsteroid.glb";
+            case Full -> "/LegoAsteroidOptimized.glb";
             case Top -> "/LegoAsteroidTop.glb";
             case Bottom -> "/LegoAsteroidBottom.glb";
         };
