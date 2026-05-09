@@ -131,7 +131,9 @@ public class RenderSystem extends BulkSystem {
             assert render3D != null;
 
             for (Base3DShape shape : render3D.getActiveShapes()){
-                drawShape(shape, position.vector(), angle, axis);
+                Vector3D vector = position.vector();
+                if (withinFrustum(camera, shape.boundingBox(vector.x, vector.y, vector.z)))
+                    drawShape(shape, vector, angle, axis);
             }
 
             // ---
@@ -145,6 +147,91 @@ public class RenderSystem extends BulkSystem {
 
         endMode3D();
 
+    }
+
+    private boolean withinFrustum(Camera3D camera, BoundingBox boundingBox) {
+        // 1. Calculate the View Matrix
+        Matrix view = getCameraMatrix(camera);
+
+        // 2. Calculate the Projection Matrix
+        // Assuming a standard perspective camera.
+        // You may need to pass screen width/height as arguments if your window is resizable.
+        float aspect = (float) getScreenWidth() / (float) getScreenHeight();
+
+        // Near and Far planes. Match these to your game's actual render distances.
+        Matrix proj = matrixPerspective(camera.fovy() * Math.PI/180, aspect, 0.01f, 5000.0f);
+
+        // 3. Combine to get the View-Projection Matrix
+        Matrix vp = matrixMultiply(view, proj);
+
+        // 4. Extract the 6 Frustum Planes from the VP Matrix
+        // A plane is defined by an XYZ normal vector and a distance (W).
+        float[][] planes = new float[6][4];
+
+        // Left Plane
+        planes[0][0] = vp.m3() + vp.m0();
+        planes[0][1] = vp.m7() + vp.m4();
+        planes[0][2] = vp.m11() + vp.m8();
+        planes[0][3] = vp.m15() + vp.m12();
+
+        // Right Plane
+        planes[1][0] = vp.m3() - vp.m0();
+        planes[1][1] = vp.m7() - vp.m4();
+        planes[1][2] = vp.m11() - vp.m8();
+        planes[1][3] = vp.m15() - vp.m12();
+
+        // Bottom Plane
+        planes[2][0] = vp.m3() + vp.m1();
+        planes[2][1] = vp.m7() + vp.m5();
+        planes[2][2] = vp.m11() + vp.m9();
+        planes[2][3] = vp.m15() + vp.m13();
+
+        // Top Plane
+        planes[3][0] = vp.m3() - vp.m1();
+        planes[3][1] = vp.m7() - vp.m5();
+        planes[3][2] = vp.m11() - vp.m9();
+        planes[3][3] = vp.m15() - vp.m13();
+
+        // Near Plane
+        planes[4][0] = vp.m3() + vp.m2();
+        planes[4][1] = vp.m7() + vp.m6();
+        planes[4][2] = vp.m11() + vp.m10();
+        planes[4][3] = vp.m15() + vp.m14();
+
+        // Far Plane
+        planes[5][0] = vp.m3() - vp.m2();
+        planes[5][1] = vp.m7() - vp.m6();
+        planes[5][2] = vp.m11() - vp.m10();
+        planes[5][3] = vp.m15() - vp.m14();
+
+        // Normalize all planes
+        for (int i = 0; i < 6; i++) {
+            float length = (float) Math.sqrt(planes[i][0] * planes[i][0] + planes[i][1] * planes[i][1] + planes[i][2] * planes[i][2]);
+            planes[i][0] /= length;
+            planes[i][1] /= length;
+            planes[i][2] /= length;
+            planes[i][3] /= length;
+        }
+
+        // 5. Check the Bounding Box against each plane
+        // If the box is completely behind ANY plane, it's not visible.
+        for (int i = 0; i < 6; i++) {
+            // Find the "positive vertex" - the corner of the AABB furthest along the plane's normal
+            float px = (planes[i][0] > 0) ? boundingBox.max().x() : boundingBox.min().x();
+            float py = (planes[i][1] > 0) ? boundingBox.max().y() : boundingBox.min().y();
+            float pz = (planes[i][2] > 0) ? boundingBox.max().z() : boundingBox.min().z();
+
+            // Calculate the distance of this vertex from the plane
+            float distance = planes[i][0] * px + planes[i][1] * py + planes[i][2] * pz + planes[i][3];
+
+            // If the furthest point on the box is behind the plane, the whole box is behind it
+            if (distance < 0) {
+                return false; // Culled!
+            }
+        }
+
+        // Passed all plane checks, the box is at least partially visible
+        return true;
     }
 
     private void drawSkybox(Camera3D camera) {

@@ -20,6 +20,8 @@ public class Model3D extends Base3DShape {
     public int lodCount = -1;
     public int currentLodLevel = 0;
 
+    private final BoundingBox localBBox;
+
     public Model3D(String glbPath, float scale, float pitchOffset, float yawOffset, float rollOffset){
         this.scale = scale;
         this.pitchOffset = pitchOffset;
@@ -28,13 +30,29 @@ public class Model3D extends Base3DShape {
 
         if (modelCache.containsKey(glbPath)){
             this.model = modelCache.get(glbPath);
+            localBBox = getModelBoundingBox(model);
             return;
         }
 
         this.model = loadModel(ResourceLoader.getAsAbsolutePath(glbPath, StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE).getCallerClass()));
         modelCache.put(glbPath, this.model);
 
-        System.out.println("Actual Meshes Loaded: " + model.meshCount());
+        localBBox = getModelBoundingBox(model);
+
+        //System.out.println("Actual Meshes Loaded: " + model.meshCount());
+    }
+
+    @Override
+    public BoundingBox boundingBox(float x, float y, float z) {
+        return new BoundingBox()
+                .min(new Vector3(
+                    localBBox.min().x() + x,
+                    localBBox.min().y() + y,
+                    localBBox.min().z() + z))
+                .max(new Vector3(
+                        localBBox.max().x() + x,
+                        localBBox.max().y() + y,
+                        localBBox.max().z() + z));
     }
 
     @Override
