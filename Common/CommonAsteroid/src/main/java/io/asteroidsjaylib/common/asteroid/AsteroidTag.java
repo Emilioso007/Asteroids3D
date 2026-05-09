@@ -2,5 +2,5 @@ package io.asteroidsjaylib.common.asteroid;
 
 import io.asteroidsjaylib.common.ecs.BaseComponent;
 
-public class AsteroidTag extends BaseComponent {
+public final class AsteroidTag extends BaseComponent {
 }

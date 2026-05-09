@@ -1,8 +1,8 @@
 package io.asteroidsjaylib.spawn;
 
 import io.asteroidsjaylib.common.IWorld;
+import io.asteroidsjaylib.common.asteroid.AsteroidPart;
 import io.asteroidsjaylib.common.asteroid.AsteroidSPI;
-import io.asteroidsjaylib.common.asteroid.AsteroidType;
 import io.asteroidsjaylib.common.asteroid.AsteroidTag;
 import io.asteroidsjaylib.common.ecs.BaseComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
@@ -35,7 +35,7 @@ public class WaveDirectorSystem extends BulkSystem {
 
     @Override
     public void start(IWorld world) {
-        this.setPriority(85);
+        this.priority(85);
 
         asteroidSPI = ServiceLoader.load(AsteroidSPI.class).findFirst().orElse(null);
         enemySPI = ServiceLoader.load(EnemySPI.class).findFirst().orElse(null);
@@ -45,7 +45,7 @@ public class WaveDirectorSystem extends BulkSystem {
     @Override
     public void update(IWorld world, List<BaseEntity> entities, float deltaTime) {
         for (BaseEntity entity : entities){
-            if (entity.hasComponents(AsteroidTag.class) || entity.hasComponents(EnemyTag.class)){
+            if (entity.hasAll(AsteroidTag.class) || entity.hasAll(EnemyTag.class)){
                 return;
             }
         }
@@ -55,13 +55,13 @@ public class WaveDirectorSystem extends BulkSystem {
         if (asteroidSPI != null) {
             for (int i = 0; i < 50; i++) {
 
-                Vector3D position = Vector3D.random().mult(world.getWorldSize()/2);
+                Vector3D position = Vector3D.random().multiply(world.getWorldSize()/2);
 
                 eventPublisher.publishEvent(new SpawnEvent(asteroidSPI.createAsteroid(
                                 position,
                                 new Vector3D(-50 + random.nextFloat() * 100, -50 + random.nextFloat() * 100, -50 + random.nextFloat() * 100),
                                 Quaternion.randomQuaternion(),
-                                AsteroidType.Full,
+                                AsteroidPart.Type.Full,
                                 timeProvider.getTime())));
             }
         }
@@ -69,7 +69,7 @@ public class WaveDirectorSystem extends BulkSystem {
         if (enemySPI != null) {
             for (int i = 0; i < 10; i++) {
 
-                Vector3D position = Vector3D.random().mult(world.getWorldSize()/2);
+                Vector3D position = Vector3D.random().multiply(world.getWorldSize()/2);
 
                 eventPublisher.publishEvent(new SpawnEvent(enemySPI.createEnemy(position)));
             }
@@ -78,7 +78,7 @@ public class WaveDirectorSystem extends BulkSystem {
     }
 
     @Override
-    public List<Class<? extends BaseComponent>> getSignature() {
+    public List<Class<? extends BaseComponent>> signature() {
         return List.of();
     }
 

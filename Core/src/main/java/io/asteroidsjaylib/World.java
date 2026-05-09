@@ -25,26 +25,24 @@ public final class World implements IWorld {
     private final Map<BaseSystem, List<BaseEntity>> systemEntityCache = new HashMap<>();
     private final float worldSize;
 
-    @Override
-    public float getWorldSize() {
-        return this.worldSize;
-    }
-
     public World(){
-        this.camera = new Camera3D();
-        this.camera.position(new Vector3D(0, 0, 2000).toVector3(RL_VEC_SCRATCHPAD));
-        this.camera.target(new Vector3D(0, 0, 0).toVector3(RL_VEC_SCRATCHPAD));
-        this.camera.up(new Vector3D(0, 0, 1).toVector3(RL_VEC_SCRATCHPAD));
-        this.camera.fovy(45f);
-        this.camera.projection(CAMERA_PERSPECTIVE);
+        this.camera = new Camera3D()
+                .position(new Vector3D(0, 0, 2000).toVector3(RL_VEC_SCRATCHPAD))
+                .target(new Vector3D(0, 0, 0).toVector3(RL_VEC_SCRATCHPAD))
+                .up(new Vector3D(0, 0, 1).toVector3(RL_VEC_SCRATCHPAD))
+                .fovy(45f)
+                .projection(CAMERA_PERSPECTIVE);
 
         this.entities = new ArrayList<>();
-        entitiesToAdd = new ArrayList<>();
+        this.entitiesToAdd = new ArrayList<>();
+
         Comparator<BaseSystem> systemComparator =
-                Comparator.comparing(BaseSystem::getPriority)
+                Comparator.comparing((BaseSystem s) -> s.priority())
                 .thenComparing(system -> system.getClass().getName());
+
         this.systems = new TreeSet<>(systemComparator);
-        worldSize = 10000;
+
+        this.worldSize = 10000;
     }
 
     @Override
@@ -60,11 +58,11 @@ public final class World implements IWorld {
 
     private void runAllSystems(float deltaTime) {
         for (BaseSystem system : systems) {
-            if(!system.running) continue;
+            if(!system.running()) continue;
 
             long start = System.nanoTime();
 
-            List<Class<? extends BaseComponent>> signature = system.getSignature();
+            List<Class<? extends BaseComponent>> signature = system.signature();
 
             if (signature == null || signature.isEmpty()){
                 system.update(this, entities, deltaTime);
@@ -74,29 +72,31 @@ public final class World implements IWorld {
 
             long ms = (System.nanoTime() - start) / 1000000;
             if (ms > 8) {
-                //System.out.println(system.getClass().getSimpleName() + " took " + ms + "ms");
+                System.out.println(system.getClass().getSimpleName() + " took " + ms + "ms");
             }
 
         }
     }
 
     private void updateCacheIfNeeded() {
-        boolean entitiesChanged = entities.removeIf(BaseEntity::isToBeRemoved);
+        boolean entitiesChanged = entities.removeIf(BaseEntity::removed);
+
         if (!entitiesToAdd.isEmpty()){
             entities.addAll(entitiesToAdd);
             entitiesToAdd.clear();
             entitiesChanged = true;
         }
 
-
-
         if (entitiesChanged || systemEntityCache.isEmpty()){
             for (BaseSystem system : systems){
-                List<Class<? extends BaseComponent>> signature = system.getSignature();
-                List<BaseEntity> matching = new ArrayList<>();
+                List<Class<? extends BaseComponent>> signature = system.signature();
+
+                List<BaseEntity> matching = systemEntityCache.computeIfAbsent(system, _ -> new ArrayList<>());
+                matching.clear();
+
                 if (signature != null && !signature.isEmpty()){
                     for (BaseEntity entity : entities){
-                        if (matchesSignature(entity, signature)) matching.add(entity);
+                        if (entity.hasAll(signature)) matching.add(entity);
                     }
                 }
                 systemEntityCache.put(system, matching);
@@ -126,45 +126,35 @@ public final class World implements IWorld {
 
     @Override
     public <T extends BaseComponent> boolean hasEntitiesWith(Class<T> requiredComponent) {
-        return entities.stream().anyMatch(baseEntity -> baseEntity.hasComponents(requiredComponent));
+        for (BaseEntity entity : entities) {
+            if (entity.has(requiredComponent)) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    @SafeVarargs
     @Override
-    public final List<BaseEntity> getEntitiesWith(Class<? extends BaseComponent>... requiredComponents){
+    public List<BaseEntity> getEntitiesWith(Class<? extends BaseComponent> componentType) {
         List<BaseEntity> result = new ArrayList<>();
-        for (BaseEntity entity : entities){
-            boolean hasAllComponents = true;
-            for(Class<? extends BaseComponent> requiredComponent : requiredComponents){
-                if (!entity.hasComponents(requiredComponent)) {
-                    hasAllComponents = false;
-                    break;
-                }
+        for (BaseEntity entity : entities) {
+            if (entity.hasAll(componentType)){
+                result.add(entity);
             }
-            if (hasAllComponents) result.add(entity);
         }
         return result;
     }
 
-    private boolean matchesSignature(BaseEntity entity, List<Class<? extends BaseComponent>> signature){
-        for(Class<? extends BaseComponent> requiredType : signature){
-            boolean hasComponent = false;
-
-            for (BaseComponent c : entity.getComponents()){
-                if (requiredType.isAssignableFrom(c.getClass())){
-                    hasComponent = true;
-                    break;
-                }
-            }
-
-            if(!hasComponent) return false;
-        }
-        return true;
-    }
-
+    @SafeVarargs
     @Override
-    public void queueAddEntity(BaseEntity entityToSpawn) {
-        entitiesToAdd.add(entityToSpawn);
+    public final List<BaseEntity> getEntitiesWith(Class<? extends BaseComponent>... componentTypes){
+        List<BaseEntity> result = new ArrayList<>();
+        for (BaseEntity entity : entities) {
+            if (entity.hasAll(componentTypes)){
+                result.add(entity);
+            }
+        }
+        return result;
     }
 
     @Override
@@ -211,5 +201,10 @@ public final class World implements IWorld {
     @Override
     public void setScreenHeight(int screenHeight) {
         this.screenHeight = screenHeight;
+    }
+
+    @Override
+    public float getWorldSize() {
+        return this.worldSize;
     }
 }

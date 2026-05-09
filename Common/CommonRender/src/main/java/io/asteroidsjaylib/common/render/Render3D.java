@@ -4,19 +4,20 @@ import io.asteroidsjaylib.common.ecs.BaseComponent;
 
 import java.util.*;
 
-public class Render3DComponent extends BaseComponent {
+public final class Render3D extends BaseComponent {
 
     private final Map<String, List<Base3DShape>> shapeLibrary;
-    private final List<Base3DShape> allShapesCache = new ArrayList<>();
+    private final List<Base3DShape> allShapesCache;
     private boolean allShapesDirty = true;
     private String currentState = "";
 
-    public Render3DComponent() {
+    public Render3D() {
         this.shapeLibrary = new HashMap<>();
+        this.allShapesCache = new ArrayList<>();
     }
 
     public List<Base3DShape> getActiveShapes() {
-        if (getCurrentState().isEmpty()) {
+        if (currentState().isEmpty()) {
             if (allShapesDirty) {
                 allShapesCache.clear();
                 for (List<Base3DShape> shapes : shapeLibrary.values()) {
@@ -27,7 +28,7 @@ public class Render3DComponent extends BaseComponent {
             return allShapesCache;
         }
 
-        return shapeLibrary.getOrDefault(getCurrentState(), Collections.emptyList());
+        return shapeLibrary.getOrDefault(currentState(), Collections.emptyList());
     }
 
 
@@ -48,11 +49,12 @@ public class Render3DComponent extends BaseComponent {
         addShape(shape, "");
     }
 
-    public String getCurrentState() {
+    public String currentState() {
         return currentState;
     }
 
-    public void setCurrentState(String currentState) {
+    public Render3D currentState(String currentState) {
         this.currentState = currentState;
+        return this;
     }
 }

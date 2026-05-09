@@ -16,7 +16,7 @@ public class SpawnSystem extends ResponseSystem {
 
     @EventListener
     private void handleSpawnEvent(SpawnEvent event) {
-        this.world.queueAddEntity(event.entityToSpawn);
+        this.world.addEntity(event.entityToSpawn);
     }
 
 }

@@ -1,5 +1,6 @@
 package io.asteroidsjaylib.systems.score;
 
+import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.ecs.ResponseSystem;
 import io.asteroidsjaylib.common.score.ScoreEvent;
 import org.springframework.context.event.EventListener;
@@ -13,6 +14,11 @@ public class ScoreSystem extends ResponseSystem {
 
     public ScoreSystem(){
         restTemplate = new RestTemplate();
+    }
+
+    @Override
+    public void start(IWorld world) {
+
     }
 
     @EventListener

@@ -14,10 +14,10 @@ public class CollisionEvent extends BaseEvent {
     }
 
     public <T extends BaseComponent> BaseEntity getEntityWith(Class<T> componentType){
-        if (a.hasComponents(componentType)){
+        if (a.hasAll(componentType)){
             return a;
         }
-        if(b.hasComponents(componentType)){
+        if(b.hasAll(componentType)){
             return b;
         }
 
@@ -25,7 +25,7 @@ public class CollisionEvent extends BaseEvent {
     }
 
     public <T extends BaseComponent> boolean hasEntityWith(Class<T> componentType){
-        return a.hasComponents(componentType) || b.hasComponents(componentType);
+        return a.hasAll(componentType) || b.hasAll(componentType);
     }
 
     public BaseEntity getOther(BaseEntity known){

@@ -1,10 +1,11 @@
 package io.asteroidsjaylib.player;
 
+import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.crystal.CrystalTag;
 import io.asteroidsjaylib.common.collision.CollisionEvent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.ecs.ResponseSystem;
-import io.asteroidsjaylib.common.ownership.OwnershipComponent;
+import io.asteroidsjaylib.common.ownership.Ownership;
 import io.asteroidsjaylib.common.player.PlayerTag;
 import org.springframework.context.event.EventListener;
 
@@ -19,16 +20,21 @@ public class PlayerCollisionResponseSystem extends ResponseSystem {
         BaseEntity collider = event.getOther(player);
 
         // If collider is also player, do nothing
-        if (collider.hasComponents(PlayerTag.class)) return;
-        if (collider.hasComponents(CrystalTag.class)) return;
+        if (collider.hasAll(PlayerTag.class)) return;
+        if (collider.hasAll(CrystalTag.class)) return;
 
         // If collider owner is player, do nothing
-        var ownership = collider.getComponent(OwnershipComponent.class);
-        if (ownership != null && ownership.owner.hasComponents(PlayerTag.class)) {
+        var ownership = collider.get(Ownership.class);
+        if (ownership != null && ownership.owner().hasAll(PlayerTag.class)) {
             return;
         }
 
         // Mark player to be removed
-        player.setToBeRemoved(true);
+        player.removed(true);
+    }
+
+    @Override
+    public void start(IWorld world) {
+
     }
 }

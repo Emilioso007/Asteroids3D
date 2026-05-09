@@ -4,7 +4,7 @@ import io.asteroidsjaylib.common.ecs.BaseComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.ecs.IteratingSystem;
-import io.asteroidsjaylib.common.physics3d.PositionComponent;
+import io.asteroidsjaylib.common.physics3d.Position;
 import io.asteroidsjaylib.common.util.Vector3D;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public class OutOfBoundsSystem extends IteratingSystem {
 
     @Override
     public void start(IWorld world) {
-        this.setPriority(25);
+        this.priority(25);
         world.getWorldSize();
         this.min = -world.getWorldSize()/2;
         this.max = world.getWorldSize()/2;
@@ -23,13 +23,11 @@ public class OutOfBoundsSystem extends IteratingSystem {
     }
 
     @Override
-    public List<Class<? extends BaseComponent>> getSignature() {
-        return List.of(PositionComponent.class);
-    }
+    public void update(IWorld world, BaseEntity entity, float deltaTime) {
+        Position position = entity.get(Position.class);
+        assert position != null;
 
-    @Override
-    public void processEntity(IWorld world, BaseEntity entity, float deltaTime) {
-        Vector3D pos = entity.getComponent(PositionComponent.class).pos;
+        Vector3D pos = position.vector();
 
         if(pos.x < min) pos.x += full;
         if(pos.x > max) pos.x -= full;
@@ -39,4 +37,10 @@ public class OutOfBoundsSystem extends IteratingSystem {
         if(pos.z > max) pos.z -= full;
 
     }
+
+    @Override
+    public List<Class<? extends BaseComponent>> signature() {
+        return List.of(Position.class);
+    }
+
 }

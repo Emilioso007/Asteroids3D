@@ -6,14 +6,13 @@ import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.ecs.BaseComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.ecs.BulkSystem;
-import io.asteroidsjaylib.common.physics3d.PositionComponent;
-import io.asteroidsjaylib.common.physics3d.RotationComponent;
+import io.asteroidsjaylib.common.physics3d.Position;
+import io.asteroidsjaylib.common.physics3d.Rotation;
 import io.asteroidsjaylib.common.player.PlayerTag;
 import io.asteroidsjaylib.common.render.LightManager;
-import io.asteroidsjaylib.common.render.Render3DComponent;
+import io.asteroidsjaylib.common.render.Render3D;
 import io.asteroidsjaylib.common.render.ShaderManager;
 import io.asteroidsjaylib.common.render.Base3DShape;
-import io.asteroidsjaylib.common.util.Quaternion;
 import io.asteroidsjaylib.common.util.ResourceLoader;
 import io.asteroidsjaylib.common.util.Vector3D;
 
@@ -41,7 +40,7 @@ public class RenderSystem extends BulkSystem {
 
     @Override
     public void start(IWorld world) {
-        this.setPriority(100);
+        this.priority(100);
 
         String texPath = ResourceLoader.getAsAbsolutePath("/stars.png");
         Texture starsTexture = loadTexture(texPath);
@@ -53,8 +52,8 @@ public class RenderSystem extends BulkSystem {
     }
 
     @Override
-    public List<Class<? extends BaseComponent>> getSignature() {
-        return List.of(Render3DComponent.class, PositionComponent.class);
+    public List<Class<? extends BaseComponent>> signature() {
+        return List.of(Render3D.class, Position.class);
     }
 
     @Override
@@ -64,14 +63,16 @@ public class RenderSystem extends BulkSystem {
 
         if(!world.getEntitiesWith(PlayerTag.class).isEmpty()){
             BaseEntity player = world.getEntitiesWith(PlayerTag.class).getFirst();
-            Vector3D playerPos = player.getComponent(PositionComponent.class).pos;
-            Quaternion playerRot = player.getComponent(RotationComponent.class).quaternion;
+            Position playerPosition = player.get(Position.class);
+            Rotation playerRotation = player.get(Rotation.class);
+            assert playerPosition != null;
+            assert playerRotation != null;
 
-            Vector3D forwardVector = playerRot.rotateVector(new Vector3D(1, 0, 0));
-            Vector3D localUp = playerRot.rotateVector(new Vector3D(0, 0, 1));
+            Vector3D forwardVector = playerRotation.quaternion().rotateVector(new Vector3D(1, 0, 0));
+            Vector3D localUp = playerRotation.quaternion().rotateVector(new Vector3D(0, 0, 1));
 
-            Vector3D desiredCameraPos = playerPos.copy().sub(forwardVector.copy().mult(400)).add(localUp.copy().mult(100));
-            Vector3D desiredCameraTarget = playerPos.copy().add(forwardVector.copy().mult(1500));
+            Vector3D desiredCameraPos = playerPosition.vector().copy().subtract(forwardVector.copy().multiply(400)).add(localUp.copy().multiply(100));
+            Vector3D desiredCameraTarget = playerPosition.vector().copy().add(forwardVector.copy().multiply(1500));
             Vector3D desiredCameraUp = localUp;
 
             // Initialize smoothed vectors instantly on the very first frame to prevent massive snapping
@@ -83,9 +84,9 @@ public class RenderSystem extends BulkSystem {
 
                 // Smoothly interpolate (Lerp) from current position to the desired position
                 // Formula: current = current + (desired - current) * lerpSpeed * deltaTime
-                smoothedCameraPos.add(desiredCameraPos.copy().sub(smoothedCameraPos).mult(posLerpSpeed * deltaTime));
-                smoothedCameraTarget.add(desiredCameraTarget.copy().sub(smoothedCameraTarget).mult(targetLerpSpeed * deltaTime));
-                smoothedCameraUp.add(desiredCameraUp.copy().sub(smoothedCameraUp).mult(upLerpSpeed * deltaTime)).normalize();
+                smoothedCameraPos.add(desiredCameraPos.copy().subtract(smoothedCameraPos).multiply(posLerpSpeed * deltaTime));
+                smoothedCameraTarget.add(desiredCameraTarget.copy().subtract(smoothedCameraTarget).multiply(targetLerpSpeed * deltaTime));
+                smoothedCameraUp.add(desiredCameraUp.copy().subtract(smoothedCameraUp).multiply(upLerpSpeed * deltaTime)).normalize();
             }
 
             camera.position(smoothedCameraPos.toVector3(RL_VEC_SCRATCHPAD));
@@ -112,23 +113,28 @@ public class RenderSystem extends BulkSystem {
 
             long start = System.nanoTime();
 
-            Vector3D pos = entity.getComponent(PositionComponent.class).pos;
+            // ---
 
-            RotationComponent rotComp = entity.getComponent(RotationComponent.class);
+            Position position = entity.get(Position.class);
+            assert position != null;
+
             float angle = 0.0f;
             Vector3D axis = null;
 
+            Rotation rotComp = entity.get(Rotation.class);
             if(rotComp != null){
-                angle = rotComp.quaternion.getAngleDegrees();
-                axis = rotComp.quaternion.getAxis();
+                angle = rotComp.quaternion().getAngleDegrees();
+                axis = rotComp.quaternion().getAxis();
             }
 
-            Render3DComponent render3DComponent = entity.getComponent(Render3DComponent.class);
+            Render3D render3D = entity.get(Render3D.class);
+            assert render3D != null;
 
-            for (Base3DShape shape : render3DComponent.getActiveShapes()){
-                drawShape(shape, pos, angle, axis);
+            for (Base3DShape shape : render3D.getActiveShapes()){
+                drawShape(shape, position.vector(), angle, axis);
             }
 
+            // ---
 
             long ms = (System.nanoTime() - start) / 1000000;
             if (ms > 1) {
@@ -162,7 +168,7 @@ public class RenderSystem extends BulkSystem {
             rlRotatef(angle, axis.x, axis.y, axis.z);
         }
 
-        shape.draw(pos.magSq());
+        shape.draw(pos.magnitudeSquared());
 
         rlPopMatrix();
     }

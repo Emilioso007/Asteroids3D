@@ -4,21 +4,20 @@ import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.ecs.BaseComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.ecs.BulkSystem;
-import io.asteroidsjaylib.common.physics3d.PositionComponent;
+import io.asteroidsjaylib.common.physics3d.Position;
 import io.asteroidsjaylib.common.player.PlayerTag;
-import io.asteroidsjaylib.common.util.Vector3D;
 
 import java.util.List;
 
 public class PlayerThreadmillSystem extends BulkSystem {
     @Override
     public void start(IWorld world) {
-        this.setPriority(40);
+        this.priority(40);
     }
 
     @Override
-    public List<Class<? extends BaseComponent>> getSignature() {
-        return List.of(PositionComponent.class);
+    public List<Class<? extends BaseComponent>> signature() {
+        return List.of(Position.class);
     }
 
     @Override
@@ -26,16 +25,21 @@ public class PlayerThreadmillSystem extends BulkSystem {
 
         if (!world.hasEntitiesWith(PlayerTag.class)) return;
 
-        Vector3D playerPos = world.getEntitiesWith(PlayerTag.class).getFirst().getComponent(PositionComponent.class).pos;
+        Position playerPosition = world.getEntitiesWith(PlayerTag.class).getFirst().get(Position.class);
+        assert playerPosition != null;
 
         for (BaseEntity entity : entities){
 
-            if (entity.hasComponents(PlayerTag.class)) continue;
-            entity.getComponent(PositionComponent.class).pos.sub(playerPos);
+            if (entity.hasAll(PlayerTag.class)) continue;
+
+            Position position = entity.get(Position.class);
+            assert position != null;
+
+            position.vector().subtract(playerPosition.vector());
 
         }
 
-        playerPos.mult(0);
+        playerPosition.vector(0, 0, 0);
 
     }
 }

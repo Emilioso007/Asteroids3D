@@ -3,11 +3,8 @@ package io.asteroidsjaylib;
 import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.ecs.BaseSystem;
 import io.asteroidsjaylib.common.ecs.EntitySpi;
-import io.asteroidsjaylib.common.enemy.EnemyTag;
 import io.asteroidsjaylib.common.event.input.key.KeyPressedEvent;
 import io.asteroidsjaylib.common.event.input.key.KeyReleasedEvent;
-import io.asteroidsjaylib.common.physics3d.PositionComponent;
-import io.asteroidsjaylib.common.player.PlayerTag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
@@ -59,15 +56,6 @@ public class Game {
             world.tick(getFrameTime());
 
             drawFPS(50, 50);
-
-            if(world.hasEntitiesWith(PlayerTag.class))
-                drawText(world.getEntitiesWith(PlayerTag.class).getFirst().getComponent(PositionComponent.class).pos.toString(),
-                100, 100, 24, WHITE);
-
-            if(world.hasEntitiesWith(EnemyTag.class))
-                drawText(world.getEntitiesWith(EnemyTag.class).getFirst().getComponent(PositionComponent.class).pos.toString(),
-                        100, 200, 24, WHITE);
-
 
             endDrawing();
 

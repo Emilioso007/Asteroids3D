@@ -7,9 +7,9 @@ import io.asteroidsjaylib.common.ecs.BaseComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.ecs.IteratingSystem;
 import io.asteroidsjaylib.common.enemy.EnemyTag;
-import io.asteroidsjaylib.common.ownership.OwnershipComponent;
-import io.asteroidsjaylib.common.physics3d.AccelerationComponent;
-import io.asteroidsjaylib.common.physics3d.PositionComponent;
+import io.asteroidsjaylib.common.ownership.Ownership;
+import io.asteroidsjaylib.common.physics3d.Acceleration;
+import io.asteroidsjaylib.common.physics3d.Position;
 import io.asteroidsjaylib.common.player.PlayerTag;
 import io.asteroidsjaylib.common.util.Vector3D;
 
@@ -23,29 +23,33 @@ public class BulletSeekingSystem extends IteratingSystem {
 
     @Override
     public void start(IWorld world) {
-        this.setPriority(10);
+        this.priority(10);
     }
 
     @Override
-    public void processEntity(IWorld world, BaseEntity bullet, float deltaTime) {
+    public void update(IWorld world, BaseEntity bullet, float deltaTime) {
 
         // Only player bullets can seek!
-        if(!bullet.hasComponents(OwnershipComponent.class) || !bullet.getComponent(OwnershipComponent.class).owner.hasComponents(PlayerTag.class)) {
+        Ownership ownership = bullet.get(Ownership.class);
+        if(ownership != null && ownership.owner().hasNone(PlayerTag.class)) {
             return;
         }
 
-        Vector3D bulletPosition = bullet.getComponent(PositionComponent.class).pos;
+        Position bulletPosition = bullet.get(Position.class);
+        assert bulletPosition != null;
 
-        List<BaseEntity> asteroids = world.getEntitiesWith(AsteroidTag.class, PositionComponent.class);
-        List<BaseEntity> enemies = world.getEntitiesWith(EnemyTag.class, PositionComponent.class);
+        List<BaseEntity> asteroids = world.getEntitiesWith(AsteroidTag.class, Position.class);
+        List<BaseEntity> enemies = world.getEntitiesWith(EnemyTag.class, Position.class);
 
         BaseEntity closestTarget = null;
         float closestDistSq = MAX_RANGE_SQ;
 
         // Check Asteroids
         for (BaseEntity asteroid : asteroids) {
-            Vector3D pos = asteroid.getComponent(PositionComponent.class).pos;
-            float distSq = Vector3D.distSq(bulletPosition, pos);
+            Position asteroidPosition = asteroid.get(Position.class);
+            assert asteroidPosition != null;
+
+            float distSq = Vector3D.distanceSquared(bulletPosition.vector(), asteroidPosition.vector());
 
             if (distSq < closestDistSq && distSq > MIN_RANGE_SQ) {
                 closestDistSq = distSq;
@@ -55,8 +59,10 @@ public class BulletSeekingSystem extends IteratingSystem {
 
         // Check Enemies
         for (BaseEntity enemy : enemies) {
-            Vector3D pos = enemy.getComponent(PositionComponent.class).pos;
-            float distSq = Vector3D.distSq(bulletPosition, pos);
+            Position enemyPosition = enemy.get(Position.class);
+            assert enemyPosition != null;
+
+            float distSq = Vector3D.distanceSquared(bulletPosition.vector(), enemyPosition.vector());
 
             if (distSq < closestDistSq && distSq > MIN_RANGE_SQ) {
                 closestDistSq = distSq;
@@ -66,19 +72,22 @@ public class BulletSeekingSystem extends IteratingSystem {
 
         // Apply force towards the closest target
         if (closestTarget != null) {
-            Vector3D targetPosition = closestTarget.getComponent(PositionComponent.class).pos;
+            Position targetPosition = closestTarget.get(Position.class);
+            assert targetPosition != null;
 
-            float dx = targetPosition.x - bulletPosition.x;
-            float dy = targetPosition.y - bulletPosition.y;
-            float dz = targetPosition.z - bulletPosition.z;
+            float dx = targetPosition.vector().x - bulletPosition.vector().x;
+            float dy = targetPosition.vector().y - bulletPosition.vector().y;
+            float dz = targetPosition.vector().z - bulletPosition.vector().z;
 
-            VECTOR_3D_SCRATCHPAD.set(dx, dy, dz).normalize().mult(100000);
-            bullet.getComponent(AccelerationComponent.class).acc.add(VECTOR_3D_SCRATCHPAD);
+            VECTOR_3D_SCRATCHPAD.set(dx, dy, dz).normalize().multiply(100000);
+            Acceleration acceleration = bullet.get(Acceleration.class);
+            assert acceleration != null;
+            acceleration.vector().add(VECTOR_3D_SCRATCHPAD);
         }
     }
 
     @Override
-    public List<Class<? extends BaseComponent>> getSignature() {
-        return List.of(BulletTag.class, PositionComponent.class, AccelerationComponent.class);
+    public List<Class<? extends BaseComponent>> signature() {
+        return List.of(BulletTag.class, Position.class, Acceleration.class);
     }
 }

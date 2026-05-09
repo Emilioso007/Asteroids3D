@@ -6,12 +6,12 @@ import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.ecs.IteratingSystem;
 import io.asteroidsjaylib.common.event.input.key.KeyPressedEvent;
 import io.asteroidsjaylib.common.event.input.key.KeyReleasedEvent;
-import io.asteroidsjaylib.common.physics3d.AccelerationComponent;
-import io.asteroidsjaylib.common.physics3d.PositionComponent;
-import io.asteroidsjaylib.common.physics3d.RotationComponent;
+import io.asteroidsjaylib.common.physics3d.Acceleration;
+import io.asteroidsjaylib.common.physics3d.Position;
+import io.asteroidsjaylib.common.physics3d.Rotation;
 import io.asteroidsjaylib.common.player.PlayerTag;
 import io.asteroidsjaylib.common.render.LightManager;
-import io.asteroidsjaylib.common.render.Render3DComponent;
+import io.asteroidsjaylib.common.render.Render3D;
 import io.asteroidsjaylib.common.util.Quaternion;
 import io.asteroidsjaylib.common.util.Vector3D;
 import org.springframework.context.event.EventListener;
@@ -38,7 +38,7 @@ public class PlayerMovementSystem extends IteratingSystem {
 
     @Override
     public void start(IWorld world) {
-        this.setPriority(5);
+        this.priority(5);
     }
 
     @EventListener
@@ -96,9 +96,10 @@ public class PlayerMovementSystem extends IteratingSystem {
     }
 
     @Override
-    public void processEntity(IWorld world, BaseEntity player, float deltaTime) {
+    public void update(IWorld world, BaseEntity player, float deltaTime) {
 
-        RotationComponent rotComp = player.getComponent(RotationComponent.class);
+        Rotation playerRotation = player.get(Rotation.class);
+        assert playerRotation != null;
 
         currentYawSpeed = updateSpeed(currentYawSpeed, yawLeft, yawRight, deltaTime);
         currentPitchSpeed = updateSpeed(currentPitchSpeed, pitchDown, pitchUp, deltaTime);
@@ -110,26 +111,34 @@ public class PlayerMovementSystem extends IteratingSystem {
 
         if (yawAmount != 0){
             Quaternion yaw = Quaternion.fromAxisAngle(new Vector3D(0, 0, 1), yawAmount);
-            rotComp.quaternion.multiply(yaw).normalize();
+            playerRotation.quaternion().multiply(yaw).normalize();
         }
         if (pitchAmount != 0){
             Quaternion pitch = Quaternion.fromAxisAngle(new Vector3D(0, 1, 0), pitchAmount);
-            rotComp.quaternion.multiply(pitch).normalize();
+            playerRotation.quaternion().multiply(pitch).normalize();
         }
         if (rollAmount != 0){
             Quaternion roll = Quaternion.fromAxisAngle(new Vector3D(1, 0, 0), rollAmount);
-            rotComp.quaternion.multiply(roll).normalize();
+            playerRotation.quaternion().multiply(roll).normalize();
         }
 
-        if(accelerating) {
-            player.getComponent(Render3DComponent.class).setCurrentState("thrust");
+        Render3D render3D = player.get(Render3D.class);
+        assert render3D != null;
 
-            Vector3D acceleration = player.getComponent(AccelerationComponent.class).acc;
-            Quaternion heading = player.getComponent(RotationComponent.class).quaternion;
+        if(accelerating) {
+            render3D.currentState("thrust");
+
+            Acceleration playerAcceleration = player.get(Acceleration.class);
+            Position playerPosition = player.get(Position.class);
+            assert playerAcceleration != null;
+            assert playerPosition != null;
+
+            Vector3D acceleration = playerAcceleration.vector();
+            Quaternion heading = playerRotation.quaternion();
             Vector3D forceVector = new Vector3D(1500, 0, 0);
             acceleration.add(heading.rotateVector(forceVector));
 
-            Vector3D playerPos = player.getComponent(PositionComponent.class).pos;
+            Vector3D playerPos = playerPosition.vector();
 
             Vector3D centerBackLocal = new Vector3D(-50f, 0, 0);
             Vector3D lightPos = playerPos.copy().add(heading.rotateVector(centerBackLocal));
@@ -143,7 +152,7 @@ public class PlayerMovementSystem extends IteratingSystem {
 
             LightManager.addLightSource(lightPos.x, lightPos.y, lightPos.z, red, green, blue);
         } else {
-            player.getComponent(Render3DComponent.class).setCurrentState("normal");
+            render3D.currentState("normal");
         }
     }
 
@@ -163,8 +172,8 @@ public class PlayerMovementSystem extends IteratingSystem {
     }
 
     @Override
-    public List<Class<? extends BaseComponent>> getSignature() {
-        return List.of(PlayerTag.class, PositionComponent.class, AccelerationComponent.class, RotationComponent.class, Render3DComponent.class);
+    public List<Class<? extends BaseComponent>> signature() {
+        return List.of(PlayerTag.class, Position.class, Acceleration.class, Rotation.class, Render3D.class);
     }
 
 }

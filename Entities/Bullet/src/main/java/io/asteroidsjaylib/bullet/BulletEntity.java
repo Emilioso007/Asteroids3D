@@ -1,15 +1,15 @@
 package io.asteroidsjaylib.bullet;
 
 import io.asteroidsjaylib.common.bullet.BulletTag;
-import io.asteroidsjaylib.common.collision.SphereColliderComponent;
-import io.asteroidsjaylib.common.lifetime.LifetimeComponent;
-import io.asteroidsjaylib.common.ownership.OwnershipComponent;
+import io.asteroidsjaylib.common.collision.SphereCollider;
+import io.asteroidsjaylib.common.lifetime.Lifetime;
+import io.asteroidsjaylib.common.ownership.Ownership;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
-import io.asteroidsjaylib.common.physics3d.AccelerationComponent;
-import io.asteroidsjaylib.common.physics3d.PositionComponent;
-import io.asteroidsjaylib.common.physics3d.RotationComponent;
-import io.asteroidsjaylib.common.physics3d.VelocityComponent;
-import io.asteroidsjaylib.common.render.Render3DComponent;
+import io.asteroidsjaylib.common.physics3d.Acceleration;
+import io.asteroidsjaylib.common.physics3d.Position;
+import io.asteroidsjaylib.common.physics3d.Rotation;
+import io.asteroidsjaylib.common.physics3d.Velocity;
+import io.asteroidsjaylib.common.render.Render3D;
 import io.asteroidsjaylib.common.render.ShaderManager;
 import io.asteroidsjaylib.common.render.Model3D;
 import io.asteroidsjaylib.common.util.Quaternion;
@@ -19,29 +19,27 @@ public class BulletEntity extends BaseEntity{
 
     public BulletEntity(BaseEntity owner, Vector3D startPosition, Vector3D velocity, Quaternion rotation, float startTime) {
 
-        this.addComponent(new OwnershipComponent(owner));
+        this.add(new Ownership(owner));
 
-        this.addComponent(new BulletTag());
+        this.add(new BulletTag());
 
-        this.addComponent(new PositionComponent(startPosition));
+        this.add(new Position().vector(startPosition));
 
-        VelocityComponent velocityComponent = new VelocityComponent(velocity);
-        velocityComponent.terminalVelocity = 2500;
-        this.addComponent(velocityComponent);
+        this.add(new Velocity().vector(velocity).terminal(2500));
 
-        this.addComponent(new AccelerationComponent());
+        this.add(new Acceleration());
 
-        this.addComponent(new RotationComponent(rotation));
+        this.add(new Rotation().quaternion(rotation));
 
-        this.addComponent(new LifetimeComponent(startTime, 2));
+        this.add(new Lifetime(startTime, 2));
 
-        Render3DComponent render3DComponent = new Render3DComponent();
+        Render3D render3D = new Render3D();
         Model3D laser = new Model3D("/LegoBullet.glb", 1, 90, -90, 0);
         laser.applyShader(ShaderManager.getShader("solid"));
-        render3DComponent.addShape(laser);
-        this.addComponent(render3DComponent);
+        render3D.addShape(laser);
+        this.add(render3D);
 
-        this.addComponent(new SphereColliderComponent(10));
+        this.add(new SphereCollider().radius(10));
 
     }
 }

@@ -9,15 +9,15 @@ public abstract non-sealed class IntervalIteratingSystem extends BaseSystem {
     public double accumulator;
 
     @Override
-    public void update(IWorld world, List<BaseEntity> entities, float deltaTime){
+    public final void update(IWorld world, List<BaseEntity> entities, float deltaTime){
         accumulator += deltaTime;
         if(accumulator >= interval){
             accumulator = 0;
             for (BaseEntity entity : entities){
-                updateInterval(world, entity, deltaTime);
+                update(world, entity, deltaTime);
             }
         }
     }
 
-    public abstract void updateInterval(IWorld world, BaseEntity entity, double deltaTime);
+    public abstract void update(IWorld world, BaseEntity entity, double deltaTime);
 }

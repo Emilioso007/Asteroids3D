@@ -5,8 +5,8 @@ import io.asteroidsjaylib.common.bullet.BulletTag;
 import io.asteroidsjaylib.common.ecs.BaseComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.ecs.IteratingSystem;
-import io.asteroidsjaylib.common.lifetime.LifetimeComponent;
-import io.asteroidsjaylib.common.physics3d.PositionComponent;
+import io.asteroidsjaylib.common.lifetime.Lifetime;
+import io.asteroidsjaylib.common.physics3d.Position;
 import io.asteroidsjaylib.common.render.LightManager;
 import io.asteroidsjaylib.common.util.ITimeProvider;
 import io.asteroidsjaylib.common.util.Vector3D;
@@ -21,10 +21,15 @@ public class BulletGlowSystem extends IteratingSystem {
     private ITimeProvider timeProvider;
 
     @Override
-    public void processEntity(IWorld world, BaseEntity entity, float deltaTime) {
-        Vector3D pos = entity.getComponent(PositionComponent.class).pos;
-        float startTime = entity.getComponent(LifetimeComponent.class).startTime;
-        float lifeTime = entity.getComponent(LifetimeComponent.class).lifetime;
+    public void update(IWorld world, BaseEntity entity, float deltaTime) {
+        Position position = entity.get(Position.class);
+        Lifetime lifetime = entity.get(Lifetime.class);
+        assert position != null;
+        assert lifetime != null;
+
+        Vector3D pos = position.vector();
+        float startTime = lifetime.start();
+        float lifeTime = lifetime.duration();
 
         float decay = map(timeProvider.getTime() - startTime, 0, lifeTime, 1, 0);
 
@@ -37,12 +42,12 @@ public class BulletGlowSystem extends IteratingSystem {
 
     @Override
     public void start(IWorld world) {
-        this.setPriority(99);
+        this.priority(99);
     }
 
     @Override
-    public List<Class<? extends BaseComponent>> getSignature() {
-        return List.of(BulletTag.class, PositionComponent.class, LifetimeComponent.class);
+    public List<Class<? extends BaseComponent>> signature() {
+        return List.of(BulletTag.class, Position.class, Lifetime.class);
     }
 
     private float map(float x, float in_min, float in_max, float out_min, float out_max) {

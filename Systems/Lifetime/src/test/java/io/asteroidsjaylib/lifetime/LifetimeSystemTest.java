@@ -2,7 +2,7 @@ package io.asteroidsjaylib.lifetime;
 
 import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
-import io.asteroidsjaylib.common.lifetime.LifetimeComponent;
+import io.asteroidsjaylib.common.lifetime.Lifetime;
 import io.asteroidsjaylib.common.util.ITimeProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,7 +28,7 @@ class LifetimeSystemTest {
     @Mock
     private ITimeProvider mockTimeProvider;
 
-    private LifetimeComponent lifetimeComponent;
+    private Lifetime lifetime;
 
     @BeforeEach
     void setUp() {
@@ -39,39 +39,39 @@ class LifetimeSystemTest {
 
         // Simulate an entity that was spawned at game time = 10.0 seconds
         // It has a maximum lifetime of 5.0 seconds
-        lifetimeComponent = new LifetimeComponent(10.0f, 5.0f);
+        lifetime = new Lifetime(10.0f, 5.0f);
     }
 
     @Test
-    void givenNotRunOut_WhenProcessEntity_ThenDontRemove() {
+    void givenNotRunOut_WhenUpdate_ThenDontRemove() {
         // Arrange
-        when(mockEntity.getComponent(LifetimeComponent.class)).thenReturn(lifetimeComponent);
+        when(mockEntity.get(Lifetime.class)).thenReturn(lifetime);
 
         // Simulate the current time being 14.0 seconds.
         // 14.0 - 10.0 = 4.0 seconds alive. This is less than the 5.0 limit.
         when(mockTimeProvider.getTime()).thenReturn(14.0f);
 
         // Act
-        lifetimeSystem.processEntity(mockWorld, mockEntity, 0.016f);
+        lifetimeSystem.update(mockWorld, mockEntity, 0.016f);
 
         // Assert
-        verify(mockEntity).getComponent(LifetimeComponent.class);
+        verify(mockEntity).get(Lifetime.class);
         verifyNoMoreInteractions(mockEntity); // Ensure setToBeRemoved(true) was NOT called
     }
 
     @Test
-    void givenHasRunOut_WhenProcessEntity_ThenRemovesEntity() {
+    void givenHasRunOut_WhenUpdate_ThenRemovesEntity() {
         // Arrange
-        when(mockEntity.getComponent(LifetimeComponent.class)).thenReturn(lifetimeComponent);
+        when(mockEntity.get(Lifetime.class)).thenReturn(lifetime);
 
         // Simulate the current time being 16.0 seconds.
         // 16.0 - 10.0 = 6.0 seconds alive. This is greater than the 5.0 limit.
         when(mockTimeProvider.getTime()).thenReturn(16.0f);
 
         // Act
-        lifetimeSystem.processEntity(mockWorld, mockEntity, 0.016f);
+        lifetimeSystem.update(mockWorld, mockEntity, 0.016f);
 
         // Assert
-        verify(mockEntity).setToBeRemoved(true); // Ensure it WAS flagged for removal
+        verify(mockEntity).removed(true); // Ensure it WAS flagged for removal
     }
 }

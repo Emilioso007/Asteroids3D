@@ -63,10 +63,10 @@ public class Quaternion {
     public Vector3D rotateVector(Vector3D v){
         Vector3D qVec = new Vector3D(this.x, this.y, this.z);
 
-        Vector3D t = qVec.cross(v).mult(2.0f);
+        Vector3D t = qVec.cross(v).multiply(2.0f);
 
         Vector3D part1 = v.copy();
-        Vector3D part2 = t.copy().mult(this.w);
+        Vector3D part2 = t.copy().multiply(this.w);
         Vector3D part3 = qVec.cross(t);
 
         return part1.add(part2).add(part3);

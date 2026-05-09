@@ -2,11 +2,11 @@ package io.asteroidsjaylib.collision;
 
 import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.collision.CollisionEvent;
-import io.asteroidsjaylib.common.collision.SphereColliderComponent;
+import io.asteroidsjaylib.common.collision.SphereCollider;
 import io.asteroidsjaylib.common.ecs.BaseComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.ecs.BulkSystem;
-import io.asteroidsjaylib.common.physics3d.PositionComponent;
+import io.asteroidsjaylib.common.physics3d.Position;
 import io.asteroidsjaylib.common.util.Vector3D;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -21,12 +21,7 @@ public class Collision3DSystem extends BulkSystem {
 
     @Override
     public void start(IWorld world) {
-        this.setPriority(70);
-    }
-
-    @Override
-    public List<Class<? extends BaseComponent>> getSignature() {
-        return List.of(PositionComponent.class, SphereColliderComponent.class);
+        this.priority(70);
     }
 
     @Override
@@ -35,18 +30,24 @@ public class Collision3DSystem extends BulkSystem {
         for (int i = 0; i < entities.size(); i++){
 
             BaseEntity entityA = entities.get(i);
-            Vector3D posA = entityA.getComponent(PositionComponent.class).pos;
-            float radiusA = entityA.getComponent(SphereColliderComponent.class).radius;
+            Position positionA = entityA.get(Position.class);
+            SphereCollider sphereColliderA = entityA.get(SphereCollider.class);
+            assert positionA != null;
+            assert sphereColliderA != null;
 
             for(int j = i+1; j < entities.size(); j++){
 
                 BaseEntity entityB = entities.get(j);
-                Vector3D posB = entityB.getComponent(PositionComponent.class).pos;
-                float radiusB = entityB.getComponent(SphereColliderComponent.class).radius;
+                Position positionB = entityB.get(Position.class);
+                SphereCollider sphereColliderB = entityB.get(SphereCollider.class);
+                assert positionB != null;
+                assert sphereColliderB != null;
 
-                float distance = posA.dist(posB);
+                float distance = Vector3D.distanceSquared(positionA.vector(), positionB.vector());
 
-                if (distance < (radiusA + radiusB)){
+                float radiiSum = sphereColliderA.radius() + sphereColliderB.radius();
+
+                if (distance < (radiiSum*radiiSum)){
                     eventPublisher.publishEvent(new CollisionEvent(entityA, entityB));
                 }
 
@@ -55,4 +56,10 @@ public class Collision3DSystem extends BulkSystem {
         }
 
     }
+
+    @Override
+    public List<Class<? extends BaseComponent>> signature() {
+        return List.of(Position.class, SphereCollider.class);
+    }
+
 }

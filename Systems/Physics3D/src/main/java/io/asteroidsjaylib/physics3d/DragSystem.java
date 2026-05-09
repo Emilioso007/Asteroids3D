@@ -4,9 +4,8 @@ import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.ecs.BaseComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.ecs.IteratingSystem;
-import io.asteroidsjaylib.common.physics3d.DragComponent;
-import io.asteroidsjaylib.common.physics3d.VelocityComponent;
-import io.asteroidsjaylib.common.util.Vector3D;
+import io.asteroidsjaylib.common.physics3d.Drag;
+import io.asteroidsjaylib.common.physics3d.Velocity;
 
 import java.util.List;
 
@@ -14,28 +13,30 @@ public class DragSystem extends IteratingSystem {
 
     @Override
     public void start(IWorld world) {
-        this.setPriority(21);
+        this.priority(21);
     }
 
     @Override
-    public void processEntity(IWorld world, BaseEntity entity, float deltaTime) {
-        Vector3D velocity = entity.getComponent(VelocityComponent.class).vel;
-        float drag = entity.getComponent(DragComponent.class).drag;
+    public void update(IWorld world, BaseEntity entity, float deltaTime) {
 
-        if (drag == 0) {
-            velocity.mult(0);
-        } else {
-            velocity.mult((float) Math.pow(drag, deltaTime));
+        Velocity velocity = entity.get(Velocity.class);
+        Drag drag = entity.get(Drag.class);
+
+        assert velocity != null;
+        assert drag != null;
+
+        float dragFactor = (float) Math.pow(drag.value(), deltaTime);
+        velocity.vector().multiply(dragFactor);
+
+        if(velocity.vector().magnitudeSquared()<0.01){
+            velocity.vector().multiply(0);
         }
 
-        if(velocity.mag()<0.01){
-            velocity.mult(0);
-        }
     }
 
     @Override
-    public List<Class<? extends BaseComponent>> getSignature() {
-        return List.of(VelocityComponent.class, DragComponent.class);
+    public List<Class<? extends BaseComponent>> signature() {
+        return List.of(Velocity.class, Drag.class);
     }
 
 }

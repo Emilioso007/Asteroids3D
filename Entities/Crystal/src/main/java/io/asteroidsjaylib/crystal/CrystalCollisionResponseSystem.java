@@ -1,5 +1,6 @@
 package io.asteroidsjaylib.crystal;
 
+import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.crystal.CrystalTag;
 import io.asteroidsjaylib.common.collision.CollisionEvent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
@@ -23,10 +24,15 @@ public class CrystalCollisionResponseSystem extends ResponseSystem {
         BaseEntity crystal = collisionEvent.getEntityWith(CrystalTag.class);
         BaseEntity other = collisionEvent.getOther(crystal);
 
-        if(!other.hasComponents(PlayerTag.class)) return;
+        if(!other.hasAll(PlayerTag.class)) return;
 
         eventPublisher.publishEvent(new ScoreEvent(1));
 
-        crystal.setToBeRemoved(true);
+        crystal.removed(true);
+    }
+
+    @Override
+    public void start(IWorld world) {
+
     }
 }

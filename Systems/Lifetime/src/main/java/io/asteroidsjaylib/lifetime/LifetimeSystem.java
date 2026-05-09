@@ -4,7 +4,7 @@ import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.ecs.BaseComponent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.ecs.IteratingSystem;
-import io.asteroidsjaylib.common.lifetime.LifetimeComponent;
+import io.asteroidsjaylib.common.lifetime.Lifetime;
 import io.asteroidsjaylib.common.util.ITimeProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,19 +18,23 @@ public class LifetimeSystem extends IteratingSystem {
 
     @Override
     public void start(IWorld world) {
-        this.setPriority(0);
+        this.priority(0);
     }
 
     @Override
-    public void processEntity(IWorld world, BaseEntity entity, float deltaTime) {
-        LifetimeComponent lifetimeComponent = entity.getComponent(LifetimeComponent.class);
-        if (timeProvider.getTime()-lifetimeComponent.startTime >= lifetimeComponent.lifetime){
-            entity.setToBeRemoved(true);
+    public void update(IWorld world, BaseEntity entity, float deltaTime) {
+
+        Lifetime lifetime = entity.get(Lifetime.class);
+        assert lifetime != null;
+
+        if (lifetime.remaining(timeProvider.getTime()) <= 0){
+            entity.removed(true);
         }
+
     }
 
     @Override
-    public List<Class<? extends BaseComponent>> getSignature() {
-        return List.of(LifetimeComponent.class);
+    public List<Class<? extends BaseComponent>> signature() {
+        return List.of(Lifetime.class);
     }
 }

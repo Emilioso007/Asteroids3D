@@ -4,18 +4,13 @@ import io.asteroidsjaylib.common.IWorld;
 
 import java.util.List;
 
-public non-sealed class ResponseSystem extends BaseSystem {
-    @Override
-    public void start(IWorld world) {
-    }
+public abstract non-sealed class ResponseSystem extends BaseSystem {
 
     @Override
-    public List<Class<? extends BaseComponent>> getSignature() {
+    public final List<Class<? extends BaseComponent>> signature() {
         return List.of();
     }
 
     @Override
-    public void update(IWorld world, List<BaseEntity> entities, float deltaTime) {
-
-    }
+    public final void update(IWorld world, List<BaseEntity> entities, float deltaTime) {}
 }

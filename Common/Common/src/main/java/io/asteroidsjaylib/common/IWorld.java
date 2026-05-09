@@ -19,9 +19,9 @@ public interface IWorld {
 
     <T extends BaseComponent> boolean hasEntitiesWith(Class<T> requiredComponent);
 
-    List<BaseEntity> getEntitiesWith(Class<? extends BaseComponent>... requiredComponents);
+    List<BaseEntity> getEntitiesWith(Class<? extends BaseComponent> componentType);
 
-    void queueAddEntity(BaseEntity entityToSpawn);
+    List<BaseEntity> getEntitiesWith(Class<? extends BaseComponent>... requiredComponents);
 
     float getDeltaTime();
 

@@ -1,12 +1,13 @@
 package io.asteroidsjaylib.enemy;
 
+import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.asteroid.AsteroidTag;
 import io.asteroidsjaylib.common.crystal.CrystalTag;
 import io.asteroidsjaylib.common.collision.CollisionEvent;
 import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.ecs.ResponseSystem;
 import io.asteroidsjaylib.common.enemy.EnemyTag;
-import io.asteroidsjaylib.common.ownership.OwnershipComponent;
+import io.asteroidsjaylib.common.ownership.Ownership;
 import org.springframework.context.event.EventListener;
 
 public class EnemyCollisionResponseSystem extends ResponseSystem {
@@ -20,17 +21,22 @@ public class EnemyCollisionResponseSystem extends ResponseSystem {
         BaseEntity collider = event.getOther(enemy);
 
         // If collider is also enemy, do nothing
-        if (collider.hasComponents(EnemyTag.class)) return;
-        if (collider.hasComponents(AsteroidTag.class)) return;
-        if (collider.hasComponents(CrystalTag.class)) return;
+        if (collider.hasAll(EnemyTag.class)) return;
+        if (collider.hasAll(AsteroidTag.class)) return;
+        if (collider.hasAll(CrystalTag.class)) return;
 
         // If collider owner is enemy, do nothing
-        var ownership = collider.getComponent(OwnershipComponent.class);
-        if (ownership != null && ownership.owner.hasComponents(EnemyTag.class)) {
+        var ownership = collider.get(Ownership.class);
+        if (ownership != null && ownership.owner().hasAll(EnemyTag.class)) {
             return;
         }
 
         // Mark enemy to be removed
-        enemy.setToBeRemoved(true);
+        enemy.removed(true);
+    }
+
+    @Override
+    public void start(IWorld world) {
+
     }
 }

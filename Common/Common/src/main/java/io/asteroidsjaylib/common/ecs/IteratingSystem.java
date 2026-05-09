@@ -6,10 +6,10 @@ import java.util.List;
 
 public abstract non-sealed class IteratingSystem extends BaseSystem {
     @Override
-    public void update(IWorld world, List<BaseEntity> entities, float deltaTime){
+    public final void update(IWorld world, List<BaseEntity> entities, float deltaTime){
         for(BaseEntity entity : entities){
-            processEntity(world, entity, deltaTime);
+            update(world, entity, deltaTime);
         }
     }
-    public abstract void processEntity(IWorld world, BaseEntity entity, float deltaTime);
+    public abstract void update(IWorld world, BaseEntity entity, float deltaTime);
 }

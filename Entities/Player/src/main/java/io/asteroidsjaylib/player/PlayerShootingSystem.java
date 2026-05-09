@@ -7,11 +7,10 @@ import io.asteroidsjaylib.common.ecs.BaseEntity;
 import io.asteroidsjaylib.common.ecs.IteratingSystem;
 import io.asteroidsjaylib.common.event.input.key.KeyPressedEvent;
 import io.asteroidsjaylib.common.event.input.key.KeyReleasedEvent;
-import io.asteroidsjaylib.common.physics3d.PositionComponent;
-import io.asteroidsjaylib.common.physics3d.RotationComponent;
-import io.asteroidsjaylib.common.physics3d.VelocityComponent;
+import io.asteroidsjaylib.common.physics3d.Position;
+import io.asteroidsjaylib.common.physics3d.Rotation;
+import io.asteroidsjaylib.common.physics3d.Velocity;
 import io.asteroidsjaylib.common.util.ITimeProvider;
-import io.asteroidsjaylib.common.util.Quaternion;
 import io.asteroidsjaylib.common.player.PlayerTag;
 import io.asteroidsjaylib.common.spawn.SpawnEvent;
 import io.asteroidsjaylib.common.util.Vector3D;
@@ -44,7 +43,7 @@ public class PlayerShootingSystem extends IteratingSystem {
 
     @Override
     public void start(IWorld world) {
-        this.setPriority(12);
+        this.priority(12);
         bulletSPI = ServiceLoader.load(BulletSPI.class).findFirst().orElse(null);
 
         float forwardBarrelOffset = 100f;
@@ -72,7 +71,7 @@ public class PlayerShootingSystem extends IteratingSystem {
     }
 
     @Override
-    public void processEntity(IWorld world, BaseEntity player, float deltaTime) {
+    public void update(IWorld world, BaseEntity player, float deltaTime) {
         if (cooldownSeconds > 0f) {
             cooldownSeconds = Math.max(0f, cooldownSeconds - deltaTime);
         }
@@ -86,21 +85,24 @@ public class PlayerShootingSystem extends IteratingSystem {
     private void shoot(BaseEntity player) {
         if (bulletSPI == null) return;
 
-        Vector3D playerPos = player.getComponent(PositionComponent.class).pos;
-        Vector3D playerVel = player.getComponent(VelocityComponent.class).vel;
-        Quaternion playerRot = player.getComponent(RotationComponent.class).quaternion;
+        Position position = player.get(Position.class);
+        Velocity velocity = player.get(Velocity.class);
+        Rotation rotation = player.get(Rotation.class);
+        assert position != null;
+        assert velocity != null;
+        assert rotation != null;
 
-        Vector3D rotatedOffset = playerRot.rotateVector(barrelOffsets[currentBarrel].copy());
-        Vector3D worldMuzzlePos = playerPos.copy().add(rotatedOffset);
+        Vector3D rotatedOffset = rotation.quaternion().rotateVector(barrelOffsets[currentBarrel].copy());
+        Vector3D worldMuzzlePos = position.vector().copy().add(rotatedOffset);
 
-        Vector3D forwardVector = playerRot.rotateVector(new Vector3D(1, 0, 0));
-        Vector3D bulletVelocity = playerVel.copy().add(forwardVector.copy().mult(2000));
+        Vector3D forwardVector = rotation.quaternion().rotateVector(new Vector3D(1, 0, 0));
+        Vector3D bulletVelocity = velocity.vector().copy().add(forwardVector.copy().multiply(2000));
 
         eventPublisher.publishEvent(new SpawnEvent(bulletSPI.CreateBullet(
                 player,
                 worldMuzzlePos,
                 bulletVelocity,
-                playerRot.copy(),
+                rotation.quaternion().copy(),
                 timeProvider.getTime()
         )));
 
@@ -108,7 +110,7 @@ public class PlayerShootingSystem extends IteratingSystem {
     }
 
     @Override
-    public List<Class<? extends BaseComponent>> getSignature() {
-        return List.of(PlayerTag.class, PositionComponent.class, VelocityComponent.class, RotationComponent.class);
+    public List<Class<? extends BaseComponent>> signature() {
+        return List.of(PlayerTag.class, Position.class, Velocity.class, Rotation.class);
     }
 }

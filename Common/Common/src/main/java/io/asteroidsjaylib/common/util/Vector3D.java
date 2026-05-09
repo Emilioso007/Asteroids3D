@@ -52,11 +52,11 @@ public class Vector3D {
         return new Vector3D(x, y, z);
     }
 
-    public float mag(){
+    public float magnitude(){
         return (float) Math.sqrt( (x*x) + (y*y) + (z*z) );
     }
 
-    public float magSq(){
+    public float magnitudeSquared(){
         return (x*x) + (y*y) + (z*z);
     }
 
@@ -71,43 +71,43 @@ public class Vector3D {
         return this;
     }
 
-    public Vector3D sub(Vector3D other){
-        return sub(other.x, other.y, other.z);
+    public Vector3D subtract(Vector3D other){
+        return subtract(other.x, other.y, other.z);
     }
 
-    public Vector3D sub(float x, float y, float z) {
+    public Vector3D subtract(float x, float y, float z) {
         this.x -= x;
         this.y -= y;
         this.z -= z;
         return this;
     }
 
-    public Vector3D mult(float n){
+    public Vector3D multiply(float n){
         this.x *= n;
         this.y *= n;
         this.z *= n;
         return this;
     }
 
-    public Vector3D div(float n){
-        return mult(1/n);
+    public Vector3D divide(float n){
+        return multiply(1/n);
     }
 
-    public float dist(Vector3D other){
+    public float distance(Vector3D other){
         float dx = x - other.x;
         float dy = y - other.y;
         float dz = z - other.z;
         return (float) Math.sqrt(dx*dx + dy*dy + dz*dz);
     }
 
-    public static float dist(Vector3D v1, Vector3D v2) {
+    public static float distance(Vector3D v1, Vector3D v2) {
         float dx = v1.x - v2.x;
         float dy = v1.y - v2.y;
         float dz = v1.z - v2.z;
         return (float) Math.sqrt(dx*dx + dy*dy + dz*dz);
     }
 
-    public static float distSq(Vector3D v1, Vector3D v2) {
+    public static float distanceSquared(Vector3D v1, Vector3D v2) {
         float dx = v1.x - v2.x;
         float dy = v1.y - v2.y;
         float dz = v1.z - v2.z;
@@ -119,22 +119,22 @@ public class Vector3D {
     }
 
     public Vector3D normalize(){
-        float m = mag();
+        float m = magnitude();
         if (m != 0 && m != 1) {
-            div(m);
+            divide(m);
         }
         return this;
     }
 
     public Vector3D limit(float max) {
-        if (magSq() > max*max) {
-            normalize().mult(max);
+        if (magnitudeSquared() > max*max) {
+            normalize().multiply(max);
         }
         return this;
     }
 
-    public Vector3D setMag(float size) {
-        return normalize().mult(size);
+    public Vector3D magnitude(float size) {
+        return normalize().multiply(size);
     }
 
     public Vector3D cross(Vector3D other){
@@ -142,6 +142,13 @@ public class Vector3D {
         float cy = this.z * other.x - this.x * other.z;
         float cz = this.x * other.y - this.y * other.x;
         return new Vector3D(cx, cy, cz);
+    }
+
+    public Vector3D addScaled(Vector3D other, float scale) {
+        this.x += other.x * scale;
+        this.y += other.y * scale;
+        this.z += other.z * scale;
+        return this;
     }
 
     @Override
