@@ -17,7 +17,7 @@ uniform vec3 viewPos;
 // ==========================================
 // THE DYNAMIC LIGHT SYSTEM (AREA LIGHTS)
 // ==========================================
-#define MAX_LIGHTS 400
+#define MAX_LIGHTS 200
 
 uniform int activeLightCount;
 uniform vec3 lightPositions[MAX_LIGHTS];

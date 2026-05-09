@@ -6,7 +6,7 @@ import static com.raylib.Raylib.ShaderUniformDataType.*;
 
 public class LightManager {
 
-    public static final int MAX_LIGHTS = 400;
+    public static final int MAX_LIGHTS = 200;
 
     private static final Vector3[] lightPositions = new Vector3[MAX_LIGHTS];
     private static final Vector3[] lightColors = new Vector3[MAX_LIGHTS];

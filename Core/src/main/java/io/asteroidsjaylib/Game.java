@@ -32,11 +32,12 @@ public class Game {
 
     public void start() {
 
-        int screenWidth = 800;
-        int screenHeight = 800;
+        int screenWidth = getScreenWidth();
+        int screenHeight = getScreenHeight();
 
         initWindow(screenWidth, screenHeight, "Asteroids3D");
         setTargetFPS(60);
+        toggleFullscreen();
 
         world = new World();
 
