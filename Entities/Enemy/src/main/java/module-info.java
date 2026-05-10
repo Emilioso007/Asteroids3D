@@ -6,9 +6,7 @@ import io.asteroidsjaylib.enemy.EnemyProvider;
 import io.asteroidsjaylib.enemy.EnemySystem;
 
 module Enemy {
-    uses BulletSPI;
     requires Common;
-
     requires CommonRender;
     requires CommonPlayer;
     requires CommonBullet;
@@ -23,6 +21,8 @@ module Enemy {
     requires spring.beans;
 
     opens io.asteroidsjaylib.enemy to spring.core, spring.context, spring.beans;
+
+    uses BulletSPI;
 
     provides EnemySPI with EnemyProvider;
     provides BaseSystem with EnemySystem, EnemyCollisionResponseSystem;

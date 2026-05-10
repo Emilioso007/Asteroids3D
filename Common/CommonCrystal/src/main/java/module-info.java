@@ -1,4 +1,5 @@
 module CommonCrystal {
-    exports io.asteroidsjaylib.common.crystal;
     requires Common;
+
+    exports io.asteroidsjaylib.common.crystal;
 }

@@ -1,5 +1,6 @@
 module Common {
     requires io.github.electronstudio.jaylib.ffm;
+
     exports io.asteroidsjaylib.common;
     exports io.asteroidsjaylib.common.ecs;
     exports io.asteroidsjaylib.common.event;

@@ -5,8 +5,6 @@ import io.asteroidsjaylib.common.crystal.CrystalSPI;
 import io.asteroidsjaylib.common.ecs.BaseSystem;
 
 module Asteroid {
-    uses CrystalSPI;
-    uses io.asteroidsjaylib.common.asteroid.AsteroidSPI;
     requires Common;
     requires CommonAsteroid;
     requires CommonSpawn;
@@ -20,6 +18,9 @@ module Asteroid {
     requires spring.context;
 
     opens io.asteroidsjaylib.asteroid to spring.core, spring.context, spring.beans;
+
+    uses CrystalSPI;
+    uses AsteroidSPI;
 
     provides AsteroidSPI with AsteroidProvider;
     provides BaseSystem with AsteroidCollisionResponseSystem;

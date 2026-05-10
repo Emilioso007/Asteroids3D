@@ -1,4 +1,3 @@
-
 import io.asteroidsjaylib.crystal.CrystalCollisionResponseSystem;
 import io.asteroidsjaylib.crystal.CrystalGlowSystem;
 import io.asteroidsjaylib.crystal.CrystalProvider;

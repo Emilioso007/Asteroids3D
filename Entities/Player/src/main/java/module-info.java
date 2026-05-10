@@ -4,7 +4,6 @@ import io.asteroidsjaylib.common.ecs.EntitySpi;
 import io.asteroidsjaylib.player.*;
 
 module Player {
-    uses BulletSPI;
     requires Common;
     requires io.github.electronstudio.jaylib.ffm;
     requires CommonPlayer;
@@ -19,6 +18,8 @@ module Player {
     requires spring.beans;
 
     opens io.asteroidsjaylib.player to spring.core, spring.context, spring.beans;
+
+    uses BulletSPI;
 
     provides EntitySpi with PlayerEntityProvider;
     provides BaseSystem with PlayerMovementSystem, PlayerShootingSystem, PlayerThreadmillSystem, PlayerCollisionResponseSystem;

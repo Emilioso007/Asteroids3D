@@ -7,7 +7,6 @@ import io.asteroidsjaylib.common.ecs.BaseSystem;
 
 module Bullet {
     requires Common;
-
     requires CommonRender;
     requires CommonCollision;
     requires CommonBullet;
