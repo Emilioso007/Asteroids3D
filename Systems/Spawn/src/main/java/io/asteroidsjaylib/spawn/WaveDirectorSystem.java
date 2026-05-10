@@ -19,6 +19,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import java.util.List;
 import java.util.Random;
 import java.util.ServiceLoader;
+import java.util.stream.Collectors;
 
 public class WaveDirectorSystem extends BulkSystem {
 
@@ -30,34 +31,45 @@ public class WaveDirectorSystem extends BulkSystem {
     @Autowired
     private ITimeProvider timeProvider;
 
-    private AsteroidSPI asteroidSPI;
-    private EnemySPI enemySPI;
+    private List<AsteroidSPI> asteroidProviders;
+    private List<EnemySPI> enemyProviders;
+
+    private Random random;
 
     @Override
     public void start(IWorld world) {
         this.priority(85);
 
-        asteroidSPI = ServiceLoader.load(AsteroidSPI.class).findFirst().orElse(null);
-        enemySPI = ServiceLoader.load(EnemySPI.class).findFirst().orElse(null);
+        this.random = new Random();
+
+        asteroidProviders = ServiceLoader.load(AsteroidSPI.class)
+                .stream()
+                .map(ServiceLoader.Provider::get)
+                .collect(Collectors.toList());
+
+        enemyProviders = ServiceLoader.load(EnemySPI.class)
+                .stream()
+                .map(ServiceLoader.Provider::get)
+                .collect(Collectors.toList());
 
     }
 
     @Override
     public void update(IWorld world, List<BaseEntity> entities, float deltaTime) {
         for (BaseEntity entity : entities){
-            if (entity.hasAll(AsteroidTag.class) || entity.hasAll(EnemyTag.class)){
+            if (entity.hasAny(AsteroidTag.class, EnemyTag.class)){
+                // There are more asteroids/enemies left, don't spawn next wave yet!
                 return;
             }
         }
 
-        Random random = new Random();
-
-        if (asteroidSPI != null) {
-            for (int i = 0; i < 50; i++) {
+        if (!asteroidProviders.isEmpty()) {
+            for (int i = 0; i < 500; i++) {
 
                 Vector3D position = Vector3D.random().multiply(world.getWorldSize()/2);
 
-                eventPublisher.publishEvent(new SpawnEvent(asteroidSPI.createAsteroid(
+                AsteroidSPI randomProvider = asteroidProviders.get(random.nextInt(asteroidProviders.size()));
+                eventPublisher.publishEvent(new SpawnEvent(randomProvider.createAsteroid(
                                 position,
                                 new Vector3D(-50 + random.nextFloat() * 100, -50 + random.nextFloat() * 100, -50 + random.nextFloat() * 100),
                                 Quaternion.randomQuaternion(),
@@ -66,12 +78,13 @@ public class WaveDirectorSystem extends BulkSystem {
             }
         }
 
-        if (enemySPI != null) {
+        if (!enemyProviders.isEmpty()) {
             for (int i = 0; i < 10; i++) {
 
                 Vector3D position = Vector3D.random().multiply(world.getWorldSize()/2);
 
-                eventPublisher.publishEvent(new SpawnEvent(enemySPI.createEnemy(position)));
+                EnemySPI randomProvider = enemyProviders.get(random.nextInt(enemyProviders.size()));
+                eventPublisher.publishEvent(new SpawnEvent(randomProvider.createEnemy(position)));
             }
         }
 
