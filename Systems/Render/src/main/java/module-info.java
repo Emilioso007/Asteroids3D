@@ -1,4 +1,5 @@
 import io.asteroidsjaylib.common.ecs.BaseSystem;
+import io.asteroidsjaylib.render.LODSystem;
 import io.asteroidsjaylib.render.RenderSystem;
 
 module Render {
@@ -8,5 +9,5 @@ module Render {
     requires CommonPhysics3D;
     requires CommonPlayer;
 
-    provides BaseSystem with RenderSystem;
+    provides BaseSystem with RenderSystem, LODSystem;
 }

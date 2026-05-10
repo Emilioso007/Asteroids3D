@@ -17,10 +17,9 @@ public class Model3D extends Base3DShape {
     public float pitchOffset, yawOffset, rollOffset;
 
     public boolean active = true;
-    public int lodCount = -1;
-    public int currentLodLevel = 0;
 
     private final BoundingBox localBBox;
+    private final BoundingBox globalBBox = new BoundingBox();
 
     public Model3D(String glbPath, float scale, float pitchOffset, float yawOffset, float rollOffset){
         this.scale = scale;
@@ -39,12 +38,11 @@ public class Model3D extends Base3DShape {
 
         localBBox = getModelBoundingBox(model);
 
-        //System.out.println("Actual Meshes Loaded: " + model.meshCount());
     }
 
     @Override
     public BoundingBox boundingBox(float x, float y, float z) {
-        return new BoundingBox()
+        return globalBBox
                 .min(new Vector3(
                     localBBox.min().x() + x,
                     localBBox.min().y() + y,
@@ -56,7 +54,9 @@ public class Model3D extends Base3DShape {
     }
 
     @Override
-    public void draw(float distanceToCameraSquared) {
+
+    public void draw() {
+
         if (!active) return;
 
         rlPushMatrix();
@@ -64,30 +64,18 @@ public class Model3D extends Base3DShape {
         rlRotatef(pitchOffset, 1, 0, 0);
         rlRotatef(rollOffset, 0, 1, 0);
 
-        if (lodCount == -1){
-            // Old school method. zzz
-            drawModel(model, new Vector3(), scale, WHITE);
-        } else {
-            // New and exciting LOD method!!!
 
-            if (distanceToCameraSquared <= 500*500){
-                currentLodLevel = 0;
-            } else if (distanceToCameraSquared <= 2500*2500) {
-                currentLodLevel = 1;
-            } else {
-                currentLodLevel = 2;
-            }
+        int meshCountPerLod = model.getMeshCount()/lodCount;
 
-            int meshCountPerLod = model.getMeshCount()/lodCount;
-            for(int i = currentLodLevel * meshCountPerLod; i < (currentLodLevel + 1) * meshCountPerLod; i++) {
+        for(int i = currentLodLevel * meshCountPerLod; i < (currentLodLevel + 1) * meshCountPerLod; i++) {
 
-                Mesh activeMesh = model.meshes().getArrayElement(i);
+            Mesh activeMesh = model.meshes().getArrayElement(i);
+            Material activeMaterial = model.materials().getArrayElement(model.getMeshMaterial().get(i));
 
-                Material activeMaterial = model.materials().getArrayElement(model.getMeshMaterial().get(i));
+            drawMesh(activeMesh, activeMaterial, matrixIdentity());
 
-                drawMesh(activeMesh, activeMaterial, matrixIdentity());
-            }
         }
+
         rlPopMatrix();
     }
 

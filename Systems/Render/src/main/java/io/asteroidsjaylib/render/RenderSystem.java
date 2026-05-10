@@ -255,7 +255,7 @@ public class RenderSystem extends BulkSystem {
             rlRotatef(angle, axis.x, axis.y, axis.z);
         }
 
-        shape.draw(pos.magnitudeSquared());
+        shape.draw();
 
         rlPopMatrix();
     }
