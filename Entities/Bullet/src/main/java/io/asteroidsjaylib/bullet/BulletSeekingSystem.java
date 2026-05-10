@@ -1,6 +1,7 @@
 package io.asteroidsjaylib.bullet;
 
 import io.asteroidsjaylib.common.IWorld;
+import io.asteroidsjaylib.common.asteroid.AsteroidPart;
 import io.asteroidsjaylib.common.asteroid.AsteroidTag;
 import io.asteroidsjaylib.common.bullet.BulletTag;
 import io.asteroidsjaylib.common.ecs.BaseComponent;
@@ -46,6 +47,11 @@ public class BulletSeekingSystem extends IteratingSystem {
 
         // Check Asteroids
         for (BaseEntity asteroid : asteroids) {
+
+            AsteroidPart asteroidPart = asteroid.get(AsteroidPart.class);
+            assert asteroidPart != null;
+            if (asteroidPart.type() != AsteroidPart.Type.Full) continue;
+
             Position asteroidPosition = asteroid.get(Position.class);
             assert asteroidPosition != null;
 
