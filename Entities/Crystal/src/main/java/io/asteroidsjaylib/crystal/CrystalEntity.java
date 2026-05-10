@@ -21,6 +21,6 @@ public class CrystalEntity extends BaseEntity {
         render3D.addShape(crystal);
         this.add(render3D);
 
-        this.add(new SphereCollider().radius(10));
+        this.add(new SphereCollider().radius(100));
     }
 }
