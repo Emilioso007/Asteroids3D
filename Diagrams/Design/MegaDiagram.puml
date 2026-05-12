@@ -1,0 +1,232 @@
+@startuml
+
+    component Common {
+        class BaseComponent
+        class BaseEntity
+        class BaseSystem
+        class BulkSystem
+        BulkSystem --|> BaseSystem
+        interface EntitySPI
+        class IntervalIteratingSystem
+        IntervalIteratingSystem --|> BaseSystem
+        class IteratingSystem
+        IteratingSystem --|> BaseSystem
+        class ResponseSystem
+        ResponseSystem --|> BaseSystem
+
+        class KeyEvent
+        KeyEvent --|> BaseEvent
+        class KeyPressedEvent
+        KeyPressedEvent --|> KeyEvent
+        class KeyReleasedEvent
+        KeyReleasedEvent --|> KeyEvent
+
+        class BaseEvent
+
+        interface ITimeProvider
+        class Quaternion
+        class ResourceLoader
+        class Vector3D
+
+        interface IWorld
+    }
+
+    component CommonAsteroid {
+        class AsteroidPart
+        AsteroidPart --|> BaseComponent
+        interface AsteroidSPI
+        class AsteroidTag
+        AsteroidTag --|> BaseComponent
+    }
+
+    component CommonBullet {
+        interface BulletSPI
+        class BulletTag
+        BulletTag --|> BaseComponent
+    }
+
+    component CommonCollision {
+        class CollisionEvent
+        CollisionEvent --|> BaseEvent
+        class SphereCollider
+        SphereCollider --|> BaseComponent
+    }
+
+    component CommonCrystal {
+        interface CrystalSPI
+        class CrystalTag
+        CrystalTag --|> BaseComponent
+    }
+
+    component CommonEnemy {
+        interface EnemySPI
+        class EnemyTag
+        EnemyTag --|> BaseComponent
+    }
+
+    component CommonLifetime {
+        class Lifetime
+        Lifetime --|> BaseComponent
+    }
+
+    component CommonOwnership {
+        class OwnerShip
+        OwnerShip --|> BaseComponent
+    }
+
+    component CommonPhysics3D {
+        class Acceleration
+        Acceleration --|> BaseComponent
+        class Drag
+        Drag --|> BaseComponent
+        class Position
+        Position --|> BaseComponent
+        class Rotation
+        Rotation --|> BaseComponent
+        class Velocity
+        Velocity --|> BaseComponent
+    }
+
+    component CommonPlayer {
+        class PlayerTag
+        PlayerTag --|> BaseComponent
+    }
+
+    component CommonRender {
+        class Base3DShape
+        class LightManager
+        class Model3D
+        Model3D --|> Base3DShape
+        class Render3D
+        Render3D --|> BaseComponent
+        class ShaderManager
+    }
+
+    component CommonScore {
+        class ScoreEvent
+        ScoreEvent --|> BaseEvent
+    }
+
+    component CommonSpawn {
+        class SpawnEvent
+        SpawnEvent --|> BaseEvent
+    }
+
+    component Core {
+        class AppConfig
+        class Game
+        class Main
+        class RaylibTimeProvider
+        RaylibTimeProvider ..|> ITimeProvider
+        class World
+        World ..|> IWorld
+    }
+
+    component Asteroid {
+        class AsteroidCollisionResponseSystem
+        AsteroidCollisionResponseSystem --|> ResponseSystem
+        class AsteroidEntity
+        AsteroidEntity --|> BaseEntity
+        class AsteroidProvider
+        AsteroidProvider ..|> AsteroidSPI
+    }
+
+    component Bullet {
+        class BulletCollisionResponseSystem
+        BulletCollisionResponseSystem --|> ResponseSystem
+        class BulletEntity
+        BulletEntity --|> BaseEntity
+        class BulletGlowSystem
+        BulletGlowSystem --|> IteratingSystem
+        class BulletProvider
+        BulletProvider ..|> BulletSPI
+        class BulletSeekingSystem
+        BulletSeekingSystem --|> IteratingSystem
+    }
+
+    component Crystal {
+        class CrystalCollisionResponseSystem
+        CrystalCollisionResponseSystem --|> ResponseSystem
+        class CrystalEntity
+        CrystalEntity --|> BaseEntity
+        class CrystalGlowSystem
+        CrystalGlowSystem --|> IteratingSystem
+        class CrystalProvider
+        CrystalProvider ..|> CrystalSPI
+    }
+
+    component Enemy {
+        class EnemyCollisionResponseSystem
+        EnemyCollisionResponseSystem --|> ResponseSystem
+        class EnemyEntity
+        EnemyEntity --|> BaseEntity
+        class EnemyProvider
+        EnemyProvider ..|> EnemySPI
+        class EnemySystem
+        EnemySystem --|> IteratingSystem
+    }
+
+    component Player {
+        class PlayerCollisionResponseSystem
+        PlayerCollisionResponseSystem --|> ResponseSystem
+        class PlayerEntity
+        PlayerEntity --|> BaseEntity
+        class PlayerEntityProvider
+        PlayerEntityProvider ..|> EntitySPI
+        class PlayerMovementSystem
+        PlayerMovementSystem --|> IteratingSystem
+        class PlayerShootingSystem
+        PlayerShootingSystem --|> IteratingSystem
+        class PlayerThreadmillSystem
+        PlayerThreadmillSystem --|> BulkSystem
+    }
+
+    component Scoring {
+        class ScoringService
+    }
+
+    component Collision {
+        class Collision3DSystem
+        Collision3DSystem --|> BulkSystem
+    }
+
+    component Lifetime {
+        class LifeTimeSystem
+        LifeTimeSystem --|> IteratingSystem
+        class LifeTimeSystemTest
+    }
+
+    component OutOfBounds {
+        class OutOfBoundsSystem
+        OutOfBoundsSystem --|> IteratingSystem
+    }
+
+    component Physics3D {
+        class AccelerationSystem
+        AccelerationSystem --|> IteratingSystem
+        class DragSystem
+        DragSystem --|> IteratingSystem
+        class VelocitySystem
+        VelocitySystem --|> IteratingSystem
+    }
+
+    component Render {
+        class LODSystem
+        LODSystem --|> IteratingSystem
+        class RenderSystem
+        RenderSystem --|> BulkSystem
+    }
+
+    component Score {
+        class ScoreSystem
+        ScoreSystem --|> ResponseSystem
+    }
+
+    component Spawn {
+        class SpawnSystem
+        SpawnSystem --|> ResponseSystem
+        class WaveDirectorSystem
+        WaveDirectorSystem --|> BulkSystem
+    }
+
+@enduml
