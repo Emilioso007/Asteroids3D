@@ -1,0 +1,23 @@
+@startuml
+    participant Core
+    participant World
+    participant "IGamePluginService" as Plugin
+    participant "IEntityProcessorService" as Processor
+    participant "IPostEntityProcessorService" as PostProcessor
+
+    Core -> Plugin: start(World)
+    Plugin -> World: addEntity(Entity)
+
+    group game loop
+        Core -> Processor: process(World)
+        activate Processor
+        deactivate Processor
+
+        Core -> PostProcessor: process(World)
+        activate PostProcessor
+        deactivate PostProcessor
+    end
+
+    Core -> Plugin: stop(World)
+    Plugin -> World: removeEntity(Entity)
+@enduml
