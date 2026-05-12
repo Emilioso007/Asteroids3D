@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import static com.raylib.Raylib.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
@@ -18,8 +19,6 @@ public class Game {
 
     @Autowired
     private ApplicationEventPublisher eventPublisher;
-
-    public World world;
 
     private final List<BaseSystem> systems;
     private final List<EntitySpi> entitySpis;
@@ -39,7 +38,7 @@ public class Game {
         setTargetFPS(60);
         toggleFullscreen();
 
-        world = new World();
+        World world = new World();
 
         world.setScreenWidth(screenWidth);
         world.setScreenHeight(screenHeight);
@@ -61,7 +60,16 @@ public class Game {
             endDrawing();
 
             if (isKeyPressed(KeyboardKey.KEY_C)){
-                takeScreenshot("screenshot_" + getTime() + ".png");
+                LocalDateTime now = LocalDateTime.now();
+                takeScreenshot("screenshot_"
+                        + now.getYear()
+                        + now.getMonthValue()
+                        + now.getDayOfMonth()
+                        + now.getHour()
+                        + now.getMinute()
+                        + now.getSecond()
+                        + now.getNano()
+                        + ".png");
             }
         }
 
