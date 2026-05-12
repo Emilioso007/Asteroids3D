@@ -1,0 +1,11 @@
+@startuml
+
+    component Common {
+        interface EntitySPI
+    }
+    component Player
+    component Core
+
+    Player -(0- Core: EntitySPI
+
+@enduml

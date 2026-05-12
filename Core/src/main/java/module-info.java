@@ -4,9 +4,6 @@ import io.asteroidsjaylib.common.ecs.EntitySpi;
 module Core {
     requires Common;
     requires io.github.electronstudio.jaylib.ffm;
-    requires CommonPlayer;
-    requires CommonPhysics3D;
-    requires CommonEnemy;
     requires spring.context;
     requires spring.beans;
 
