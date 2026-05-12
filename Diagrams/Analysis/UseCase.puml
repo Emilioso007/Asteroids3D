@@ -1,0 +1,23 @@
+@startuml
+
+    actor player
+
+    rectangle "System Boundary" {
+
+        usecase "Navigate Spacecraft"
+        usecase "Collect Crystal"
+        usecase "Crash"
+
+        usecase "Fire Weapons"
+        usecase "Destroy Obstacles"
+
+    }
+
+    player -u- "Navigate Spacecraft"
+    "Collect Crystal" .u.> "Navigate Spacecraft": <<extend>>\n{if crystal was intersected}
+    "Crash" .u.> "Navigate Spacecraft": <<extend>>\n{if obstacle was intersected}
+
+    player -u- "Fire Weapons"
+    "Destroy Obstacles" .u.> "Fire Weapons": <<extend>>\n{if obstacle was hit}
+
+@enduml
