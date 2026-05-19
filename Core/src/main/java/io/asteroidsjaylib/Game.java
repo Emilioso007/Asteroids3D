@@ -2,7 +2,7 @@ package io.asteroidsjaylib;
 
 import io.asteroidsjaylib.common.IWorld;
 import io.asteroidsjaylib.common.ecs.BaseSystem;
-import io.asteroidsjaylib.common.ecs.EntitySpi;
+import io.asteroidsjaylib.common.ecs.EntitySPI;
 import io.asteroidsjaylib.common.event.input.key.KeyPressedEvent;
 import io.asteroidsjaylib.common.event.input.key.KeyReleasedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +21,12 @@ public class Game {
     private ApplicationEventPublisher eventPublisher;
 
     private final List<BaseSystem> systems;
-    private final List<EntitySpi> entitySpis;
+    private final List<EntitySPI> entitySPIS;
 
     @Autowired
-    public Game(List<BaseSystem> systems, List<EntitySpi> entitySpis) {
+    public Game(List<BaseSystem> systems, List<EntitySPI> entitySPIS) {
         this.systems = systems;
-        this.entitySpis = entitySpis;
+        this.entitySPIS = entitySPIS;
     }
 
     public void start() {
@@ -95,7 +95,7 @@ public class Game {
     }
 
     private void addEntities(IWorld world) {
-        for (EntitySpi entitySpi : entitySpis){
+        for (EntitySPI entitySpi : entitySPIS){
             entitySpi.start(world);
         }
     }

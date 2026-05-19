@@ -1,6 +1,6 @@
 import io.asteroidsjaylib.common.bullet.BulletSPI;
 import io.asteroidsjaylib.common.ecs.BaseSystem;
-import io.asteroidsjaylib.common.ecs.EntitySpi;
+import io.asteroidsjaylib.common.ecs.EntitySPI;
 import io.asteroidsjaylib.player.*;
 
 module Player {
@@ -21,7 +21,7 @@ module Player {
 
     uses BulletSPI;
 
-    provides EntitySpi with PlayerEntityProvider;
+    provides EntitySPI with PlayerEntityProvider;
     provides BaseSystem with PlayerMovementSystem, PlayerShootingSystem, PlayerThreadmillSystem, PlayerCollisionResponseSystem;
 }
 

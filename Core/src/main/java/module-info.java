@@ -1,5 +1,5 @@
 import io.asteroidsjaylib.common.ecs.BaseSystem;
-import io.asteroidsjaylib.common.ecs.EntitySpi;
+import io.asteroidsjaylib.common.ecs.EntitySPI;
 
 module Core {
     requires Common;
@@ -10,5 +10,5 @@ module Core {
     opens io.asteroidsjaylib to spring.core, spring.beans, spring.context;
 
     uses BaseSystem;
-    uses EntitySpi;
+    uses EntitySPI;
 }

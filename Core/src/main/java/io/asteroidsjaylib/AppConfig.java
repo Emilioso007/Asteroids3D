@@ -1,7 +1,7 @@
 package io.asteroidsjaylib;
 
 import io.asteroidsjaylib.common.ecs.BaseSystem;
-import io.asteroidsjaylib.common.ecs.EntitySpi;
+import io.asteroidsjaylib.common.ecs.EntitySPI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.annotation.Bean;
@@ -35,9 +35,9 @@ public class AppConfig {
     }
 
     @Bean
-    public List<EntitySpi> entitySpis() {
-        List<EntitySpi> spis = new ArrayList<>();
-        for(EntitySpi entitySpi : ServiceLoader.load(EntitySpi.class)) {
+    public List<EntitySPI> entitySpis() {
+        List<EntitySPI> spis = new ArrayList<>();
+        for(EntitySPI entitySpi : ServiceLoader.load(EntitySPI.class)) {
             String beanName = entitySpi.getClass().getName();
             beanFactory.registerSingleton(beanName, entitySpi);
             beanFactory.autowireBean(entitySpi);
