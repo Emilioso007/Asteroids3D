@@ -5,15 +5,15 @@ import io.asteroidsjaylib.player.*;
 
 module Player {
     requires Common;
-    requires io.github.electronstudio.jaylib.ffm;
-    requires CommonPlayer;
-    requires CommonRender;
-    requires CommonSpawn;
+    requires CommonBullet;
     requires CommonCollision;
     requires CommonCrystal;
     requires CommonOwnership;
-    requires CommonBullet;
     requires CommonPhysics3D;
+    requires CommonPlayer;
+    requires CommonRender;
+    requires CommonSpawn;
+    requires io.github.electronstudio.jaylib.ffm;
     requires spring.context;
     requires spring.beans;
 
@@ -24,3 +24,4 @@ module Player {
     provides EntitySpi with PlayerEntityProvider;
     provides BaseSystem with PlayerMovementSystem, PlayerShootingSystem, PlayerThreadmillSystem, PlayerCollisionResponseSystem;
 }
+
