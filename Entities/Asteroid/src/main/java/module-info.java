@@ -7,13 +7,13 @@ import io.asteroidsjaylib.common.ecs.BaseSystem;
 module Asteroid {
     requires Common;
     requires CommonAsteroid;
-    requires CommonSpawn;
-    requires CommonRender;
     requires CommonCollision;
     requires CommonCrystal;
-    requires CommonPhysics3D;
-    requires CommonLifetime;
     requires CommonEnemy;
+    requires CommonLifetime;
+    requires CommonPhysics3D;
+    requires CommonRender;
+    requires CommonSpawn;
     requires spring.beans;
     requires spring.context;
 
