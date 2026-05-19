@@ -19,8 +19,8 @@ module Asteroid {
 
     opens io.asteroidsjaylib.asteroid to spring.core, spring.context, spring.beans;
 
-    uses CrystalSPI;
     uses AsteroidSPI;
+    uses CrystalSPI;
 
     provides AsteroidSPI with AsteroidProvider;
     provides BaseSystem with AsteroidCollisionResponseSystem;
