@@ -1,11 +1,32 @@
 @startuml
 
-    component Common {
-        interface EntitySPI
-    }
+    component Asteroid
+    component Bullet
+    component Crystal
+    component Enemy
     component Player
+
     component Core
 
-    Player -(0- Core: EntitySPI
+    component Physics3D
+    component Render
+    component Spawn
+
+    Player -0)- Core: EntitySPI
+
+    Physics3D -0)- Core: BaseSystem
+    Render -0)- Core: BaseSystem
+    Spawn -0)- Core: BaseSystem
+
+    Asteroid -0)- Asteroid: AsteroidSPI
+    Asteroid -0)- Spawn: AsteroidSPI
+
+    Bullet -0)- Player: BulletSPI
+    Bullet -0)- Enemy: BulletSPI
+
+    Crystal -0)- Asteroid: CrystalSPI
+
+    Enemy -0)- Spawn: EnemySPI
+
 
 @enduml
