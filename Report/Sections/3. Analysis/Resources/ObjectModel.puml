@@ -1,0 +1,20 @@
+@startuml
+    interface "IGamePluginService"
+    interface "IEntityProcessorService"
+    interface "IPostEntityProcessorService"
+
+    class "Player"
+    "Player" ..|> "IGamePluginService"
+
+    class "Asteroid"
+    "Asteroid" ..|> "IGamePluginService"
+
+    class "Enemy"
+    "Enemy" ..|> "IGamePluginService"
+
+    class "Physics"
+    "Physics" ..|> "IEntityProcessorService"
+
+    class "Collision"
+    "Collision" ..|> "IPostEntityProcessorService"
+@enduml
