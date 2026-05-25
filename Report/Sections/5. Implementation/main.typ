@@ -449,22 +449,3 @@ To make the game look better with lighting and reflections (F08), the rendering 
 ) <set-shader-method>
 
 Normally, creating Java objects every frame to pass this data would trigger the Java Garbage Collector, causing the game to stutter. To avoid this, the game uses the Java Foreign Function & Memory (FFM) API. By wrapping the allocation in a try (Arena arena = Arena.ofConfined()) block, the game writes data straight to native memory using MemorySegment. The memory cleans itself up when the block finishes, skipping the garbage collector completely. (See #ref(<set-shader-method>)).
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

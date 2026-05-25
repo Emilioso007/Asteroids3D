@@ -1,3 +1,6 @@
+#import "@preview/wordometer:0.1.5": word-count, total-characters
+#show: word-count
+
 #show title: set text(size:28pt)
 #show title: set align(center)
 
@@ -12,6 +15,8 @@ Student Exam Number: 215661787
 GitHub User: Emilioso007
 
 GitHub Repo: https://github.com/Emilioso007/Asteroids3D
+
+Character Count: #total-characters
 
 #pagebreak()
 #include "Sections/0. Abstract/main.typ"
