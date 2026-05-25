@@ -63,6 +63,7 @@ public class Model3D extends Base3DShape {
         rlRotatef(pitchOffset, 1, 0, 0);
         rlRotatef(rollOffset, 0, 1, 0);
 
+        rlDisableBackfaceCulling();
 
         int meshCountPerLod = model.getMeshCount()/lodCount;
 
@@ -74,6 +75,8 @@ public class Model3D extends Base3DShape {
             drawMesh(activeMesh, activeMaterial, matrixIdentity());
 
         }
+
+        rlEnableBackfaceCulling();
 
         rlPopMatrix();
     }
