@@ -32,7 +32,7 @@ This same principle is applied to all the different systems throughout the game.
 ) <figure-component>
 
 #ref(<figure-component>) shows the modular provides-requires flow of the system. The Player module provides an EntitySPI interface implementation that the Core module uses. Likewise, all the system modules, some of which are shown on the diagram, are providing BaseSystem realizations which the Core module also uses. Enemies and asteroids are controlled by a Spawn system. This requires an Enemy- and AsteroidSPI declared in their own common modules, CommonEnemy and CommonAsteroid respectively. Both Player and Enemy use the BulletSPI interface when shooting. The Asteroid module contains the system spawning crystals on hit, hence the requirement to the CrystalSPI.
-The discovery between modules is utilizing the Java ServiceLoader pattern, along with internal Spring Dependency Injection. This allows the Core to discover and inject implementations at runtime without any hardcoded dependencies. This satisfies requirements #link(<NF01>)[NF01], #link(<NF02>)[NF02], #link(<NF03>)[NF03], #link(<NF07>)[NF07], and #link(<NF08>)[NF08].
-The Scoring Service provides endpoints for incrementing and retrieving the score through a REST-based microservice, satisfying requirement #link(<NF05>)[NF05].
+The discovery between modules is utilizing the Java ServiceLoader pattern, along with internal Spring Dependency Injection. This allows the Core to discover and inject implementations at runtime without any hardcoded dependencies. This satisfies requirements NF01, NF02, NF03, NF07, and NF08.
+The Scoring Service provides endpoints for incrementing and retrieving the score through a REST-based microservice, satisfying requirement NF05.
 
 
