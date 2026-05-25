@@ -33,45 +33,30 @@ class LifetimeSystemTest {
     @BeforeEach
     void setUp() {
         lifetimeSystem = new LifetimeSystem();
-
-        // Manually inject our mock time provider (simulating Spring's @Autowired)
         lifetimeSystem.timeProvider = mockTimeProvider;
 
-        // Simulate an entity that was spawned at game time = 10.0 seconds
-        // It has a maximum lifetime of 5.0 seconds
+        // Simulate an entity spawned at 10.0s with a 5.0s lifetime
         lifetime = new Lifetime(10.0f, 5.0f);
     }
 
     @Test
     void givenNotRunOut_WhenUpdate_ThenDontRemove() {
-        // Arrange
         when(mockEntity.get(Lifetime.class)).thenReturn(lifetime);
+        when(mockTimeProvider.getTime()).thenReturn(14.0f); // 4.0s alive
 
-        // Simulate the current time being 14.0 seconds.
-        // 14.0 - 10.0 = 4.0 seconds alive. This is less than the 5.0 limit.
-        when(mockTimeProvider.getTime()).thenReturn(14.0f);
-
-        // Act
         lifetimeSystem.update(mockWorld, mockEntity, 0.016f);
 
-        // Assert
         verify(mockEntity).get(Lifetime.class);
-        verifyNoMoreInteractions(mockEntity); // Ensure setToBeRemoved(true) was NOT called
+        verifyNoMoreInteractions(mockEntity); // Ensure removed() was NOT called
     }
 
     @Test
     void givenHasRunOut_WhenUpdate_ThenRemovesEntity() {
-        // Arrange
         when(mockEntity.get(Lifetime.class)).thenReturn(lifetime);
+        when(mockTimeProvider.getTime()).thenReturn(16.0f); // 6.0s alive
 
-        // Simulate the current time being 16.0 seconds.
-        // 16.0 - 10.0 = 6.0 seconds alive. This is greater than the 5.0 limit.
-        when(mockTimeProvider.getTime()).thenReturn(16.0f);
-
-        // Act
         lifetimeSystem.update(mockWorld, mockEntity, 0.016f);
 
-        // Assert
         verify(mockEntity).removed(true); // Ensure it WAS flagged for removal
     }
 }

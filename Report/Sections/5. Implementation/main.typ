@@ -326,11 +326,129 @@ When a crystal is collected, a ScoreEvent is published to the event bus.
 #ref(<score-system>) illustrates the ScoreSystem, which listens for these events. A critical feature of this implementation is the use of the runAsync method. Because network latency is highly unpredictable, executing synchronous HTTP requests could freeze the main game loop and ruin the user experience. Wrapping the logic inside a runAsync call offloads the network I/O to a separate worker thread, allowing it to complete independently. Furthermore, to ensure graceful degradation, the postForLocation call is wrapped in a try-catch block. If the external microservice is offline or unresponsive, the system safely catches the RestClientException, preventing a fatal crash and allowing the game to proceed normally.
 
 
+== 5.5 Robustness & Verification
 
+To ensure reliable system logic, unit testing is implemented. By isolating individual components, their behaviour can be tested without requiring the full game to be running.
 
+=== Isolated Unit Testing with Mockito
+To verify system logic without the full Raylib graphical engine or the Spring IoC container, external dependencies are simulated using the Mockito testing framework.
 
+#figure(
+    ```java
+    @ExtendWith(MockitoExtension.class)
+    class LifetimeSystemTest {
 
+        private LifetimeSystem lifetimeSystem;
 
+        @Mock private IWorld mockWorld;
+        @Mock private BaseEntity mockEntity;
+        @Mock private ITimeProvider mockTimeProvider;
+
+        private Lifetime lifetime;
+
+        @BeforeEach
+        void setUp() {
+            lifetimeSystem = new LifetimeSystem();
+            lifetimeSystem.timeProvider = mockTimeProvider;
+
+            // Simulate an entity spawned at 10.0s with a 5.0s lifetime
+            lifetime = new Lifetime(10.0f, 5.0f);
+        }
+
+        @Test
+        void givenNotRunOut_WhenUpdate_ThenDontRemove() {
+            when(mockEntity.get(Lifetime.class)).thenReturn(lifetime);
+            when(mockTimeProvider.getTime()).thenReturn(14.0f); // 4.0s alive
+
+            lifetimeSystem.update(mockWorld, mockEntity, 0.016f);
+
+            verify(mockEntity).get(Lifetime.class);
+            verifyNoMoreInteractions(mockEntity); // Ensure removed() was NOT called
+        }
+
+        @Test
+        void givenHasRunOut_WhenUpdate_ThenRemovesEntity() {
+            when(mockEntity.get(Lifetime.class)).thenReturn(lifetime);
+            when(mockTimeProvider.getTime()).thenReturn(16.0f); // 6.0s alive
+
+            lifetimeSystem.update(mockWorld, mockEntity, 0.016f);
+
+            verify(mockEntity).removed(true); // Ensure it WAS flagged for removal
+        }
+    }
+    ```,
+    caption: [Unit tests verifying the LifetimeSystem logic using Mockito.],
+    supplement: [Code Snippet]
+) <lifetime-test>
+
+As shown in #ref(<lifetime-test>), the LifetimeSystemTest isolates the system under test by injecting mocked instances of IWorld, BaseEntity, and ITimeProvider. A critical architectural advantage of this approach is the deterministic control over the time. Rather than relying on a live game loop, the test stubs the ITimeProvider.getTime() method using the when().thenReturn() syntax. This artificially advances the simulation, allowing the tests to verify various conditions. The assertions (verify()) prove that the removed(true) post-condition is exclusively triggered when the entity's lifetime is exceeded. This guarantees that the logic remains robust and perfectly decoupled from the execution environment.
+
+#pagebreak()
+== 5.6 Rendering and Memory Optimizations
+
+To hit the visual requirements (F07, F08) and get the most out of Raylib (NF06), the game uses a custom setup to handle Level of Detail (LOD) and memory management.
+
+=== Level of Detail (LOD)
+Drawing highly detailed 3D models when they are far away is a massive waste of processing power, especially when there are hundreds of objects in the game at once. To fix this (F07), the game uses a custom LODSystem.
+
+#figure(
+    ```java
+    public class LODSystem extends IteratingSystem {
+    // ...
+
+        @Override
+        public void update(IWorld world, BaseEntity entity, float deltaTime) {
+            Position position = entity.get(Position.class);
+            Render3D render3D = entity.get(Render3D.class);
+
+            float distance = position.vector().magnitude();
+
+            for(Base3DShape shape : render3D.getActiveShapes()){
+                shape.currentLodLevel = Math.min(
+                    shape.lodCount - 1,
+                    (int)(distance / (5000.0f / shape.lodCount))
+                );
+            }
+        }
+    }
+    ```,
+    caption: [Calculating the LOD level based on distance.],
+    supplement: [Code Snippet]
+) <lod-system>
+
+Instead of loading separate models for every detail level, the game uses the fact that a single GLB file
+can contain multiple different meshes. The LODSystem (see #ref(<lod-system>)) calculates how far an entity is from the camera. Based on that distance, it figures out exactly which currentLodLevel to use.
+
+When drawing, the RenderSystem uses that LOD level to shift the array index, making sure it only grabs the geometry and materials it actually needs. A strict rule here is that when making the various LOD models in Blender, the mesh count per LOD has to stay exactly the same so the math doesn't break. This setup means the engine draws way fewer polygons for distant objects, keeping the frame rate smooth.
+
+=== FFM and Shaders
+To make the game look better with lighting and reflections (F08), the rendering pipeline uses custom shaders. However, passing data constantly from Java to a native library like Raylib can cause massive memory issues.
+
+#figure(
+    ```java
+    public static void setGlobalShaderValue(String uniformName, float[] values, int uniformType) {
+
+        try (Arena arena = Arena.ofConfined()){
+
+            MemorySegment segment = arena.allocateFrom(ValueLayout.JAVA_FLOAT, values);
+
+            for (var shader : shaderMap.values()){
+                int loc = getShaderLocation(shader, uniformName);
+
+                if (loc != -1){
+                    setShaderValue(shader, loc, segment, uniformType);
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    ```,
+    caption: [Using FFM to pass shader data directly to native memory.],
+    supplement: [Code Snippet]
+) <set-shader-method>
+
+Normally, creating Java objects every frame to pass this data would trigger the Java Garbage Collector, causing the game to stutter. To avoid this, the game uses the Java Foreign Function & Memory (FFM) API. By wrapping the allocation in a try (Arena arena = Arena.ofConfined()) block, the game writes data straight to native memory using MemorySegment. The memory cleans itself up when the block finishes, skipping the garbage collector completely. (See #ref(<set-shader-method>)).
 
 
 

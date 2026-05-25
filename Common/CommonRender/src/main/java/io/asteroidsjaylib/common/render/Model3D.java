@@ -54,7 +54,6 @@ public class Model3D extends Base3DShape {
     }
 
     @Override
-
     public void draw() {
 
         if (!active) return;
