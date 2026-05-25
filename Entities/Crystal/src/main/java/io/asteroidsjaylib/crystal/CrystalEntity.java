@@ -12,9 +12,12 @@ import io.asteroidsjaylib.common.util.Vector3D;
 public class CrystalEntity extends BaseEntity {
 
     public CrystalEntity(Vector3D startPosition, Quaternion rotation) {
+
         this.add(new CrystalTag());
+
         this.add(new Position().vector(startPosition));
         this.add(new Rotation().quaternion(rotation));
+
         Render3D render3D = new Render3D();
         Model3D crystal = new Model3D("/LegoCrystal.glb", 1, 90, -90, 0);
         crystal.applyShader(ShaderManager.getShader("glass"));
@@ -23,4 +26,5 @@ public class CrystalEntity extends BaseEntity {
 
         this.add(new SphereCollider().radius(100));
     }
+
 }
