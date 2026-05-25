@@ -3,5 +3,5 @@ module Scoring {
     requires spring.boot.autoconfigure;
     requires spring.web;
 
-    opens io.asteroidsjaylib.service.scoring to spring.core, spring.beans, spring.context, spring.web;
+    opens io.asteroidsjaylib.service.scoring;
 }

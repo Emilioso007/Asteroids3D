@@ -75,7 +75,7 @@ Ultimately, this configuration guarantees that no other module can access the in
 
 #ref(<core-module-info>) shows the module-info.java file for the Core module. Here it is worth noting that it only requires the standard common module, and nothing else. It also declares that it uses the BaseSystem class implementations, as well as any EntitySPIs, like the Player. This allows the Core to discover and use the implementing modules through these types, without any dependency on them at compile-time.
 
-
+#pagebreak()
 == 5.2 Component Registration & Access
 
 To successfully integrate the decoupled modules at runtime, the system uses a hybrid discovery and injection pattern utilizing both the Java ServiceLoader and the Spring Framework. This satisfies requirements NF01, NF02, NF03, and NF08.
@@ -146,7 +146,7 @@ To circumvent this, the configuration autowires a ConfigurableListableBeanFactor
 With the components registered, the application entry point (see #ref(<main-and-game>)) initializes the AnnotationConfigApplicationContext using AppConfig.class. It then requests the primary Game bean.
 The Game class, annotated with \@Component, uses constructor injection, explicitly requiring a List<BaseSystem> and a List<EntitySPI> as its arguments. Because the AppConfig registered all discovered plugins into the application context, Spring satisfies these dependencies. This now allows the Game to add the systems and entities to the World, without having to use the ServiceLoader directly.
 
-
+#pagebreak()
 == 5.3 ECS Component Models
 
 To fulfill the data-oriented design requirement (NF04), the implementation separates state from behavior. The following sections explain how components are registered to entities, how systems query these entities based on components, and how the core optimizes this access at runtime.
@@ -251,8 +251,79 @@ Continuously querying all entities against every system signature every frame in
 
 #ref(<cache-update-method>) shows the updateCacheIfNeeded method, which manages the Map\<BaseSystem, List\<BaseEntity>>. Rather than querying components on every frame, the cache is only invalidated and recalculated when a change occurs. This happens when entities are marked for removal or new entities are added to the world. If a change is detected, the method iterates through each registered system, compares the active entities against the system's signature(), and repopulates the cached lists. This caching strategy prevents the world from querying all entities every frame, ensuring that the system updates remain highly efficient.
 
+#pagebreak()
+== 5.4 Microservice Integration
+
+To fulfill the external service requirement (NF05), the game's scoring mechanic is decoupled from the main client and managed by an external microservice. This ensures the score state can be persisted and monitored independently of the game process.
 
 
+=== The Standalone Scoring Service
+The backend is implemented as a Spring Boot application exposing a RESTful API.
+
+#figure(
+    ```java
+
+    @SpringBootApplication
+    @RestController
+    public class ScoringService {
+
+        private int score = 0;
+
+        public static void main(String[] args) {
+            SpringApplication.run(ScoringService.class, args);
+        }
+
+        @GetMapping("/score")
+        public int score() {
+            return score;
+        }
+
+        @PostMapping("/score")
+        public void score(@RequestParam(value = "increment") int increment) {
+            score += increment;
+        }
+    }
+
+    ```,
+    caption: [The standalone Spring Boot REST microservice.],
+    supplement: [Code Snippet]
+) <scoring-service>
+
+As seen in #ref(<scoring-service>), the service maintains the accumulated score state and exposes HTTP GET and POST endpoints to retrieve and increment the value.
+
+
+=== The Client-Side Event Listener
+When a crystal is collected, a ScoreEvent is published to the event bus.
+
+#figure(
+    ```java
+
+    public class ScoreSystem extends ResponseSystem {
+
+        private final String scoringServiceUrl = "http://localhost:8080/score";
+        private final RestTemplate restTemplate = new RestTemplate();
+
+        @EventListener
+        private void handleScoreIncrement(ScoreEvent scoreEvent){
+            String url = scoringServiceUrl + "?increment=" + scoreEvent.increment;
+
+            // Execute asynchronously to prevent blocking the game loop
+            CompletableFuture.runAsync(() -> {
+                try {
+                    restTemplate.postForLocation(url, null);
+                } catch (RestClientException e) {
+                    System.out.println("Score Service not responding: " + e.getMessage());
+                }
+            });
+        }
+    }
+
+    ```,
+    caption: [The client-side ScoreSystem utilizing asynchronous HTTP requests.],
+    supplement: [Code Snippet]
+) <score-system>
+
+#ref(<score-system>) illustrates the ScoreSystem, which listens for these events. A critical feature of this implementation is the use of the runAsync method. Because network latency is highly unpredictable, executing synchronous HTTP requests could freeze the main game loop and ruin the user experience. Wrapping the logic inside a runAsync call offloads the network I/O to a separate worker thread, allowing it to complete independently. Furthermore, to ensure graceful degradation, the postForLocation call is wrapped in a try-catch block. If the external microservice is offline or unresponsive, the system safely catches the RestClientException, preventing a fatal crash and allowing the game to proceed normally.
 
 
 
