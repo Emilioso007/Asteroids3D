@@ -1,4 +1,4 @@
-= 6. Test
+= 6. Test <test>
 
 /*
 Describe how experimental validation was performed through deployment of the game on top of the component container in a real setting.
@@ -15,7 +15,7 @@ All functional requirements have been implemented. Their existence can be seen i
 
 - The X-wing player spacecraft is controlled by the player.
 
-- The T-fighter enemy crafts are shooting bullets at the player.
+- The Tie-fighter enemy crafts are shooting bullets at the player.
 
 - The asteroids are deadly upon impact, as well as being the source of crystals.
 
