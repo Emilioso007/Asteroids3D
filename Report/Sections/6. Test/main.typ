@@ -11,7 +11,7 @@ To build the game, the mvn install command is used. This compiles all the module
 The game can now be executed using either the 'mvn exec:exec' command, or by using the 'java -p mods-mvn -m Core/io.asteroidsjaylib.Main' command. The java command is the one to be used by consumers of the game, because it only requires the .jar files, and nothing else.
 
 == 6.2 Requirement Validation
-All functional requirements have been implemented. Their existence can be seen in the demo video here: [INSERT YOUTUBE LINK].
+All functional requirements have been implemented. Their existence can be seen in the demo video here: https://youtu.be/oF3Cr7Afvww.
 
 - The X-wing player spacecraft is controlled by the player.
 
