@@ -1,5 +1,5 @@
-#import "@preview/wordometer:0.1.5": word-count, total-characters
-#show: word-count
+//#import "@preview/wordometer:0.1.5": word-count, total-characters
+//#show: word-count
 
 #show title: set text(size:28pt)
 #show title: set align(center)
@@ -18,7 +18,7 @@ GitHub Repo: https://github.com/Emilioso007/Asteroids3D
 
 Video Demonstration: https://youtu.be/oF3Cr7Afvww
 
-Character Count: #total-characters
+//Character Count: #total-characters
 
 #pagebreak()
 #include "Sections/0. Abstract/main.typ"
@@ -49,3 +49,9 @@ Character Count: #total-characters
 
 #pagebreak()
 #include "Sections/8. Conclusion/main.typ"
+
+#pagebreak()
+#bibliography("Sections/9. References/references.bib",
+              title: "9. References",
+              full: true,
+              style: "ieee")

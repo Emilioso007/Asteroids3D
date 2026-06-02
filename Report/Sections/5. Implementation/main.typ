@@ -331,7 +331,7 @@ When a crystal is collected, a ScoreEvent is published to the event bus.
 To ensure reliable system logic, unit testing is implemented. By isolating individual components, their behaviour can be tested without requiring the full game to be running.
 
 === Isolated Unit Testing with Mockito
-To verify system logic without the full Raylib graphical engine or the Spring IoC container, external dependencies are simulated using the Mockito testing framework.
+To verify system logic without the full Raylib graphical engine or the Spring IoC container, external dependencies are simulated using the Mockito testing framework @mockito.
 
 #figure(
     ```java
@@ -388,6 +388,8 @@ As shown in #ref(<lifetime-test>), the LifetimeSystemTest isolates the system un
 
 To hit the visual requirements (F07, F08) and get the most out of Raylib (NF06), the game uses a custom setup to handle Level of Detail (LOD) and memory management.
 
+The Java binding Jaylib-ffm @jaylib-ffm is used to make the bridge between Java and Raylib.
+
 === Level of Detail (LOD)
 Drawing highly detailed 3D models when they are far away is a massive waste of processing power, especially when there are hundreds of objects in the game at once. To fix this (F07), the game uses a custom LODSystem.
 
@@ -422,7 +424,8 @@ can contain multiple different meshes. The LODSystem (see #ref(<lod-system>)) ca
 When drawing, the RenderSystem uses that LOD level to shift the array index, making sure it only grabs the geometry and materials it actually needs. A strict rule here is that when making the various LOD models in Blender, the mesh count per LOD has to stay exactly the same so the math doesn't break. This setup means the engine draws way fewer polygons for distant objects, keeping the frame rate smooth.
 
 === FFM and Shaders
-To make the game look better with lighting and reflections (F08), the rendering pipeline uses custom shaders. However, passing data constantly from Java to a native library like Raylib can cause massive memory issues.
+To make the game look better with lighting and reflections (F08), the rendering pipeline uses custom
+ shaders. However, passing data from Java to Raylib can cause massive memory issues.
 
 #figure(
     ```java

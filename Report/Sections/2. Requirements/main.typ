@@ -34,9 +34,9 @@ Non-functional requirements for the game:
         [NF03], [Contracts], [The interaction between modules happens through well-defined Service Provider Interfaces, rather than concrete implementations.],
         [NF04], [SoC], [The game uses a data-oriented ECS architecture, which allows for a great separation of concern between individual systems.],
         [NF05], [Microservice], [The game provides a microservice for score tally.],
-        [NF06], [Raylib], [The game is using Raylib (Jaylib-ffm) for rendering.],
-        [NF07], [JPMS], [The game is using JPMS and the ServiceLoader to orchestrate everything.],
-        [NF08], [Spring], [The game uses the Spring framework for dependency injection.],
+        [NF06], [Raylib], [The game is using Raylib @raylib for rendering.],
+        [NF07], [JPMS], [The game is using JPMS and the ServiceLoader @serviceloader to orchestrate everything.],
+        [NF08], [Spring], [The game uses the Spring framework @spring for dependency injection.],
         [NF09], [Test], [Unit testing is used to ensure the inner workings of modules stay coherent despite changes in architecture.],
     ),
     caption: [Non-functional Rerquirements]
