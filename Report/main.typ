@@ -23,6 +23,8 @@ Video Demonstration: https://youtu.be/oF3Cr7Afvww
 
 //Character Count: #total-characters
 
+#image("frontpage_image.png")
+
 #pagebreak()
 #include "Sections/0. Abstract/main.typ"
 
