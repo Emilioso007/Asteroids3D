@@ -1,4 +1,4 @@
-= 1. Introduction <introduction>
+= Introduction <introduction>
 
 Asteroids3D is a new take on the classical arcade game, where the player is tasked with navigating a spacecraft through a swarm of asteroids, whilst avoiding enemy bullets along the way. As the name suggests, this game is now in three dimensions, which makes the whole process a lot more challenging. You never know what’s behind you.
 

@@ -1,4 +1,4 @@
-= 8. Conclusion
+= Conclusion
 
 /*
 First summarize the report.

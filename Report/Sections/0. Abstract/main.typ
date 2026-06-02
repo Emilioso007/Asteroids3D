@@ -1,4 +1,4 @@
-= 0. Abstract
+= Abstract
 /*
 Describe the problem that the report addresses in context of the game domain.
 

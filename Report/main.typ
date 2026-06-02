@@ -4,6 +4,9 @@
 #show title: set text(size:28pt)
 #show title: set align(center)
 
+#set page(numbering: "1")
+#set heading(numbering: (n1, ..x) => numbering("1.a", n1 - 1, ..x))
+
 #title[Asteroids3D]
 
 #align(center)[Component-based software engineering project]
@@ -51,7 +54,4 @@ Video Demonstration: https://youtu.be/oF3Cr7Afvww
 #include "Sections/8. Conclusion/main.typ"
 
 #pagebreak()
-#bibliography("Sections/9. References/references.bib",
-              title: "9. References",
-              full: true,
-              style: "ieee")
+#include "Sections/9. References/main.typ"

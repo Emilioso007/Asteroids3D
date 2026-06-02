@@ -1,5 +1,4 @@
-
-= 2. Requirements <requirements>
+= Requirements <requirements>
 The following requirements are needed to achieve both a fun and extensible game.
 
 Functional requirements for the game:

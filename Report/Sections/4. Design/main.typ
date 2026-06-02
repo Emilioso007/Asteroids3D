@@ -1,4 +1,4 @@
-= 4. Design <design>
+= Design <design>
 
 A proper design is crucial in a component-based system. This section will dive into what choices have been made to fulfill all relevant requirements.
 Complying with requirement NF04, the system is designed in a data-oriented way by utilizing Entity-Component-System architecture traits.

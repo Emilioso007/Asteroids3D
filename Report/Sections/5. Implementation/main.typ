@@ -1,8 +1,8 @@
-= 5. Implementation <implementation>
+= Implementation <implementation>
 
 In the following section, the implementation of the system will be documented.
 
-== 5.1 Modular Encapsulation & Dependencies
+== Modular Encapsulation & Dependencies
 
 To ensure strong encapsulation and reliable dependencies, the Java Platform Module System (JPMS) is used to dictate module accessibility and visibility across the entire system. This is required by NF01, NF02, NF03, and NF07.
 
@@ -76,7 +76,7 @@ Ultimately, this configuration guarantees that no other module can access the in
 #ref(<core-module-info>) shows the module-info.java file for the Core module. Here it is worth noting that it only requires the standard common module, and nothing else. It also declares that it uses the BaseSystem class implementations, as well as any EntitySPIs, like the Player. This allows the Core to discover and use the implementing modules through these types, without any dependency on them at compile-time.
 
 #pagebreak()
-== 5.2 Component Registration & Access
+== Component Registration & Access
 
 To successfully integrate the decoupled modules at runtime, the system uses a hybrid discovery and injection pattern utilizing both the Java ServiceLoader and the Spring Framework. This satisfies requirements NF01, NF02, NF03, and NF08.
 
@@ -147,7 +147,7 @@ With the components registered, the application entry point (see #ref(<main-and-
 The Game class, annotated with \@Component, uses constructor injection, explicitly requiring a List<BaseSystem> and a List<EntitySPI> as its arguments. Because the AppConfig registered all discovered plugins into the application context, Spring satisfies these dependencies. This now allows the Game to add the systems and entities to the World, without having to use the ServiceLoader directly.
 
 #pagebreak()
-== 5.3 ECS Component Models
+== ECS Component Models
 
 To fulfill the data-oriented design requirement (NF04), the implementation separates state from behavior. The following sections explain how components are registered to entities, how systems query these entities based on components, and how the core optimizes this access at runtime.
 
@@ -252,7 +252,7 @@ Continuously querying all entities against every system signature every frame in
 #ref(<cache-update-method>) shows the updateCacheIfNeeded method, which manages the Map\<BaseSystem, List\<BaseEntity>>. Rather than querying components on every frame, the cache is only invalidated and recalculated when a change occurs. This happens when entities are marked for removal or new entities are added to the world. If a change is detected, the method iterates through each registered system, compares the active entities against the system's signature(), and repopulates the cached lists. This caching strategy prevents the world from querying all entities every frame, ensuring that the system updates remain highly efficient.
 
 #pagebreak()
-== 5.4 Microservice Integration
+== Microservice Integration
 
 To fulfill the external service requirement (NF05), the game's scoring mechanic is decoupled from the main client and managed by an external microservice. This ensures the score state can be persisted and monitored independently of the game process.
 
@@ -326,7 +326,7 @@ When a crystal is collected, a ScoreEvent is published to the event bus.
 #ref(<score-system>) illustrates the ScoreSystem, which listens for these events. A critical feature of this implementation is the use of the runAsync method. Because network latency is highly unpredictable, executing synchronous HTTP requests could freeze the main game loop and ruin the user experience. Wrapping the logic inside a runAsync call offloads the network I/O to a separate worker thread, allowing it to complete independently. Furthermore, to ensure graceful degradation, the postForLocation call is wrapped in a try-catch block. If the external microservice is offline or unresponsive, the system safely catches the RestClientException, preventing a fatal crash and allowing the game to proceed normally.
 
 
-== 5.5 Robustness & Verification
+== Robustness & Verification
 
 To ensure reliable system logic, unit testing is implemented. By isolating individual components, their behaviour can be tested without requiring the full game to be running.
 
@@ -384,7 +384,7 @@ To verify system logic without the full Raylib graphical engine or the Spring Io
 As shown in #ref(<lifetime-test>), the LifetimeSystemTest isolates the system under test by injecting mocked instances of IWorld, BaseEntity, and ITimeProvider. A critical architectural advantage of this approach is the deterministic control over the time. Rather than relying on a live game loop, the test stubs the ITimeProvider.getTime() method using the when().thenReturn() syntax. This artificially advances the simulation, allowing the tests to verify various conditions. The assertions (verify()) prove that the removed(true) post-condition is exclusively triggered when the entity's lifetime is exceeded. This guarantees that the logic remains robust and perfectly decoupled from the execution environment.
 
 #pagebreak()
-== 5.6 Rendering and Memory Optimizations
+== Rendering and Memory Optimizations
 
 To hit the visual requirements (F07, F08) and get the most out of Raylib (NF06), the game uses a custom setup to handle Level of Detail (LOD) and memory management.
 

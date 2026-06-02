@@ -1,4 +1,4 @@
-= 3. Analysis <analysis>
+= Analysis <analysis>
 
 The following analysis section describes what the system should do, and what interfaces and entities that could facilitate the requirements stated in section 2. Requirements. This will be documented using various diagrams.
 
