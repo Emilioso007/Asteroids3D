@@ -34,9 +34,19 @@ public class Game {
         int screenWidth = getScreenWidth();
         int screenHeight = getScreenHeight();
 
+        boolean recordMode = false;
+
         initWindow(screenWidth, screenHeight, "Asteroids3D");
         setTargetFPS(60);
-        toggleFullscreen();
+
+        if(recordMode) {
+            setWindowState(ConfigFlags.FLAG_WINDOW_UNDECORATED);
+            int currentMonitor = getCurrentMonitor();
+            setWindowSize(getMonitorWidth(currentMonitor), getMonitorHeight(currentMonitor)-1);
+            setWindowPosition(0, 0);
+        } else {
+            toggleFullscreen();
+        }
 
         World world = new World();
 
