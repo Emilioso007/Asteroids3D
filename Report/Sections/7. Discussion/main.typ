@@ -20,6 +20,7 @@ Overall it was a pleasure to develop a modular program in this way, and the over
 All of the set requirements were met as documented in @test.
 
 Using the ECS architecture made it very easy to add new features and entities to the game, which greatly increased development velocity.
+The main drawback of the current ECS architecture is the component lookup through entities. In a more optimized system, each component would have its own flat array which would increase cache hits drastically, making every system run faster in theory. This approach was not implemented as it was deemed not worth it for the scope of this game.
 
 The hardest feature to implement was definitely handling rotation in 3D, which required complex (literally) math in the form of quaternions. Luckily this is a well-documented topic in 3D game programming @quaternions.
 

@@ -16,4 +16,6 @@ The primary goal of this project was to develop a modular game where .jar files 
 - Low Coupling: Modules only depended on common contracts, and not each other, allowing modules to be implemented independently.
 - High Cohesion: Modules were very specific in their domain, and god classes were avoided.
 
-Future work includes adding more gameplay features and advanced enemies with various attack patterns. Some of the more technical classes, like the ShaderManager, could also do with a refactor to increase further development velocity even more.
+Ultimately, this architecture opens up for a modding community to add new features, without having to modify the core engine at all.
+
+Future work includes optimizing the ECS engine with more efficient memory allocation, adding more gameplay features such as advanced enemies, and QOL api changes all around, but especially in the ShaderManager.

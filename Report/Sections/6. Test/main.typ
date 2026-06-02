@@ -35,6 +35,6 @@ All functional requirements have been implemented. Their existence can be seen i
 
 - The game uses shaders to make the bullets glow and mimic realistic lighting overall.
 
-All of the non-functional requirements are also implemented. The video demonstrates the Moddable requirement by removing various .jar files and still having a functional game, just now with fewer features. The rest of the non-functional requirements are documented in the @implementation section above.
+All of the non-functional requirements are also implemented. The video also serves as a integration test demonstrating the Moddable requirement by removing various .jar files and still having a functional game, just now with fewer features. The rest of the non-functional requirements are documented in the @implementation section above.
 
 Finally, as detailed in Section 5.5, unit testing (NF09) was used to verify the internal logic of the systems. By using Mockito, the behaviour of the game was tested in isolation without needing to boot up the entire Raylib engine.

@@ -54,7 +54,7 @@ Ultimately, this configuration guarantees that no other module can access the in
     ```java
 
     import io.asteroidsjaylib.common.ecs.BaseSystem;
-    import io.asteroidsjaylib.common.ecs.EntitySpi;
+    import io.asteroidsjaylib.common.ecs.EntitySPI;
 
     module Core {
         requires Common;
@@ -210,7 +210,7 @@ Once components are registered to entities within the World, the specialized sys
 #ref(<velocity-system>) shows the VelocitySystem, which extends the IteratingSystem class. The signature() method defines the system's pre-condition: It requires entities to have both Position and Velocity components. The World uses this signature to query for matching entities. Because it is an iterating system, the update() method processes these entities sequentially, fetching the specific components via entity.get() and mutating the data by applying the velocity vector scaled by deltaTime.
 
 === Query Optimization and Caching
-Continuously querying all entities against every system signature every frame introduces computational overhead ($O(N times M)$ complexity). To ensure the game loop remains performant, the World class implements an optimized caching mechanism.
+Continuously querying all entities against every system signature every frame introduces computational overhead. To ensure the game loop remains performant, the World class implements an optimized caching mechanism.
 
 #figure(
     ```java
@@ -254,7 +254,7 @@ Continuously querying all entities against every system signature every frame in
 #pagebreak()
 == Microservice Integration
 
-To fulfill the external service requirement (NF05), the game's scoring mechanic is decoupled from the main client and managed by an external microservice. This ensures the score state can be persisted and monitored independently of the game process.
+To fulfill the external service requirement (NF05), the game's scoring mechanic is decoupled from the main client and managed by an external microservice. This makes the score persist between game restarts, as well as making it monitorable from outside the game.
 
 
 === The Standalone Scoring Service

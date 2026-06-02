@@ -38,5 +38,5 @@ Non-functional requirements for the game:
         [NF08], [Spring], [The game uses the Spring framework @spring for dependency injection.],
         [NF09], [Test], [Unit testing is used to ensure the inner workings of modules stay coherent despite changes in architecture.],
     ),
-    caption: [Non-functional Rerquirements]
+    caption: [Non-functional Requirements]
 ) <nfr-table>

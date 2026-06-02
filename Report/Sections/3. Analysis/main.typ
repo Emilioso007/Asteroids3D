@@ -23,7 +23,9 @@ This Use Case analysis confirms the proposed entities from the requirements.
 -	The bullet is a fast-flying entity coming from either the player or the enemies.
 -	The crystal is the valuable resource.
 
+It also confirms that physics in 3D is crucial for any on the use cases the player may perform.
 
+#pagebreak()
 To link the entities and logic together, some contracts must be provided, namely:
 
 IGamePluginService - Responsible for adding entities to the system.
